@@ -5,7 +5,8 @@
 ## 1. 한 줄
 커마한 헌터의 인생이 하루 30초로 흘러가고, 플레이어는 지켜보다가 원할 때 끼어드는 한국 헌터물 인생 시뮬레이션 (『80억분의 1』의 디테일한 버전). `game/index.html` 을 브라우저로 열면 동작한다 (빌드 없음).
 
-- 게임 페이지(아티팩트): (아래 7장 진행 상황에 처음 만든 URL)
+- 게임 페이지(아티팩트): https://claude.ai/artifact/1KVipZo2SnDCQkUgtbLpri (새 페이지. 옛 Hunter Life 페이지는 건드리지 않음)
+- PC 폴더: 사용자가 연결한 폴더 이름은 `C:\Users\YON\Desktop\K-Hunter Life` (띄어쓰기). 이 세션에는 PC에 파일을 써 넣는 도구가 없어 동기화하지 못했다 — 다음에 도구가 있으면 그 폴더로
 - 옛 버전: [yonseyab/Hunter-Life](https://github.com/yonseyab/Hunter-Life) — 보관본. 옛 저장과 호환하지 않는다.
 
 ## 2. 구조
