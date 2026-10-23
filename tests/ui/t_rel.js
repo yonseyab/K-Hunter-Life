@@ -2,7 +2,7 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
-await p.goto(''+APP+'');await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(''+APP+'');await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame('relations')});await p.screenshot({path:''+OUT+'/r_list.png'});
 await p.click('tr[data-relsel="HN_B0002"]');await p.screenshot({path:''+OUT+'/r_seo.png',fullPage:true});
 const r0=await p.evaluate(()=>JSON.stringify([relOf('HN_B0002').to,relOf('HN_B0002').from,relOf('HN_B0002').status]));console.log(r0);

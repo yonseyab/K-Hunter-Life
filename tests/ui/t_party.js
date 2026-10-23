@@ -3,7 +3,7 @@ const path=require('path');const APP='file://'+path.resolve(__dirname,'../../gam
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
 const ok=(c,m)=>{if(!c)errs.push('단언 실패: '+m)};
-await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 await p.evaluate(async()=>{gameFromScenario('SC_BDEMO');enterGame('party');await poolPrefetch()});await p.waitForTimeout(300);
 /* 게이트 없이 초대 막힘 */
 await p.evaluate(()=>{UI.partyTab='지인';render()});

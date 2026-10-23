@@ -2,7 +2,7 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
-await p.goto(''+APP+'');await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(''+APP+'');await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame()});await p.screenshot({path:''+OUT+'/t_home.png'});
 const st=()=>p.evaluate(()=>`${G.day}d ${hhmm(G.time)} E${Math.round(G.cond.energy)}/${energyMax()} debt${G.cond.sleepDebt.toFixed(1)} $${G.money} sum${ablSum(G.player)}`);
 console.log('start',await st());

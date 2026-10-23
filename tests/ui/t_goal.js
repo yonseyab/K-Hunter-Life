@@ -2,7 +2,7 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
-await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 /* 목표: 추천 · 정하기 · 진행 · 달성 · 단기 기한 · 내려놓기 · 목표에 맞춘 일정 */
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame('goals');UI.routineTab='goals';render();G.stopOn.event=false;G.stopOn.lowEnergy=false});
 console.log('suggest',await p.evaluate(()=>GOALS.suggest().map(([o,t])=>GOALS.name(o,t)).join(' / ')));

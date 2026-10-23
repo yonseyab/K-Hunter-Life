@@ -2,7 +2,7 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
-await p.goto(''+APP+'');await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(''+APP+'');await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame('inventory');G.cond.mp=40;addInjury('PART_ARM_L','INJ_BLEED',1)});
 const idx=await p.evaluate(()=>G.inv.findIndex(r=>r.item==='IT_B0023'&&r.loc==='LOC_BAG'));
 await p.evaluate(i=>{UI.invSel=i;render()},idx);await p.click('[data-useitem]');console.log('mp',await p.evaluate(()=>G.cond.mp));

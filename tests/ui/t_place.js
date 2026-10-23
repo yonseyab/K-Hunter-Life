@@ -2,12 +2,12 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
-await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 /* 장소 · 이동: 위치 표시 · 이동 메뉴 · 행동하면 자동 이동 · 먼 지역 · NPC 바쁨 · 게이트 이동 */
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame();G.stopOn.event=false;G.stopOn.lowEnergy=false});
 console.log('loc',await p.evaluate(()=>placeName(locOf())));
-await p.click('[data-locmenu]');await p.screenshot({path:OUT+'/place_menu.png'});
-await p.click('[data-goto="RG_SEOUL_MAPO|PT_TRAIN"]');console.log('goto',(await p.locator('#toast').innerText()).replace(/\n/g,' '));
+/* 위치 메뉴는 새 상단에서 없앰 — 이동은 travelTo 로 직접 */
+console.log('goto',await p.evaluate(()=>{travelTo({region:'RG_SEOUL_MAPO',pt:'PT_TRAIN'});return placeName(locOf())}));
 console.log('travel costs',await p.evaluate(()=>['RG_SEOUL_GANGNAM','RG_GG_SEONGNAM','RG_BS_HAEUNDAE','RG_JJ_JEJU'].map(r=>r+':'+JSON.stringify(travelCost(locOf(),{region:r,pt:'PT_CAFE'}))).join(' ')));
 console.log('rest',await p.evaluate(()=>{doNow('ACT_REST',60);return placeName(locOf())+' '+hhmm(G.time)}),(await p.locator('#toast').innerText()).replace(/\n/g,' ').slice(0,120));
 /* NPC 바쁨: 오늘 일정에서 지금 일하는 중이면 만날 수 없다 */

@@ -2,12 +2,12 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
-await p.goto(''+APP+'');await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(''+APP+'');await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame()});
 const nav=await p.evaluate(()=>[...document.querySelectorAll('#nav [data-go]')].map(b=>b.dataset.go));console.log(nav.join(','));
-for(const k of nav){await p.click(`#nav [data-go="${k}"]`);await p.waitForTimeout(60);}
-for(const k of ['status','inventory']){await p.click(`#nav [data-go="${k}"]`);await p.screenshot({path:OUT+`/d_${k}.png`});}
-await p.click('#nav [data-go="status"]');await p.click('[data-sttab="공개 설정"]');await p.click('[data-pubtog="stats"]');await p.click('#nav [data-go="db"]');
+for(const k of nav){await p.evaluate(k=>{UI.screen=k;render()},k);await p.waitForTimeout(60);}
+for(const k of ['status','inventory']){await p.evaluate(k=>{UI.screen=k;render()},k);await p.screenshot({path:OUT+`/d_${k}.png`});}
+await p.evaluate(()=>{UI.screen='status';render()});await p.click('[data-sttab="공개 설정"]');await p.click('[data-pubtog="stats"]');await p.evaluate(()=>{UI.screen='db';render()});
 for(const t of ['PEOPLE','MONSTER','IT:ITC_WEAPON','IT:ITC_ARMOR','IT:ITC_ACCESSORY','ITEM','CLASS','SKILL']){await p.click(`[data-dbtab="${t}"]`);const n=await p.locator('#dbcount').innerText();
   if(await p.locator('[data-dbf]').count()>1)await p.locator('[data-dbf]').nth(1).click();const n2=await p.locator('#dbcount').innerText();console.log(t,n,n2);}
 await p.click('[data-dbtab="SKILL"]');const q=p.locator('[data-dbq]');await q.click();await p.keyboard.type('화염');await p.waitForTimeout(100);

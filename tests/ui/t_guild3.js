@@ -2,7 +2,7 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message+' '+(e.stack||'').split('\n')[1]));
-await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 /* 길드 3차: 평판 · 협회 등급 심사 · 영입 경쟁 · 문장 · NPC 길드 계약 */
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame('guild');leaveGuild();UI.guildTab='길드 창설';G.money=80000000;G.rep=30;G.time=600;G.stopOn.event=false;G.stopOn.lowEnergy=false;render()});
 await p.fill('#gname','새벽빛 길드');await p.click('[data-guildfound]');
@@ -21,7 +21,7 @@ if(pid){await p.click(`[data-poach="${pid}|hold"]`);console.log('hold',await p.e
 console.log('expire',await p.evaluate(()=>{const g=G.myGuild,p=g.poach[0];if(!p)return 'none';g.mem[p.id].morale=0;poachDay(p.exp);return `${H(p.id).name} → ${H(p.id).guild}`}));
 /* 문장 */
 await p.click('[data-crest="sym|CS_06"]');await p.click('[data-crest="col|2"]');
-console.log('crest',await p.evaluate(()=>`${G.myGuild.sym} ${G.myGuild.color2} ${document.querySelector('.crumb .crest').textContent}`));
+console.log('crest',await p.evaluate(()=>`${G.myGuild.sym} ${G.myGuild.color2} ${crest(G.myGuild.id).replace(/<[^>]+>/g,'')}`));
 await p.screenshot({path:OUT+'/guild3.png',fullPage:true});
 /* NPC 길드가 무소속 헌터와 계약 */
 console.log('npcSign',await p.evaluate(()=>{DB.balance.BAL_GUILD.npcSign=1;const f0=allHunters().filter(h=>!h.guild).length;for(let i=0;i<5;i++)npcGuildSign();return `${f0}→${allHunters().filter(h=>!h.guild).length} · ${G.news[0].title}`}));

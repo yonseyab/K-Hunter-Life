@@ -3,12 +3,12 @@ const path=require('path');const APP='file://'+path.resolve(__dirname,'../../gam
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
 const ok=(c,m)=>{if(!c)errs.push('단언 실패: '+m)};
-await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForFunction(()=>typeof DB!=='undefined');
+await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForFunction(()=>typeof DB!=='undefined');
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame()});
 /* 1) 알림 이벤트 → 목록 · 배지 · 답하기 */
 const r1=await p.evaluate(()=>{G.alerts.forEach(m=>m.unread=false);const e=vals('events').find(x=>x.ch==='alert'&&!x.on&&x.choices?.length&&eligible(x));triggerEvent(e.id,'10:00');
   UI.screen='alerts';UI.alertCat=null;UI.alert=null;render();return {id:e.id,badge:alertsUnread(),nav:document.querySelector('[data-go="alerts"] .badge')?.textContent||'',choices:document.querySelectorAll('[data-choice]').length,need:document.body.innerText.includes('답할 것')}});
-console.log(JSON.stringify(r1));ok(r1.badge===1&&r1.nav==='1'&&r1.choices>0&&r1.need,'알림 이벤트 표시');
+console.log(JSON.stringify(r1));ok(r1.choices>0&&r1.need,'알림 이벤트 표시');  /* 좌측 알림 메뉴 · 배지는 새 UI에서 없앰 (소식은 이야기 창으로) */
 await p.screenshot({path:OUT+'/al_list.png'});
 await p.locator('[data-choice="0"]').click();
 const r2=await p.evaluate(()=>({res:!!G.alerts[0].resolved,unread:alertsUnread(),again:eligible(DB.events[G.alerts[0].ev])}));

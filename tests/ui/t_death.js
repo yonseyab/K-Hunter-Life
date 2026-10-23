@@ -2,7 +2,7 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
-await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 /* 판정 보정 표시 · 스킬 연습 숙련 · 혼자 6급 게이트 → 쓰러짐/사망 → 게임 오버 · 세이브 사망 표시 */
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame();G.cond.stress=80;G.cond.energy=10});
 console.log('mods',await p.evaluate(()=>checkText(DB.events.EV_0001.choices[0])+' | '+checkText(DB.events.EV_0002.choices[1])));

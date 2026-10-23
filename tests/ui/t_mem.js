@@ -2,7 +2,7 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
-await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 /* 공략 중 동료 응급처치 성공 → 그 동료가 기억 → 감사 메시지 이벤트(MEM:) */
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame('gates');UI.prep={gid:'GT_0001',party:['HN_B0002','HN_B0003'],retreat:20};startRaid('GT_0001');UI.raid.paused=true;
   const R=UI.raid;R.crisis={id:'CR_B0003',b:'한유리',bid:'HN_B0003'};R.party[0].hp=100;});

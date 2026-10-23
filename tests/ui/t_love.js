@@ -2,7 +2,7 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
-await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 /* 연인: 데이트 · 청혼 · 헤어지기 · 오래 안 만나면 상대가 이별 */
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame('relations');G.money=5000000;G.time=600;const r=relOf('HN_B0002');r.status='RS_DATING';r.from.RD_ROMANCE=85;UI.relSel='HN_B0002';Object.values(G.ai||{}).forEach(a=>a.today=[]);render()});
 await p.locator('[data-actdo="ACT_DATE"]').click();await p.locator('[data-actdo="ACT_PROPOSE"]').click();

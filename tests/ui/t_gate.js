@@ -2,7 +2,7 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
-await p.goto(''+APP+'');await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(''+APP+'');await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 await p.evaluate(()=>{const C=DB.balance.BAL_AI.claim;C.open=0;C.owned=0;C.won=0;C.urgentBonus=0;gameFromScenario('SC_BDEMO');G.simQ=[];enterGame('gates')});
 await p.click('tr[data-gate="GT_0001"]');await p.screenshot({path:''+OUT+'/g_list.png'});
 await p.click('[data-actdo="ACT_GATE_SCOUT"]');await p.click('[data-actdo="ACT_GATE_APPLY"]');
@@ -27,8 +27,8 @@ const hos=p.locator('[data-actdo="ACT_HOSPITAL"]');console.log('hospital btn',aw
 // break timer
 await p.evaluate(()=>{G.stopOn.event=false;runTime('week')});console.log(await p.evaluate(()=>vals('gates').map(g=>g.id+':'+gateSt(g.id).status).join(' ')));
 // new char raid on GT_0006 (19급) level up
-await p.evaluate(()=>{const c=newCC();autoAll(c);gameFromCreation(c);enterGame('gates');UI.prep={gid:'GT_0006',party:[],retreat:20};startRaid('GT_0006');UI.raid.speed=4});
-for(let i=0;i<200;i++){const st=await p.evaluate(()=>UI.raid.done?'done':UI.raid.crisis?'crisis':'run');if(st==='done')break;if(st==='crisis'){await p.locator('#rCrisis .ch:not([disabled])').last().click()}else await p.waitForTimeout(300)}
+await p.evaluate(()=>{const c=newCC();autoAll(c);gameFromCreation(c);enterGame('gates');UI.prep={gid:'GT_0006',party:[],retreat:20};gateSt('GT_0006').status='open';gateSt('GT_0006').breakAt=nowAbs()+4000;G.loc={region:DB.gates.GT_0006.region,pt:'PT_GATE'};startRaid('GT_0006');UI.raid.speed=4});
+await p.evaluate(()=>{const R=UI.raid;clearInterval(UI._rt);let k=0;while(!R.done&&!G.dead&&k++<3000){if(R.crisis)resolveCrisis(DB.crises[R.crisis.id].choices.length-1);else{R.paused=false;raidTick()}}});
 console.log('new',await p.evaluate(()=>JSON.stringify({lvl:UI.raidResult.lvl,exp:UI.raidResult.exp,got:UI.raidResult.got,lv:G.player.level})));
 await p.setViewportSize({width:400,height:850});for(const k of ['gates','raidresult','raid']){await p.evaluate(k=>{UI.screen=k;render()},k);console.log(k,await p.evaluate(()=>document.documentElement.scrollWidth))}
 await p.evaluate(()=>{UI.screen='raidprep';UI.prep={gid:'GT_0002',party:[],retreat:35};render()});console.log('prep',await p.evaluate(()=>document.documentElement.scrollWidth));

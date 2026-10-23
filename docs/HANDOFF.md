@@ -1,6 +1,6 @@
 # 인수인계 (K-Hunter-Life)
 
-> **최신 상태 요약: [Codex → Claude 작업 인계 · 2026-10-23](CODEX_TO_CLAUDE_2026-10-23.md).** 이번 대화의 변경과 마지막 사용자 정정을 최종 상태로 정리했다. 아래는 단계별 과거 기록도 포함하므로 충돌 시 최신 인계/최신 사용자 결정을 우선한다. 현재 로컬 경로는 `C:\Users\YON\Desktop\K-Hunter-Life`이며, 로컬에 수정 적용 완료했다. Git 커밋/push 및 Claude 아티팩트 갱신은 이번에 수행하지 않았다.
+> **최신 상태 요약: [Codex → Claude 작업 인계 · 2026-10-23](CODEX_TO_CLAUDE_2026-10-23.md).** 충돌 시 최신 인계/최신 사용자 결정을 우선한다. 로컬 경로는 `C:\Users\YON\Desktop\K-Hunter-Life`. GPT 로컬 수정본은 2026-10-23 Claude가 GitHub(main) · 게임 페이지 · PC 폴더에 모두 맞춰 반영했다 (아래 7장).
 
 이 문서만 읽고 작업을 이어받을 수 있게 정리한다. 작업이 끝날 때마다 갱신한다. 사용자 결정은 [DECISIONS.md](DECISIONS.md), 설계 원안은 [REBUILD_PLAN.md](REBUILD_PLAN.md), 콘텐츠 스타일은 [STYLE_CHECKLIST.md](STYLE_CHECKLIST.md).
 
@@ -10,7 +10,7 @@
 커마한 헌터의 인생이 하루 30초로 흘러가고, 플레이어는 지켜보다가 원할 때 끼어드는 한국 헌터물 인생 시뮬레이션 (『80억분의 1』의 디테일한 버전). `game/index.html` 을 브라우저로 열면 동작한다 (빌드 없음).
 
 - 게임 페이지(아티팩트): https://claude.ai/artifact/1KVipZo2SnDCQkUgtbLpri (새 페이지. 옛 Hunter Life 페이지는 건드리지 않음)
-- PC 폴더: 사용자가 연결한 폴더 이름은 `C:\Users\YON\Desktop\K-Hunter Life` (띄어쓰기). 이 세션에는 PC에 파일을 써 넣는 도구가 없어 동기화하지 못했다 — 다음에 도구가 있으면 그 폴더로
+- PC 폴더: `C:\Users\YON\Desktop\K-Hunter-Life` (로컬 폴더에는 `.git` 없음 — GitHub 와는 Claude 가 파일을 옮겨 맞춘다)
 - 옛 버전: [yonseyab/Hunter-Life](https://github.com/yonseyab/Hunter-Life) — 보관본. 옛 저장과 호환하지 않는다.
 
 ## 2. 구조
@@ -36,7 +36,7 @@ game/data/ext · packs    외주 데이터 자리 (지금 ext 에는 옛 커마 
 game/engine/             sim.js(NPC · 배경 인구 · 워커) · goals · routine · autoraid · know · validate · status_ui (옛 버전)
                          scale.js · mind.js · story.js · play.js · life.js · life_ui.js (새 버전)
 tools/                   validate_data.js · gen_id_reference.js · qa_sim.js · gen_base_hunters.js · build_*.py · patch_index.py(기록용)
-tests/ui/                Playwright 테스트 62개 + fixture.js(테스트 전용 데이터)
+tests/ui/                Playwright 테스트 71개 + fixture.js(테스트 전용 데이터). 옛 직접 조작 화면을 쓰는 테스트는 `OBSERVE.legacy=true`(검사용 스위치)로 연다
 ```
 
 ### 새 시스템 (REBUILD_PLAN 4장 → 구현 위치)
@@ -91,6 +91,7 @@ tests/ui/                Playwright 테스트 62개 + fixture.js(테스트 전�
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
 ## 7. 진행 상황
+- [완료] 2026-10-23 (Claude) GPT 수정본에 맞추기 + 주사위: ① PC 로컬 수정본을 GitHub main 에 그대로 반영 ② `OBSERVE.legacy`(검사용) — 켜면 옛 직접 조작 화면 · `doNowDirect` · 수동 `startRaid` · 팝업 생략. 게임에서는 꺼져 있다 ③ 옛 UI 테스트 28개를 새 화면에 맞춤(좌측 메뉴 · 상단 도구 · 위치 메뉴 · 알림 배지 대신 함수 호출, 일과 제목 '방향 · 목표') ④ 판정 주사위 새로 그림: 정이십면체 모양(SVG), 굴리는 동안 숫자가 점점 느려지며 멈추고 착지 · 결과 색(성공 초록 · 실패 빨강 · 20 금색 · 1 어두운 빨강), 아래에 능력치 + d20 + 보정 = 합계 칸과 난이도 눈금 막대가 차오른다. 장식 숫자는 정해진 순서(난수 안 씀), 움직임 줄이기 설정이면 바로 결과. 위치 `engine/life_ui.js` performChoice · `home.css` d20-* ⑤ 테스트 71개 · 데이터 검사 통과
 - [완료] 2026-10-23 사용자 정정 반영: 성격 요약명 바로 아래 짧은 설명 한 문단을 복원했다. persRoles/persStyles의 desc를 조합하며 긴 세부 목록은 복원하지 않았다. 256개 이름과 게임 판단 수치는 유지한다. 의상 스타일은 기본 10개+확장 50개 전부 짧고 일관된 취향 문구로 바꿨다(캐주얼한 옷차림 선호 / 몸의 선이 드러나는 옷 선호). 기존 ID/desc/검색/자동 줄바꿈 유지. t_personality_names/t_creation_text/t_ccbasic 및 데이터/asserts 통과. 아래 이전 요약명 전용/의상 단어화 기록은 이 정정으로 대체한다.
 - [완료] 2026-10-23 성격 요약 정정: 오른쪽/최종 확인의 요약은 표제와 짧은 이름만 표시한다. index.html의 상세 요약 생성/외주 문장 병합/CSS를 제거하고 personality.js의 strong/mid/view/stress/hunter/balanced 및 원본 세부 설명 테이블을 삭제했다. 확장 `ext/pers_PB.js`와 로드 목록 항목도 삭제했다. `persRoles`/`persStyles` 각 16행의 axes/poles 규칙으로 8개 축을 모두 반영하는 256가지 짧은 요약명을 생성한다. 미정/중간 축이 많으면 기존 극성 adj/noun으로 주요 성향만 반영한다. 단계별 levels 예시와 MIND의 수치 판단은 유지한다. t_personality_names는 256개 고유명, 모든 축 영향, 난수/수치 변경 없음, 상세 원본 부재, 슬라이더 노드 보존/실시간 갱신, 확인 화면과 모바일을 검증한다. t_ccbasic/t_mind 및 데이터/asserts도 통과했다.
 - [완료] 2026-10-23 커마 의상 이름/긴 선택지: `data/ext/lookOpts_LA.js`/`lookOpts_LB.js`의 SC_OUTFIT 50개 name을 짧은 스타일명으로 바꾸고 원래 문장을 desc로 보존했다. ID/그룹/저장값은 그대로다. `chTilesHTML`은 이름과 desc를 검색하고 툴팁에 설명을 표시한다. 공통 CH 선택지의 `.choice-label`, 왼쪽 선택값/상단 현재값에서 말줄임을 제거하고 줄바꿈/높이 자동 조정을 적용했다. 문장형 의상 전용 240px 레이아웃은 제거했으며 공통 text 선택지는 반응형 180px 기준이다. `t_creation_text`는 기본/외형/배경의 모든 선택 카테고리와 남녀, 320/400/768/1366px에서 실제 글씨 잘림/가로 넘침을 검사한다. t_ccbasic 및 데이터/asserts 검사 통과, ID 참조 재생성.

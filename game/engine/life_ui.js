@@ -128,7 +128,7 @@ const LIFEUI = (() => {
   }
   /* 선택은 문서 흐름 바깥의 모달에 표시한다. 판정은 엔진에서 한 번만 실행하고 실제 d20 결과를 보여 준다. */
   let popupGame=null, popupBusy=false, popupMarkup='', diceTimer=null, diceFinish=null, diceReveal=null, delegating=false;
-  function resetPopup() { clearInterval(diceTimer);clearTimeout(diceFinish);diceTimer=diceFinish=diceReveal=null;popupBusy=false;popupMarkup='';const el=document.getElementById('lifeEventModal');el?.close();el?.remove(); }
+  function resetPopup() { clearTimeout(diceTimer);clearInterval(diceTimer);clearTimeout(diceFinish);diceTimer=diceFinish=diceReveal=null;popupBusy=false;popupMarkup='';const el=document.getElementById('lifeEventModal');el?.close();el?.remove(); }
   function choiceSettingsHTML() {const P=choicePrefs();return `<div class="choice-settings"><label><input type="checkbox" data-choice-setting="skipDice" ${P.skipDice?'checked':''}> 주사위 애니메이션 항상 스킵 · 바로 결과 보기</label><label><input type="checkbox" data-choice-setting="delegate" ${P.delegate?'checked':''}> 항상 ${esc(MIND.callName())}에게 맡기기</label></div>`;}
   function popupElement() {
     let el=document.getElementById('lifeEventModal');if(el)return el;
@@ -136,6 +136,7 @@ const LIFEUI = (() => {
     el.addEventListener('cancel',e=>e.preventDefault());document.body.appendChild(el);return el;
   }
   function syncPopup() {
+    if(typeof OBSERVE!=='undefined'&&OBSERVE.legacy){document.getElementById('lifeEventModal')?.close();return;}  /* 검사용: 옛 화면 테스트에서는 팝업을 띄우지 않는다 */
     if(popupGame!==G){resetPopup();popupGame=G;}
     if(UI.mode!=='app'){resetPopup();return;}
     if(popupBusy||delegating)return;
@@ -168,21 +169,36 @@ const LIFEUI = (() => {
     const j=result?.judgement;
     if(!j||j.dice==null){popupBusy=false;render();return;}
     const el=popupElement();
-    el.innerHTML=`<div class="event-roll"><header>판정 · d20</header><div class="event-roll-choice">${esc(result.choice||'')}</div><div class="event-die rolling" aria-hidden="true">20</div><div class="event-roll-result" role="status" aria-live="polite">주사위를 굴리는 중…</div><div class="event-roll-text"></div><div class="event-roll-actions"><button class="btn" data-life-roll-skip>애니메이션 스킵</button><button class="btn pri" data-life-roll-continue disabled>계속</button></div>${choiceSettingsHTML()}</div>`;
+    /* 주사위: 정이십면체를 정면에서 본 모양(육각형 + 면 선). 굴리는 동안 숫자가 점점 느리게 바뀌다가 실제 결과에 멈춘다.
+       숫자 변화는 정해진 순서라 게임 난수를 쓰지 않는다. 아래 판정식(능력치 + d20 + 보정 → 합계 vs 난이도)은 결과가 나온 뒤 차오른다. */
+    const D20SVG='<svg class="d20-shape" viewBox="0 0 100 100" aria-hidden="true"><polygon class="d20-out" points="50,3 91,26.5 91,73.5 50,97 9,73.5 9,26.5"/><polygon class="d20-face" points="50,22 76,66 24,66"/><g class="d20-edge"><line x1="50" y1="3" x2="50" y2="22"/><line x1="91" y1="26.5" x2="76" y2="66"/><line x1="9" y1="26.5" x2="24" y2="66"/><line x1="50" y1="22" x2="91" y2="26.5"/><line x1="50" y1="22" x2="9" y2="26.5"/><line x1="76" y1="66" x2="91" y2="73.5"/><line x1="24" y1="66" x2="9" y2="73.5"/><line x1="76" y1="66" x2="50" y2="97"/><line x1="24" y1="66" x2="50" y2="97"/></g></svg>';
+    const sg=n=>(n<0?'−':'+')+Math.abs(n);
+    el.innerHTML=`<div class="event-roll"><header>판정 · d20</header><div class="event-roll-choice">${esc(result.choice||'')}</div>
+      <div class="d20-stage" aria-hidden="true"><div class="d20-shadow"></div><div class="event-die rolling">${D20SVG}<span class="d20-num">20</span></div></div>
+      <div class="d20-calc" aria-hidden="true"><span class="d20-term"><i>${esc(j.attr)}</i><b>${j.value}</b></span><span class="d20-op">+</span><span class="d20-term d20-term-die"><i>d20</i><b class="d20-calc-die">?</b></span>${j.mods?`<span class="d20-op">${j.mods>0?'+':'−'}</span><span class="d20-term"><i>보정</i><b>${Math.abs(j.mods)}</b></span>`:''}<span class="d20-op">=</span><span class="d20-term d20-term-total"><i>합계</i><b class="d20-calc-total">?</b></span></div>
+      <div class="d20-meter" aria-hidden="true"><div class="d20-fill"></div><div class="d20-dc"><span>난이도 ${j.dc}</span></div></div>
+      <div class="event-roll-result" role="status" aria-live="polite">주사위를 굴리는 중…</div><div class="event-roll-text"></div><div class="event-roll-actions"><button class="btn" data-life-roll-skip>애니메이션 스킵</button><button class="btn pri" data-life-roll-continue disabled>계속</button></div>${choiceSettingsHTML()}</div>`;
     if(!el.open)el.showModal();el.querySelector('.event-roll-result').setAttribute('aria-busy','true');
-    // 장식 숫자는 난수를 소비하지 않아 게임 판정에 영향을 주지 않는다.
-    let frame=0;diceTimer=setInterval(()=>{const die=el.querySelector('.event-die');if(die)die.textContent=String((++frame*7)%20+1);},65);
+    const scaleMax=Math.max(j.dc,j.total,1)*1.18,pct=v=>Math.max(0,Math.min(100,v/scaleMax*100));
+    el.querySelector('.d20-dc').style.left=pct(j.dc)+'%';
+    // 장식 숫자는 정해진 순서(난수 없음)로, 간격을 점점 늘려 '굴러가다 멈추는' 느낌을 낸다.
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,TICKS=reduce?0:16;let k=0;
+    const tick=()=>{const num=el.querySelector('.d20-num');if(!num||!diceReveal)return;k++;num.textContent=String((k*7+j.value)%20+1);if(k>=TICKS){diceReveal?.();return;}diceTimer=setTimeout(tick,38+k*k*2.2);};
     diceReveal=()=>{
       if(!diceReveal)return;diceReveal=null;
-      clearInterval(diceTimer);clearTimeout(diceFinish);diceTimer=diceFinish=null;
+      clearTimeout(diceTimer);clearTimeout(diceFinish);diceTimer=diceFinish=null;
       if(popupGame!==G||!el.isConnected){resetPopup();return;}
-      const die=el.querySelector('.event-die');die.classList.remove('rolling');die.textContent=j.dice;die.classList.add(j.ok?'success':'failure');
-      const line=el.querySelector('.event-roll-result');line.removeAttribute('aria-busy');line.innerHTML=`<b class="${j.ok?'good':'bad'}">${j.ok?'성공':'실패'}</b><div>${esc(j.attr)} ${j.value} + d20 ${j.dice}${j.mods?' '+(j.mods>0?'+':'−')+' '+Math.abs(j.mods)+' 보정':''} = ${j.total} / 난이도 ${j.dc}</div>`;
+      const die=el.querySelector('.event-die');die.classList.remove('rolling');die.querySelector('.d20-num').textContent=j.dice;
+      die.classList.add('landed',j.ok?'success':'failure');if(j.dice===20)die.classList.add('nat20');if(j.dice===1)die.classList.add('nat1');
+      el.querySelector('.d20-shadow')?.classList.add('landed');
+      el.querySelector('.d20-calc-die').textContent=j.dice;el.querySelector('.d20-calc-total').textContent=j.total;el.querySelector('.d20-calc').classList.add('shown',j.ok?'ok':'ng');
+      const fill=el.querySelector('.d20-fill');fill.classList.add(j.ok?'ok':'ng');requestAnimationFrame(()=>{fill.style.width=pct(j.total)+'%';});
+      const line=el.querySelector('.event-roll-result');line.removeAttribute('aria-busy');line.innerHTML=`<b class="d20-verdict ${j.ok?'good':'bad'}">${j.ok?'성공':'실패'}</b><div>${esc(j.attr)} ${j.value} + d20 ${j.dice}${j.mods?' '+(j.mods>0?'+':'−')+' '+Math.abs(j.mods)+' 보정':''} = ${j.total} / 난이도 ${j.dc}${j.dice===20?' · 최고 눈':j.dice===1?' · 최저 눈':''}</div>`;
       el.querySelector('.event-roll-text').textContent=STORY.josa(result.text||'');
       const button=el.querySelector('[data-life-roll-continue]');button.disabled=false;button.focus();
       el.querySelector('[data-life-roll-skip]').hidden=true;
     };
-    if(choicePrefs().skipDice)diceReveal();else diceFinish=setTimeout(()=>diceReveal?.(),matchMedia('(prefers-reduced-motion: reduce)').matches?100:850);
+    if(choicePrefs().skipDice||reduce)diceReveal();else diceTimer=setTimeout(tick,60);
   }
   function barHTML() {
     return `<button class="btn" data-go="goals">방향 · 목표</button><button class="btn" data-kset="판단 · 방침">방침 바꾸기</button><button class="btn" data-go="shop">아이템 구매</button><button class="btn" data-go="inventory">소지품 · 장비</button>`;

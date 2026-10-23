@@ -2,7 +2,7 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message+' '+(e.stack||'').split('\n')[1]));
-await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 /* 세계 사건 → 이벤트: 동료 부상 · 등급 상승 · 부고 · 가족 각성 · 실직 · 졸업. 선택 결과 · 쿨다운 */
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame();G.stopOn.event=false;G.stopOn.lowEnergy=false;G.threads.forEach(t=>{if(t.event)t.event.resolved=true});relOf('HN_B0002').close=60;relOf('HN_B0002').to.RD_CLOSE=60});
 const G0=await p.evaluate(()=>G.relations.find(r=>r.id.startsWith('HN_')&&r.id!=='HN_B0002').id);

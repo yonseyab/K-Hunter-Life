@@ -2,7 +2,7 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message+' '+(e.stack||'').split('\n')[1]));
-await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 /* 길드 운영 2차: 배분율 제안 영입 · 계약 · 사기 · 맡기기 · 길드 수입 · 길드 입찰 · 계약 만료 */
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame('guild');leaveGuild();UI.guildTab='길드 창설';G.money=80000000;G.rep=30;G.time=600;G.stopOn.event=false;G.stopOn.lowEnergy=false;render()});
 await p.fill('#gname','새벽빛 길드');await p.click('[data-guildfound]');

@@ -3,7 +3,7 @@ const path=require('path');const APP='file://'+path.resolve(__dirname,'../../gam
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
 const ok=(c,m)=>{if(!c)errs.push('단언 실패: '+m)};
-await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForFunction(()=>typeof DB!=='undefined');
+await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForFunction(()=>typeof DB!=='undefined');
 await p.evaluate(()=>{const c=newCC();autoAll(c);gameFromCreation(c);enterGame('home');SETTINGS.actToast=false});
 ok(await p.evaluate(()=>G.layout.some(w=>w.id==='WG_LOG')),'새 게임 기본 배치에 활동 기록');
 await p.evaluate(()=>{G.stopOn={};runTime('1h')});

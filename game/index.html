@@ -1257,7 +1257,15 @@ function npcWhere(id){const p=P(id);if(!p)return null;const a=G.ai?.[id],t=G.tim
   if(cm&&cm.min){const T=a.today||[],first=!T.some(x=>x.s<b.s&&x.act===b.act),last=!T.some(x=>x.s>b.s&&x.act===b.act),go=first&&t<b.s+cm.min,back=last&&t>=b.e-cm.min;
     if(go||back)return {...(go?home:where),act:'ACT_TRAVEL',until:go?b.s+cm.min:b.e,busy:`${go?'출근':'퇴근'}하는 중입니다`}}
   return {...where,act:b.act,until:b.e,busy:M.busyActs.includes(b.act)?`${A.name} 중입니다 (~${hhmm(b.e)})`:null}}
-function doNow(){toast('일상 행동은 헌터가 스스로 정합니다. 방향과 목표를 바꿀 수 있습니다.')}
+/* 일반 플레이에서는 직접 행동을 막는다 (시뮬레이션 중심). 옛 직접 행동은 OBSERVE.legacy(검사용)일 때만 */
+function doNow(id,dur,target){if(typeof OBSERVE!=='undefined'&&OBSERVE.legacy)return doNowDirect(id,dur,target);toast('일상 행동은 헌터가 스스로 정합니다. 방향과 목표를 바꿀 수 있습니다.')}
+function doNowDirect(id,dur,target){ensureTime();if(G.dead)return;if(raidActive()){toast('게이트 안에서는 할 수 없습니다.');return}const a=DB.actions[id],chk=actCheck(a,dur,false,target);if(!chk.ok){toast(chk.why[0]);return}
+  const to=placeFor(a,target),l0=placeName(locOf()),mv=travelTo(to);
+  const st=G.time,ups=perform(a,dur,{target}),c=actCost(a,dur),ev=a.sleep?null:maybeEvent(dur/60);worldTickAcc(dur);
+  if(mv)ups.unshift(`이동 ${durTxt(mv)} (${l0} → ${placeName(locOf())})`);
+  {const tn=target?' · '+(DB.gates[target]?.name||DB.guilds[target]?.name||DB.items[(target||'').split('|')[0]]?.name||nameOf(target)||''):'';actLog('act',`${hhmm(st)}~${hhmm(G.time)} ${a.name}${tn} (${durTxt(dur)}) · 기력 ${c.energy>=0?'+':''}${c.energy}${c.pay?` · ${c.pay>0?'+':''}${won(c.pay)}`:''}`);if(ups.length)actLog(a.special&&!/성공/.test(ups[0])?'stop':'up',`${a.onSell?'판매':'결과'}: ${ups.join(', ').replace(/<[^>]+>/g,'')}`);if(ev)actLog('stop',`${ev.ch==='alert'?'새 알림':'새 메시지'}: ${ev.subj}`)}
+  actNote(`<b>${esc(a.name)}</b>${target?' · '+esc(DB.gates[target]?.name||DB.guilds[target]?.name||DB.items[(target||'').split('|')[0]]?.name||nameOf(target)||''):''} ${durTxt(dur)} (${hhmm(st)}~${hhmm(G.time)})<div class="dim" style="font-size:11px;margin-top:3px">기력 ${c.energy>=0?'+':''}${c.energy}${c.pay?` · ${c.pay>0?'+':''}${won(c.pay)}`:''}</div>${ups.length?`<div class="${a.special==='confess'&&!/성공/.test(ups[0])?'warn':'good'}" style="margin-top:4px">${a.onSell?'판매':'결과'}: ${ups.join(a.special?'<br>':', ')}</div>`:''}${ev?`<div style="margin-top:4px">${ev.ch==='alert'?'새 알림':'새 메시지'}: <b>${esc(ev.subj)}</b></div>`:''}`);
+  render()}
 function H(id){ if(G&&G.player.id===id) return G.player; const h=DB.hunters[id] || (G&&G.genHunters&&G.genHunters[id]); if(h) return h; if(G&&SIM.isPop(id)){const o=SIM.promoteId(id);return o&&o.awake!==false?o:null} return null }
 function P(id){ return H(id) || DB.npcs[id] || (G&&G.genNpcs&&G.genNpcs[id]) || (G&&SIM.isPop(id)?SIM.promoteId(id):null) || null }
 function allHunters(){ const list=vals('hunters').map(h=>G&&h.id===G.player.id?G.player:h); if(G&&!DB.hunters[G.player.id]) list.unshift(G.player); return list }
@@ -2992,7 +3000,7 @@ V.raidprep=()=>{const P=UI.prep,g=DB.gates[P.gid],st=gateSt(g.id),rk=riskEst(g),
       <div><div class="sub">후퇴 기준 (파티 평균 HP)</div><div class="seg">${[20,35,50].map(t=>`<button aria-pressed="${P.retreat===t}" data-retreat="${t}">${t}%</button>`).join('')}</div></div>
       <div class="dim" style="font-size:11px">자동으로 진행하다 위기가 오면 멈추고 선택지를 줍니다. 게이트 안에서는 외부 메시지 · 알림을 받을 수 없습니다.</div></div></div></div>`};
 function startRaid(gid){
-  if(!UI.playRaid)return;
+  if(!UI.playRaid&&!(typeof OBSERVE!=='undefined'&&OBSERVE.legacy))return;
   {const g0=DB.gates[gid],mv=travelTo({region:g0.region,pt:'PT_GATE'});if(mv){const s0=gateSt(gid);if(s0.status!=='open'){toast(`${durTxt(mv)} 걸려 ${esc(g0.name)}에 도착했지만, 게이트는 이미 ${s0.status==='cleared'?`${esc(s0.by||'다른 파티')}가 클리어했습니다`:'브레이크가 일어났습니다'}.`);UI.screen='gates';render();return}}}
   const g=DB.gates[gid],P=UI.prep&&UI.prep.gid===gid?UI.prep:{gid,party:raidParty().slice(1).map(h=>h.id),retreat:35},st=gateSt(gid);
   const mates=P.party.map(id=>H(id)).filter(Boolean),me=G.player;

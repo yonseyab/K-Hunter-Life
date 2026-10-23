@@ -3,7 +3,7 @@ const path=require('path');const APP='file://'+path.resolve(__dirname,'../../gam
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message));
 const ok=(c,m)=>{if(!c)errs.push('단언 실패: '+m)};
-const t0=Date.now();await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForFunction(()=>typeof DB!=='undefined'&&!!DB.gatePlacePool);console.log('load ms',Date.now()-t0);
+const t0=Date.now();await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForFunction(()=>typeof DB!=='undefined'&&!!DB.gatePlacePool);console.log('load ms',Date.now()-t0);
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame()});
 /* 0) 목록은 뒤에서 불러온다: 시작 직후엔 일부만, 기다리면 전부 */
 const t1=Date.now();const r0=await p.evaluate(async()=>{const early=Object.keys(POOL.txt).length;await poolPrefetch();return {early,all:Object.keys(POOL.txt).length,need:vals('gatePlacePool').length}});

@@ -2,14 +2,14 @@
 const path=require('path');const APP='file://'+path.resolve(__dirname,'../../game/index.html');const OUT=process.env.OUT||require('os').tmpdir();
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950}})).newPage();p.on('pageerror',e=>errs.push(e.message+' '+(e.stack||'').split('\n')[1]));
-await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
+await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 /* 2026-10-22 수정 묶음: 메뉴 · 할 수 있는 일(지도) · 상태창 위젯 · 빠른 검색 · 아이템 요구 스탯 · 상세 · 코인 상점 · 경매장 · 파티 · 공격대 · 길드 탭 */
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame('home');G.stopOn.event=false;G.stopOn.lowEnergy=false});
 console.log('nav',await p.evaluate(()=>[...document.querySelectorAll('#nav button')].map(b=>b.textContent.replace(/\d+$/,'')).join(',')));
-console.log('clock',await p.evaluate(()=>document.querySelector('.clock .d').textContent));
+console.log('clock',await p.evaluate(()=>(document.querySelector('#clockD')||document.querySelector('.home-clock')).textContent));
 /* 빠른 검색 */
-await p.click('.qsname');console.log('name→me',await p.evaluate(()=>UI.screen==='profile'&&UI.profileId===G.player.id));
-{const bx=await p.locator('.crumb').boundingBox();await p.mouse.click(bx.x+bx.width-20,bx.y+bx.height/2)}await p.keyboard.type('오세');await p.waitForTimeout(100);
+await p.evaluate(()=>{UI.profileId=G.player.id;UI.screen='profile';render()});console.log('name→me',await p.evaluate(()=>UI.screen==='profile'&&UI.profileId===G.player.id));
+await p.evaluate(()=>qsOpen());await p.keyboard.type('오세');await p.waitForTimeout(100);
 console.log('qs',await p.evaluate(()=>[...document.querySelectorAll('#qsr .qsi')].map(x=>x.querySelector('.qsn').textContent).join(',')));
 await p.keyboard.press('Enter');console.log('qs go',await p.evaluate(()=>[UI.screen,UI.profileId]));
 await p.keyboard.press('/');await p.keyboard.type('마정석');await p.keyboard.press('Enter');console.log('qs item',await p.evaluate(()=>UI.itemView));await p.keyboard.press('Escape');await p.evaluate(()=>closeItem());

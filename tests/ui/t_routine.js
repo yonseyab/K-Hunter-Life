@@ -6,9 +6,9 @@ const { chromium } = require('playwright');
   try {
     const p = await b.newPage({ viewport: { width: 1500, height: 950 } }), errs = [];
     p.on('pageerror', e => errs.push(e.message));
-    await p.goto('file://' + path.resolve(__dirname, '../../game/index.html'));await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});
+    await p.goto('file://' + path.resolve(__dirname, '../../game/index.html'));await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});
     await p.evaluate(() => { gameFromScenario('SC_BDEMO'); enterGame('goals'); prefs().autoRaid.on='off'; G.threads.forEach(t => { if(t.event)t.event.resolved=true; }); G.offers=[]; });
-    assert.equal(await p.locator('h1').innerText(), '일과');
+    assert.equal(await p.locator('h1').first().innerText(), '방향 · 목표');
     assert.equal(await p.locator('[data-routine-start="1"]').count(),0);  /* '하루 맡기기' 버튼은 새 버전에서 없앰 (실시간 재생으로 대체) */
     assert.equal(await p.locator('#routine-query-objectives').count(),0);
     await p.click('[data-rtab="goals"]');

@@ -1,6 +1,8 @@
 /* 시뮬레이션 중심 플레이: 방향 · 사건 선택 · 소지품 관리만 직접 조작한다.
    예전 화면의 링크와 동작에도 같은 정책을 적용한다. 엔진 내부 행동은 유지한다. */
 const OBSERVE = (() => {
+  /* legacy: 옛 직접 조작 화면을 다시 여는 검사용 스위치. 게임에서는 쓰지 않고, 옛 엔진 기능을 화면으로 검사하는 UI 테스트만 켠다 */
+  let legacy = false;
   const routes = new Set(['acts', 'party', 'raidteam', 'raidprep', 'raid', 'raidresult', 'schedule', 'alerts', 'messenger']);
   const blocked = ['actdo','actdur','actall','advance','advmenu','locmenu','goto','scout','raid','raidprep','raidgo','rc','tac','retreat','crisis',
     'partyfor','partygo','partyinv','partykick','partyclear','partyjoin','teamfound','teaminv','teamkick','teamdisband','preploadteam','preploadparty','prepmem',
@@ -9,10 +11,10 @@ const OBSERVE = (() => {
   const selector = blocked.map(k => '[data-' + k + ']').join(',');
   const directions = { auto: ['성격에 맡기기', null], grow: ['실력 · 승급', 'GOAL_GROW'], money: ['돈 모으기', 'GOAL_WEALTH'],
     rest: ['회복 · 안정', 'GOAL_STABLE'], social: ['사람들과 가까워지기', 'GOAL_PEOPLE'] };
-  const route = s => routes.has(s) ? (s === 'schedule' ? 'goals' : 'life') : s;
+  const route = s => !legacy && routes.has(s) ? (s === 'schedule' ? 'goals' : 'life') : s;
   function invalidate() { ROUTINE.state().planned = null; PLAY.st().decided = -1; }
   function normalize() {
-    if (!G) return;
+    if (!G || legacy) return;
     const r = ROUTINE.state(); if (r.mode === 'manual') { r.mode = 'auto'; invalidate(); }
     UI.screen = route(UI.screen); UI.locMenu = false; UI.advMenu = false;
     G.layout = (G.layout || []).filter(w => !['WG_ALERTS','WG_MSG'].includes(w.id));
@@ -22,7 +24,7 @@ const OBSERVE = (() => {
     }
   }
   function clean(root) {
-    if (!root || UI.mode !== 'app') return;
+    if (!root || UI.mode !== 'app' || legacy) return;
     root.querySelectorAll(selector).forEach(el => {
       if (el.matches('[data-locmenu]')) { const s = document.createElement('span'); s.className = 'muted'; s.textContent = el.textContent; el.replaceWith(s); }
       else el.remove();
@@ -65,8 +67,8 @@ const OBSERVE = (() => {
       prefs().play.direction = key; prefs().play.pace = key === 'rest' ? 'rest' : 'balance'; invalidate();
       STORY.add('decide', `당분간 '${directions[key][0]}' 쪽으로 방향을 잡는다.`, 1); render(); return;
     }
-    if (e.target.closest(selector)) { e.preventDefault(); e.stopImmediatePropagation(); return; }
+    if (!legacy && e.target.closest(selector)) { e.preventDefault(); e.stopImmediatePropagation(); return; }
     if (e.target.closest('[data-goaladd],[data-goaldrop],[data-focus]')) invalidate();
   }, true);
-  return { route, normalize, clean, notices, invalidate };
+  return { route, normalize, clean, notices, invalidate, get legacy() { return legacy; }, set legacy(v) { legacy = !!v; } };
 })();
