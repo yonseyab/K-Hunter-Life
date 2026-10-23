@@ -17,16 +17,19 @@ def('starTraits', [
   {id:'STT_DOTING',   name:'애틋한',     desc:'헌터가 다치는 걸 못 견딘다.', base:true},
 ]);
 
-/* 이 세계에서 헌터를 키우는 이유 */
-def('starReasons', [
-  {id:'SRS_BORED',   name:'심심풀이',              desc:'영원은 길다. 볼거리가 필요했다.', base:true},
-  {id:'SRS_BET',     name:'다른 성좌와의 내기',    desc:'누가 더 멀리 가는 헌터를 키우는지 걸었다.', base:true},
-  {id:'SRS_REVENGE', name:'오래된 복수',           desc:'갚아야 할 상대가 이 세계 어딘가에 있다.', base:true},
-  {id:'SRS_BOND',    name:'옛 인연',               desc:'오래전 이 땅에서 잃은 누군가를 닮았다.', base:true},
-  {id:'SRS_TEST',    name:'시험',                  desc:'이 아이가 어디까지 버티는지 보고 싶다.', base:true},
-  {id:'SRS_STORY',   name:'좋은 이야기',           desc:'끝까지 지켜볼 만한 이야기를 찾고 있다.', base:true},
-  {id:'SRS_HEIR',    name:'후계자 찾기',           desc:'자리를 물려줄 그릇을 찾는 중이다.', base:true},
-  {id:'SRS_LONELY',  name:'외로움',                desc:'누군가의 곁에 있고 싶었다.', base:true},
+/* 정해진 성좌 (사용자가 만든다 — 지금은 비어 있음). '정해진 성좌로 깨어나기'에서 고른다. 시작 코인은 늘 0
+   {id:'SPR_…', name, sigil(글자), color('#hex'), trait(starTraits), domain(starDomains), speech(ccSpeech),
+    intro(배경 이야기 — 살짝 길게, 모티브를 짐작할 수 있게), cls(고유 클래스 ID), skills([고유 스킬 ID]), img(assets/stars/<img>.webp), unlock(업적 ID — 없으면 처음부터)}
+   정해진 성좌는 자기 성향(trait)에 맞는 지시 · 메시지만 할 수 있다 (STAR.say 가 성향이 같은 것만 고른다). 나만의 성좌는 제한 없음 */
+def('starPresets', []);
+
+/* 성좌 인트로 (타이틀 › 새 성좌 → 인트로 → 정해진 성좌 / 나만의 성좌). img = assets/star_intro/<img>.webp (1920×1080, 하단 1/3 자막 자리 — 그림은 GPT 외주) */
+def('starIntroScenes', [
+  {id:'SI_01', ord:1, img:'SI_01', head:'하늘 너머의 관객', text:'게이트가 열린 그날부터, 하늘 너머에서 이 세계를 내려다보는 존재들이 있었다. 사람들은 그들을 성좌라 부른다.', mood:'calm'},
+  {id:'SI_02', ord:2, img:'SI_02', head:'수많은 실', text:'성좌는 직접 내려오지 않는다. 다만 마음에 든 헌터 하나를 골라, 오래도록 지켜본다.', mood:'calm'},
+  {id:'SI_03', ord:3, img:'SI_03', head:'그들의 놀이', text:'어떤 성좌에게 이 세계는 놀이이고, 어떤 성좌에게는 내기이며, 어떤 성좌에게는 오래된 그리움이다.', mood:'ominous'},
+  {id:'SI_04', ord:4, img:'SI_04', head:'선물', text:'성좌는 헌터를 조종하지 못한다. 할 수 있는 것은 지켜보는 일, 그리고 가끔 보내는 선물뿐.', mood:'warm'},
+  {id:'SI_05', ord:5, img:'SI_05', head:'당신은 성좌다', text:'그리고 지금, 하나의 별이 눈을 뜬다. 당신이 지켜볼 인생을 고를 시간이다.', mood:'tense'},
 ]);
 
 /* 영역 · 상징 (성좌가 다스리는 것). sigil: 기본 문양. 나중에 고유 클래스 · 축복의 성격 */
@@ -41,7 +44,7 @@ def('starDomains', [
   {id:'SDM_HARVEST', name:'풍요',    sigil:'✿', base:true},
 ]);
 
-/* 색 · 문양 고르기 */
+/* 색 · 문양 예시 (색은 팔레트로, 문양은 글자로 직접 넣을 수도 있다) */
 def('starColors', [
   {id:'SCL_GOLD',  name:'금',   hex:'#e0b341'}, {id:'SCL_RED',   name:'붉은', hex:'#d9534f'},
   {id:'SCL_BLUE',  name:'푸른', hex:'#4f8fd8'}, {id:'SCL_JADE',  name:'비취', hex:'#3fae8a'},
@@ -57,30 +60,6 @@ def('starSigils', [
 def('starNameParts', [
   {id:'SNP_PRE', list:['새벽을 기다리는','잿빛 탑의','웃는','물가의','이름을 잃은','붉은 실을 잣는','끝을 보는','오래 잠든','별을 세는','문 앞에 선','바람을 삼킨','마지막 장을 쓰는']},
   {id:'SNP_POST', list:['자','왕','사냥개','어부','직조자','관측자','방랑자','노래꾼','파수꾼','여왕','늙은 신','아이']},
-]);
-
-/* 시작 코인 (사실상 난이도) */
-def('starStarts', [
-  {id:'SST_0', name:'빈손',   coin:0},
-  {id:'SST_1', name:'조금',   coin:100},
-  {id:'SST_2', name:'넉넉히', coin:1000},
-  {id:'SST_3', name:'잔뜩',   coin:10000},
-]);
-
-/* 헌터가 성좌를 아는지 */
-def('starKnown', [
-  {id:'SKN_YES',   name:'안다'},
-  {id:'SKN_NO',    name:'모른다'},
-  {id:'SKN_LATER', name:'나중에 알게 됨'},
-]);
-
-/* 프리셋 (고른 뒤 세부를 고친다) */
-def('starPresets', [
-  {id:'SPR_1', name:'새벽을 기다리는 자', trait:'STT_WATCH',    reason:'SRS_STORY',   domain:'SDM_NIGHT',   color:'SCL_SILVER', sigil:'SSG_2', base:true},
-  {id:'SPR_2', name:'붉은 실을 잣는 여왕', trait:'STT_DOTING',  reason:'SRS_BOND',    domain:'SDM_TALE',    color:'SCL_RED',    sigil:'SSG_7', base:true},
-  {id:'SPR_3', name:'웃는 사냥개',         trait:'STT_PLAYFUL', reason:'SRS_BET',     domain:'SDM_WAR',     color:'SCL_EMBER',  sigil:'SSG_6', base:true},
-  {id:'SPR_4', name:'잿빛 탑의 관측자',    trait:'STT_STERN',   reason:'SRS_TEST',    domain:'SDM_WISDOM',  color:'SCL_INK',    sigil:'SSG_4', base:true},
-  {id:'SPR_5', name:'바람을 삼킨 늙은 신', trait:'STT_GENEROUS',reason:'SRS_HEIR',    domain:'SDM_HARVEST', color:'SCL_GOLD',   sigil:'SSG_3', base:true},
 ]);
 
 /* NPC 성좌. {id, name, trait(starTraits), why(이 세계를 키우는 이유), cls(묶인 고유 클래스 ID, 없으면 null), hunters(키우는 헌터 수 [최소, 최대])}
@@ -101,7 +80,8 @@ def('achievements', []);
 
 /* npcRate: 고유 클래스가 없는 NPC 헌터에게 성좌가 붙어 있을 확률 · uniqueRate: 고유 클래스가 있는 헌터에게 성좌가 붙어 있을 확률
    giftsKeep: 선물 기록 줄 수 · anonSeller: 경매 출품 · 입찰자가 '익명의 성좌'일 확률 (NPC 성좌가 없으면 늘 익명)
-   slots: 성좌 칸 수 · peekCost: 잠재력 엿보기 코인 [대략, 전부] (화면은 성좌 탭 만들 때) */
+   slots: 성좌 칸 수 · peekCost: 잠재력 엿보기 코인 [대략, 전부] (화면은 성좌 탭 만들 때)
+   startCoin: 새 성좌 코인(늘 0) · revealPerDay: 헌터가 성좌의 존재를 알아챌 하루 확률 (처음엔 모름 — 일상 중 무작위 메시지로) */
 def('balance', [
-  {id:'BAL_STAR', proto:true, npcRate:0.03, uniqueRate:0.95, giftsKeep:200, anonSeller:0.3, slots:3, peekCost:[300,1500]},
+  {id:'BAL_STAR', proto:true, npcRate:0.03, uniqueRate:0.95, giftsKeep:200, anonSeller:0.3, slots:3, peekCost:[300,1500], startCoin:0, revealPerDay:0.012},
 ]);

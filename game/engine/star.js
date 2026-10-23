@@ -19,7 +19,7 @@ const STAR = (() => {
   }
   /* 성좌 메시지 (자리만). on 에 맞는 starMessages 가 있으면 이야기 창에 한 줄 */
   function say(on, vars) {
-    const L = vals('starMessages').filter(m => m.on === on && (!m.trait || m.trait === me()?.trait)); if (!L.length) return false;
+    const st = me(), L = vals('starMessages').filter(m => m.on === on && (st?.preset ? m.trait === st.trait : (!m.trait || m.trait === st?.trait)));  /* 정해진 성좌는 자기 성향에 맞는 것만 */ if (!L.length) return false;
     const m = L[Math.floor(Math.random() * L.length)], t = String(m.text || '').replace(/\{(\w+)\}/g, (_, k) => vars?.[k] ?? '');
     STORY.add('event', `[${starName() || '성좌'}] ${t}`, 1); return true;
   }
@@ -29,7 +29,7 @@ const STAR = (() => {
     invAdd(item, qty, 'LOC_BAG');
     G.starGifts.unshift({ t: nowAbs(), item, qty, via }); if (G.starGifts.length > B().giftsKeep) G.starGifts.length = B().giftsKeep;
     const what = `${it.name}${qty > 1 ? ' ' + qty + '개' : ''}`, nm = starName();
-    STORY.add('event', me()?.known === 'SKN_YES' && nm ? `성좌 「${nm}」${josa(nm, '이', '가')} ${what}${josa(what, '을', '를')} 선물했다.` : `어디선가 ${what}${josa(what, '이', '가')} 가방에 들어와 있다. 성좌의 선물이다.`, 1);
+    STORY.add('event', G.starKnown && nm ? `성좌 「${nm}」${josa(nm, '이', '가')} ${what}${josa(what, '을', '를')} 선물했다.` : `어디선가 ${what}${josa(what, '이', '가')} 가방에 들어와 있다. 성좌의 선물이다.`, 1);
     say('gift', { item: it.name });
     if (GEAR.slotOf(it)) GEAR.consider('선물받은');
     if (it.classBook) readBook(it);

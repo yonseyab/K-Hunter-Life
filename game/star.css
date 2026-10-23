@@ -2,8 +2,7 @@
 .star-sig {flex:none;width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--sc,var(--line2));color:var(--sc,var(--muted));background:var(--panel2);font-size:22px;}
 .star-sig.empty {border-style:dashed;color:var(--dim);}
 .star-slot .info>span {display:block;}
-.sm-body {grid-template-columns:220px minmax(0,1fr) 340px;}
-.sm-presets button .n {font-size:16px;}
+.sm-body {grid-template-columns:minmax(0,1fr) 340px;}
 .sm-row {margin-bottom:14px;}
 .sm-row>.sub {margin-bottom:4px;}
 .sm-seg {display:flex;flex-wrap:wrap;}
@@ -18,3 +17,27 @@
 .star-card-kv span {color:var(--muted);}
 .star-card-kv b {font-weight:500;text-align:right;}
 @media (max-width:900px){.sm-body{grid-template-columns:1fr}.sm-presets{display:flex;flex-wrap:wrap;gap:4px}.sm-body .cc-side{border-left:0;border-top:1px solid var(--line)}}
+/* 새 성좌 고르기 · 정해진 성좌 · 나만의 성좌 (2026-10-24) */
+.star-pick {height:100%;display:grid;grid-template-rows:minmax(0,1fr) auto;background:var(--bg);}
+.star-pick-in {align-self:center;justify-self:center;width:min(760px,calc(100% - 32px));display:grid;gap:10px;text-align:center;}
+.star-pick-opts {display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;}
+.star-pick-opt {all:unset;cursor:pointer;display:grid;gap:8px;padding:22px 18px;border:1px solid var(--line2);background:var(--panel);text-align:left;}
+.star-pick-opt b {font-family:var(--f-display);font-weight:400;font-size:20px;color:var(--fg);}
+.star-pick-opt span {font-size:13px;color:var(--muted);line-height:1.6;}
+.star-pick-opt:hover,.star-pick-opt:focus-visible {border-color:var(--accent);background:var(--panel2);}
+.star-pick-opt:focus-visible {outline:2px solid var(--accent);outline-offset:2px;}
+.sp-body {grid-template-columns:240px minmax(0,1fr);}
+.sp-info {display:grid;grid-template-columns:minmax(220px,360px) minmax(0,1fr);gap:18px;align-items:start;}
+.sp-img {position:relative;aspect-ratio:3/4;border:1px solid var(--line);background:var(--panel2);display:grid;place-items:center;overflow:hidden;}
+.sp-img img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.sp-img-sig {font-size:72px;opacity:.5;}
+.sp-text h2 {font-family:var(--f-display);font-weight:400;font-size:26px;margin:0 0 4px;}
+.sp-intro {white-space:pre-line;line-height:1.75;font-size:14px;}
+.sp-empty {padding:40px 0;text-align:center;}
+.sm-title {display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+.sm-tile-sig {font-size:18px;line-height:1;}
+.sm-confirm {position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:#050a12b8;}
+.sm-confirm-box {width:min(420px,calc(100vw - 32px));border:1px solid var(--line2);background:var(--panel);padding:20px;display:grid;gap:10px;text-align:center;}
+.sm-confirm-box b {font-size:16px;}
+.sm-confirm-box p {margin:0;font-size:13px;}
+@media (max-width:760px){.star-pick-opts{grid-template-columns:1fr}.sp-body{grid-template-columns:1fr}.sp-info{grid-template-columns:1fr}.sm-title{flex-direction:column}}
