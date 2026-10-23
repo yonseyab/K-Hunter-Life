@@ -75,6 +75,7 @@ const LIFE = (() => {
   }
   /* 하루마다: 나이 · 1년 · 은퇴 생각 · 노화 */
   function daily() {
+    if (typeof ACTIVE !== 'undefined') ACTIVE.daily();
     if (dateOf(G.day).d === 1) tidyRelations();
     const p = G.player, dt = dateOf(G.day), by = parseInt(String(p.birth || '').slice(0, 4), 10);
     if (by) { const bm = parseInt(String(p.birth).slice(5, 7), 10) || 1, bd = parseInt(String(p.birth).slice(8, 10), 10) || 1, age = dt.y - by - ((dt.m < bm || (dt.m === bm && dt.d < bd)) ? 1 : 0); if (age !== p.age) { p.age = age; if (age > 0 && G.day > (G.startDay ?? 0)) STORY.add('day', `${MIND.callName()}, ${age}세 생일.`, 2); } }

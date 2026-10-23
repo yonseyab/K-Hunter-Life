@@ -322,7 +322,6 @@ const LIFEUI = (() => {
   const _title = titleHTML;
   titleHTML = function () {
     let h = _title();
-    h = h.replace('<button data-title="continue">', `<button data-ktitle="random">무작위 헌터로 시작<small>커마를 전부 무작위로 정하고 바로 시작합니다</small></button>\n        <button data-title="continue">`);
     h = h.replace('<button data-title="credits"', `<button data-ktitle="archive" aria-current="${UI.panel === 'archive'}">기록관</button>\n        <button data-title="credits"`);
     if (UI.panel === 'archive') h = h.replace('<div class="t-right"></div>', `<div class="t-right"><div class="t-panel"><div class="ph">기록관 <span class="row" style="gap:6px"><label class="btn sm">파일 가져오기<input type="file" accept=".json,application/json" data-karimp="1" hidden></label><button class="more" data-tpanel="">닫기</button></span></div>${archiveListHTML(false)}</div></div>`);
     return h;

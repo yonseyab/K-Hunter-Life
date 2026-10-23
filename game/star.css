@@ -1,0 +1,20 @@
+/* 성좌 고르기 · 만들기 · 성좌 카드 (engine/account.js). 기존 사각형 · 작은 글씨 */
+.star-sig {flex:none;width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--sc,var(--line2));color:var(--sc,var(--muted));background:var(--panel2);font-size:22px;}
+.star-sig.empty {border-style:dashed;color:var(--dim);}
+.star-slot .info>span {display:block;}
+.sm-body {grid-template-columns:220px minmax(0,1fr) 340px;}
+.sm-presets button .n {font-size:16px;}
+.sm-row {margin-bottom:14px;}
+.sm-row>.sub {margin-bottom:4px;}
+.sm-seg {display:flex;flex-wrap:wrap;}
+.sm-seg button {white-space:nowrap;}
+.sm-sw {display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:middle;border:1px solid var(--line2);}
+.star-card {border:1px solid var(--sc);background:var(--panel2);padding:14px;display:grid;gap:6px;}
+.star-card-sig {font-size:34px;line-height:1;color:var(--sc);}
+.star-card-name {font-family:var(--f-display);font-size:20px;color:var(--fg);overflow-wrap:anywhere;}
+.star-card-sub {font-size:12px;color:var(--muted);}
+.star-card-why {margin:4px 0;font-size:13px;color:var(--fg);font-style:italic;}
+.star-card-kv {display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12px;}
+.star-card-kv span {color:var(--muted);}
+.star-card-kv b {font-weight:500;text-align:right;}
+@media (max-width:900px){.sm-body{grid-template-columns:1fr}.sm-presets{display:flex;flex-wrap:wrap;gap:4px}.sm-body .cc-side{border-left:0;border-top:1px solid var(--line)}}

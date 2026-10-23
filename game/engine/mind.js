@@ -28,7 +28,10 @@ const MIND = (() => {
   /* 재료 묶음 (플레이어). NPC 는 성격만 + 간단한 상태 */
   function factors(who) {
     const F = {}, px = pxOf(who); Object.entries(px).forEach(([k, v]) => F['px:' + k] = v);
-    if (who && who !== G.player && who.id !== G.player.id) return F;
+    if (who && who !== G.player && who.id !== G.player.id) {  /* NPC: 성격 + (활동 중이면) 가벼운 감정 · 상태 (engine/active.js) */
+      const id = who.id || who, e = typeof ACTIVE !== 'undefined' ? ACTIVE.emoOf(id) : null; if (e) Object.entries(e).forEach(([k, v]) => F['emo:' + k] = v);
+      const h = typeof H === 'function' ? H(id) : null; if (h && /부상/.test(h.status || '')) F['st:injured'] = 1;
+      return F; }
     const c = G.cond, em = energyMax();
     F['st:hpLow'] = Math.max(0, (70 - (c.hp ?? 100)) / 70);
     F['st:energyLow'] = Math.max(0, (50 - c.energy) / 50);

@@ -5,10 +5,11 @@ const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950
 const ok=(c,m)=>{if(!c)errs.push('단언 실패: '+m)};
 await p.goto(APP);await p.waitForFunction(()=>typeof DB!=='undefined');
 /* 타이틀: 무작위 헌터로 시작 · 기록관 */
-ok(await p.locator('[data-ktitle="random"]').count()===1&&await p.locator('[data-ktitle="archive"]').count()===1,'타이틀 메뉴');
-await p.evaluate(()=>packsLoad());await p.click('[data-ktitle="random"]');await p.waitForFunction(()=>UI.mode==='app');
+ok(await p.locator('[data-titlestars]').count()===1&&await p.locator('[data-ktitle="archive"]').count()===1,'타이틀 메뉴');
+/* 성좌 칸에 성좌를 만들고 헌터를 무작위로 시작 (2026-10-24 새 게임 흐름) */
+await p.evaluate(async()=>{localStorage.removeItem('khl.stars.v1');await packsLoad();STARACC.create(0,{name:'시험 성좌',trait:'STT_WATCH',reason:'SRS_STORY',domain:'SDM_NIGHT',color:'SCL_GOLD',sigil:'SSG_1',start:'SST_1',known:'SKN_NO'});UI.starSlot=0;const c=newCC();autoAll(c);gameFromCreation(c);STARACC.attach(0);enterGame()});await p.waitForFunction(()=>UI.mode==='app');
 const rnd=await p.evaluate(()=>({screen:UI.screen,pro:G.story.filter(x=>x.k==='prologue').map(x=>x.s),name:G.player.name,cls:G.player.cls}));
-ok(rnd.screen==='life'&&rnd.pro.length>=3&&rnd.cls,'무작위 시작 · 시작 전 인생 요약 '+JSON.stringify(rnd));
+ok(rnd.screen==='life'&&rnd.pro.length>=3&&rnd.cls,'무작위 시작 · 시작 전 인생 요약 '+JSON.stringify(rnd));ok(await p.evaluate(()=>G.star&&G.coin===100),'성좌 지갑');
 await p.evaluate(async()=>{await packsLoad();gameFromScenario('SC_BDEMO');enterGame();await poolPrefetch()});
 /* 첫 화면 = 인생: 이야기 창 · 상태 · 끼어들기 · 재생 막대 */
 ok(await p.locator('#story').count()===1,'이야기 창');ok(await p.locator('#lifeSide').count()===1,'오른쪽 상태');

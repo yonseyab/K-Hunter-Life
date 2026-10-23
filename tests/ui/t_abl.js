@@ -3,7 +3,12 @@ const path=require('path');const APP='file://'+path.resolve(__dirname,'../../gam
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});
 const errs=[];const ctx=await b.newContext({viewport:{width:1500,height:950}});const p=await ctx.newPage();p.on('pageerror',e=>errs.push(e.message));
 await p.goto(''+APP+'');await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForTimeout(300);
-await p.click('[data-title="new"]');await p.click('[data-intro="skip"]');
+/* 성좌 흐름: 업적 해금이 없으면 능력치는 굴리기만, 있으면(pickStats · pickPotential) 옛 직접 조정 화면 */
+await p.evaluate(()=>{localStorage.removeItem('khl.stars.v1');STARACC.create(0,{name:'시험',trait:'STT_WATCH',reason:'SRS_STORY',domain:'SDM_NIGHT',color:'SCL_GOLD',sigil:'SSG_1',start:'SST_1',known:'SKN_NO'});render()});
+await p.click('[data-titlestars]');await p.click('[data-starhunter="0"]');await p.click('[data-intro="skip"]');
+await p.click('[data-ccstep="6"]');console.log('roll only',await p.locator('[data-abedit]').count()===0&&await p.locator('[data-abgen="real"]').count()===1);
+await p.click('[data-ccstep="5"]');console.log('class result',await p.locator('#clslist').count()===0);
+await p.evaluate(()=>{const a=STARACC.load();a.slots[0].unlocks={pickStats:true,pickPotential:true,pickClass:true};localStorage.setItem('khl.stars.v1',JSON.stringify(a));UI.cc.ab=null;render()});
 // go to step 6 directly
 await p.click('[data-ccstep="6"]');await p.waitForTimeout(100);
 console.log('empty:',await p.locator('#ccmain .panel').first().innerText());

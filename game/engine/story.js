@@ -21,6 +21,7 @@ const STORY = (() => {
   function add(k, s, lv = 2, extra) {
     if (!G || !s) return null; s = josa(s);
     const it = Object.assign({ t: nowAbs(), k, s: String(s), lv }, extra || {});
+    if (it.who && typeof ACTIVE !== 'undefined') ACTIVE.mark(it.who);
     LIFE_LOG.add(it);
     if (['event', 'choice', 'raid', 'mile', 'small', 'meet', 'react', 'pers'].includes(k) && lv <= 2) { G.storyMark = (G.storyMark || 0) + 1; }
     listeners.forEach(f => { try { f(it); } catch (e) { } });
@@ -81,13 +82,13 @@ const STORY = (() => {
     const B = DB.balance.BAL_SMALL, here = locOf(); if (here.pt === 'PT_HOME' && !homeOf().partner) return;
     const p = 1 - Math.pow(1 - B.meetPerHour * TELLER.mul('small'), hours); if (Math.random() >= p) return;
     const cand = [];
-    (G.relations || []).forEach(r => { if (isFam(r) && r.id === homeOf().partner) return; const w = npcWhere(r.id); if (!w || w.region !== here.region) return; if (w.pt && here.pt && w.pt !== here.pt && here.pt !== 'PT_CAFE') return; cand.push({ id: r.id, w: 1 + (r.close || 0) / 20 }); });
+    (G.relations || []).forEach(r => { if (isFam(r) && r.id === homeOf().partner) return; const w = npcWhere(r.id); if (!w || w.region !== here.region) return; if (w.pt && here.pt && w.pt !== here.pt && here.pt !== 'PT_CAFE') return; cand.push({ id: r.id, w: (1 + (r.close || 0) / 20) * (typeof ACTIVE !== 'undefined' ? ACTIVE.meetMul(r.id) : 1) }); });
     if (!cand.length) { reactTick(); return; }
     const c = pickW(cand), r = relOf(c.id); ensureRel(r);
     const t = r.to || {}, jealous = (t.RD_RIVAL || 0) + (t.RD_GRUDGE || 0) >= 50 || (r.from?.RD_RIVAL || 0) >= 50;
-    if (jealous && Math.random() < 0.5) { const j = pickLine('react:jealous'); if (j) { const fx = fxApply(j.fx); SELF.hear('looks', -0.5); add('react', fill(j.text, { who: nameOf(c.id) }), j.lv ?? 2, fx ? { fx } : null); EMO.on('insulted'); return; } }
+    if (jealous && Math.random() < 0.5) { const j = pickLine('react:jealous'); if (j) { const fx = fxApply(j.fx); SELF.hear('looks', -0.5); add('react', fill(j.text, { who: nameOf(c.id) }), j.lv ?? 2, fx ? { fx } : null); EMO.on('insulted'); if (typeof ACTIVE !== 'undefined') ACTIVE.feel(c.id, 'EM_ANGER', 0.2); return; } }
     const l = pickLine('meet', c.id); if (!l) return;
-    const fx = fxApply(l.fx, c.id); add('meet', fill(l.text, { who: nameOf(c.id), rel: DB.relTypes[r.rel]?.name || '' }), l.lv ?? 2, { who: c.id, fx }); EMO.on('social'); TELLER.note(1, false);
+    const fx = fxApply(l.fx, c.id); add('meet', fill(l.text, { who: nameOf(c.id), rel: DB.relTypes[r.rel]?.name || '' }), l.lv ?? 2, { who: c.id, fx }); EMO.on('social'); TELLER.note(1, false); if (typeof ACTIVE !== 'undefined') ACTIVE.feel(c.id, 'EM_JOY', 0.2);
     G.lastMeet = nowAbs();
   }
   /* 모르는 사람의 반응 (2층). 사실(외모 점수)에 묶여 있다 */

@@ -70,7 +70,7 @@ const AUTORAID = (() => {
   /* 파티: 지금 파티(같은 게이트에 맞으면) → 공격대 · 길드원 · 협회 매칭 중 이 게이트에 맞는 사람, 역할을 고르게 */
   function party(g) {
     const cap = partyCap(g), me = G.player, seen = new Set([me.id]), out = [];
-    const pool = [...raidCands(), ...SIM.freeNear(g.region, DB.ranks[g.rank].lv, 8)].filter(h => h && h.status !== '사망' && !gateFit(h, g));  /* 게이트 근처 무소속 헌터도 (시골 지역은 사는 곳 매칭만으로는 사람이 없다) */
+    const pool = [...raidCands(), ...SIM.freeNear(g.region, DB.ranks[g.rank].lv, 8)].filter(h => h && h.status !== '사망' && !gateFit(h, g) && (typeof ACTIVE === 'undefined' || ACTIVE.willJoin(h.id)));  /* 활동 중인 사람은 내키지 않으면 빠진다 */  /* 게이트 근처 무소속 헌터도 (시골 지역은 사는 곳 매칭만으로는 사람이 없다) */
     const need = ['ROLE_TANK', 'ROLE_HEAL', 'ROLE_RDPS', 'ROLE_SUP', 'ROLE_SCOUT', 'ROLE_MDPS', 'ROLE_MAGE'].filter(r => r !== me.roleMain);
     need.forEach(r => { if (out.length < cap - 1) { const m = pool.find(h => h.roleMain === r && !seen.has(h.id)); if (m) { seen.add(m.id); out.push(m.id); } } });
     pool.forEach(h => { if (out.length < cap - 1 && !seen.has(h.id)) { seen.add(h.id); out.push(h.id); } });

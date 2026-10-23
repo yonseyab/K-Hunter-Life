@@ -21,12 +21,12 @@
 
 ```
 game/index.html          엔진 · UI 본체
-game/*.css               life · home · hunter_status · history
+game/*.css               life · home · hunter_status · history · star
 game/data/*.js           시스템 테이블 (능력치 · 행동 · 관계 · 세계 수치 · 커마 선택지 · 지역 · 지도 · 게이트 장소 · 아이템 · 성좌 · 장소 · 몬스터 형식)
 game/data/system.js      판단 · 감정 · 고비 · 멈춤 · 국가 상태 · BAL_PLAY/MIND/TELLER/SMALL/EMO/SELF/SCALE/AGE
 game/data/base/          Claude 최소 재료 (배치 B): b_hunters.js · b_content.js · b_story.js(이야기 문장 · 위기 · 이벤트 · 데모)
 game/data/ext · packs    외주 데이터 자리 (지금 비어 있음 — `_list.js` · `_manifest.js` 에 파일 이름을 한 줄씩)
-game/engine/             sim · goals · routine · autoraid · know · validate · status_ui (옛 버전에서) · scale · mind · story · play · life · life_ui · observe · hunter_status · history_ui · life_log · gear · star · monster
+game/engine/             sim · goals · routine · autoraid · know · validate · status_ui (옛 버전에서) · scale · mind · story · play · life · life_ui · observe · hunter_status · history_ui · life_log · gear · star · monster · account(성좌 계정) · active(활동 중인 사람) · emo_graph
 tools/                   validate_data.js · qa_sim.js · build_regions.py · build_maps.py · build_gate_pool.py
 tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데이터)
 ```
@@ -68,11 +68,7 @@ tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데�
 코드 메모 (옛 버전과 같음): 데이터 `def('테이블',[…])` → `DB.테이블[ID]` · 화면 `V.<screen>()` · 클릭은 data-* 위임(새 UI 는 data-k* 를 life_ui.js 가 따로 받는다) · 입력창은 부분 갱신 · 테스트는 `runTime`(동기) / `PLAY.stepSync`(동기) / `PLAY.step`(비동기, 워커).
 
 ## 5. 다음 할 일 (2026-10-24 사용자와 정한 순서)
-1. **준비 완료 · 한 번에 반영할 묶음 (사용자: 업데이트는 한 번에):**
-   - **판단 엔진 범위 넓히기:** 주변 인물 + 이야기에 등장한 사람 = '활동 중인 사람'(`G.active` 예정). 등장 시 올림(STORY.add 의 who · 파티원 · 소식 인물), 60일(`BAL_ACTIVE.idleDays`) 안 엮이면 배경으로 내림(감정 · 기억 접고 이름 · 한 줄만), 상한 200명(`BAL_ACTIVE.max`) — 관계 있는 사람 제외. 활동 중인 사람의 만남 · 연락 · 공략 동행 · 반응을 `MIND`(성격 · 감정 · 상태)로. 지금 있는 '아는 헌터 60일 정리'(`LIFE.tidyRelations`)를 이 규칙으로 합친다. 반영 뒤 QA 봇 1~2년으로 속도 · 세이브 크기 확인, 무거우면 숫자 조정.
-   - **감정 그래프:** 일대기에 연도별 · 월별 선 그래프 (`G.emoLog` → 월 평균, 감정 7종). 지금 띠 그래프 대체.
-   - 배경 NPC(SIM 집계)는 그대로.
-2. **성좌 · 커마 UI (같이 정하며):** 새 게임 흐름 = 성좌 설정 → 내 헌터 설정 → 게임 플레이 설정(잠재력 전체 보기 등). 성좌 탭(내 정보 · 상점 · 성좌 경매장 · 업적) · 업적 시스템 · 내 헌터 탭(정보 · 관계 · 소지품) · 장비 화면.
+2. **성좌 · 내 헌터 탭 UI (같이 정하며):** 성좌 탭(내 정보 · 상점 · 성좌 경매장 · 업적 — 잠재력 엿보기 화면 `STARACC.peek` 포함) · 업적 목록 · 내 헌터 탭(정보 · 관계 · 소지품) · 장비 화면. 게임 플레이 설정 화면은 시스템이 갖춰지면.
 3. **기반 작업 (2번 뒤):** 업데이트 쉬운 구조(데이터 종류별 꼬리표 · 꼬리표에 거는 이벤트 · 빈칸 문장 · 커버리지/중복 보고 도구) · 대량 콘텐츠 대비(속도 시험 · 발동 시점별 색인 · 나눠 불러오기 · IndexedDB 세이브) · 남은 기초 형식(직업 · 생계, 인물 · 관계).
 4. **맨 마지막 — 선택지 · 이벤트 · 콘텐츠:** 스탯 분배 묻기 · 현실 가게/경매 구매 사건 · 성좌 메시지 · 축복 · 고유 클래스/스킬 · 범죄 · 경제 손보기 · 망한 나라 세계사 · 외주 전체.
 5. **업데이트 예정:** 자녀 (다음 인물로 이어 가기와 함께).
@@ -86,6 +82,7 @@ tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데�
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
 ## 7. 진행 상황
+- [완료] 2026-10-24 (Claude) 새 게임 흐름 + 준비 묶음: ① 성좌 = 계정 = 세이브 칸 (`engine/account.js` STARACC, localStorage `khl.stars.v1`, 3칸 · 세이브 `star-<칸>` · 코인/업적/해금 유지 · 한 번 받은 업적은 다시 못 받음 · 성좌 하나에 헌터 한 명 · 수정 불가) ② 타이틀 '시작하기' → 성좌 고르기(이어 가기 · 새 헌터 · 지우기 · 데모) / 성좌 만들기(프리셋 5 · 이름 자동 생성 · 성향 · 이유 · 영역 · 색 · 문양 · 시작 코인 · 헌터가 아는지, 기본값 base:true) ③ 커마: 클래스 · 능력치(잠재력 포함)는 각성 결과 무작위 + 능력치 다시 굴리기(무제한), 업적 해금(pickClass · pickStats · pickPotential)이 있으면 옛 직접 고르기 ④ 마지막 단계 '시작 전 확인'에 성좌 카드 ⑤ 저장 메뉴 = 성좌 칸 하나 ⑥ 활동 중인 사람(`engine/active.js` ACTIVE: 등장 · 기억 · 관계로 올라옴, 60일 · 200명 · 관계자 보호, 가벼운 감정 `G.npcEmo`, MIND.factors 가 NPC 감정 · 부상 반영, 만남 가중치 · 먼저 연락 · 자동 공략 동행 판단) ⑦ 일대기 감정 그래프(`engine/emo_graph.js`, 월별/연도별, 감정마다 작은 선 그래프). 옛 slot1~3 · auto 세이브는 화면에서 안 보임. QA 365일: 하루 평균 208ms · 세이브 657KB
 - [완료] 2026-10-24 (Claude) 정리: 옛 직접 조작 화면(행동 · 파티 · 공략대 · 공략 준비 · 일정 · 알림 · 메신저 · 대시보드 · 개발 도구)과 그 처리 코드 · 위젯 배치 편집 · `OBSERVE.legacy` · `doNowDirect` 삭제, 옛 테스트 29개 삭제, 외주 문서 전부 · 끝난 계획 문서(REBUILD_PLAN · CODEX 인계 · CC_IMPACT · DATA_IDS · NPC_SIM) · 한 번 쓴 도구 · 옛 외주 커마 데이터(lookOpts_LA/LB · bgOpts_BB) 삭제
 - [완료] 2026-10-24 (Claude) 게이트 · 몬스터 형식: 몬스터 등급 범위(`ranks`) · 크기 · 꼬리표 · 약점/저항 · 지형 · 보스 · 소재 부위 표(비어 있음), 게이트 = 잡몹 1~3 + 보스(`engine/monster.js` MONSTER.compose, `g.mobs` · `g.boss`), 특별한 게이트 분류 `gateKinds`(브레이크만, 넘치면 `g.kind`). (형식 문서는 정리 때 삭제 — data/content.js 주석이 기준)
 - [완료] 2026-10-24 (Claude) 장소 외주 준비: `placeTypes` 추가 필드(group · where · sources · desc) · 새 테이블 `placeTags` · `places`(이름 있는 개별 장소, 지금은 데이터만) · 검사 규칙. (형식 문서는 정리 때 삭제 — data/places.js 주석이 기준)

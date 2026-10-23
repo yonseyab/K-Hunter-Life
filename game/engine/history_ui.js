@@ -5,7 +5,7 @@ const HISTORY_UI=(()=>{
   const monthName=key=>`${+key.slice(0,4)}년 ${+key.slice(5)}월`;
   function homeHTML(){
     const months=LIFE_LOG.index(),count=months.reduce((n,m)=>n+m.count,0),A=LIFE_LOG.state();
-    return `<section class="history-home"><header><h1 class="h1">일대기</h1><button class="btn pri" data-history-open>지난 일생 돌아보기</button></header><div class="history-home-summary"><span>${esc(G.player.name)}의 인생 기록</span><span class="muted">${months.length?monthName(months[0].month)+' — '+monthName(months.at(-1).month):'아직 기록 없음'}</span><span class="muted">${months.length.toLocaleString()}개월 · ${count.toLocaleString()}건</span></div>${A.error?`<p class="warn">${esc(A.error)} <button class="btn sm" data-history-retry-store>보관 다시 시도</button></p>`:''}</section>`;
+    return `<section class="history-home"><header><h1 class="h1">일대기</h1><button class="btn pri" data-history-open>지난 일생 돌아보기</button></header><div class="history-home-summary"><span>${esc(G.player.name)}의 인생 기록</span><span class="muted">${months.length?monthName(months[0].month)+' — '+monthName(months.at(-1).month):'아직 기록 없음'}</span><span class="muted">${months.length.toLocaleString()}개월 · ${count.toLocaleString()}건</span></div>${A.error?`<p class="warn">${esc(A.error)} <button class="btn sm" data-history-retry-store>보관 다시 시도</button></p>`:''}</section>${typeof EMOGRAPH!=='undefined'?EMOGRAPH.html():''}`;
   }
   function close(){clearTimeout(searchTimer);revision++;const el=document.getElementById('lifeHistoryModal');view=null;el?.close();el?.remove();}
   function sync(){if(view&&(view.game!==G||UI.mode!=='app'))close();}

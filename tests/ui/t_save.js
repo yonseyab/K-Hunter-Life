@@ -12,7 +12,6 @@ console.log('slots',await p.evaluate(()=>store.get(SAVE_KEY,[]).map(s=>s.slot.re
 await p.evaluate(()=>{die('테스트 사망')});
 console.log('dead marks',await p.evaluate(()=>store.get(SAVE_KEY,[]).map(s=>!!s.dead)));
 await p.evaluate(()=>{goTitle();UI.panel='load';render()});
-console.log('continue label',await p.evaluate(()=>document.querySelector('[data-title="continue"] small').textContent));
 const n0=await p.evaluate(()=>store.get(SAVE_KEY,[]).length);
 await p.click('[data-savedel="slot2"]');await p.click('[data-savedel="slot2"]');
 console.log('del',n0,'→',await p.evaluate(()=>store.get(SAVE_KEY,[]).length));

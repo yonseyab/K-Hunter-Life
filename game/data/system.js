@@ -178,6 +178,8 @@ def('balance', [
   /* 이야기꾼: quietH 동안 큰일이 없으면 확률을 조금씩 올리고(최대 maxBoost), window 시간 안에 큰일이 busyN 번 넘게 몰리면 낮춘다(damp) */
   {id:'BAL_TELLER', proto:true, quietH:36, rampH:72, maxBoost:1.8, window:72, busyN:4, damp:0.55, smallShare:0.7},
   /* 작은 일 · 만남: 시간당 기본 확률 × 장소 · 같이 있는 사람 · 기분 */
+  /* 활동 중인 사람 (engine/active.js): idleDays 동안 안 엮이면 배경으로 · max 명 넘으면 오래된 순 · keepClose 이상 친하면 안 내려감 · emoDecay 하루마다 감정 × · contactPerDay 먼저 연락 기본 확률 */
+  {id:'BAL_ACTIVE', proto:true, idleDays:60, max:200, keepClose:40, emoDecay:0.6, contactPerDay:0.03},
   {id:'BAL_SMALL', proto:true, perHour:0.10, meetPerHour:0.08, placeMul:{PT_HOME:0.6, PT_CAFE:1.6, PT_WORK:1.2, PT_TRAIN:1.0, PT_ASSOC:1.1, PT_GUILD:1.2, PT_HOSPITAL:0.8, PT_LIB:0.7, PT_GATE:0.5, TRAVEL:1.5},
    companyMul:1.3, moodMul:{EM_JOY:1.2, EM_SAD:0.8, EM_LONELY:1.2}, newsPerDay:2.5, rumorPerDay:0.8},
   /* 감정: show 이상인 가장 센 감정이 '지금 감정'. 성격 보정: 비관 → 불안 · 우울 +, 표현 많음 → 반감기 짧음 */
