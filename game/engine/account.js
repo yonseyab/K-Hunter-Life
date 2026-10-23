@@ -103,7 +103,7 @@ const STARACC = (() => {
   function randomAll() { const d = rnd(vals('starDomains')); return { name: genName(), trait: rnd(vals('starTraits')).id, domain: d.id, color: rnd(vals('starColors')).hex, sigil: d.sigil || rnd(vals('starSigils')).mark, speech: rnd(vals('ccSpeech')).id }; }
   const go = mode => { UI.mode = mode; UI.smConfirm = false; const r = document.getElementById('root'); if (r) r.innerHTML = ''; render(); };
   const sceneList = () => vals('starIntroScenes').sort((a, b) => a.ord - b.ord);
-  function begin(slot) { UI.starSlot = slot; if (SETTINGS.intro !== false && sceneList().length) { UI.sintro = { i: 0, t: Date.now() }; go('starintro'); } else go('starpick'); }
+  function begin(slot) { UI.starSlot = slot; if (SETTINGS.intro !== false && sceneList().length) { sceneList().forEach(x => { const im = new Image(); im.src = `assets/star_intro/${x.img}.webp`; }); UI.sintro = { i: 0, t: Date.now() }; go('starintro'); } else go('starpick'); }
 
   function introHTML() {
     const L = sceneList(), I = UI.sintro, s = L[I.i], sp = { calm: '.9s', warm: '.9s', tense: '.6s', ominous: '1.4s' }[s?.mood] || '.9s';
@@ -201,6 +201,12 @@ const STARACC = (() => {
     if (d.smrand) { UI.sm = randomAll(); render(); return; }
     if (d.smok) { UI.smConfirm = true; render(); return; }
   }, true);
+  /* 성좌 인트로: Space · Enter · → 로 넘기고 Esc 로 건너뛰기 (헌터 인트로와 같게) */
+  document.addEventListener('keydown', e => {
+    if (UI.mode !== 'starintro' || !UI.sintro) return;
+    if ([' ', 'Enter', 'ArrowRight', 'PageDown'].includes(e.key)) { e.preventDefault(); document.querySelector('.in-stage')?.click(); }
+    else if (e.key === 'Escape') { e.preventDefault(); UI.sintro = null; go('starpick'); }
+  });
   document.addEventListener('input', e => {
     const d = e.target.dataset || {}; if (!UI.sm) return;
     if (d.smname) UI.sm.name = e.target.value.slice(0, 24);
