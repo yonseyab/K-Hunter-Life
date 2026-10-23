@@ -20,8 +20,8 @@ await p.click('[data-ccauto="all"]');ok(await p.evaluate(()=>[...document.queryS
 /* 3단계: 현재 거주 환경 구역 */
 await p.evaluate(()=>{UI.cc.step=2;render()});ok(await p.evaluate(()=>[...document.querySelectorAll('.lk-sec')].some(e=>e.textContent==='현재 거주 환경')&&!!document.querySelector('[data-chitem="bg|BI_HOOD"]')),'현재 거주 환경');
 await p.click('[data-chitem="bg|BI_HOOD"]');await p.screenshot({path:OUT+'/ccb_bg.png'});
-/* 4단계: 성격 요약 세부 항목 10개 이상 */
-await p.evaluate(()=>{UI.cc.step=3;render()});const nf=await p.evaluate(()=>document.querySelectorAll('#pxsum .px-dl dt').length);console.log('성격 요약 항목',nf);ok(nf>=10,'성격 요약 10개 이상');await p.screenshot({path:OUT+'/ccb_px.png'});
+/* 4단계: 성격 요약명만 표시하며 상세 설명은 없음 */
+await p.evaluate(()=>{UI.cc.step=3;render()});ok(await p.locator('#pxsum .px-head').count()===1&&await p.locator('#pxsum .px-summary-note').count()===1&&await p.locator('#pxsum dl').count()===0,'성격 요약명과 짧은 설명 표시');await p.screenshot({path:OUT+'/ccb_px.png'});
 /* 5단계: 특성 기본 3점 · 최대 5개 */
 const tr=await p.evaluate(()=>{const cc=UI.cc;cc.traits=[];const base=traitPoints(cc);const pool=vals('traits').filter(t=>t.pick!==false&&!t.excl);for(const t of pool.slice(0,8))toggleTrait(t.id);return {base,n:cc.traits.length}});
 console.log(JSON.stringify(tr));ok(tr.base===3&&tr.n===5,'특성 3점 · 5개');

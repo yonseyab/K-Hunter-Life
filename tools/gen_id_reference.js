@@ -52,8 +52,9 @@ out.push(table('언어 (LANG_) — 조건 lang · basic langMain', T('ccLanguage
 out.push(table('국적 · 출생지 · 목소리 · 말투 — 조건 basic', [...T('ccNations').map(r => ({...r, k: 'nation'})), ...T('ccBirthplaces').map(r => ({...r, k: 'bplace'})), ...T('ccVoices').map(r => ({...r, k: 'voice'})), ...T('ccSpeech').map(r => ({...r, k: 'speech'}))], [['key', r => r.k], ['ID', r => r.id], ['이름', r => r.name]], '혈액형 blood: A · B · O · AB · 주로 쓰는 손 hand: 오른손 · 왼손 · 양손'));
 out.push(table('주거 (HOU_)', T('housing'), [['ID', r => r.id], ['이름', r => r.name], ['월세', r => r.rent]]));
 out.push(table('클래스 분류 (CC_)', T('classCats'), [['ID', r => r.id], ['이름', r => r.name]]));
-out.push(table('성격 요약 세부 항목 (PF_)', T('persFacets'), [['ID', r => r.id], ['이름', r => r.name], ['축', r => (r.axes || []).join(' ')]]));
-out.push(`## 지금 쓰인 ID 범위 (새 ID 는 겹치지 않게 — 외주는 배치 코드를 붙인다)\n\n| 테이블 | 행 수 | 마지막 ID |\n|---|---|---|\n${['events', 'crises', 'traits', 'skills', 'classes', 'items', 'sysShop', 'monsters', 'gatePlaces', 'newsPool', 'rumorPool', 'careerMsgs', 'objectives', 'aiJobs', 'persExtra', 'bgOpts', 'lookOpts', 'persCombos', 'persNeutral', 'npcs', 'hunters'].map(t => `| ${t} | ${T(t).length} | ${Object.keys(DB[t] || {}).slice(-1)[0] || '—'} |`).join('\n')}\n`);
+out.push(table('성격 요약 역할 (PXR_)', T('persRoles'), [['ID', r => r.id], ['이름', r => r.name], ['축', r => r.axes.join(' ')], ['방향',r=>r.poles.join(' ')]]));
+out.push(table('성격 요약 수식어 (PXS_)', T('persStyles'), [['ID', r => r.id], ['이름', r => r.name], ['축', r => r.axes.join(' ')], ['방향',r=>r.poles.join(' ')]]));
+out.push(`## 지금 쓰인 ID 범위 (새 ID 는 겹치지 않게 — 외주는 배치 코드를 붙인다)\n\n| 테이블 | 행 수 | 마지막 ID |\n|---|---|---|\n${['events', 'crises', 'traits', 'skills', 'classes', 'items', 'sysShop', 'monsters', 'gatePlaces', 'newsPool', 'rumorPool', 'careerMsgs', 'objectives', 'aiJobs', 'persRoles', 'bgOpts', 'lookOpts', 'persStyles', 'npcs', 'hunters'].map(t => `| ${t} | ${T(t).length} | ${Object.keys(DB[t] || {}).slice(-1)[0] || '—'} |`).join('\n')}\n`);
 /* K-Hunter-Life 새 테이블 (판단 엔진 · 이야기 창 · 감정 · 멈춤) */
 out.push(table('의미 태그 (TAG_) — 선택지 tags 에 쓴다 (판단 엔진)', T('mindTags'), [['ID', r => r.id], ['이름', r => r.name], ['재료(가중치)', r => Object.entries(r.w).map(([k, v]) => k + ' ' + v).join(', ')]]));
 out.push(table('옛 위기 style → 태그', T('styleTags'), [['style', r => r.id], ['태그', r => r.tags.join(' ')]]));

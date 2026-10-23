@@ -5,7 +5,7 @@
    EVT   이벤트 선택지를 직접 고르거나(멈춤) 판단 엔진에 맡긴다(자동 결정). 결과 · 이유를 이야기 창에 남긴다.
    ========================================================= */
 const STORY = (() => {
-  const KEEP = 900, listeners = [];
+  const listeners = [];
   const lvMax = () => ({ summary: 1, normal: 2, detail: 3 })[(G && G.prefs && G.prefs.play && G.prefs.play.detail) || 'detail'] || 3;
   /* 조사 맞추기: 이(가) · 은(는) · 을(를) · 와(과) · (으)로 · (이)다 · 아(야) → 앞 글자 받침으로 */
   const JONG_DIGIT = { 0: 1, 1: 1, 3: 1, 6: 1, 7: 1, 8: 1 };
@@ -20,8 +20,8 @@ const STORY = (() => {
   }
   function add(k, s, lv = 2, extra) {
     if (!G || !s) return null; s = josa(s);
-    const L = G.story || (G.story = []), it = Object.assign({ t: nowAbs(), k, s: String(s), lv }, extra || {});
-    L.push(it); if (L.length > KEEP) L.splice(0, L.length - KEEP);
+    const it = Object.assign({ t: nowAbs(), k, s: String(s), lv }, extra || {});
+    LIFE_LOG.add(it);
     if (['event', 'choice', 'raid', 'mile', 'small', 'meet', 'react', 'pers'].includes(k) && lv <= 2) { G.storyMark = (G.storyMark || 0) + 1; }
     listeners.forEach(f => { try { f(it); } catch (e) { } });
     return it;
@@ -145,7 +145,7 @@ const STORY = (() => {
   function dayEnd(day) {
     const t0 = day * 1440, t1 = t0 + 1440, L = (G.timeLog || []).filter(x => x.t >= t0 && x.t < t1), by = {};
     L.forEach(x => { const a = DB.actions[x.act]; if (!a) return; by[a.cat] = (by[a.cat] || 0) + x.dur; });
-    const raids = (G.story || []).filter(x => x.k === 'raid' && x.t >= t0 && x.t < t1 && x.ok != null), big = (G.story || []).filter(x => x.t >= t0 && x.t < t1 && ['event', 'choice', 'mile'].includes(x.k));
+    const dayStories=LIFE_LOG.dayRows(day),raids = dayStories.filter(x => x.k === 'raid' && x.ok != null), big = dayStories.filter(x => ['event', 'choice', 'mile'].includes(x.k));
     const parts = []; if (raids.length) parts.push(`게이트 ${raids.length}곳 (${raids.filter(x => x.ok).length} 클리어)`);
     if (by.ACC_TRAIN >= 60) parts.push(`훈련 ${Math.round(by.ACC_TRAIN / 60)}시간`); if (by.ACC_WORK >= 60) parts.push(`일 ${Math.round(by.ACC_WORK / 60)}시간`); if (by.ACC_SOCIAL >= 60) parts.push(`사람 만남 ${Math.round(by.ACC_SOCIAL / 60)}시간`);
     const m0 = G._dayMoney ?? G.money, dm = G.money - m0; if (Math.abs(dm) >= 10000) parts.push(`돈 ${dm > 0 ? '+' : '−'}${Math.abs(Math.round(dm / 10000))}만 원`);
@@ -195,6 +195,7 @@ const EVT = (() => {
   }
   /* 이 이벤트에서 멈출까 (설정 › 멈춤) */
   function stopWanted(ev) {
+    if(choicePrefs().delegate)return false;
     const P = play(); if (P.autoDecide === false) return true;
     const mode = P.stop || 'big'; if (mode === 'none') return false;
     const k = kindOf(ev), K = DB.stopKinds[k], on = (P.kinds || {})[k] ?? K?.dflt ?? true;
@@ -210,7 +211,7 @@ const EVT = (() => {
   /* 결과 적용 (직접 · 자동 공통). how: 'me' | 'auto' */
   function resolve(x, idx, how, reason) {
     const ev = x.ev, c = ev.choices[idx]; if (!c) return null;
-    const { ok, line } = judge(c), f = applyFx(ok ? c.okFx : c.ngFx, x.tgt || undefined), res = ok ? c.ok : c.ng;
+    const judgement = judge(c), { ok, line } = judgement, f = applyFx(ok ? c.okFx : c.ngFx, x.tgt || undefined), res = ok ? c.ok : c.ng;
     if (x.type === 'alert') { x.m.unread = false; x.m.resolved = `${line}<b>${esc(c.t)}</b><div style="margin-top:4px">${esc(res || '')}</div>${fxChips(f)}`; x.m.how = how; }
     else { x.th.msgs.push({ from: 'ME', t: c.t, tm: hhmm(G.time) }); x.th.msgs.push({ sys: `${line}${esc(res || '')}${fxChips(f)}` }); x.th.event.resolved = true; x.th.unread = 0; }
     const nm = MIND.callName(), sj = tpl(ev.subj || '', x.tgt, null);
@@ -219,7 +220,7 @@ const EVT = (() => {
     const tags = MIND.tagsOf(c); if (x.tgt) MIND.note(x.tgt, tags.some(t => ['TAG_KIND', 'TAG_SOCIAL', 'TAG_TEAM', 'TAG_LOVE'].includes(t)) ? 1 : tags.some(t => ['TAG_SELFISH', 'TAG_AVOID'].includes(t)) ? -1 : 0, ev.id);
     if (tags.includes('TAG_KIND')) MIND.drift('kindChoice', 0.5); else if (tags.includes('TAG_SELFISH')) MIND.drift('selfChoice', 0.5);
     TELLER.note(2, true);
-    return { ok, f };
+    return { ok, f, judgement, text:res?STORY.fill(tpl(res,x.tgt,null)):'', choice:c.t };
   }
   /* 판단 엔진에 맡기기 */
   function auto(x) {
@@ -230,7 +231,8 @@ const EVT = (() => {
   /* 새 이벤트가 생겼을 때 (실시간 재생 중) → 멈춤 문구 또는 null */
   function arrived() {
     const L = pending(); if (!L.length) return null; const x = L[0];
-    if (!x._told) { x._told = true; const T = texts(x); STORY.add('event', `${x.ev.ch === 'alert' ? '[알림]' : '[메시지 · ' + nameOf(x.tgt) + ']'} ${T.subj}${T.body ? ' — ' + T.body.slice(0, 90) : ''}`, 1, { ev: x.ev.id }); }
+    const message = x.type === 'alert' ? x.m : x.th.event;
+    if (!message._told) { message._told = true; const T = texts(x); STORY.add('event', `${x.ev.ch === 'alert' ? '[소식]' : '[대화 · ' + nameOf(x.tgt) + ']'} ${T.subj}${T.body ? ' — ' + T.body.slice(0, 90) : ''}`, 1, { ev: x.ev.id }); }
     if (stopWanted(x.ev)) { G.pendingPick = true; return `${DB.stopKinds[kindOf(x.ev)]?.name || '사건'} — <b>${esc(texts(x).subj)}</b>`; }
     auto(x); return null;
   }

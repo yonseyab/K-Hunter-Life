@@ -57,7 +57,7 @@ const LIFE = (() => {
     M.push(m); STORY.add('mile', `— ${T.name} — ${text}`, 1, { ms: id }); TELLER.note(3, true);
     pushHistory(T.name, text.slice(0, 60));
     const mode = G.prefs?.play?.stop || 'big', on = EVT.stopKindOn('SK_MILESTONE');
-    if (on && (T.big || mode === 'each')) { (G.retroQ = G.retroQ || []).push(M.length - 1); if (!G.retroOpen) G.retroOpen = { i: M.length - 1, id }; }
+    if (!choicePrefs().delegate && on && (T.big || mode === 'each')) { (G.retroQ = G.retroQ || []).push(M.length - 1); if (!G.retroOpen) G.retroOpen = { i: M.length - 1, id }; }
   }
   function note(i, line) {
     const m = (G.milestones || [])[i]; if (m) { m.note = String(line || '').slice(0, 120) || null; if (m.note) STORY.add('mile', `${MIND.callName()}의 한 줄 — "${m.note}"`, 1); }
@@ -66,7 +66,7 @@ const LIFE = (() => {
 
   /* 한 번 스친 사람(아는 헌터)은 오래 엮이지 않으면 잊는다 — 관계 · 아는 것 · 기억 목록이 끝없이 쌓이지 않게 (QA 1년: 관계 1천 명) */
   function tidyRelations() {
-    const t = nowAbs(), keep = new Set([...(G.party?.members || []), ...(G.team?.members || []), homeOf().partner].filter(Boolean)), recent = new Set((G.mem || []).filter(m => t - m.t < 60 * 1440).map(m => m.who));
+    const t = nowAbs(), keep = new Set([...(G.party?.members || []), ...(G.team?.members || []), ...(G.prefs?.play?.homePeople || []), homeOf().partner].filter(Boolean)), recent = new Set((G.mem || []).filter(m => t - m.t < 60 * 1440).map(m => m.who));
     const before = G.relations.length;
     G.relations = G.relations.filter(r => { if (r.rel !== 'REL_ACQ' || keep.has(r.id) || recent.has(r.id) || DB.relStatus[r.status]?.romance || r.status === 'RS_EX') return true; ensureRel(r); return (r.to?.RD_CLOSE || 0) >= 20 || (r.to?.RD_RIVAL || 0) >= 30 || (r.to?.RD_GRUDGE || 0) >= 30; });
     const live = new Set(G.relations.map(r => r.id)); if (G.know) Object.keys(G.know).forEach(id => { if (!live.has(id) && !DB.hunters[id]) delete G.know[id]; });
@@ -190,6 +190,7 @@ const LEGACY = (() => {
     if (oldG.dead && oldG.dead.kind !== 'retire') { (oldG.ai = oldG.ai || {})[prevId] = Object.assign({}, oldG.ai?.[prevId] || {}, { dead: true }); }
     WORLD_KEYS.forEach(k => { if (oldG[k] !== undefined) nG[k] = oldG[k]; });
     nG.startDay = nG.day; nG.lastDay = nG.day; nG.legacyOf = (oldG.legacyOf || []).concat([{ id: prevId, name: oldG.player.name, end: oldG.dead?.kind || null }]);
+    nG.player.awakenedDate=LIFE.dateStr(nG.day).replaceAll('.','-');nG.player.awakened=nG.player.awakenedDate.slice(0,7);
     Object.values(nG.genGates || {}).forEach(g => DB.gates[g.id] = g);
     const rel = REL_OF[relKind]; if (rel) { const r = { id: prevId, rel: relKind === 'fam' ? 'REL_OBRO' : rel, close: 55, trust: 60, note: `전 주인공 · ${REL_NAME[relKind]}` }; nG.relations.push(r); ensureRel(r); }
     SIM.adopt && SIM.adopt(nG.created);

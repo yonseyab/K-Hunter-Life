@@ -1,5 +1,7 @@
 # K-Hunter-Life — 작업 안내 (Claude용)
 
+> **최신 인계 (2026-10-23): 먼저 [Codex → Claude 작업 인계](docs/CODEX_TO_CLAUDE_2026-10-23.md)를 읽어.** 아래의 초기 “새 버전을 한 번에 만들기”는 이미 진행된 작업 안내야. 현재 로컬 파일에서 이어가며, 최신 인계와 사용자 정정이 초기 설계보다 우선해. 이 인계만으로 새 기능 구현이나 전체 재생성을 시작하지 마.
+
 **K-Hunter-Life**는 헌터 라이프(Hunter Life)의 새 버전이야. 옛 저장소 [yonseyab/Hunter-Life](https://github.com/yonseyab/Hunter-Life)에서 엔진과 일부 데이터만 가져와 새로 만들어.
 
 **새 채팅을 시작하면 먼저 [docs/REBUILD_PLAN.md](docs/REBUILD_PLAN.md)와 [docs/STYLE_CHECKLIST.md](docs/STYLE_CHECKLIST.md)를 끝까지 읽어.** 2026-10-23에 사용자와 정한 설계 · 세계 설정(2026년 현재, 1999년 첫 게이트, 각성 0.5% · 활동 0.2%) · 콘텐츠 스타일과 만드는 순서가 거기 있어.

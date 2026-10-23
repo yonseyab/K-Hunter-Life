@@ -1,6 +1,6 @@
 # ID 참조 (자동 생성)
 
-> `node tools/gen_id_reference.js` 로 만든 문서입니다. 손으로 고치지 마세요. 생성 시각: 2026-10-23 07:53
+> `node tools/gen_id_reference.js` 로 만든 문서입니다. 손으로 고치지 마세요. 생성 시각: 2026-10-23 11:04
 > 외주 데이터에서 **다른 데이터를 가리킬 때는 이 문서에 있는 ID만** 쓰세요. 없는 ID를 쓰면 검증에서 걸립니다.
 
 ## 등급 (RANK_)
@@ -877,7 +877,7 @@ A = 각성자 전용(30) · B = 공통(40) · C = 비각성자 전용(20). 플�
 | SC_CUP | CUP_AA AA컵 · CUP_A A컵 · CUP_B B컵 · CUP_C C컵 · CUP_D D컵 · CUP_E E컵 · CUP_F F컵 · CUP_G G컵 · CUP_H H컵 · CUP_I I컵 이상 |
 | SC_HIP_SHAPE | HP_1 둥근형 · HP_2 하트형 · HP_3 사각형 · HP_4 역삼각형 · HP_5 납작한 형 |
 | SC_MOOD | MD_01 차가운 · MD_02 따뜻한 · MD_03 날카로운 · MD_04 순한 · MD_05 강인한 · MD_06 나른한 · MD_07 지적인 · MD_08 거친 · MD_09 귀여운 · MD_10 우아한 · MD_11 수수한 · MD_12 화려한 · LO_LA0089 청초한 · LO_LA0090 단정한 · LO_LA0091 도회적인 · LO_LA0092 몽환적인 · LO_LA0093 이국적인 · LO_LA0094 중성적인 · LO_LA0095 고풍스러운 · LO_LA0096 장난기 어린 · LO_LA0097 무심한 · LO_LA0098 서늘한 · LO_LA0099 해사한 · LO_LA0100 듬직한 · LO_LA0101 야성적인 · LO_LA0102 퇴폐적인 · LO_LA0103 신비로운 · LO_LA0104 친근한 · LO_LA0105 다부진 · LO_LA0106 말끔한 · LO_LA0107 쓸쓸한 · LO_LA0108 생기 넘치는 · LO_LB0089 정갈한 · LO_LB0090 소탈한 · LO_LB0091 엄숙한 · LO_LB0092 당찬 · LO_LB0093 사색적인 · LO_LB0094 여유로운 · LO_LB0095 담백한 · LO_LB0096 수줍은 · LO_LB0097 활달한 · LO_LB0098 반듯한 · LO_LB0099 날렵한 · LO_LB0100 호방한 · LO_LB0101 섬세한 · LO_LB0102 의젓한 · LO_LB0103 냉담한 · LO_LB0104 온화한 · LO_LB0105 고요한 · LO_LB0106 앙칼진 · LO_LB0107 능청스러운 · LO_LB0108 아련한 |
-| SC_OUTFIT | OF_01 캐주얼 · OF_02 스트릿 · OF_03 포멀 · OF_04 스포티 · OF_05 아웃도어 · OF_06 테크웨어 · OF_07 빈티지 · OF_08 미니멀 · OF_09 화려함 · OF_10 전투복 위주 · LO_LA0109 타이트하고 몸매가 드러나는… · LO_LA0110 품이 넉넉하고 몸의 선을 … · LO_LA0111 허리선이 또렷하고 비율이 … · LO_LA0112 어깨와 상체가 넓어 보이는… · LO_LA0113 피부를 많이 드러내지 않고… · LO_LA0114 목선이나 팔다리가 시원하게… · LO_LA0115 무채색과 장식 없는 디자인… · LO_LA0116 선명한 색을 대담하게 대비… · LO_LA0117 옅고 부드러운 색감의 포근… · LO_LA0118 매끈하고 은은한 광택이 도… · LO_LA0119 자연스러운 구김과 부드러운… · LO_LA0120 거칠고 두툼한 소재로 강인… · LO_LA0121 작은 장식과 섬세한 디테일… · LO_LA0122 몸의 움직임에 따라 유려하… · LO_LA0123 눈에 띄는 장식과 과감한 … · LO_LA0124 유행보다 오래된 디자인과 … · LO_LA0125 전통적인 선과 문양을 현대… · LO_LA0126 비대칭적인 선과 독특한 비… · LO_LA0127 몸에 가볍게 붙고 움직임을… · LO_LA0128 주머니와 여밈이 많아 도구… · LO_LA0129 날씨와 주변 환경에 맞춰 … · LO_LA0130 먼지나 얼룩이 묻어도 부담… · LO_LA0131 활동복과 일상복의 구분이 … · LO_LA0132 보호 장비와 단단한 소재가… · LO_LA0133 몸을 넉넉히 감싸면서 필요… · LO_LB0109 허리에 살짝 여유를 두고 … · LO_LB0110 상체는 짧고 하체는 넉넉하… · LO_LB0111 어깨선을 낮추고 소매를 길… · LO_LB0112 몸을 조이지 않는 직선적인… · LO_LB0113 둥근 어깨선과 부드럽게 부… · LO_LB0114 촘촘한 짜임과 묵직한 질감… · LO_LB0115 가늘고 잔잔한 줄무늬가 들… · LO_LB0116 광택 없는 짙은 색의 매끈… · LO_LB0117 성긴 직조와 마른 촉감이 … · LO_LB0118 서로 비슷한 색을 농도만 … · LO_LB0119 작은 꽃무늬나 점무늬가 촘… · LO_LB0120 탄탄한 능직과 뚜렷한 봉제… · LO_LB0121 깃과 소맷단의 색이 본판과… · LO_LB0122 주름을 촘촘히 잡아 움직일… · LO_LB0123 여밈을 겉으로 감추고 표면… · LO_LB0124 굵은 단추와 두꺼운 스티치… · LO_LB0125 목 주변을 높게 감싸고 장… · LO_LB0126 목깃을 넓게 열고 손목이 … · LO_LB0127 허리와 소매를 끈으로 조여… · LO_LB0128 보호대를 덧대기 쉽도록 관… · LO_LB0129 겉감과 안감의 질감이 다른… · LO_LB0130 몸 가까이 붙는 얇은 안옷… · LO_LB0131 물건을 넣어도 처지지 않는… · LO_LB0132 목과 손목의 여밈을 단단히… · LO_LB0133 소맷단과 밑단을 접어 길이… |
+| SC_OUTFIT | OF_01 캐주얼한 옷차림 선호 · OF_02 자유로운 스트리트 스타일 … · OF_03 격식 있는 옷차림 선호 · OF_04 스포티한 옷차림 선호 · OF_05 야외 활동에 편한 옷 선호 · OF_06 기능적인 도시 패션 선호 · OF_07 빈티지한 옷차림 선호 · OF_08 장식 없이 간결한 옷 선호 · OF_09 화려한 옷차림 선호 · OF_10 평소에도 전투복 선호 · LO_LA0109 몸의 선이 드러나는 옷 선… · LO_LA0110 품이 넉넉한 옷 선호 · LO_LA0111 허리선이 강조되는 옷 선호 · LO_LA0112 어깨가 돋보이는 옷 선호 · LO_LA0113 노출이 적고 단정한 옷 선… · LO_LA0114 시원하게 피부를 드러내는 … · LO_LA0115 차분한 무채색 옷 선호 · LO_LA0116 선명한 색을 조합한 옷차림… · LO_LA0117 부드러운 파스텔색 옷 선호 · LO_LA0118 은은한 광택이 있는 옷 선… · LO_LA0119 자연스러운 질감의 옷 선호 · LO_LA0120 거칠고 튼튼한 옷 선호 · LO_LA0121 아기자기한 장식의 옷 선호 · LO_LA0122 우아하게 흐르는 옷 선호 · LO_LA0123 과감한 무늬와 장식 선호 · LO_LA0124 세월의 느낌이 묻어나는 옷… · LO_LA0125 전통 문양을 살린 옷 선호 · LO_LA0126 독특한 형태의 옷 선호 · LO_LA0127 가볍고 움직이기 편한 옷 … · LO_LA0128 수납공간이 많은 옷 선호 · LO_LA0129 날씨에 맞는 기능성 옷 선… · LO_LA0130 세탁과 관리가 쉬운 옷 선… · LO_LA0131 일상에서도 운동복 선호 · LO_LA0132 보호 장비가 드러나는 옷차… · LO_LA0133 편하게 걸쳐 입는 옷 선호 · LO_LB0109 곧게 떨어지는 실루엣 선호 · LO_LB0110 짧은 상의와 넉넉한 하의 … · LO_LB0111 어깨선이 여유로운 옷 선호 · LO_LB0112 길고 여유로운 옷 선호 · LO_LB0113 소매가 풍성한 옷 선호 · LO_LB0114 두툼하고 묵직한 옷 선호 · LO_LB0115 잔잔한 줄무늬 옷 선호 · LO_LB0116 광택 없는 짙은색 옷 선호 · LO_LB0117 가슬가슬하고 쾌적한 옷 선… · LO_LB0118 비슷한 색으로 맞춘 옷차림… · LO_LB0119 작고 섬세한 무늬 선호 · LO_LB0120 탄탄하고 형태가 잡힌 옷 … · LO_LB0121 배색으로 포인트를 주는 옷… · LO_LB0122 주름이 돋보이는 옷 선호 · LO_LB0123 여밈이 드러나지 않는 옷 … · LO_LB0124 작업복처럼 튼튼한 옷 선호 · LO_LB0125 목을 포근하게 감싸는 옷 … · LO_LB0126 목선과 손목이 드러나는 옷… · LO_LB0127 품을 조절할 수 있는 옷 … · LO_LB0128 보호대를 덧입기 편한 옷 … · LO_LB0129 서로 다른 질감을 겹쳐 입… · LO_LB0130 얇은 옷 위에 넉넉한 겉옷… · LO_LB0131 주머니가 불룩하지 않은 옷… · LO_LB0132 목과 손목을 단단히 여미는… · LO_LB0133 소매나 밑단을 접어 입기 … |
 | SC_SKIN_TONE | ST_0001 아주 밝은 쿨톤 · ST_0002 아주 밝은 웜톤 · ST_0003 밝은 쿨톤 · ST_0004 밝은 웜톤 · ST_0005 창백한 · ST_0006 중간 밝은 · ST_0007 중간 · ST_0008 웜 미디엄 · ST_0009 올리브 · ST_0010 누런 기 · ST_0011 탠 · ST_0012 짙은 탠 · ST_0013 갈색 · ST_0014 짙은 갈색 · ST_0015 아주 짙은 · ST_0016 잿빛 (각성 변색) · LO_LA0081 밝은 뉴트럴 · LO_LA0082 밝은 올리브 · LO_LA0083 로지 미디엄 · LO_LA0084 뉴트럴 미디엄 · LO_LA0085 깊은 올리브 · LO_LA0086 붉은 기의 브라운 · LO_LA0087 깊은 쿨 브라운 · LO_LA0088 짙은 뉴트럴 브라운 · LO_LB0081 밝은 로지 베이지 · LO_LB0082 밝은 골든 베이지 · LO_LB0083 중간 피치 베이지 · LO_LB0084 중간 회갈색 · LO_LB0085 골든 브론즈 · LO_LB0086 붉은 밤갈색 · LO_LB0087 깊은 골든 브라운 · LO_LB0088 짙은 에보니 브라운 |
 | SC_HAIR_COLOR | HC_0001 흑발 · HC_0002 짙은 갈색 · HC_0003 갈색 · HC_0004 밝은 갈색 · HC_0005 적갈색 · HC_0006 회색 · HC_0007 백발 · HC_0008 애쉬 브라운 · HC_0009 밀크 브라운 · HC_0010 금발 · HC_0011 플래티넘 · HC_0012 애쉬 그레이 · HC_0013 실버 · HC_0014 와인 · HC_0015 레드 · HC_0016 오렌지 · HC_0017 핑크 · HC_0018 라벤더 · HC_0019 블루 · HC_0020 네이비 · HC_0021 민트 · HC_0022 그린 · HC_0023 은빛 발광 · HC_0024 청색 발광 · HC_0025 붉은 발광 · LO_LA0061 먹빛 흑갈색 · LO_LA0062 밤색 · LO_LA0063 호두색 · LO_LA0064 구릿빛 갈색 · LO_LA0065 모래빛 금갈색 · LO_LA0066 짙은 회갈색 · LO_LA0067 흑백 섞인 회색 · LO_LA0068 초코 브라운 · LO_LA0069 매트 브라운 · LO_LA0070 카키 브라운 · LO_LA0071 애쉬 베이지 · LO_LA0072 로즈 브라운 · LO_LA0073 코랄 브라운 · LO_LA0074 체리 브라운 · LO_LA0075 딥 퍼플 · LO_LA0076 블루 블랙 · LO_LA0077 페일 피치 · LO_LA0078 청회색 변색 · LO_LA0079 진주빛 변색 · LO_LA0080 자회색 변색 · LO_LB0061 흑적갈색 · LO_LB0062 고동빛 흑갈색 · LO_LB0063 햇빛 갈색 · LO_LB0064 회백 섞인 흑발 · LO_LB0065 회빛 금갈색 · LO_LB0066 토프 브라운 · LO_LB0067 얼그레이 브라운 · LO_LB0068 시나몬 브라운 · LO_LB0069 마호가니 · LO_LB0070 체리 블랙 · LO_LB0071 페트롤 블루 · LO_LB0072 스틸 블루 · LO_LB0073 더스티 로즈 · LO_LB0074 모브 베이지 · LO_LB0075 스모키 올리브 · LO_LB0076 펄 베이지 · LO_LB0077 애프리콧 베이지 · LO_LB0078 흑청색 변색 · LO_LB0079 담녹회색 변색 · LO_LB0080 연금회색 변색 |
 | SC_HAIR_STYLE | HR_0001 버즈컷 · HR_0002 크루컷 · HR_0003 투블럭 · HR_0004 댄디컷 · HR_0005 리프컷 · HR_0006 가일컷 · HR_0007 애즈펌 · HR_0008 쉼표머리 · HR_0009 포마드 · HR_0010 슬릭백 · HR_0011 울프컷 · HR_0012 레이어드 장발 · HR_0013 히피펌 · HR_0014 반묶음 · HR_0015 긴 생머리 · HR_0016 묶은 장발 · HR_0017 꽁지머리 · HR_0018 삭발 · HR_0019 모히칸 · HR_0020 드레드 · HR_0021 픽시컷 · HR_0022 숏컷 · HR_0023 숏단발 · HR_0024 보브컷 · HR_0025 단발 · HR_0026 단발 C컬 · HR_0027 중단발 레이어드 · HR_0028 허쉬컷 · HR_0029 울프컷 · HR_0030 긴 생머리 · HR_0031 긴 웨이브 · HR_0032 히메컷 · HR_0033 레이어드 롱 · HR_0034 포니테일 · HR_0035 하이포니테일 · HR_0036 똥머리 · HR_0037 양갈래 · HR_0038 땋은 머리 · HR_0039 반묶음 · HR_0040 삭발 · HR_0041 언더컷 숏 · LO_LA0001 아이비리그컷 · LO_LA0002 드롭컷 · LO_LA0003 파일컷 · LO_LA0004 프렌치 크롭 · LO_LA0005 시저컷 · LO_LA0006 스킨페이드 · LO_LA0007 테이퍼컷 · LO_LA0008 스파이키 숏 · LO_LA0009 숏 리젠트 · LO_LA0010 가르마 댄디컷 · LO_LA0011 시스루 댄디컷 · LO_LA0012 볼륨펌 숏 · LO_LA0013 스핀스왈로펌 · LO_LA0014 가르마펌 · LO_LA0015 쉐도우펌 · LO_LA0016 세미 리프펌 · LO_LA0017 장발 가르마 · LO_LA0018 어깨선 웨이브 · LO_LA0019 장발 슬릭백 · LO_LA0020 장발 허쉬펌 · LO_LA0021 맨번 · LO_LA0022 언더컷 톱노트 · LO_LA0023 로우 번 장발 · LO_LA0024 낮은 브레이드 · LO_LA0025 콘로우 · LO_LA0026 테이퍼드 픽시 · LO_LA0027 롱뱅 픽시 · LO_LA0028 머쉬룸 숏컷 · LO_LA0029 웨이브 숏컷 · LO_LA0030 슬릭 보브 · LO_LA0031 태슬컷 · LO_LA0032 앞머리 없는 단발 · LO_LA0033 풀뱅 단발 · LO_LA0034 단발 S컬 · LO_LA0035 단발 히피펌 · LO_LA0036 중단발 빌드펌 · LO_LA0037 중단발 쿠션펌 · LO_LA0038 긴머리 허쉬펌 · LO_LA0039 롱 레이어드 C컬 · LO_LA0040 굵은 물결펌 · LO_LA0041 젤리펌 · LO_LA0042 풀뱅 스트레이트 · LO_LA0043 시스루뱅 웨이브 · LO_LA0044 슬릭 로우 포니 · LO_LA0045 버블 포니테일 · LO_LA0046 리본 하프업 · LO_LA0047 양갈래 땋기 · LO_LA0048 피시테일 브레이드 · LO_LA0049 프렌치 트위스트 · LO_LA0050 브레이드 크라운 · LO_LA0051 버섯머리 · LO_LA0052 헝클어진 크롭 · LO_LA0053 비대칭 언더컷 · LO_LA0054 샤기 미디엄 · LO_LA0055 내추럴 곱슬 미디엄 · LO_LA0056 뿌리 볼륨 장발 · LO_LA0057 허리선 스트레이트 · LO_LA0058 집게핀 올림머리 · LO_LA0059 반묶음 브레이드 · LO_LA0060 아프로 · LO_LB0001 플랫톱 · LO_LB0002 하이앤타이트 · LO_LB0003 로우페이드 크롭 · LO_LB0004 미드페이드 퀴프 · LO_LB0005 버스트페이드 · LO_LB0006 사이드파트 숏 · LO_LB0007 텍스처 크루 · LO_LB0008 브러시업 숏 · LO_LB0009 콤오버 숏 · LO_LB0010 댄디 볼륨매직 · LO_LB0011 미디엄 웨트펌 · LO_LB0012 내추럴 퀴프 · LO_LB0013 리프 볼륨매직 · LO_LB0014 쉼표 가르마펌 · LO_LB0015 미디엄 슬릭파트 · LO_LB0016 컬리 프린지 · LO_LB0017 미디엄 샤기펌 · LO_LB0018 쇄골선 스트레이트 · LO_LB0019 가슴선 레이어드 · LO_LB0020 장발 내추럴 컬 · LO_LB0021 장발 센터파트 · LO_LB0022 언더컷 로우포니 · LO_LB0023 장발 젖은 웨이브 · LO_LB0024 장발 트위스트 · LO_LB0025 사이드 브레이드 장발 · LO_LB0026 마이크로 픽시 · LO_LB0027 사이드뱅 픽시 · LO_LB0028 볼륨 픽시펌 · LO_LB0029 이어라인 숏컷 · LO_LB0030 비대칭 보브 · LO_LB0031 턱선 블런트컷 · LO_LB0032 턱선 에어펌 · LO_LB0033 슬릭 턱선단발 · LO_LB0034 쇄골선 블런트컷 · LO_LB0035 중단발 허쉬레이어 · LO_LB0036 중단발 물결펌 · LO_LB0037 중단발 아웃컬 · LO_LB0038 중단발 스트레이트 · LO_LB0039 중단발 발롱펌 · LO_LB0040 중단발 사이드뱅 · LO_LB0041 쇄골선 레이어드펌 · LO_LB0042 롱 허쉬레이어 · LO_LB0043 롱 바디펌 · LO_LB0044 롱 루즈컬 · LO_LB0045 롱 페이스레이어 · LO_LB0046 롱 아웃컬 · LO_LB0047 롱 레인펌 · LO_LB0048 트위스트 하프업 · LO_LB0049 사이드 로우포니 · LO_LB0050 더블 로우번 · LO_LB0051 모던 멀릿 · LO_LB0052 소프트 모히칸 · LO_LB0053 센터파트 곱슬 · LO_LB0054 비대칭 미디엄 · LO_LB0055 귀밑 스트레이트 · LO_LB0056 장발 땋은 반묶음 · LO_LB0057 잔컬 레이어드 · LO_LB0058 낮은 매듭머리 · LO_LB0059 로프 브레이드 · LO_LB0060 트위스트 번 |
@@ -1008,30 +1008,47 @@ A = 각성자 전용(30) · B = 공통(40) · C = 비각성자 전용(20). 플�
 | CC_SPECIAL | 특수 |
 | CC_CRAFT | 생산 |
 
-## 성격 요약 세부 항목 (PF_)
+## 성격 요약 역할 (PXR_)
 
-| ID | 이름 | 축 |
-|---|---|---|
-| PF_TALK | 대화할 때 | PX_EXTRO PX_EXPRESS PX_COMPET |
-| PF_FRIEND | 친구 관계 | PX_EXTRO PX_SELF PX_DEPEND |
-| PF_LOVE | 연애할 때 | PX_EXPRESS PX_DEPEND PX_SELF |
-| PF_MONEY | 돈 쓰는 법 | PX_ADVEN PX_PRAG PX_PESSI |
-| PF_WORK | 일할 때 | PX_COMPET PX_PRAG PX_DEPEND |
-| PF_DECIDE | 결정을 내릴 때 | PX_DEPEND PX_ADVEN PX_PESSI |
-| PF_ANGER | 화가 날 때 | PX_EXPRESS PX_EXTRO PX_COMPET |
-| PF_REST | 쉬는 날 | PX_EXTRO PX_ADVEN PX_SELF |
-| PF_CRISIS | 위기 앞에서 | PX_PESSI PX_ADVEN PX_SELF |
-| PF_TEAM | 파티 · 팀 안에서 | PX_COMPET PX_SELF PX_DEPEND |
-| PF_RULE | 규칙 앞에서 | PX_PRAG PX_COMPET PX_ADVEN |
-| PF_FUTURE | 앞날을 볼 때 | PX_PESSI PX_ADVEN PX_PRAG |
-| PF_STRONG | 장점 | PX_PRAG PX_SELF PX_PESSI |
-| PF_WEAK | 약점 | PX_ADVEN PX_DEPEND PX_EXPRESS |
-| PF_PB01 | 처음 만난 사람에게 | PX_EXTRO PX_PRAG PX_EXPRESS |
-| PF_PB02 | 가족에게 | PX_SELF PX_DEPEND PX_PRAG |
-| PF_PB03 | 칭찬을 들으면 | PX_EXPRESS PX_SELF PX_PESSI |
-| PF_PB04 | 실패했을 때 | PX_PESSI PX_COMPET PX_DEPEND |
-| PF_PB05 | 혼자일 때 | PX_EXTRO PX_ADVEN PX_EXPRESS |
-| PF_PB06 | 게이트 앞에서 | PX_ADVEN PX_COMPET PX_DEPEND |
+| ID | 이름 | 축 | 방향 |
+|---|---|---|---|
+| PXR_0001 | 지원가 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | a a a a |
+| PXR_0002 | 동행자 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | a a a b |
+| PXR_0003 | 수호자 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | a a b a |
+| PXR_0004 | 헌신가 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | a a b b |
+| PXR_0005 | 관찰자 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | a b a a |
+| PXR_0006 | 협력자 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | a b a b |
+| PXR_0007 | 전략가 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | a b b a |
+| PXR_0008 | 승부사 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | a b b b |
+| PXR_0009 | 조력자 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | b a a a |
+| PXR_0010 | 중재자 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | b a a b |
+| PXR_0011 | 선도자 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | b a b a |
+| PXR_0012 | 격려자 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | b a b b |
+| PXR_0013 | 교섭가 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | b b a a |
+| PXR_0014 | 사교가 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | b b a b |
+| PXR_0015 | 개척자 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | b b b a |
+| PXR_0016 | 도전자 | PX_EXTRO PX_SELF PX_COMPET PX_DEPEND | b b b b |
+
+## 성격 요약 수식어 (PXS_)
+
+| ID | 이름 | 축 | 방향 |
+|---|---|---|---|
+| PXS_0001 | 온화한 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | a a a a |
+| PXS_0002 | 다정한 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | a a a b |
+| PXS_0003 | 신중한 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | a a b a |
+| PXS_0004 | 진중한 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | a a b b |
+| PXS_0005 | 용감한 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | a b a a |
+| PXS_0006 | 열정적인 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | a b a b |
+| PXS_0007 | 의연한 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | a b b a |
+| PXS_0008 | 비장한 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | a b b b |
+| PXS_0009 | 유연한 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | b a a a |
+| PXS_0010 | 느긋한 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | b a a b |
+| PXS_0011 | 치밀한 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | b a b a |
+| PXS_0012 | 빈틈없는 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | b a b b |
+| PXS_0013 | 낙천적인 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | b b a a |
+| PXS_0014 | 활달한 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | b b a b |
+| PXS_0015 | 대담한 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | b b b a |
+| PXS_0016 | 강단 있는 | PX_PRAG PX_ADVEN PX_PESSI PX_EXPRESS | b b b b |
 
 ## 지금 쓰인 ID 범위 (새 ID 는 겹치지 않게 — 외주는 배치 코드를 붙인다)
 
@@ -1051,11 +1068,10 @@ A = 각성자 전용(30) · B = 공통(40) · C = 비각성자 전용(20). 플�
 | careerMsgs | 6 | CM_B_SLUMP |
 | objectives | 8 | OBJ_B_RAID |
 | aiJobs | 6 | JOB_B_FACTORY |
-| persExtra | 128 | PXE_PB0128 |
+| persRoles | 16 | PXR_0016 |
 | bgOpts | 632 | BO_BB0200 |
 | lookOpts | 445 | LO_LB0133 |
-| persCombos | 224 | PXC_PB112 |
-| persNeutral | 13 | PXN_PB10 |
+| persStyles | 16 | PXS_0016 |
 | npcs | 4 | NP_B0004 |
 | hunters | 15 | HN_B0015 |
 

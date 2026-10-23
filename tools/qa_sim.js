@@ -22,14 +22,14 @@ await p.evaluate(()=>{window.QA={
   bad(t){const o=[];for(const [r,n] of [[/undefined/,'undefined'],[/\bNaN\b/,'NaN'],[/\[object Object\]/,'[object Object]'],[/\{[a-zA-Z.]+\}/,'치환 안 된 {x}'],[/\bnull\b/,'null'],[/Infinity/,'Infinity'],[/[가-힣]\((이|은|을|와|으)\)|이\(가\)|은\(는\)|을\(를\)/,'조사 표시 남음']]){const m=t.match(r);if(m)o.push(n+': …'+t.slice(Math.max(0,m.index-30),m.index+30).replace(/\s+/g,' ')+'…')}return o},
   inv(){const o=[],c=G.cond,pl=G.player;if(!Number.isFinite(G.money))o.push('money '+G.money);for(const k of ['energy','hp','stress'])if(!Number.isFinite(c[k])||c[k]<-0.001)o.push('cond.'+k+' '+c[k]);
     if(c.energy>energyMax()+0.01)o.push('energy>max');if(c.stress>100.01)o.push('stress>100');if(!Number.isFinite(G.time)||G.time<0||G.time>=1440)o.push('time '+G.time);
-    if(G.alerts.length>DB.balance.BAL_ALERT.keep+30)o.push('alerts '+G.alerts.length);if((G.story||[]).length>1000)o.push('story '+G.story.length);if((G.news||[]).length>500)o.push('news '+G.news.length);
+    if(G.alerts.length>DB.balance.BAL_ALERT.keep+30)o.push('alerts '+G.alerts.length);if((G.story||[]).some(x=>LIFE_LOG.monthOf(x)!==LIFE_LOG.monthOfDay(G.day)))o.push('story has another month');if((G.news||[]).length>500)o.push('news '+G.news.length);
     if(Object.keys(G.genGates||{}).length>1500)o.push('genGates '+Object.keys(G.genGates).length);if((G.emoLog||[]).length>2200)o.push('emoLog '+G.emoLog.length);if((G.chron||[]).length>4100)o.push('chron');
     for(const [k,v] of Object.entries(G.emo?.v||{}))if(!(v>=0&&v<=100))o.push('emo '+k+' '+v);
     for(const [k,v] of Object.entries(G.bio?.pers||{}))if(!(v>=1&&v<=10))o.push('pers '+k+' '+v);
     (invOf()||[]).forEach(r=>{if(!DB.items[r.item])o.push('없는 아이템 '+r.item);if(!(r.qty>0))o.push('수량 '+r.item)});return o},
   pick(){/* 멈추면 사용자처럼 무작위로 직접 고른다 */let n=0;if(G.retroOpen){LIFE.note(G.retroOpen.i,Math.random()<.5?'QA 한 줄':'');n++}
     for(const x of EVT.pending()){const ok=x.ev.choices.map((c,i)=>i).filter(i=>EVT.okChoice(x.ev.choices[i],x.tgt));if(Math.random()<.5)EVT.resolve(x,ok[Math.floor(Math.random()*ok.length)],'me');else EVT.auto(x);n++}
-    if(UI.raid&&!UI.raid.done){const R=UI.raid;clearInterval(UI._rt);let k=0;while(!R.done&&!G.dead&&k++<3000){if(R.crisis){const C=DB.crises[R.crisis.id];resolveCrisis(Math.floor(Math.random()*C.choices.length))}else{R.paused=false;raidTick()}}clearInterval(UI._rt);UI.screen='life';n++}
+    if(UI.raid&&!UI.raid.done){let k=0;while(UI.raid&&!UI.raid.done&&!G.dead&&k++<100){if(UI.raid.crisis)PLAY.chooseCrisis();else PLAY.stepSync(1)}n++}
     G.pendingPick=false;return n},
   screens(){const out=[],S=[...NAV.flatMap(g=>g[1].map(x=>x[0])),'schedule','news'];for(const s of S){try{UI.screen=s;const t0=performance.now();render();const ms=performance.now()-t0;if(ms>500)out.push('느린 화면 '+s+' '+Math.round(ms)+'ms');QA.bad($('#main')?.innerText||'').forEach(x=>out.push(s+' · '+x));
       for(const sel of ['[data-settingstab]','[data-sttab]','[data-rtab]','[data-guildtab]','[data-dbtab]','[data-gtab]','[data-kdetail]']){const n=document.querySelectorAll(sel).length;for(let i=0;i<n&&i<8;i++){const el=document.querySelectorAll(sel)[i];if(!el)break;el.click();QA.bad($('#main')?.innerText||'').forEach(x=>out.push(s+' '+sel+'#'+i+' · '+x))}}}catch(e){out.push(s+' 렌더 오류 '+e.message)}}UI.screen='life';render();return out}};});

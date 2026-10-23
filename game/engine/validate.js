@@ -105,7 +105,6 @@ const RULES = [
     ...(it.slot && (typeof it.req !== 'object' || it.req === null) ? ['착용 장비는 req 필요 (조건이 없으면 {})'] : []), ...Object.keys(it.req || {}).filter(k => k !== 'lv' && !DB.baseStats[k]).map(k => 'req 에 쓸 수 없는 키 ' + k)]],
   ['sysShop', (x) => (!(x.coin >= 1) ? ['coin(코인 가격) 필요'] : [])],
   ['skills', (k) => [...(!['class', 'common'].includes(k.scope) ? ['scope 는 class · common'] : []), ...(!['액티브', '패시브'].includes(k.kind) ? ['kind 는 액티브 · 패시브'] : [])]],
-  ['persExtra', (x, DB) => [...(!DB.ccPersonality[x.axis] ? ['axis 없음'] : []), ...(!['a', 'b'].includes(x.pole) ? ['pole 은 a · b'] : []), ...(!['strong', 'mid'].includes(x.bucket) ? ['bucket 은 strong · mid'] : [])]],
   ['hearTexts', (h) => [...(!['npcInjured', 'npcRaidWin', 'npcRankUp', 'npcDied', 'npcAwaken', 'career:promo', 'career:fired', 'career:hired', 'career:grad', 'career:boom', 'career:slump', 'guildSign', 'guildLeave'].includes(h.on) ? ['on 값이 잘못됨: ' + h.on] : []), ...(!h.text || !h.text.includes('{a}') ? ['text 에 {a} 필요'] : [])]],
   ['gateInteriors', (g) => (!g.name ? ['name 필요'] : [])],
   ['gatePlacePool', (p, DB) => [...(!DB.regions[p.region] ? [`region ${p.region} 없음`] : []), ...(!(p.n > 0) ? ['n 없음'] : []), ...(!/^pool\/pl_[A-Z]+\.js$/.test(p.file || '') ? ['file 은 pool/pl_<시도>.js'] : [])]],

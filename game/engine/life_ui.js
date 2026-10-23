@@ -10,12 +10,13 @@ const LIFEUI = (() => {
   const fmtT = t => { const d = dateOf(Math.floor(t / 1440)); return { d: `${d.m}/${d.d}`, t: hhmm(t % 1440) }; };
   const KIND_LABEL = { act: '', move: '', small: '', meet: '', react: '', raid: '공략', event: '사건', choice: '선택', emo: '감정', pers: '성격', day: '', news: '소식', mile: '고비', sys: '', up: '성장', decide: '', prologue: '', old: '' };
 
-  function enter() { prefs(); bind(); if (!G.story || !G.story.length) { STORY.prologue(); LIFE.watch(); STORY.dayStart(); } PLAY.S.speed = PP().speed || 1; }
+  function enter() { prefs(); bind(); LIFE_LOG.rotate();HISTORY_UI.sync();PLAY.restoreRaid(); if ((!G.story || !G.story.length)&&!LIFE_LOG.index().length) { STORY.prologue(); LIFE.watch(); STORY.dayStart(); } PLAY.S.speed = PP().speed || 1; }
   function bind() {
     if (bound) return; bound = true;
     STORY.on(appendLine); PLAY.onUi(onPlayUi);
     document.addEventListener('click', onClick); document.addEventListener('change', onChange);
     document.addEventListener('keydown', e => { if (UI.mode !== 'app' || !G || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return; if (e.code === 'Space' && UI.screen === 'life') { e.preventDefault(); toggle(); } });
+    document.addEventListener('keydown', e => { const tab = e.target.closest?.('[data-home-tab]'); if (!tab || !['ArrowLeft','ArrowRight','Home','End'].includes(e.key)) return; const tabs = [...tab.parentElement.querySelectorAll('[data-home-tab]')], i = tabs.indexOf(tab), next = e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length-1 : (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length; e.preventDefault(); tabs[next].click(); document.getElementById(tabs[next].id)?.focus(); });
   }
   function toggle() { if (PLAY.S.running) PLAY.pause(); else PLAY.start('run'); }
 
@@ -25,18 +26,22 @@ const LIFEUI = (() => {
     return `<div class="playbar" id="playbar" role="group" aria-label="재생">
       <button class="pbtn main" data-kplay="toggle" aria-label="${S.running ? '일시정지' : '재생'}" title="재생 · 일시정지 (Space)">${S.running ? '⏸' : '▶'}</button>
       ${sp.map(x => `<button class="pbtn ${S.speed === x && S.mode !== 'next' ? 'on' : ''}" data-kspeed="${x}" aria-pressed="${S.speed === x}">×${x}</button>`).join('')}
-      <button class="pbtn ${S.mode === 'next' && S.running ? 'on' : ''}" data-kplay="next" title="다음 사건까지 빠르게">⏭</button>
-      <span class="pstate">${S.running ? (S.mode === 'next' ? '다음 사건까지…' : `재생 중 · 하루 ${Math.round(DB.balance.BAL_PLAY.secPerDay / S.speed)}초`) : S.stop ? '멈춤' : '일시정지'}</span></div>`;
+      <button class="pbtn ${S.mode === 'next' && S.running ? 'on' : ''}" data-kplay="next" title="다음 사건까지 빠르게">다음 사건</button>
+      <span class="playrate">하루 = ${+(DB.balance.BAL_PLAY.secPerDay / S.speed).toFixed(1)}초</span><span class="pstate" title="${esc(S.stop || '')}">${S.running ? (S.mode === 'next' ? '다음 사건까지' : '재생 중') : S.stop ? '멈춤' : '일시정지'}</span></div>`;
   }
   function onPlayUi(S) {
     if (!G || UI.mode !== 'app') return;
     if (G.dead) { render(); return; }
     if (UI.screen === 'raid') { render(); return; }
     const pb = document.getElementById('playbar'); if (pb) pb.outerHTML = controls();
-    const dt = dateOf(G.day), cd = document.getElementById('clockD'); if (cd) cd.innerHTML = `${dt.y}년 ${dt.m}월 ${dt.d}일 (${dt.w}) <span class="num">${hhmm(G.time)}</span>`;
-    const cs = document.getElementById('clockS'); if (cs) cs.textContent = nowDoing();
-    if (UI.screen === 'life') { const sd = document.getElementById('lifeSide'); if (sd) sd.innerHTML = sideHTML(); const pe = document.getElementById('lifePend'); if (pe) pe.innerHTML = pendHTML(); const ib = document.getElementById('lifeBar'); if (ib) ib.innerHTML = barHTML(); }
-    const eg = document.querySelector('.egauge'); if (eg && !S.running) { /* 멈췄을 때만 전체 상단 갱신 */ renderTop(); }
+    const dt = dateOf(G.day), cd = document.getElementById('clockD'); if (cd) cd.textContent = `${dt.y}년 ${dt.m}월 ${dt.d}일 (${dt.w})`;
+    const ct = document.getElementById('clockTime'); if (ct) ct.textContent = hhmm(G.time);
+    const ca = document.getElementById('clockAge'); if (ca) ca.textContent = `${G.player.age || 25}세`;
+    const elapsed=document.getElementById('awakeningElapsed');if(elapsed){const info=awakeningElapsed();elapsed.textContent=info.text;elapsed.title=info.title;}
+    if (UI.screen === 'life') { const sd = document.getElementById('lifeSide'); if (sd && !sd.contains(document.activeElement)) sd.innerHTML = sideHTML(); const ws = document.getElementById('lifeWidgets'); if (ws && !ws.contains(document.activeElement)) ws.innerHTML = widgetsHTML(); alignPanels(); }
+    refreshMonth();
+    if (UI.screen === 'homeHunter' && selectedTab('hunter') === 'status') HUNTER_STATUS.refresh();
+    syncPopup();
   }
   function nowDoing() {
     if (raidActive()) return '게이트 안'; const b = blockAt(nowAbs()); const a = b && DB.actions[b.act];
@@ -51,12 +56,24 @@ const LIFEUI = (() => {
   function appendLine(it) {
     if (UI.mode !== 'app' || UI.screen !== 'life' || !STORY.visible(it)) return;
     const box = document.getElementById('story'); if (!box) return;
+    if(refreshMonth())return;
+    if(LIFE_LOG.monthOf(it)!==LIFE_LOG.monthOfDay(G.day))return;
     const near = box.scrollHeight - box.scrollTop - box.clientHeight < 80;
     box.insertAdjacentHTML('beforeend', lineHTML(it));
     while (box.children.length > 500) box.firstElementChild.remove();
     if (near) box.scrollTop = box.scrollHeight;
   }
-  function after() { if (UI.screen === 'life') { const box = document.getElementById('story'); if (box) box.scrollTop = box.scrollHeight; } }
+  let statusObserver = null;
+  function refreshMonth(){
+    const box=document.getElementById('story');if(!box)return false;
+    LIFE_LOG.rotate();const month=LIFE_LOG.monthOfDay(G.day),label=document.getElementById('lifeMonthLabel');
+    if(label){const dt=dateOf(G.day);label.textContent=`${dt.y}년 ${dt.m}월`;}
+    const open=document.querySelector('[data-history-current]');if(open)open.dataset.historyOpen=month;
+    if(box.dataset.month===month)return false;
+    box.dataset.month=month;box.innerHTML=(G.story||[]).filter(STORY.visible).slice(-300).map(lineHTML).join('');box.scrollTop=box.scrollHeight;return true;
+  }
+  function alignPanels() { const home = document.querySelector('.life'), status = document.getElementById('lifeSide'); if (home && status) home.style.setProperty('--home-status-height', status.getBoundingClientRect().height + 'px'); }
+  function after() { if (UI.screen === 'life') { const box = document.getElementById('story'); if (box) box.scrollTop = box.scrollHeight; alignPanels(); statusObserver?.disconnect(); const status = document.getElementById('lifeSide'); if (status && typeof ResizeObserver !== 'undefined') { statusObserver = new ResizeObserver(alignPanels); statusObserver.observe(status); } } else statusObserver?.disconnect(); HISTORY_UI.sync();syncPopup(); }
 
   /* ---------- 오른쪽 상태 ---------- */
   function company() {
@@ -66,50 +83,135 @@ const LIFEUI = (() => {
     return out.join(', ') || '혼자';
   }
   function sideHTML() {
-    const p = G.player, c = G.cond, em = EMO.cur(), E = DB.emotions[em], S = SELF.get(), pl = PLAY.st();
-    const row = (k, v, cls) => `<div class="srow"><span>${k}</span><b class="${cls || ''}">${v}</b></div>`;
-    return `<div class="sname">${esc(p.name)} <span class="dim">${p.age ? p.age + '세' : ''}</span></div>
-      <div class="ssub">${rkBadge(p.rank)} Lv.${p.level} · ${esc(DB.classes[p.cls]?.name || '클래스 미확인')} · ${esc(guildName(p.guild))}</div>
-      ${row('HP', Math.round(c.hp ?? 100), (c.hp ?? 100) < 40 ? 'bad' : '')}${row('기력', `${Math.round(c.energy)} / ${energyMax()}`, c.energy < 25 ? 'bad' : c.energy < 50 ? 'warn' : '')}${row('스트레스', Math.round(c.stress), c.stress >= 70 ? 'bad' : '')}${row('돈', won(G.money), G.money < 0 ? 'bad' : '')}
-      <div class="srow"><span>감정</span><b><i class="emodot" style="background:${E?.color || '#888'}"></i>${E?.name || '평온'}</b></div>
-      ${row('지금', esc(nowDoing()))}${row('같이', esc(company()))}
-      ${row('오늘 게이트', (pl.day === G.day ? pl.raids : 0) + '곳')}
-      ${(G.injuries || []).length ? row('부상', esc(G.injuries.map(injTxt).slice(0, 2).join(', ')), 'warn') : ''}
-      <details class="sself"><summary>스스로 보는 나</summary>${['looks', 'skill', 'money', 'belong'].map(k => `<div class="srow"><span>${({ looks: '외모', skill: '실력', money: '돈', belong: '소속감' })[k]}</span><b>${SELF.label(S[k])}</b></div>`).join('')}<div class="dim" style="font-size:11px">사실 · 성격 · 들은 말로 생깁니다.</div></details>`;
+    return statusWindowHTML(G.player, true);
   }
+  const HOME_WIDGETS = ['WG_MONEY','WG_COND','WG_PEOPLE','WG_GOALS','WG_NEWS'];
+  function widgetIds() { const P = PP(); if (!Array.isArray(P.homeWidgets)) P.homeWidgets = ['WG_MONEY','WG_PEOPLE','WG_GOALS']; return P.homeWidgets = [...new Set(P.homeWidgets)].filter(id => HOME_WIDGETS.includes(id)); }
+  function favoriteIds() { return PP().homePeople = [...new Set(Array.isArray(PP().homePeople) ? PP().homePeople : [])].filter(id=>id!==G.player.id&&P(id)).slice(0,10); }
+  const widgetName = id => id === 'WG_PEOPLE' ? '즐겨찾기한 인물' : WIDGETS[id].name;
+  function widgetEditorHTML() {
+    const ids=widgetIds(), people=favoriteIds(), candidates=(G.relations||[]).filter(r=>r.id!==G.player.id&&!people.includes(r.id)&&P(r.id));
+    return HOME_WIDGETS.map(id => `<label class="home-widget-choice"><input type="checkbox" data-life-widget-toggle="${id}" ${ids.includes(id) ? 'checked' : ''}>${esc(widgetName(id))}</label>`).join('') +
+      `<div class="home-people-editor"><span>즐겨찾기한 인물 ${people.length} / 10</span><div class="home-people-picker"><select data-life-person-pick aria-label="즐겨찾기할 인물" ${people.length>=10?'disabled':''}><option value="">인물 선택</option>${candidates.map(r=>`<option value="${esc(r.id)}">${esc(nameOf(r.id))}</option>`).join('')}</select><button class="btn sm" data-life-person-add ${people.length>=10?'disabled':''}>추가</button></div>${people.map(id=>`<div class="home-person-choice"><span>${esc(nameOf(id))}</span><button class="btn sm" data-life-person-remove="${esc(id)}" aria-label="${esc(nameOf(id))} 즐겨찾기 해제">해제</button></div>`).join('')}</div>`;
+  }
+  function moneyHTML() {
+    return `<div class="mini"><div class="num">${won(G.money)}</div>${(G.ledger||[]).filter(l=>Number(l[2])!==0).slice(0,3).map(l=>`<div class="home-money-log" data-home-ledger><span class="home-money-label" title="${esc(l[0]+' · '+l[1])}"><small data-home-ledger-date>${esc(l[0])}</small><span class="muted">${esc(l[1])}</span></span><span class="${l[2]>0?'good':'bad'} num">${l[2]>0?'+':''}${won(l[2])}</span></div>`).join('')}</div>`;
+  }
+  function peopleHTML() {
+    const ids=favoriteIds();
+    return `<div class="mini">${ids.map(id=>{const r=relOf(id);if(r)ensureRel(r);const close=r?.close??0;return `<div class="meter" data-home-person="${esc(id)}" style="margin:0"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(nameOf(id))}">${esc(nameOf(id))}</span>${bar(close)}<span class="num">${close}</span></div>`;}).join('')||'<span class="muted">구성에서 인물을 선택해 줘.</span>'}</div>`;
+  }
+  function widgetsHTML() { return widgetIds().map((id,i,L) => { const W = WIDGETS[id], name=widgetName(id); return `<section class="life-widget" data-life-widget="${id}"><header><button class="home-widget-title" data-go="${id === 'WG_COND' ? 'status' : W.go}">${esc(name)}</button><span><button data-life-widget-move="${id}|-1" aria-label="${esc(name)} 위로" ${i === 0 ? 'disabled' : ''}>↑</button><button data-life-widget-move="${id}|1" aria-label="${esc(name)} 아래로" ${i === L.length-1 ? 'disabled' : ''}>↓</button></span></header><div class="home-widget-body">${id==='WG_MONEY'?moneyHTML():id==='WG_PEOPLE'?peopleHTML():W.r(1,1)}</div></section>`; }).join(''); }
   /* ---------- 답할 사건 · 고비 회고 ---------- */
   function pendHTML() {
+    const R = UI.raid, C = R && !R.done && R.crisis && DB.crises[R.crisis.id];
+    if (C) return `<div class="kcard pend" role="dialog" aria-label="공략의 중요한 선택"><div class="kh">공략 위기 — ${esc(C.title)}</div><div class="kb">${esc(crisisText(C.text))}</div><div class="kch">${C.choices.map((ch,i) => (!ch.req || ch.req.every(q=>checkReq(q))) ? `<button class="choice" data-kcrisis="${i}" ${ch.needParty && R.party.filter(p=>p.hp>0).length<2 ? 'disabled' : ''}><div>${esc(crisisText(ch.t))}</div><div class="ck">${esc(ch.risk || '')} · ${checkText(ch)}</div></button>` : '').join('')}</div><button class="btn" data-kcrisisauto="1">${esc(MIND.callName())}에게 맡기기</button></div>`;
+    if (raidActive()) return '';
     if (G.retroOpen) {
       const m = (G.milestones || [])[G.retroOpen.i]; if (m) {
         const T = DB.milestoneTypes[m.id], days = G.day - (G.startDay ?? G.day);
         return `<div class="kcard retro" role="dialog" aria-label="고비 회고"><div class="kh">고비 — ${esc(T?.name || '')}</div><div class="kb">${esc(m.text)}</div>
           <div class="dim" style="font-size:12px;margin:6px 0">각성 ${days}일째 · ${DB.ranks[G.player.rank].name}급 Lv.${G.player.level} · 공략 ${G.stats?.raids || 0}회 (클리어 ${G.stats?.cleared || 0}) · 기분 ${EMO.name()}</div>
-          <div class="row" style="gap:6px"><input id="retroLine" maxlength="120" placeholder="한 줄 남기기 (선택)" style="flex:1"><button class="btn pri" data-kretro="save">남기고 계속</button><button class="btn" data-kretro="skip">넘어가기</button></div></div>`;
+          <button class="btn" data-kretro="skip">계속</button></div>`;
       }
     }
-    const L = EVT.pending(); if (!L.length) return '';
+    const L = EVT.pending().filter(x=>EVT.stopWanted(x.ev)); if (!L.length) {
+      const offers = (G.offers || []).filter(o=>o.exp>nowAbs()), o = offers[0];
+      if (!o) return '';
+      return `<div class="kcard pend" role="dialog" aria-label="길드 계약 선택"><div class="kh">${esc(guildName(o.gid))} — 계약 제안</div><div class="kb">배분율 ${o.share}% · 남은 답변 시간 ${durTxt(o.exp-nowAbs())}</div><div class="row"><button class="btn pri" data-life-offer="0|ok">수락</button><button class="btn" data-life-offer="0|no">거절</button>${!o.neg?'<button class="btn" data-life-offer="0|neg">조건 협상</button>':''}</div></div>`;
+    }
     const x = L[0], ev = x.ev, T = EVT.texts(x), subj = T.subj, body = T.body;
     const from = ev.ch === 'alert' ? (DB.senders[ev.from]?.name || nameOf(ev.from) || '') : nameOf(x.tgt);
     return `<div class="kcard pend" role="dialog" aria-label="답할 사건"><div class="kh">${ev.ch === 'alert' ? '알림' : '메시지'} · ${esc(from)} — ${esc(subj)} ${L.length > 1 ? `<span class="dim">외 ${L.length - 1}건</span>` : ''}</div><div class="kb">${esc(body)}</div>
       <div class="kch">${ev.choices.map((c, i) => EVT.okChoice(c, x.tgt) ? `<button class="choice" data-kpick="${i}"><div>${esc(c.t)}</div><div class="ck">${checkText(c)}</div></button>` : '').join('')}</div>
       <div class="row" style="gap:6px;margin-top:6px"><button class="btn" data-kauto="1" title="성격 · 감정 · 상태로 판단 엔진이 고릅니다">${esc(MIND.callName())}에게 맡기기</button><span class="dim" style="font-size:11px">${DB.stopKinds[EVT.kindOf(ev)]?.name || ''} 사건 · 멈춤은 설정에서</span></div></div>`;
   }
-  function barHTML() {
-    const n = EVT.pending().length, man = ROUTINE.state().mode === 'manual';
-    return `<button class="btn ${n ? 'pri' : ''}" data-kgo="pend" ${n ? '' : 'disabled'}>선택지 직접 고르기${n ? ` (${n})` : ''}</button>
-      <button class="btn" data-go="schedule">오늘 일정 바꾸기</button><button class="btn" data-go="gates">공략 직접 하기</button>
-      <button class="btn" data-kset="판단 · 방침">방침 바꾸기</button><button class="btn" data-go="home">관리 화면</button>
-      <button class="btn ${man ? 'club' : ''}" data-kplay="resume" title="일정 · 결정을 다시 캐릭터에게 맡깁니다">${man ? '다시 맡기기 (일정 수동 중)' : '다시 맡기기'}</button>`;
+  /* 선택은 문서 흐름 바깥의 모달에 표시한다. 판정은 엔진에서 한 번만 실행하고 실제 d20 결과를 보여 준다. */
+  let popupGame=null, popupBusy=false, popupMarkup='', diceTimer=null, diceFinish=null, diceReveal=null, delegating=false;
+  function resetPopup() { clearInterval(diceTimer);clearTimeout(diceFinish);diceTimer=diceFinish=diceReveal=null;popupBusy=false;popupMarkup='';const el=document.getElementById('lifeEventModal');el?.close();el?.remove(); }
+  function choiceSettingsHTML() {const P=choicePrefs();return `<div class="choice-settings"><label><input type="checkbox" data-choice-setting="skipDice" ${P.skipDice?'checked':''}> 주사위 애니메이션 항상 스킵 · 바로 결과 보기</label><label><input type="checkbox" data-choice-setting="delegate" ${P.delegate?'checked':''}> 항상 ${esc(MIND.callName())}에게 맡기기</label></div>`;}
+  function popupElement() {
+    let el=document.getElementById('lifeEventModal');if(el)return el;
+    el=document.createElement('dialog');el.id='lifeEventModal';el.setAttribute('aria-label','중요한 선택');
+    el.addEventListener('cancel',e=>e.preventDefault());document.body.appendChild(el);return el;
   }
+  function syncPopup() {
+    if(popupGame!==G){resetPopup();popupGame=G;}
+    if(UI.mode!=='app'){resetPopup();return;}
+    if(popupBusy||delegating)return;
+    if(G&&!G.dead&&choicePrefs().delegate){
+      let changed=false;delegating=true;
+      try {
+        if(UI.raid&&!UI.raid.done&&UI.raid.crisis){PLAY.chooseCrisis();changed=true;}
+        if(!raidActive()){
+          for(const x of EVT.pending().slice(0,20)){EVT.auto(x);changed=true;}
+          G.pendingPick=EVT.pending().length>0;
+          while(G.retroOpen){LIFE.note(G.retroOpen.i,'');changed=true;}
+          const offer=(G.offers||[]).filter(o=>o.exp>nowAbs())[0];
+          if(offer){const options=[{t:'계약 수락',tags:['TAG_TEAM','TAG_MONEY']},{t:'계약 거절',tags:['TAG_SAFE']}],pick=MIND.decide(options,{kind:'event'});replyGuildOffer(0,pick.i===0?'ok':'no');STORY.add('choice',`${MIND.callName()}은(는) '${options[pick.i===0?0:1].t}' 쪽을 고른다.`,1);changed=true;}
+        }
+      } finally {delegating=false;}
+      if(changed){render();return;}
+    }
+    const html=G&&!G.dead?pendHTML():'';
+    if(!html){resetPopup();return;}
+    const el=popupElement();
+    if(html!==popupMarkup){popupMarkup=html;el.innerHTML=STORY.josa(html.replace('role="dialog"','role="group"'));}
+    if(!el.open){el.showModal();el.querySelector('button:not(:disabled)')?.focus();}
+    if(PLAY.S.running)PLAY.pause();
+  }
+  function performChoice(action) {
+    if(popupBusy)return;popupBusy=true;
+    if(PLAY.S.running)PLAY.pause();
+    let result;
+    try {result=action();} catch(e){popupBusy=false;syncPopup();throw e;}
+    const j=result?.judgement;
+    if(!j||j.dice==null){popupBusy=false;render();return;}
+    const el=popupElement();
+    el.innerHTML=`<div class="event-roll"><header>판정 · d20</header><div class="event-roll-choice">${esc(result.choice||'')}</div><div class="event-die rolling" aria-hidden="true">20</div><div class="event-roll-result" role="status" aria-live="polite">주사위를 굴리는 중…</div><div class="event-roll-text"></div><div class="event-roll-actions"><button class="btn" data-life-roll-skip>애니메이션 스킵</button><button class="btn pri" data-life-roll-continue disabled>계속</button></div>${choiceSettingsHTML()}</div>`;
+    if(!el.open)el.showModal();el.querySelector('.event-roll-result').setAttribute('aria-busy','true');
+    // 장식 숫자는 난수를 소비하지 않아 게임 판정에 영향을 주지 않는다.
+    let frame=0;diceTimer=setInterval(()=>{const die=el.querySelector('.event-die');if(die)die.textContent=String((++frame*7)%20+1);},65);
+    diceReveal=()=>{
+      if(!diceReveal)return;diceReveal=null;
+      clearInterval(diceTimer);clearTimeout(diceFinish);diceTimer=diceFinish=null;
+      if(popupGame!==G||!el.isConnected){resetPopup();return;}
+      const die=el.querySelector('.event-die');die.classList.remove('rolling');die.textContent=j.dice;die.classList.add(j.ok?'success':'failure');
+      const line=el.querySelector('.event-roll-result');line.removeAttribute('aria-busy');line.innerHTML=`<b class="${j.ok?'good':'bad'}">${j.ok?'성공':'실패'}</b><div>${esc(j.attr)} ${j.value} + d20 ${j.dice}${j.mods?' '+(j.mods>0?'+':'−')+' '+Math.abs(j.mods)+' 보정':''} = ${j.total} / 난이도 ${j.dc}</div>`;
+      el.querySelector('.event-roll-text').textContent=STORY.josa(result.text||'');
+      const button=el.querySelector('[data-life-roll-continue]');button.disabled=false;button.focus();
+      el.querySelector('[data-life-roll-skip]').hidden=true;
+    };
+    if(choicePrefs().skipDice)diceReveal();else diceFinish=setTimeout(()=>diceReveal?.(),matchMedia('(prefers-reduced-motion: reduce)').matches?100:850);
+  }
+  function barHTML() {
+    return `<button class="btn" data-go="goals">방향 · 목표</button><button class="btn" data-kset="판단 · 방침">방침 바꾸기</button><button class="btn" data-go="shop">아이템 구매</button><button class="btn" data-go="inventory">소지품 · 장비</button>`;
+  }
+  /* 이야기 · 내 헌터 · 거래는 좌측 하위 메뉴도 표시한다. 인생 외 새 탭 내용은 비워 둔다. */
+  const HOME_TABS = {
+    story: {label:'이야기', tabs:[['life','인생'],['goals','목표 설정'],['bio','일대기']]},
+    hunter: {label:'내 헌터', tabs:[['profile','내 정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]},
+    db: {label:'DB', tabs:[['people','인물'],['gates','게이트'],['monsters','몬스터'],['equipment','장비'],['places','장소'],['other','기타'],['classes','클래스'],['skills','스킬']]},
+    trade: {label:'거래', tabs:[['shop','시스템 상점'],['auction','경매장'],['other','기타']]}
+  };
+  function selectedTab(group) { const cfg = HOME_TABS[group], state = UI.homeTabs || (UI.homeTabs = {}); if (!cfg.tabs.some(([id])=>id===state[group])) state[group] = cfg.tabs[0][0]; return state[group]; }
+  function categoryTabsHTML(group) { const cfg = HOME_TABS[group], current = selectedTab(group); return `<div class="home-category-tabs" role="tablist" aria-label="${cfg.label}">${cfg.tabs.map(([id,label])=>`<button type="button" id="home-tab-${group}-${id}" role="tab" data-home-tab="${group}|${id}" aria-selected="${id===current}" aria-controls="home-panel-${group}" tabindex="${id===current?0:-1}">${label}</button>`).join('')}</div>`; }
+  function panelOpen(group) { return `<div id="home-panel-${group}" class="home-category-panel" role="tabpanel" aria-labelledby="home-tab-${group}-${selectedTab(group)}">`; }
+  function emptyCategory(group) { return categoryTabsHTML(group) + panelOpen(group) + '</div>'; }
+  V.homeHunter = () => categoryTabsHTML('hunter') + panelOpen('hunter') + (selectedTab('hunter') === 'status' ? HUNTER_STATUS.html() : '') + '</div>';
+  V.homeDb = () => emptyCategory('db');
+  V.homeTrade = () => emptyCategory('trade');
   /* ---------- 인생 화면 ---------- */
   V.life = () => {
-    const lv = PP().detail || 'detail', L = (G.story || []).filter(STORY.visible).slice(-300);
-    return `<div class="life">
-      <div class="lmain"><div class="h-row" style="margin-bottom:8px"><h1 class="h1">인생</h1><div class="row" style="gap:4px" role="group" aria-label="문장 상세도">${[['summary', '요약'], ['normal', '보통'], ['detail', '자세히']].map(([k, n]) => `<button class="btn sm ${lv === k ? 'pri' : ''}" data-kdetail="${k}" aria-pressed="${lv === k}">${n}</button>`).join('')}</div></div>
-        <div id="story" class="story" role="log" aria-live="polite" aria-label="이야기 창">${L.map(lineHTML).join('')}</div>
-        <div id="lifePend">${pendHTML()}</div>
+    if(selectedTab('story')==='bio')return categoryTabsHTML('story')+panelOpen('story')+HISTORY_UI.homeHTML()+'</div>';
+    if (selectedTab('story') !== 'life') return emptyCategory('story');
+    LIFE_LOG.rotate();
+    const L = (G.story || []).filter(STORY.visible).slice(-300);
+    return categoryTabsHTML('story') + panelOpen('story') + `<div class="life">
+      <div class="lmain"><div class="life-main-tools"><span id="lifeMonthLabel">${dateOf(G.day).y}년 ${dateOf(G.day).m}월</span><button class="btn sm" data-history-current data-history-open="${LIFE_LOG.monthOfDay(G.day)}">이번 달 전체 보기</button></div>
+        <div id="story" class="story" data-month="${LIFE_LOG.monthOfDay(G.day)}" role="log" aria-live="polite" aria-label="이야기 창">${L.map(lineHTML).join('')}</div>
         <div id="lifeBar" class="lbar" role="group" aria-label="끼어들기">${barHTML()}</div></div>
-      <aside class="lside" id="lifeSide" aria-label="상태">${sideHTML()}</aside></div>`;
+      <aside class="life-widgets" aria-label="상태창 및 위젯"><div class="life-widget-tools"><button class="btn sm" data-life-widget-edit aria-expanded="${!!UI.lifeWidgetEdit}">구성</button></div><div id="lifeWidgetEditor" class="home-widget-editor" ${UI.lifeWidgetEdit ? '' : 'hidden'}>${widgetEditorHTML()}</div><section id="lifeSide" aria-label="상태창">${sideHTML()}</section><div id="lifeWidgets">${widgetsHTML()}</div></aside></div></div>`;
   };
   /* ---------- 일대기 ---------- */
   function bioHTML(C, live) {
@@ -130,7 +232,7 @@ const LIFEUI = (() => {
   V.bio = () => { const live = !G.dead, C = live ? LIFE.card(null, null) : (G.bioCard || LIFE.card(G.dead.kind, G.dead.cause)); return `<div class="h-row"><h1 class="h1">일대기${live ? ' · 지금까지' : ''}</h1></div>${bioHTML(C, live)}`; };
   V.gameover = () => {
     const C = G.bioCard || LIFE.card(G.dead.kind, G.dead.cause);
-    return `<div style="max-width:980px;margin:0 auto"><div class="dim" style="letter-spacing:.4em;text-align:center">${G.dead.kind === 'retire' ? 'RETIRED' : 'IN MEMORIAM'}</div>${bioHTML(C, false)}
+    return `<div style="max-width:980px;margin:0 auto"><div class="dim" style="letter-spacing:.4em;text-align:center">${G.dead.kind === 'retire' ? 'RETIRED' : 'IN MEMORIAM'}</div><button class="btn" data-history-open>지난 일생 돌아보기</button>${bioHTML(C, false)}
       ${C.farewell ? '' : `<div class="panel" style="margin-top:12px"><div class="ph">작별 한마디</div><div class="pb row" style="gap:6px"><input id="farewell" maxlength="200" placeholder="${esc(C.name)}에게 남길 말" style="flex:1"><button class="btn pri" data-kfare="1">남기기</button></div></div>`}
       <div class="panel" style="margin-top:12px"><div class="ph">다음</div><div class="pb row" style="gap:8px;flex-wrap:wrap">
         <label class="field">이 헌터와의 관계 <select id="contRel">${Object.entries(LEGACY.REL_NAME).map(([k, n]) => `<option value="${k}" ${k === 'disciple' ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
@@ -172,7 +274,7 @@ const LIFEUI = (() => {
       <div class="field"><label>멈출 종류</label><div class="chips">${vals('stopKinds').map(k => `<label class="chk"><input type="checkbox" data-kkind="${k.id}" ${(P.kinds?.[k.id] ?? k.dflt) ? 'checked' : ''}> ${k.name}${k.big ? ' <span class="dim">(큰 갈림길)</span>' : ''}</label>`).join('')}</div></div>
       <div class="field"><label>자동 결정</label>${sel('play.autoDecide', P.autoDecide !== false, [['true', '켬 — 멈추지 않는 사건은 캐릭터가 고른다'], ['false', '끔 — 모든 선택지에서 멈춘다']])}</div>
       <div class="field"><label>배속 기본값</label>${sel('play.speed', P.speed || 1, DB.balance.BAL_PLAY.speeds.map(x => [x, '×' + x]))}</div>
-      <p class="muted">×1 = 하루 ${DB.balance.BAL_PLAY.secPerDay}초. 게임을 끈 동안에는 시간이 흐르지 않습니다.</p></div>`;
+      <div class="field"><label>선택 · 주사위 설정 · ${esc(MIND.callName())}</label>${choiceSettingsHTML()}</div><p class="muted">×1 = 하루 ${DB.balance.BAL_PLAY.secPerDay}초. 게임을 끈 동안에는 시간이 흐르지 않습니다.</p></div>`;
     else if (tab === '판단 · 방침') body = `<div class="pb grid" style="gap:12px">
       <div class="field"><label>예측 가능성</label>${sel('play.predict', P.predict, [['steady', '거의 성격대로'], ['some', '가끔 의외'], ['often', '자주 의외']])}</div>
       <div class="field"><label>방침 대 성격 <span class="dim">${Math.round((P.policyVsChar ?? 0.4) * 100)}% 방침</span></label><input type="range" min="0" max="1" step="0.1" value="${P.policyVsChar ?? 0.4}" data-kpref="play.policyVsChar" aria-label="방침 대 성격"><div class="dim" style="font-size:11px">0 = 캐릭터 성격대로 · 1 = 정해 둔 방침대로</div></div>
@@ -182,7 +284,7 @@ const LIFEUI = (() => {
       <div class="field"><label>거리</label>${sel('autoRaid.km', A.km, [5, 10, 20, 40].map(k => [k, k + 'km 안']))}</div>
       <div class="field"><label>후퇴 (파티 평균 HP)</label>${sel('autoRaid.retreat', A.retreat, [20, 35, 50, 65].map(k => [k, k + '% 아래']))}</div>
       <div class="field"><label>파티</label>${sel('autoRaid.minParty', A.minParty, [[1, '혼자도 간다'], [2, '2명 이상'], [3, '3명 이상']])}</div>
-      <div class="field"><label>게이트 공략</label>${sel('autoRaid.on', A.on, [['on', '캐릭터가 판단해서 간다'], ['off', '직접만 간다']])}</div>
+      <div class="field"><label>게이트 공략</label>${sel('autoRaid.on', A.on, [['on', '캐릭터가 판단해서 간다'], ['off', '당분간 공략을 쉰다']])}</div>
       <p class="muted">하루 몇 번 같은 고정 제한은 없습니다. 기력 · HP · 감정 · 돈 사정 · 성격으로 그날그날 정합니다.</p></div>`;
     else if (tab === '이야기') body = `<div class="pb grid" style="gap:12px">
       <div class="field"><label>문장 상세도</label>${sel('play.detail', P.detail || 'detail', [['detail', '자세히 — 시간대별 행동 전부'], ['normal', '보통'], ['summary', '요약 — 사건 · 하루 정리만']])}</div>
@@ -228,18 +330,35 @@ const LIFEUI = (() => {
 
   /* ---------- 클릭 · 변경 ---------- */
   async function onClick(e) {
+    if(e.target.closest('[data-life-roll-skip]')){diceReveal?.();return;}
+    if(e.target.closest('[data-life-roll-continue]')) {if(e.target.closest('button').disabled)return;resetPopup();syncPopup();return;}
+    const offer=e.target.closest('[data-life-offer]');if(offer){const [i,k]=offer.dataset.lifeOffer.split('|');performChoice(()=>replyGuildOffer(+i,k));return;}
+    const addPerson=e.target.closest('[data-life-person-add]'), removePerson=e.target.closest('[data-life-person-remove]');
+    if(addPerson||removePerson) {
+      const ids=favoriteIds();
+      if(addPerson&&!addPerson.disabled) {const id=document.querySelector('[data-life-person-pick]')?.value;if(ids.length<10&&id&&id!==G.player.id&&relOf(id)&&P(id)&&!ids.includes(id))PP().homePeople=[...ids,id];}
+      if(removePerson)PP().homePeople=ids.filter(id=>id!==removePerson.dataset.lifePersonRemove);
+      document.getElementById('lifeWidgetEditor').innerHTML=widgetEditorHTML();document.getElementById('lifeWidgets').innerHTML=widgetsHTML();return;
+    }
+    const tab = e.target.closest('[data-home-tab]');
+    if (tab) { const [group,id] = tab.dataset.homeTab.split('|'); if (HOME_TABS[group]?.tabs.some(([key])=>key===id)) { (UI.homeTabs || (UI.homeTabs={}))[group] = id; UI.screen = {story:'life',hunter:'homeHunter',db:'homeDb',trade:'homeTrade'}[group]; const focusId=tab.id; render(); document.getElementById(focusId)?.focus(); } return; }
+    const edit = e.target.closest('[data-life-widget-edit]'), move = e.target.closest('[data-life-widget-move]');
+    if (edit) { UI.lifeWidgetEdit = !UI.lifeWidgetEdit; const editor = document.getElementById('lifeWidgetEditor'); if (editor) editor.hidden = !UI.lifeWidgetEdit; edit.setAttribute('aria-expanded', !!UI.lifeWidgetEdit); return; }
+    if (move && !move.disabled) { const [id,delta] = move.dataset.lifeWidgetMove.split('|'), ids = widgetIds(), i = ids.indexOf(id), j = i + +delta; if (i >= 0 && j >= 0 && j < ids.length) { [ids[i],ids[j]] = [ids[j],ids[i]]; PP().homeWidgets = ids; document.getElementById('lifeWidgets').innerHTML = widgetsHTML(); alignPanels(); } return; }
+    const cr = e.target.closest('[data-kcrisis],[data-kcrisisauto]');
+    if (cr && !cr.disabled) { performChoice(()=>PLAY.chooseCrisis(cr.dataset.kcrisisauto ? null : +cr.dataset.kcrisis)); return; }
     const t = e.target.closest('[data-kplay],[data-kspeed],[data-kdetail],[data-kpick],[data-kauto],[data-kretro],[data-kset],[data-kgo],[data-kgo2],[data-kfare],[data-kcont],[data-karbio],[data-karexp],[data-kardel],[data-karnow],[data-karadd],[data-karrm],[data-ktitle],[data-kswitch]');
     if (!t || t.disabled) return; const d = t.dataset;
     if (d.kplay) { if (d.kplay === 'toggle') toggle(); else if (d.kplay === 'next') PLAY.start('next'); else if (d.kplay === 'resume') { ROUTINE.state().mode = 'auto'; ROUTINE.state().planned = -1; PLAY.st().decided = -1; if (UI.screen !== 'life') { UI.screen = 'life'; render(); } PLAY.start('run'); } return; }
     if (d.kspeed) { PLAY.setSpeed(+d.kspeed); PP().speed = +d.kspeed; if (!PLAY.S.running) PLAY.start('run'); return; }
     if (d.kdetail) { PP().detail = d.kdetail; render(); return; }
     if (d.kpick != null || d.kauto) {
-      const x = EVT.pending()[0]; if (!x) return; if (d.kauto) EVT.auto(x); else EVT.resolve(x, +d.kpick, 'me');
-      G.pendingPick = EVT.pending().some(y => EVT.stopWanted(y.ev)); PLAY.S.stop = null; render(); return;
+      const x = EVT.pending().find(y=>EVT.stopWanted(y.ev)); if (!x) return;
+      performChoice(()=>{const result=d.kauto?EVT.auto(x):EVT.resolve(x,+d.kpick,'me');G.pendingPick=EVT.pending().some(y=>EVT.stopWanted(y.ev));PLAY.S.stop=null;return result;});return;
     }
-    if (d.kretro) { LIFE.note(G.retroOpen?.i, d.kretro === 'save' ? (document.getElementById('retroLine')?.value || '') : ''); render(); return; }
+    if (d.kretro) { LIFE.note(G.retroOpen?.i, ''); render(); return; }
     if (d.kset) { UI.settingsTab = d.kset; UI.screen = 'settings'; render(); return; }
-    if (d.kgo === 'pend') { const el = document.getElementById('lifePend'); if (el) el.scrollIntoView({ block: 'center' }); return; }
+    if (d.kgo === 'pend') { syncPopup(); return; }
     if (d.kgo2) { UI.screen = d.kgo2; render(); return; }
     if (d.kfare) { LIFE.farewell(document.getElementById('farewell')?.value || ''); render(); return; }
     if (d.kcont) { UI.continueFrom = G; UI.continueRel = document.getElementById('contRel')?.value || 'none'; UI.cc = newCC(); UI.mode = 'create'; $('#root').innerHTML = ''; render(); return; }
@@ -258,16 +377,19 @@ const LIFEUI = (() => {
   }
   function onChange(e) {
     const t = e.target; if (!t || !t.dataset) return;
+    if(t.dataset.choiceSetting&&['skipDice','delegate'].includes(t.dataset.choiceSetting)){choicePrefs()[t.dataset.choiceSetting]=t.checked;autoSave();if(t.dataset.choiceSetting==='skipDice'&&t.checked)diceReveal?.();if(!popupBusy)syncPopup();return;}
+    if (t.dataset.lifeWidgetToggle) { const id = t.dataset.lifeWidgetToggle; if (!HOME_WIDGETS.includes(id)) return; const ids = widgetIds(); PP().homeWidgets = t.checked ? [...new Set([...ids,id])] : ids.filter(x => x !== id); document.getElementById('lifeWidgets').innerHTML = widgetsHTML(); alignPanels(); return; }
     if (t.dataset.karimp) { const f = t.files && t.files[0]; if (!f) return; f.text().then(txt => { const r = LEGACY.importJSON(txt); toast(r.error ? r.error : `${esc(r.entry.name)}을(를) 기록관에 넣었습니다.`); render(); }); return; }
     if (t.dataset.kkind) { const P = PP(); P.kinds = P.kinds || {}; P.kinds[t.dataset.kkind] = t.checked; return; }
     if (t.dataset.kpref) {
       const [grp, key] = t.dataset.kpref.split('.'), raw = t.value, v = raw === 'true' ? true : raw === 'false' ? false : (raw !== '' && !isNaN(+raw) ? +raw : raw);
       const o = grp === 'play' ? PP() : prefs()[grp]; o[key] = v; if (grp === 'play' && key === 'speed') PLAY.setSpeed(v);
+      if (grp === 'autoRaid' || grp === 'play' && ['pace','policyVsChar'].includes(key)) OBSERVE.invalidate();
       if (t.type === 'range') render(); else if (grp === 'play' && key === 'detail') render();
     }
   }
   bind();  /* 타이틀 · 커마에서도 data-k* 클릭을 받는다 */
-  return { controls, enter, after, sideHTML, pendHTML, lineHTML, bioHTML, toggle };
+  return { controls, enter, after, sideHTML, pendHTML, lineHTML, bioHTML, toggle, syncPopup };
 })();
 /* 타이틀은 이 파일보다 먼저 한 번 그려졌다 → 덧붙인 메뉴(무작위 시작 · 기록관)가 보이게 다시 그린다 */
 if (typeof UI !== 'undefined' && UI.mode === 'title' && document.getElementById('root')) { cancelAnimationFrame(bgRAF); render(); }

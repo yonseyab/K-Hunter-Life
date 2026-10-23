@@ -3,7 +3,7 @@
    하루 30초(×1). ▶ · 일시정지 · 배속(×1 · ×2 · ×5 · ×20) · 다음 사건까지. 화면 위 시계가 실제로 움직인다.
    매 틱마다 분 단위로 runTime 을 잘게 돌린다 (자정을 넘을 때는 배경 인구 계산을 워커 결과로 받는다).
    하루 일정은 판단 엔진이 정하고(ROUTINE.plan + MIND.wantRaid), 이벤트는 멈춤 설정에 따라 멈추거나 자동 결정한다.
-   공략 위기에서 멈추면 옛 공략 화면으로 넘겨 직접 고르고, 끝나면 다시 맡긴다.
+   중요한 공략 위기는 인생 화면의 선택 카드로 답하고 자동 공략을 이어 간다.
    상태는 화면용(PLAY.S)이고, 저장할 것은 G.play (배속 · 오늘 공략 수 등) 뿐이다.
    ========================================================= */
 const PLAY = (() => {
@@ -13,7 +13,8 @@ const PLAY = (() => {
 
   function minPerTick() { return 1440 / B().secPerDay * S.speed * B().tickMs / 1000; }
   function start(mode) {
-    if (!G || G.dead) return; if (UI.raid && !UI.raid.done) { toast('게이트 공략 화면에서 직접 하는 중입니다. 끝나면 다시 맡길 수 있습니다.'); return; }
+    if (!G || G.dead) return;
+    if (UI.raid && !UI.raid.done) { if (UI.raid.crisis) { S.stop = '공략 위기에서 선택이 필요합니다'; ui(); return; } const r = continueRaid(); if (r?.stop) { S.stop = r.stop; ui(); return; } }
     if (EVT.pending().some(x => EVT.stopWanted(x.ev))) { G.pendingPick = true; S.stop = '답할 사건이 있습니다'; ui(); return; }
     S.mode = mode || 'run'; S.running = true; S.stop = null; G.pendingPick = false; G.retroOpen = null;
     if (S.mode === 'next') { S.nextFrom = nowAbs(); S.nextMark = G.storyMark || 0; }
@@ -26,7 +27,7 @@ const PLAY = (() => {
   /* 한 틱 */
   async function tick() {
     if (S.busy) return; if (!G || UI.mode !== 'app' || G.dead) { pause(); return; }
-    if (UI.raid && !UI.raid.done) { pause(); return; }
+    if (UI.raid && !UI.raid.done && UI.raid.crisis) { pause('공략 위기에서 선택이 필요합니다'); return; }
     S.busy = true;
     try {
       const t0 = performance.now(), mode = S.mode;
@@ -50,6 +51,8 @@ const PLAY = (() => {
   }
   function stepSync(min) {
     ensureTime(); if (G.dead) return '끝';
+    if (UI.raid && !UI.raid.done) return UI.raid.crisis ? '공략 위기에서 선택이 필요합니다' : continueRaid()?.stop || null;
+    OBSERVE.notices();
     const P = st(), B0 = B();
     if (P.day !== G.day) dayChange();
     /* 하루 계획 (planAt 시각이 지나면 한 번) */
@@ -63,7 +66,7 @@ const PLAY = (() => {
     try { r = runTime(null, { until: target, span: true, e0, lines: [], ups: [] }); } finally { UI.playRunning = false; }
     EMO.decay(min); STORY.smallTick(min / 60, false); STORY.flavorTick(min / 60);
     if (G.money < 0 && money0 >= 0) EMO.on('moneyShort');
-    LIFE.watch();
+    LIFE.watch(); OBSERVE.notices();
     if (UI.autoDue && !raidActive()) { UI.autoDue = false; autoSave(); }
     if (G.dead) return '끝';
     if (r && r.stop) return r.stop;
@@ -110,23 +113,48 @@ const PLAY = (() => {
     UI.prep = { gid: g.id, party: mates, retreat: A.retreat || 35 }; UI.playRaid = true;
     startRaid(g.id);
     if (!UI.raid || UI.raid.gid !== g.id || UI.raid.done) { UI.prep = null; UI.playRaid = false; UI.screen = prev; STORY.add('raid', `${g.name}에 도착했지만 게이트는 이미 닫혀 있다.`, 2); P.lastRaidAt = nowAbs(); return null; }
-    clearInterval(UI._rt); const R = UI.raid; R.auto = true; let k = 0;
+    clearInterval(UI._rt); UI.raid.auto = true; UI.screen = prev; UI.prep = null;
+    return continueRaid();
+  }
+  function continueRaid() {
+    const P = st(), R = UI.raid; if (!R || R.done) return null;
+    UI.playRaid = true; R.auto = true; clearInterval(UI._rt); let k = 0;
     while (!R.done && !G.dead && k++ < 6000) {
       if (R.crisis) {
         const C = DB.crises[R.crisis.id];
-        if (crisisStop(R, C)) { /* 직접 고르기: 옛 공략 화면으로 넘긴다 */
-          R.auto = false; UI.prep = null; UI.screen = 'raid'; UI._rt = setInterval(raidTick, 1100); P.lastRaidAt = nowAbs();
-          STORY.add('raid', `위기 — ${C.title}. ${MIND.callName()}이(가) 직접 고른다.`, 1); render(); return { stop: `공략 위기 — <b>${esc(C.title)}</b>` };
+        if (crisisStop(R, C)) {
+          UI.prep = null; UI.screen = 'life'; P.lastRaidAt = nowAbs();
+          P.pendingRaid = R;
+          if (R._shownCrisis !== R.crisis) { R._shownCrisis = R.crisis; STORY.add('raid', `위기 — ${C.title}. 중요한 결정을 앞두고 멈춘다.`, 1); }
+          render(); return { stop: `공략 위기 — ${C.title}` };
         }
         const i = AUTORAID.choose(R, C); resolveCrisis(i);
       } else raidTick();
     }
-    clearInterval(UI._rt); UI.prep = null; UI.playRaid = false; P.raids++; P.lastRaidAt = nowAbs();
-    if (!G.dead) UI.screen = prev === 'raid' || prev === 'raidresult' ? 'life' : prev;
+    if (!R.done && !G.dead) { R.done = true; addLog('e', '공략이 길어져 안전하게 철수한다.'); finishRaid(false); }
+    clearInterval(UI._rt); UI.prep = null; UI.playRaid = false;
+    delete P.pendingRaid;
+    if (!R._counted) { P.raids++; R._counted = true; } P.lastRaidAt = nowAbs();
+    if (!G.dead) UI.screen = 'life';
+    LIFE.watch(); OBSERVE.notices();
     return null;
+  }
+  function chooseCrisis(i) {
+    const R = UI.raid, C = R?.crisis && DB.crises[R.crisis.id]; if (!C || G.dead) return;
+    if (i == null) i = AUTORAID.choose(R, C);
+    const ch = C.choices[i]; if (!ch || ch.needParty && R.party.filter(p => p.hp > 0).length < 2 || ch.req && !ch.req.every(q => checkReq(q))) return;
+    STORY.add('choice', `${MIND.callName()}은(는) '${crisisText(ch.t)}' 쪽을 고른다.`, 1);
+    const choiceText=crisisText(ch.t),okText=crisisText(ch.ok||''),ngText=crisisText(ch.ng||'');
+    UI.playRaid = true; resolveCrisis(i);const judgement=R.lastCheck;
+    if (R.done || G.dead) { if (!R._counted) { st().raids++; R._counted = true; } st().lastRaidAt = nowAbs(); delete st().pendingRaid; UI.playRaid = false; LIFE.watch(); }
+    else { const r = continueRaid(); if (r?.stop) S.stop = r.stop; }
+    S.stop = UI.raid && !UI.raid.done ? '공략 위기에서 선택이 필요합니다' : null;
+    UI.screen = G.dead ? 'gameover' : 'life'; render();
+    return {judgement,choice:choiceText,text:judgement.ok?okText:ngText};
   }
   /* 위기에서 멈출까: '공략 위기' 종류가 켜져 있거나, 죽을 위험(치명적 선택 · HP 낮음)이 켜져 있을 때 */
   function crisisStop(R, C) {
+    if(choicePrefs().delegate)return false;
     if (EVT.stopKindOn('SK_CRISIS')) return true;
     const deadly = C.choices.some(c => c.risk === '치명적') || R.party[0].hp < 35;
     return deadly && EVT.stopKindOn('SK_DEATH') && (G.prefs?.play?.stop || 'big') !== 'none';
@@ -142,6 +170,15 @@ const PLAY = (() => {
   }
   /* 실시간 재생 중 이벤트가 생기면 runTime 이 부른다 → 멈춤 문구 또는 null */
   function onEvent() { return EVT.arrived(); }
+  function restoreRaid() {
+    S.running = false; clearInterval(S.timer); S.timer = null; S.stop = null;
+    clearInterval(UI._rt); UI._rt = null;
+    const R = st().pendingRaid;
+    UI.raid = R && !R.done && !G.dead ? R : null;
+    UI.playRaid = !!UI.raid;
+    if (UI.raid) { UI.raid.auto = true; G.inGate = R.gid; S.stop = '공략 위기에서 선택이 필요합니다'; }
+    else if (G.inGate) G.inGate = null;
+  }
 
   /* 화면 갱신 (전체를 다시 그리지 않는다) */
   let uiHook = null; const onUi = f => uiHook = f;
@@ -149,5 +186,5 @@ const PLAY = (() => {
 
   /* 테스트 · QA: n분 동기 진행 (워커 대기 없이) */
   function runSync(totalMin, chunk = 60) { let left = totalMin, out = null; while (left > 0 && !G.dead) { const m = Math.min(chunk, left); out = stepSync(m); left -= m; if (out) break; } return out; }
-  return { raid: runRaid, S, start, pause, setSpeed, isRunning, tick, step, stepSync, runSync, onEvent, afterRaid, onUi, ui, st, planDay, maybeRaid, pickGate };
+  return { raid: runRaid, chooseCrisis, restoreRaid, S, start, pause, setSpeed, isRunning, tick, step, stepSync, runSync, onEvent, afterRaid, onUi, ui, st, planDay, maybeRaid, pickGate };
 })();

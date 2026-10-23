@@ -33,7 +33,7 @@ const AUTORAID = (() => {
   function choose(R, C) {
     if (typeof MIND !== 'undefined') {
       const g = DB.gates[R.gid], alive = R.party.filter(p => p.hp > 0).length, hp = R.party[0].hp, low = hp < P().retreat + B().lowHpMargin;
-      const opts = C.choices.map(ch => ch.needParty && alive < 2 ? Object.assign({}, ch, { _off: true }) : ch);
+      const opts = C.choices.map(ch => ch.needParty && alive < 2 || ch.req && !ch.req.every(q => checkReq(q)) ? Object.assign({}, ch, { _off: true }) : ch);
       const d = MIND.decide(opts, { gate: g, kind: 'crisis', extra: ch => low && ['escape', 'safe'].includes(inferStyle(ch)) ? 0.6 : 0 });
       if (d.i >= 0) { const nm = MIND.callName(); R.log.push([R.t, 'w', `${d.reason ? d.reason + ' ' : ''}${nm}은(는) '${typeof crisisText === 'function' && UI.raid === R ? crisisText(C.choices[d.i].t) : C.choices[d.i].t}' 쪽을 고른다.`]); return d.i; }
     }

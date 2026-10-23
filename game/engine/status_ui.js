@@ -1,16 +1,19 @@
 /* 상태창의 표시만 담당한다. 성장·등급·공개·은퇴 규칙은 기존 함수를 사용한다. */
 const swBar=(cur,max,color)=>`<div class="stw-bar"><i style="width:${clamp(max?cur/max*100:0)}%;background:${color}"></i></div>`;
-function statusWindowHTML(h){
+function statusWindowHTML(h,home=false,options={}){
   const cls=DB.classes[h.cls],vt=vitals(h),c=G.cond,need=expNeed(h.level),ex=Math.min(h.exp||0,need);
   const cell=(key,value)=>`<div class="sw2-c"><div class="k">${key}</div><div class="v">${value}</div></div>`;
   const meter=(key,value,max,color)=>`<div class="sw2-c"><div class="k">${key}</div><div class="sw2-m"><b class="num">${value.toLocaleString()}</b><span class="num"> / ${max.toLocaleString()}</span></div>${swBar(value,max,color)}</div>`;
-  return `<div class="sw2" role="region" aria-label="상태창">
-    <div class="sw2-h"><span>STATUS</span><span style="letter-spacing:normal" aria-label="보유 코인" data-status-coin="${G.coin??0}">코인 ${coinTxt(G.coin??0)}</span></div>
+  const inside=raidActive();
+  return `<div class="sw2${home?' home-status':''}${inside?' in-gate':''}" role="region" aria-label="상태창">
+    <div class="sw2-h"><span class="sw2-title" title="${inside?esc(DB.gates[UI.raid.gid]?.name||''):''}">STATUS${inside?' — 게이트 안 · 외부 연락 및 다른 행동 불가':''}</span><span style="letter-spacing:normal" aria-label="보유 코인" data-status-coin="${G.coin??0}">코인 ${coinTxt(G.coin??0)}</span></div>
     <div class="sw2-g r1" style="grid-template-columns:1.4fr .7fr 1.2fr .9fr">${cell('이름',esc(h.name))}${cell('레벨',`Lv.${h.level}`)}${cell('클래스',cls?esc(cls.name):'—')}${cell('등급',`${rkBadge(h.rank)} ${DB.ranks[h.rank].name}급`)}</div>
     <div class="sw2-g r2" style="grid-template-columns:repeat(3,minmax(0,1fr))">${meter('HP',Math.round(vt.hp*(c.hp??100)/100),vt.hp,'#5cc48a')}${meter('MP',Math.round(vt.mp*(c.mp??100)/100),vt.mp,'#4fa8e0')}${meter('EXP',ex,need,'#e0a341')}</div>
-    <div class="sw2-sec"><span>기본 스탯</span>${h.statPts?`<button class="btn sm" data-sttab="성장">분배할 포인트 ${h.statPts}</button>`:''}</div>
+    <div class="sw2-sec"><span>기본 스탯</span>${h.statPts?`<button class="btn sm" ${options.hunter?'data-hstatus-scroll="allocation"':'data-sttab="성장"'}>분배할 포인트 ${h.statPts}</button>`:''}</div>
     <div class="sw2-g r3" style="grid-template-columns:repeat(4,minmax(0,1fr))">${vals('baseStats').map(st=>`<div class="sw2-c sw2-st" title="${esc(st.desc)}"><div class="k">${st.name}</div><div class="v num">${h.stats[st.id]}</div></div>`).join('')}</div>
-    <div class="row" style="padding:10px;gap:8px;flex-wrap:wrap"><button class="btn sm" data-sttab="스킬">클래스 · 스킬 ${h.skills.length}개</button><button class="btn sm" data-statusdetail="injuries">부상 ${(G.injuries||[]).length}곳</button>${h.level%DB.balance.BAL_GROWTH.wallEvery===0?'<span class="chip w">성장의 벽</span>':''}</div>
+    <div class="sw2-summary" data-status-skills><span class="k">스킬</span><span>${[...new Set((h.skills||[]).map(([id])=>DB.skills[id]?.name||'알 수 없는 스킬'))].map(esc).join(' · ')||'없음'}</span></div>
+    <div class="sw2-summary" data-status-traits><span class="k">특성</span><span>${(h.traits||[]).map(id=>esc(DB.traits[id]?.name||'알 수 없는 특성')).join(' · ')||'없음'}</span></div>
+    <div class="row${home?' home-status-footer':''}" style="padding:10px;gap:8px;flex-wrap:wrap"><button class="btn sm" data-statusdetail="injuries">부상 ${(G.injuries||[]).length}곳</button>${h.level%DB.balance.BAL_GROWTH.wallEvery===0?'<span class="chip w">성장의 벽</span>':''}${home?`<span class="home-status-location" data-life-location>${esc(placeName(locOf()))}</span>`:''}</div>
   </div>`;
 }
 function growthStatusHTML(){

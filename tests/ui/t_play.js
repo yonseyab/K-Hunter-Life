@@ -12,9 +12,9 @@ ok(rnd.screen==='life'&&rnd.pro.length>=3&&rnd.cls,'무작위 시작 · 시작 �
 await p.evaluate(async()=>{await packsLoad();gameFromScenario('SC_BDEMO');enterGame();await poolPrefetch()});
 /* 첫 화면 = 인생: 이야기 창 · 상태 · 끼어들기 · 재생 막대 */
 ok(await p.locator('#story').count()===1,'이야기 창');ok(await p.locator('#lifeSide').count()===1,'오른쪽 상태');
-ok(await p.locator('#lifeBar button').count()>=6,'끼어들기 버튼');ok(await p.locator('#playbar [data-kspeed]').count()===4,'배속 4개');
+ok(await p.locator('#lifeBar button').count()===4,'방향 · 구매 · 장비 버튼');ok(await p.locator('#playbar [data-kspeed]').count()===4,'배속 4개');
 ok(await p.locator('[data-advance="next"]').count()===0,"옛 '계속' 버튼 없음");
-const nav=await p.locator('#nav .grp').allInnerTexts();ok(JSON.stringify(nav)===JSON.stringify(['이야기','내 헌터','세계','관리']),'메뉴 네 묶음 '+nav);
+const nav=await p.locator('#nav [data-go]').evaluateAll(L=>L.map(x=>x.dataset.go));ok(JSON.stringify(nav)===JSON.stringify(['life','homeHunter','homeDb','homeTrade']),'좌측 대분류 네 개 '+nav);
 /* 실시간: ▶ 누르면 시계가 움직이고, 문장은 붙기만 한다 */
 const t0=await p.evaluate(()=>nowAbs());
 await p.evaluate(()=>{prefs().play.stop='none';prefs().autoRaid.on='off';DB.balance.BAL_TIME.eventPerHour=0});
@@ -35,8 +35,8 @@ ok(await p.evaluate(()=>STORY.josa('가윤이(가) 집(으)로 간다. 지석은
 /* 이벤트: 멈춤 설정 '사건마다' → 멈추고 카드가 뜬다 → 직접 고르면 이야기 창에 결과 */
 const ev=await p.evaluate(()=>{EVT.pending().forEach(x=>EVT.auto(x));prefs().play.stop='each';G.eventLog={};triggerEvent('EV_B0004','10:00');const s=EVT.arrived();return {s:!!s,pend:EVT.pending().length,top:EVT.pending()[0]?.ev.id}});
 ok(ev.s&&ev.pend===1&&ev.top==='EV_B0004','사건마다 멈춤 '+JSON.stringify(ev));
-await p.evaluate(()=>render());ok(await p.locator('#lifePend [data-kpick]').count()>=2,'선택지 카드');
-await p.click('#lifePend [data-kpick="2"]');
+await p.evaluate(()=>render());ok(await p.locator('#lifeEventModal [data-kpick]').count()>=2,'선택지 팝업');
+await p.click('#lifeEventModal [data-kpick="2"]');
 const after=await p.evaluate(()=>({pend:EVT.pending().length,last:G.story.filter(x=>x.k==='choice').slice(-1)[0]?.s||''}));
 ok(after.pend===0&&/지금 있는 걸로 버틴다/.test(after.last),'직접 고른 결과가 이야기 창에 '+after.last);
 /* 자동 결정: '안 멈춤' → 판단 엔진이 고르고 이유 문장 */
@@ -47,10 +47,10 @@ const big=await p.evaluate(()=>{prefs().play.stop='big';return [EVT.stopWanted({
 ok(big[0]===true&&big[1]===false,'큰 갈림길만 '+big);
 /* 자동 결정 끄기 → 전부 멈춤 */
 ok(await p.evaluate(()=>{prefs().play.autoDecide=false;const r=EVT.stopWanted({kind:'SK_MONEY',choices:[]});prefs().play.autoDecide=true;return r}),'자동 결정 끔 → 멈춤');
-/* 고비 회고: 큰 고비에서 멈추고, 한 줄 남기기 */
+/* 고비 회고: 기록은 유지하되 한 줄 입력 없이 계속 */
 await p.evaluate(()=>{prefs().play.stop='big';LIFE.milestone('MS_LOVE',{who:'오세린'});render()});
-ok(await p.locator('.kcard.retro').count()===1,'회고 카드');await p.fill('#retroLine','처음으로 설렜다');await p.click('[data-kretro="save"]');
-const ms=await p.evaluate(()=>({note:G.milestones.slice(-1)[0].note,open:G.retroOpen}));ok(ms.note==='처음으로 설렜다'&&!ms.open,'한 줄 저장 '+JSON.stringify(ms));
+ok(await p.locator('.kcard.retro').count()===1,'회고 카드');ok(await p.locator('#retroLine,[data-kretro="save"]').count()===0,'한 줄 입력 제거');await p.click('[data-kretro="skip"]');
+const ms=await p.evaluate(()=>({note:G.milestones.slice(-1)[0].note,open:G.retroOpen}));ok(!ms.note&&!ms.open,'회고 닫기 '+JSON.stringify(ms));
 /* 하루 진행(동기): 하루 계획 · 하루 마무리 · 일대기 기록 */
 const day=await p.evaluate(()=>{prefs().play.stop='none';G.pendingPick=false;EVT.pending().forEach(x=>EVT.auto(x));const d0=G.day;PLAY.runSync(1440*2,60);return {d:G.day-d0,ends:G.story.filter(x=>x.dayEnd!=null).length,chron:(G.chron||[]).length,plan:G.story.some(x=>/오늘 할 일/.test(x.s))}});
 ok(day.d>=2&&day.ends>=1&&day.chron>=1&&day.plan,'하루 계획 · 마무리 '+JSON.stringify(day));
@@ -61,9 +61,9 @@ ok(emo.c0==='EM_JOY'&&emo.c1==='EM_CALM','감정 가라앉음 '+JSON.stringify(e
 const hand=await p.evaluate(async()=>{prefs().play.kinds.SK_CRISIS=true;prefs().play.stop='each';G.cond.hp=100;G.cond.energy=100;G.injuries=[];G.time=600;
   const g=vals('gates').find(x=>gateSt(x.id).status==='open'&&!gateFit(G.player,x))||spawnGate(Math.random,G.player.region);gateSt(g.id).status='open';DB.balance.BAL_GATE.crisisPerTick=1;
   const r=PLAY.raid(g,AUTORAID.party(g));const R=UI.raid,h={stop:!!(r&&r.stop),screen:UI.screen,crisis:!!R.crisis,auto:R.auto};
-  clearInterval(UI._rt);DB.balance.BAL_GATE.crisisPerTick=0.06;let k=0;while(!R.done&&!G.dead&&k++<3000){if(R.crisis)resolveCrisis(R.crisis?DB.crises[R.crisis.id].choices.findIndex(c=>!c.check):0);else{R.paused=false;raidTick()}}clearInterval(UI._rt);
+  clearInterval(UI._rt);DB.balance.BAL_GATE.crisisPerTick=0.06;let k=0;while(!R.done&&!G.dead&&k++<3000){if(R.crisis)PLAY.chooseCrisis();else PLAY.stepSync(1)}clearInterval(UI._rt);
   h.narr=G.story.filter(x=>x.k==='raid'&&x.ok!=null).length;h.done=R.done;return h});
-ok(hand.stop&&hand.screen==='raid'&&hand.crisis&&hand.auto===false,'위기 직접 고르기로 넘김 '+JSON.stringify(hand));ok(hand.done&&hand.narr>=1,'직접 끝낸 공략도 이야기 창에');
+ok(hand.stop&&hand.screen==='life'&&hand.crisis&&hand.auto===true,'위기 직접 고르기로 넘김 '+JSON.stringify(hand));ok(hand.done&&hand.narr>=1,'직접 끝낸 공략도 이야기 창에');
 await p.evaluate(()=>{prefs().play.kinds.SK_CRISIS=false;prefs().play.stop='none';UI.screen='life';render()});
 /* 400px 폭 가로 스크롤 없음 */
 await p.setViewportSize({width:400,height:800});await p.evaluate(()=>{UI.screen='life';render()});

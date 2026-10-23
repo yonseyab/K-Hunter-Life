@@ -565,24 +565,24 @@ body.no-trig .trig.dev{display:none}
 .lk-item[aria-current="true"]{background:var(--panel2);border-left-color:var(--accent);font-weight:600}
 .lk-item:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .lk-item .k{color:var(--muted)} .lk-item[aria-current="true"] .k{color:var(--fg)}
-.lk-item .v{display:flex;gap:6px;align-items:center;min-width:0}
-.lk-item .tx,.lk-cur .tx{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lk-item .v{display:flex;gap:6px;align-items:flex-start;min-width:0}
+.lk-item .tx,.lk-cur .tx{min-width:0;white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;word-break:keep-all;line-height:1.5}
 .sw{width:12px;height:12px;border-radius:50%;border:1px solid #ffffff40;flex:none}
 .lk-panel{border:1px solid var(--line);border-radius:4px;background:var(--panel);padding:14px;min-width:0}
 .lk-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid var(--line)}
 .lk-head h3{margin:2px 0 0;font-family:var(--f-display);font-weight:400;font-size:20px}
-.lk-cur{display:flex;gap:6px;align-items:center;font-weight:600;min-width:0}
+.lk-cur{display:flex;gap:6px;align-items:flex-start;font-weight:600;min-width:0;max-width:100%}
 .lk-cur .sw{width:16px;height:16px}
 .lk-tools{display:flex;flex-direction:column;gap:8px;margin:12px 0 10px}
 .lk-tools input{background:var(--bg);border:1px solid var(--line2);border-radius:3px;color:var(--fg);padding:7px 9px;font:inherit;width:100%}
-.lk-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:6px;max-height:max(260px,calc(100vh - 520px));overflow-y:auto;padding:2px}
-.lk-tiles.k-swatch{grid-template-columns:repeat(auto-fill,minmax(84px,1fr))}
-.lk-tiles.k-thumb{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}
+.lk-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,104px),1fr));gap:6px;max-height:max(260px,calc(100vh - 520px));overflow-y:auto;padding:2px}
+.lk-tiles.k-swatch{grid-template-columns:repeat(auto-fill,minmax(min(100%,84px),1fr))}
+.lk-tiles.k-thumb{grid-template-columns:repeat(auto-fill,minmax(min(100%,96px),1fr))}
 .lk-tile{all:unset;cursor:pointer;border:1px solid var(--line2);border-radius:4px;background:var(--panel2);padding:8px 6px;font-size:12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
 .lk-tile:hover{border-color:var(--accent)}
 .lk-tile[aria-pressed="true"]{border-color:var(--accent);background:#1c3047;box-shadow:0 0 0 1px var(--accent)}
 .lk-tile:focus-visible{outline:2px solid var(--accent)}
-.lk-tile>span:not(.swb):not(.th){max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lk-tile>.choice-label{max-width:100%;white-space:normal;overflow:visible;text-overflow:clip;line-height:1.5;word-break:keep-all;overflow-wrap:anywhere}
 .lk-tile small{font-size:9px;color:var(--dim);font-family:var(--f-num)}
 .lk-sec{font-size:10px;letter-spacing:.14em;color:var(--dim);padding:10px 10px 4px;border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:1}
 .mt{font-size:9px;border:1px solid #245272;border-radius:3px;padding:0 3px;color:var(--accent);font-weight:500;letter-spacing:0;vertical-align:1px}
@@ -590,12 +590,8 @@ body.no-trig .trig.dev{display:none}
 .lk-tile .ck{position:absolute;top:5px;left:5px;width:14px;height:14px;border:1px solid var(--line2);border-radius:3px;font-size:10px;display:grid;place-items:center;font-weight:700}
 .lk-tile[aria-pressed="true"] .ck{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .lk-tile.none{border-style:dashed}
-.lk-tiles.k-text{grid-template-columns:repeat(auto-fill,minmax(128px,1fr))}
+.lk-tiles.k-text{grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr))}
 .lk-tile.text{padding:12px 8px 8px}
-/* 의상 문장은 전체를 읽을 수 있도록 줄을 나눠 표시해. */
-.lk:has([data-chitem="lk|LK_OUTFIT"][aria-current="true"]) .lk-tiles{grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr))}
-.lk:has([data-chitem="lk|LK_OUTFIT"][aria-current="true"]) .lk-tile{text-align:left;align-items:stretch}
-.lk:has([data-chitem="lk|LK_OUTFIT"][aria-current="true"]) .lk-tile>span{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
 .lk-bg,.lk-bi{grid-template-columns:340px minmax(0,1fr)}
 .lk-bg .lk-item,.lk-bi .lk-item{grid-template-columns:132px minmax(0,1fr)}
 .lk-bg .lk-items{max-height:max(380px,calc(100vh - 300px))}
@@ -624,11 +620,8 @@ body.no-trig .trig.dev{display:none}
 .px-ticks button:focus-visible{outline:2px solid var(--accent)}
 .px-ex{margin:8px 0 0;padding:8px 10px;background:var(--panel2);border-radius:3px;font-size:12px;line-height:1.6}
 .px-sum{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:14px;position:sticky;top:0;font-size:13px;line-height:1.7}
-.px-sum p{margin:0 0 10px}
-.px-head{font-family:var(--f-display);font-weight:400;font-size:22px;margin:2px 0 10px;line-height:1.2}
-.px-dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:10px 0 0;padding-top:10px;border-top:1px solid var(--line);font-size:12px}
-.px-dl dt{color:var(--muted);white-space:nowrap}
-.px-dl dd{margin:0}
+.px-head{font-family:var(--f-display);font-weight:400;font-size:22px;margin:4px 0 0;line-height:1.4;overflow-wrap:anywhere}
+.px-summary-note{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.65;overflow-wrap:anywhere}
 @media (max-width:1300px){.px-wrap{grid-template-columns:minmax(0,1fr)} .px-sum{position:static}}
 .cs{display:grid;grid-template-columns:260px minmax(0,1fr);gap:14px;align-items:start}
 .cs-q{background:var(--bg);border:1px solid var(--line2);border-radius:3px;color:var(--fg);padding:7px 9px;font:inherit;width:100%}
@@ -685,6 +678,9 @@ input[type=range].unset{opacity:.7;accent-color:var(--line2)}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+<link rel="stylesheet" href="home.css">
+<link rel="stylesheet" href="hunter_status.css">
+<link rel="stylesheet" href="history.css">
 
 <div id="root"></div>
 <div class="toast" id="toast" hidden></div>
@@ -999,6 +995,7 @@ const mktMul=id=>(G.market||{})[id]??1;
               custom: area 'home'(사는 구 · 시 · 군) | 'near'(사는 곳에서 km 안) · from~to (등급 숫자, from 이 약한 쪽) · kind 'all' | 'open'(협회 개방) | 'bid'(입찰) */
 const PREF_DEF={play:{stop:'big',kinds:{},autoDecide:true,predict:'some',policyVsChar:0.4,detail:'detail',teller:'on',speed:1,pace:'balance'},autoSell:'stone',gateNote:{mode:'off',area:'home',km:20,from:20,to:1,kind:'all'},autoRaid:{on:'on',policy:'balanced',grade:'fit',km:20,perDay:1,retreat:35,minEnergy:60,minParty:2}};
 function prefs(){const p=G.prefs||(G.prefs={});for(const [k,v] of Object.entries(PREF_DEF)){if(p[k]==null)p[k]=typeof v==='object'?{...v}:v;else if(typeof v==='object')for(const [k2,v2] of Object.entries(v))if(p[k][k2]==null)p[k][k2]=v2}return p}
+function choicePrefs(){return G.player.choicePrefs||(G.player.choicePrefs={skipDice:false,delegate:false})}
 function gateNoteWants(g){const N=prefs().gateNote,lv=DB.ranks[g.rank].lv,home=G.player.region;
   if(N.mode==='off')return false;if(N.mode==='fit')return g.region===home&&!gateFit(G.player,g);if(N.mode==='all')return g.region===home;
   const inArea=N.area==='near'?kmBetween(home,g.region)<=N.km:g.region===home,lo=Math.max(N.from,N.to),hi=Math.min(N.from,N.to);
@@ -1260,13 +1257,7 @@ function npcWhere(id){const p=P(id);if(!p)return null;const a=G.ai?.[id],t=G.tim
   if(cm&&cm.min){const T=a.today||[],first=!T.some(x=>x.s<b.s&&x.act===b.act),last=!T.some(x=>x.s>b.s&&x.act===b.act),go=first&&t<b.s+cm.min,back=last&&t>=b.e-cm.min;
     if(go||back)return {...(go?home:where),act:'ACT_TRAVEL',until:go?b.s+cm.min:b.e,busy:`${go?'출근':'퇴근'}하는 중입니다`}}
   return {...where,act:b.act,until:b.e,busy:M.busyActs.includes(b.act)?`${A.name} 중입니다 (~${hhmm(b.e)})`:null}}
-function doNow(id,dur,target){ensureTime();if(G.dead)return;if(raidActive()){toast('게이트 안에서는 할 수 없습니다.');return}const a=DB.actions[id],chk=actCheck(a,dur,false,target);if(!chk.ok){toast(chk.why[0]);return}
-  const to=placeFor(a,target),l0=placeName(locOf()),mv=travelTo(to);
-  const st=G.time,ups=perform(a,dur,{target}),c=actCost(a,dur),ev=a.sleep?null:maybeEvent(dur/60);worldTickAcc(dur);
-  if(mv)ups.unshift(`이동 ${durTxt(mv)} (${l0} → ${placeName(locOf())})`);
-  {const tn=target?' · '+(DB.gates[target]?.name||DB.guilds[target]?.name||DB.items[(target||'').split('|')[0]]?.name||nameOf(target)||''):'';actLog('act',`${hhmm(st)}~${hhmm(G.time)} ${a.name}${tn} (${durTxt(dur)}) · 기력 ${c.energy>=0?'+':''}${c.energy}${c.pay?` · ${c.pay>0?'+':''}${won(c.pay)}`:''}`);if(ups.length)actLog(a.special&&!/성공/.test(ups[0])?'stop':'up',`${a.onSell?'판매':'결과'}: ${ups.join(', ').replace(/<[^>]+>/g,'')}`);if(ev)actLog('stop',`${ev.ch==='alert'?'새 알림':'새 메시지'}: ${ev.subj}`)}
-  actNote(`<b>${esc(a.name)}</b>${target?' · '+esc(DB.gates[target]?.name||DB.guilds[target]?.name||DB.items[(target||'').split('|')[0]]?.name||nameOf(target)||''):''} ${durTxt(dur)} (${hhmm(st)}~${hhmm(G.time)})<div class="dim" style="font-size:11px;margin-top:3px">기력 ${c.energy>=0?'+':''}${c.energy}${c.pay?` · ${c.pay>0?'+':''}${won(c.pay)}`:''}</div>${ups.length?`<div class="${a.special==='confess'&&!/성공/.test(ups[0])?'warn':'good'}" style="margin-top:4px">${a.onSell?'판매':'결과'}: ${ups.join(a.special?'<br>':', ')}</div>`:''}${ev?`<div style="margin-top:4px">${ev.ch==='alert'?'새 알림':'새 메시지'}: <b>${esc(ev.subj)}</b></div>`:''}`);
-  render()}
+function doNow(){toast('일상 행동은 헌터가 스스로 정합니다. 방향과 목표를 바꿀 수 있습니다.')}
 function H(id){ if(G&&G.player.id===id) return G.player; const h=DB.hunters[id] || (G&&G.genHunters&&G.genHunters[id]); if(h) return h; if(G&&SIM.isPop(id)){const o=SIM.promoteId(id);return o&&o.awake!==false?o:null} return null }
 function P(id){ return H(id) || DB.npcs[id] || (G&&G.genNpcs&&G.genNpcs[id]) || (G&&SIM.isPop(id)?SIM.promoteId(id):null) || null }
 function allHunters(){ const list=vals('hunters').map(h=>G&&h.id===G.player.id?G.player:h); if(G&&!DB.hunters[G.player.id]) list.unshift(G.player); return list }
@@ -1383,38 +1374,26 @@ function persRank(p){return vals('ccPersonality').filter(ax=>p[ax.id]!=null).map
 function persHeadline(p){
   const all=persRank(p), L=all.filter(x=>pxBucket(x.v)!=='slight');
   if(!all.length) return '미정';
-  if(!L.length) return '어느 쪽으로도 치우치지 않은 사람';
+  if(!L.length) return '균형 잡힌 조율자';
+  // 미정/중간 축이 많을 때는 실제로 두드러진 성향만 이름에 반영한다.
+  if(all.length===vals('ccPersonality').length&&L.length>=3){
+    const matches=r=>r.axes.every((id,i)=>pxPole(p[id])===r.poles[i]),role=vals('persRoles').find(matches),style=vals('persStyles').find(matches);
+    if(role&&style)return `${style.name} ${role.name}`;
+  }
   return `${(L[1]||L[0]).pole.adj} ${L[0].pole.noun}`;
 }
 const persText=persHeadline;
-/* 외주 문장(persExtra: {id, axis, pole:'a'|'b', bucket:'strong'|'mid'|'view'|'stress'|'hunter', text})을 성격 축 문장 후보에 합친다 (한 번만) */
-(function mergePersExtra(){vals('persExtra').forEach(x=>{const ax=DB.ccPersonality[x.axis],pl=ax?.poles?.[x.pole];if(!pl)return;
-  if(x.bucket==='strong'||x.bucket==='mid'){(pl[x.bucket]=pl[x.bucket]||[]).push(x.text)}})})();
-function persSummary(p){
-  const R=persRank(p), S=R.filter(x=>pxBucket(x.v)!=='slight'), B=R.filter(x=>pxBucket(x.v)==='slight');
-  const h=hashStr(vals('ccPersonality').map(a=>p[a.id]).join(','));
-  const pick=(arr,k)=>arr[(h+k*7)%arr.length];
-  const core=S.slice(0,4).map((x,i)=>pick(x.pole[pxBucket(x.v)],i));
-  const combos=vals('persCombos').map(c=>{const v1=p[c.axes[0]],v2=p[c.axes[1]];if(v1==null||v2==null)return null;
-      return (pxBucket(v1)!=='slight'&&pxBucket(v2)!=='slight'&&pxPole(v1)===c.poles[0]&&pxPole(v2)===c.poles[1])?{t:c.text,s:Math.abs(v1-5.5)+Math.abs(v2-5.5)}:null})
-    .filter(Boolean).sort((a,b)=>b.s-a.s).slice(0,3).map(x=>x.t);
-  const balanced=B.slice(0,3).map(x=>x.ax.balanced);
-  const hunter=[...new Set(S.slice(0,2).map(x=>x.pole.hunter))];
-  /* 세부 항목(persFacets): 항목마다 관련 축 가운데 가장 치우친 축의 방향 문장. 5 · 6단계(거의 중간)만 있으면 그 항목은 뺀다 */
-  const facets=vals('persFacets').map(f=>{const c=f.axes.filter(a=>p[a]!=null).map(a=>({a,v:p[a],d:Math.abs(p[a]-5.5)})).sort((x,y)=>y.d-x.d)[0];
-    return c&&c.d>0.5?{name:f.name,text:f.text[c.a]?.[pxPole(c.v)]||''}:null}).filter(x=>x&&x.text);
-  return {headline:persHeadline(p), core, combos, balanced, neutral:S.length?null:vals('persNeutral').map(n=>n.text),
-    view:S[0]?.pole.view||'', stress:(S[1]||S[0])?.pole.stress||'', hunter, facets};
-}
 function persSummaryHTML(p){
   if(!persRank(p).length) return '<div class="sub">성격 요약 · 표시용</div><p class="muted" style="margin-top:8px">성격 축을 하나 이상 정하면 요약이 나옵니다.</p>';
-  const s=persSummary(p);
-  return `<div class="sub">성격 요약 · 표시용</div><h3 class="px-head">${s.headline}</h3>
-    ${s.core.length?`<p>${s.core.join(' ')}</p>`:''}
-    ${s.combos.length?`<p>${s.combos.join(' ')}</p>`:''}
-    ${s.neutral?`<p>${s.neutral.join(' ')}</p>`:''}
-    ${s.balanced.length?`<p class="muted">${s.balanced.join(' ')}</p>`:''}
-    ${s.view||s.facets.length?`<dl class="px-dl">${s.view?`<dt>남이 보는 모습</dt><dd>${s.view}</dd><dt>힘들 때</dt><dd>${s.stress}</dd><dt>헌터로서</dt><dd>${s.hunter.join(' ')}</dd>`:''}${s.facets.map(f=>`<dt>${esc(f.name)}</dt><dd>${esc(f.text)}</dd>`).join('')}</dl>`:''}`;
+  const all=persRank(p), prominent=all.filter(x=>pxBucket(x.v)!=='slight');
+  let note='상황에 따라 여러 성향을 고루 보이며 균형을 잡는 편이다.';
+  if(all.length===vals('ccPersonality').length&&prominent.length>=3){
+    const matches=r=>r.axes.every((id,i)=>pxPole(p[id])===r.poles[i]);
+    note=[vals('persRoles').find(matches)?.desc,vals('persStyles').find(matches)?.desc].filter(Boolean).join(' ');
+  }else if(prominent.length){
+    note=prominent.slice(0,2).map(x=>x.v<=5?x.ax.a:x.ax.b).join(' · ')+' 성향이 두드러지는 편이다.';
+  }
+  return `<div class="sub">성격 요약 · 표시용</div><h3 class="px-head">${esc(persHeadline(p))}</h3><p class="px-summary-note">${esc(note)}</p>`;
 }
 function pxRowInner(ax,v){
   const u=v==null;
@@ -1444,7 +1423,7 @@ function buildHunter(cc){
   const name=(cc.family+cc.given).trim()||'이름 없음';
   return {id:'HN_G0001', name, sex:cc.sex, birth:cc.age?`${2026-cc.age}-${cc.bday||'??-??'}`:'—', age:cc.age?+cc.age:null, height:cc.look.LK_HEIGHT??null, weight:cc.look.LK_WEIGHT??null,
     region:cc.bgv.BI_RESIDENCE, nation:cc.nation, birthplace:cc.bplace, langs:[cc.langMain,...cc.langs.filter(l=>l!==cc.langMain)].filter(Boolean), voice:cc.voice, speech:cc.speech, rank:rule.rank, level:rule.level, exp:0, awake:true, roleMain:main, roleSub:sub, guild:rule.guild, cls:cc.cls,
-    awakened:'2026-03', affinity:'미확인', traits:cc.traits.slice(),
+    awakened:'2026-03', awakenedDate:'2026-03-14', affinity:'미확인', traits:cc.traits.slice(),
     skills:[...cc.clsSkills,...cc.comSkills].map(id=>[id,1]),
     contract:{share:0, until:'—', bonus:'—'},
     style:(cls?cls.name:'—')+' 신입', personality:persText(cc.pers), media:'미숙함', status:'정상', morale:'좋음', fit:92,
@@ -1506,9 +1485,10 @@ function gameFromCreation(cc){
 const SAVE_KEY='khl.saves.v1';
 const listSaves=()=>store.get(SAVE_KEY,[]).filter(s=>(s.data?.v||1)>=3).sort((a,b)=>b.savedAt-a.savedAt);
 function saveGame(slot){
+  if(typeof LIFE_LOG!=='undefined')LIFE_LOG.rotate();
   const saves=store.get(SAVE_KEY,[]).filter(s=>s.slot!==slot);
   const dt=dateOf(G.day);
-  saves.push({slot, savedAt:Date.now(), name:G.player.name, rank:G.player.rank, guild:G.player.guild, when:`2026.${dt.m}.${dt.d} ${hhmm(G.time??0)}`, data:G});
+  saves.push({slot, savedAt:Date.now(), name:G.player.name, rank:G.player.rank, guild:G.player.guild, when:`${dt.y}.${dt.m}.${dt.d} ${hhmm(G.time??0)}`, data:G});
   let ok=store.set(SAVE_KEY,saves);
   /* 저장 공간이 모자라면 (이 저장이 아닌) 오래된 자동 저장부터 지우고 다시 시도 */
   while(!ok){const autos=saves.filter(s=>s.slot.startsWith('auto')&&s.slot!==slot).sort((a,b)=>a.savedAt-b.savedAt);if(!autos.length)break;saves.splice(saves.indexOf(autos[0]),1);ok=store.set(SAVE_KEY,saves);if(ok)toast('저장 공간이 부족해 오래된 자동 저장을 지웠습니다.')}
@@ -1713,7 +1693,7 @@ function reqHTML(it,h){const R=Object.entries(reqOf(it));if(!R.length)return '<s
 function itemPerf(it){const E=DB.balance.BAL_EFFECT;if(!it?.rank||!it.slot)return [];const g=21-DB.ranks[it.rank].lv;
   if(it.slot==='SLOT_WEAPON')return [['근접 · 무기 판정',`+${Math.floor(g/E.weaponDiv)}`],['공략 전력',`+${Math.round(g*E.weaponPow*100)/100}`]];
   if(['SLOT_BODY','SLOT_HANDS'].includes(it.slot))return [['받는 피해',`−${Math.round(g*E.armorDef*1000)/10}%`]];return []}
-function showItem(id,from){UI.itemView=id;let el=$('#iv');if(!el){el=document.createElement('div');el.id='iv';document.body.appendChild(el)}el.innerHTML=itemViewHTML(id);el.querySelector('.ivp')?.focus()}
+function showItem(id,from){UI.itemView=id;let el=$('#iv');if(!el){el=document.createElement('div');el.id='iv';document.body.appendChild(el)}el.innerHTML=itemViewHTML(id);if(typeof OBSERVE!=='undefined')OBSERVE.clean(el);el.querySelector('.ivp')?.focus()}
 function closeItem(){UI.itemView=null;$('#iv')?.remove()}
 function itemViewHTML(id){const it=DB.items[id];if(!it)return '';const rk=it.rank?DB.ranks[it.rank]:null,own=invOf().map((r,i)=>({...r,i})).filter(r=>r.item===id),miss=it.slot?reqMiss(it):[],perf=itemPerf(it);
   const drops=vals('monsters').filter(m=>(m.drops||[]).some(d=>d.item===id)).map(m=>{const d=m.drops.find(x=>x.item===id);return `${esc(m.name)} <span class="dim">(${Math.round(d.chance*100)}% · ${d.qty}개)</span>`});
@@ -1740,10 +1720,10 @@ function checkMods(attr,gate){const E=DB.balance.BAL_EFFECT,h=G.player,c=G.cond,
   if(gate){const m=gateMod(gate);if(m)out.push(['등급 차',m])}
   return {sum:out.reduce((a,x)=>a+x[1],0),parts:out}}
 const modTxt=m=>m.parts.map(([n,v])=>` ${v>0?'+':''}${v}(${n})`).join('');
-function judge(c){
+function judge(c,gate){
   if(!c.check) return {ok:true,line:''};
-  const v=attrVal(G.player,c.check.attr), d=1+Math.floor(Math.random()*20), m=checkMods(c.check.attr), tot=v+d+m.sum, ok=tot>=c.check.dc;
-  return {ok,line:`<div class="dim" style="font-size:11px;margin-bottom:4px">${attrName(c.check.attr)} ${v} + d20 ${d}${modTxt(m)} = ${tot} vs 난이도 ${c.check.dc} → <b class="${ok?'good':'bad'}">${ok?'성공':'실패'}</b></div>`};
+  const v=attrVal(G.player,c.check.attr), d=1+Math.floor(Math.random()*20), m=checkMods(c.check.attr,gate), tot=v+d+m.sum, ok=tot>=c.check.dc;
+  return {ok,dice:d,value:v,mods:m.sum,total:tot,dc:c.check.dc,attr:attrName(c.check.attr),line:`<div class="dim" style="font-size:11px;margin-bottom:4px">${attrName(c.check.attr)} ${v} + d20 ${d}${modTxt(m)} = ${tot} vs 난이도 ${c.check.dc} → <b class="${ok?'good':'bad'}">${ok?'성공':'실패'}</b></div>`};
 }
 function applyFx(fx={},tgt){
   const out=[], sg=v=>(v>0?'+':'')+v, dt=dateOf(G.day);
@@ -2119,12 +2099,12 @@ function chItemsHTML(ns){
 }
 function chTilesHTML(ns){
   const cc=UI.cc,C=CH[ns],it=chItem(ns),kind=C.kind(it),q=(cc[ns+'Q']||'').trim().toLowerCase(),g=cc[ns+'G']||'',V=C.vals(cc)[it.id];
-  const list=C.opts(it,cc).filter(o=>(!g||o.group===g)&&(!q||(o.name+' '+o.id+' '+(o.group||'')).toLowerCase().includes(q)));
+  const list=C.opts(it,cc).filter(o=>(!g||o.group===g)&&(!q||(o.name+' '+(o.desc||'')+' '+o.id+' '+(o.group||'')).toLowerCase().includes(q)));
   if(!list.length) return '<div class="tempty" style="grid-column:1/-1">조건에 맞는 선택지가 없습니다.</div>';
   return list.map(o=>{const on=it.multi?(V||[]).includes(o.id):V!=null&&String(V)===String(o.id);
     const vis=kind==='swatch'?`<span class="swb" style="background:${o.color}"></span>`
       :kind==='thumb'?`<span class="th">${FAILED.has(o.asset)?'':`<img src="${assetSrc(o.asset,'look')}" alt="" onerror="FAILED.add('${o.asset}');this.remove()">`}${SILH}</span>`:'';
-    return `<button class="lk-tile ${kind} ${o.none?'none':''}" data-chopt="${ns}|${o.id}" aria-pressed="${on}" title="${esc(o.name)} (${o.id})">${it.multi?`<span class="ck" aria-hidden="true">${on?'✓':''}</span>`:''}${vis}<span>${esc(o.name)}</span><small>${o.id}</small></button>`}).join('');
+    return `<button class="lk-tile ${kind} ${o.none?'none':''}" data-chopt="${ns}|${o.id}" aria-pressed="${on}" title="${esc(o.name+(o.desc?' · '+o.desc:''))} (${o.id})">${it.multi?`<span class="ck" aria-hidden="true">${on?'✓':''}</span>`:''}${vis}<span class="choice-label">${esc(o.name)}</span><small>${o.id}</small></button>`}).join('');
 }
 function chPanelHTML(ns){
   const cc=UI.cc,C=CH[ns],it=chItem(ns),v=C.vals(cc)[it.id];
@@ -2172,7 +2152,7 @@ function ccHTML(){
     ${chHTML('lk')}`;}
   else if(st===2){ensureBg(cc);
     body=`<h2>출신 · 배경</h2><p class="lead">각성 전의 삶입니다. 항목 ${vals('bgItems').length}개. <span class="mt">복수</span> 표시가 있는 항목은 여러 개를 고를 수 있습니다.</p>${chHTML('bg')}`;}
-  else if(st===3) body=`<h2>성격</h2><p class="lead">성격 축 8개를 10단계로 정합니다. 슬라이더 아래 문장은 그 단계가 어느 정도인지 보여 주는 예시입니다. 게임은 이 수치를 쓰고, 오른쪽 성격 요약은 표시용 문장입니다.</p>
+  else if(st===3) body=`<h2>성격</h2><p class="lead">성격 축 8개를 10단계로 정합니다. 슬라이더 아래 문장은 각 단계의 예시이며, 성격 요약명은 슬라이더 조합에 따라 달라집니다.</p>
     <div class="px-wrap"><div class="px-list">${vals('ccPersonality').map(ax=>`<div class="px" id="px-${ax.id}">${pxRowInner(ax,cc.pers[ax.id])}</div>`).join('')}</div>
     <aside class="px-sum" id="pxsum" aria-live="polite">${persSummaryHTML(cc.pers)}</aside></div>`;
   else if(st===4) body=traitPickerHTML();
@@ -2207,16 +2187,16 @@ function ccHTML(){
    ========================================================= */
 /* 메뉴 네 묶음 (REBUILD_PLAN 2장 화면, 사용자: "일단 해 보는 걸로") */
 const NAV = [
-  ['이야기', [['life','인생','▶'],['bio','일대기','✎'],['alerts','알림','◆'],['messenger','메신저','✉']]],
-  ['내 헌터', [['status','상태창','▣'],['relations','관계','♡'],['inventory','소지품','▥'],['finance','재정','₩'],['goals','일과 · 목표','★']]],
+  ['이야기', [['life','인생','▶'],['bio','일대기','✎']]],
+  ['내 헌터', [['status','상태창','▣'],['relations','관계','♡'],['inventory','소지품','▥'],['finance','재정','₩'],['goals','방향 · 목표','★']]],
   ['세계', [['gates','게이트','◎'],['world','전국 현황','◍'],['guild','길드','⚑'],['db','DB','⌕'],['auction','경매장','⚖']]],
-  ['관리', [['home','대시보드','⌂'],['acts','할 수 있는 일','➤'],['party','파티','⚔'],['raidteam','공격대','⛨'],['shop','시스템 상점','◇'],['archive','기록관','❖'],['settings','설정','⚙']]],
+  ['관리', [['home','대시보드','⌂'],['shop','시스템 상점','◇'],['archive','기록관','❖'],['settings','설정','⚙']]],
 ];
 const unreadAlerts=()=>G.alerts.filter(m=>m.unread).length, unreadMsgs=()=>G.threads.reduce((a,t)=>a+t.unread,0);
 const navBadge=k=>{const n=k==='messenger'?unreadMsgs():k==='alerts'?alertsUnread():0;return n?`<span class="badge">${n}</span>`:''};
 function shellHTML(){
   return `<div class="app">
-  <aside class="side"><div class="logo"><b>헌터 라이프</b><span>K-HUNTER-LIFE</span></div><nav class="nav" id="nav" aria-label="주 메뉴"></nav><div class="foot">콘텐츠는 기본분입니다.<br>v0.1.0 새 버전</div></aside>
+  <aside class="side"><div class="logo"><b>헌터 라이프</b></div><nav class="nav" id="nav" aria-label="주 메뉴"></nav></aside>
   <header class="top" id="top"></header>
   <main class="main" id="main" tabindex="-1"></main></div>`;
 }
@@ -2228,21 +2208,27 @@ function saveMenuHTML(){const all=store.get(SAVE_KEY,[]),auto=all.find(x=>x.slot
   const row=(slot,s)=>`<div class="svrow"><div><b>${slotLabel(slot)}</b> ${s?`<span class="muted">${esc(s.name)} · 게임 내 ${s.when}</span>${s.dead?(s.retired?' <span class="chip">은퇴</span>':' <span class="chip b">사망</span>'):''}<div class="dim">${new Date(s.savedAt).toLocaleString('ko-KR')}</div>`:'<span class="dim">비어 있음</span>'}</div>${slot.startsWith('auto')?'':`<button class="btn sm" data-save="${slot}" ${G.dead?'disabled':''}>${s?'덮어쓰기':'저장'}</button>`}</div>`;
   return `<div class="advmenu savemenu" role="dialog" aria-label="저장">${SAVE_SLOTS.map(sl=>row(sl,all.find(x=>x.slot===sl))).join('')}${row('auto',auto)}
     <div class="dim" style="font-size:11px;padding:6px 10px">자동 저장: 하루가 지날 때 · 게이트 공략이 끝날 때 (${SETTINGS.autosave===false?'꺼짐':'켜짐'}, 타이틀 설정에서 변경). 사망하면 이 헌터의 모든 세이브가 '사망'이 됩니다.</div></div>`}
-function renderTop(){ensureTime();
-  const p=G.player, g=p.guild?DB.guilds[p.guild]:null, dt=dateOf(G.day), c=G.cond, em=energyMax(), now=nowAbs(), b=blockAt(now), nb=b?null:nextBlock(now);
-  const cur=b?`지금: ${DB.actions[b.act]?.name||'—'} (~${hhmm(b.e)})`:nb?`자유 시간 · ${hhmm(nb.s)} ${DB.actions[nb.act]?.name||''}`:'자유 시간';
-  const nxt=b?`${DB.actions[b.act]?.name} 끝 ${hhmm(b.e)}`:nb?`${DB.actions[nb.act]?.name} 끝 ${hhmm(nb.e)}`:'1시간';
-  document.documentElement.style.setProperty('--club',g?g.color:'#26364b'); document.documentElement.style.setProperty('--club2',g?g.color2:'#3b5574');
-  $('#top').innerHTML=`<div class="crumb" data-qsopen="1" title="빈 곳을 누르면 검색 (인물 · 길드 · 게이트 · 아이템 · 지역) — 단축키 /"><button class="qsbtn" data-hunter="${p.id}" title="내 헌터 정보" aria-label="내 헌터 정보">${crest(p.guild,36)}</button><div style="min-width:0"><div class="t1"><button class="qsname" data-hunter="${p.id}" title="내 헌터 정보">${esc(p.name)}</button> <span class="qsk" aria-hidden="true">⌕ 검색</span></div><div class="t2">${DB.ranks[p.rank].name}급 ${DB.roles[p.roleMain].name} · ${guildName(p.guild)} · <button class="locbtn" data-locmenu="1" aria-expanded="${!!UI.locMenu}" title="지금 있는 곳 · 다른 곳으로 가기">📍 ${esc(placeName(locOf()))}</button></div></div></div>
-    <div class="tools"><button data-savemenu="1" aria-expanded="${!!UI.saveMenu}">저장</button><button data-set="dev" aria-pressed="${!!SETTINGS.dev}" title="숨은 값 보기 (개발용)">${SETTINGS.dev?'개발 ON':'개발'}</button><button data-go="settings">설정</button><button data-totitle="1">타이틀</button></div>
-    <div class="egauge" title="기력은 행동하면 줄고 자면 찹니다. 수면이 부족하면 최대치가 줄어듭니다."><div class="l"><span>기력</span><b>${Math.round(c.energy)} / ${em}</b></div><div class="g"><i style="width:${c.energy}%;background:${c.energy<25?'var(--bad)':c.energy<50?'var(--warn)':'#5cc48a'}"></i>${em<100?`<s style="width:${100-em}%"></s>`:''}</div><div class="l"><span>${c.sleepDebt>=1?`수면 부족 ${Math.round(c.sleepDebt)}시간`:'수면 충분'}</span><span>스트레스 ${c.stress}</span></div></div>
-    <div class="clock"><div class="d" id="clockD">${dt.y}년 ${dt.m}월 ${dt.d}일 (${dt.w}) <span class="num">${hhmm(G.time)}</span></div><div class="s" id="clockS">${esc(cur)}</div></div>
-    ${G.dead?`<div class="advwrap"><button class="go" data-totitle="1">게임 종료<small>타이틀로</small></button></div>`:''}${raidActive()?`<div class="advwrap"><button class="go" data-go="raid">공략 중 ▸<small>${esc(DB.gates[UI.raid.gid].name)}</small></button></div>`:''}${raidActive()||G.dead?'':LIFEUI.controls()}
-    ${UI.saveMenu?saveMenuHTML():''}${UI.locMenu?locMenuHTML():''}${UI.advMenu?`<div class="advmenu" role="menu">${ADV_MODES.map(([k,n])=>`<button role="menuitem" data-advance="${k}">${n}<small>${k==='next'?esc(nxt):k==='event'?'최대 30일':hhmm(advTarget(k)%1440)}</small></button>`).join('')}<div class="dim" style="font-size:11px;padding:6px 10px">일정표대로 자율 진행합니다. ${G.stopOn.event?'이벤트가 생기면 멈춥니다.':''}</div></div>`:''}`;
+function awakeningElapsed(){
+  const h=G.player;if(h.awake===false)return {text:'미각성',title:'아직 각성하지 않음'};
+  const raw=h.awakenedDate||h.awakened||'',match=/^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(raw),today=dateOf(G.day);
+  const fallback=dateOf(G.startDay??G.day),y=match?+match[1]:fallback.y,m=match?+match[2]:fallback.m,d=match?(+match[3]||1):fallback.d;
+  const now=Date.UTC(today.y,today.m-1,today.d),start=Date.UTC(y,m-1,d);
+  let years=Math.max(0,today.y-y),anniversary=Date.UTC(y+years,m-1,d);if(anniversary>now&&years>0)anniversary=Date.UTC(y+--years,m-1,d);
+  const days=Math.max(0,Math.floor((now-Math.max(start,anniversary))/86400000));
+  return {text:`각성한 지 ${years}년 ${days}일째`,title:raw?`각성 기록: ${raw}${match&&!match[3]?' · 일자 미기록으로 해당 월 1일 기준':''}`:'각성 기록이 없어 플레이 시작일 기준'};
 }
+function renderTop(){ensureTime();
+  const p=G.player,dt=dateOf(G.day);
+  $('#top').innerHTML=`<div class="home-clock"><span id="clockAge">${p.age||25}세</span><span id="clockD">${dt.y}년 ${dt.m}월 ${dt.d}일 (${dt.w})</span><span id="clockTime">${hhmm(G.time)}</span></div>
+    ${G.dead?'':LIFEUI.controls()}
+    <div class="tools"><span id="awakeningElapsed" title="${esc(awakeningElapsed().title)}">${awakeningElapsed().text}</span><button data-qsopen="1" aria-label="검색">검색</button><button data-savemenu="1" aria-expanded="${!!UI.saveMenu}">저장</button><button data-go="settings">설정</button><button data-totitle="1">타이틀</button></div>
+    ${UI.saveMenu?saveMenuHTML():''}`;
+  if(typeof OBSERVE!=='undefined')OBSERVE.clean($('#top'));
+}
+
 /* ---------- 빠른 검색 (상단 인물 정보를 누르면). 입력할 때마다 바로 찾는다: 인물 · 길드 · 게이트 · 아이템 · 지역 · 화면 ---------- */
 function qsResults(q){q=(q||'').trim();const lq=q.toLowerCase(),hit=(...xs)=>!q||xs.some(x=>String(x||'').toLowerCase().includes(lq)),out=[];
-  if(!q){out.push(['바로 가기',[['내 정보창','hunter:'+G.player.id,'나'],['상태창','go:status',''],['내 길드','go:guild',guildName(G.player.guild)],['할 수 있는 일 · 지도','go:acts',''],['게이트','go:gates','']]]);}
+  if(!q){out.push(['바로 가기',[['내 정보창','hunter:'+G.player.id,'나'],['상태창','go:status',''],['내 길드','go:guild',guildName(G.player.guild)],['방향 · 목표','go:goals',''],['게이트','go:gates','']]]);}
   const known=new Map();[G.player,...allHunters(),...Object.values(G.genHunters||{})].forEach(h=>known.set(h.id,h));
   const ppl=[...known.values()].filter(h=>hit(h.name,h.id,DB.classes[h.cls]?.name)).slice(0,8).map(h=>[h.name,'hunter:'+h.id,`${DB.ranks[h.rank]?.name}급 ${DB.roles[h.roleMain]?.name||''} · ${guildName(h.guild)}`,h.rank]);
   const civ=[...vals('npcs'),...Object.values(G.genNpcs||{})].filter(n=>q&&hit(n.name,n.id,n.job)).slice(0,5).map(n=>[n.name,'npc:'+n.id,`일반인 · ${n.job||'—'}`]);
@@ -2251,7 +2237,7 @@ function qsResults(q){q=(q||'').trim();const lq=q.toLowerCase(),hit=(...xs)=>!q|
   const gu=vals('guilds').filter(g=>q&&hit(g.name,g.id,regionName(g.region))).slice(0,6).map(g=>[g.name,'guild:'+g.id,`${DB.ranks[g.rank].name}급 · ${guildTier(g).name} · ${regionName(g.region)}`,g.rank]);if(gu.length)out.push(['길드',gu]);
   const ga=vals('gates').filter(g=>q&&gateSt(g.id).status==='open'&&hit(g.name,g.id,regionName(g.region),DB.monsters[g.mon]?.name)).slice(0,6).map(g=>[g.name,'gate:'+g.id,`${DB.ranks[g.rank].name}급 ${g.type} · ${regionName(g.region)} · ${gateLeftTxt(g)}`,g.rank]);if(ga.length)out.push(['게이트',ga]);
   const it=vals('items').filter(i=>q&&hit(i.name,i.id,DB.itemCats[i.cat]?.name)).slice(0,6).map(i=>[i.name,'item:'+i.id,`${DB.itemCats[i.cat]?.name||''}${i.rank?' · '+DB.ranks[i.rank].name+'급':''}`,i.rank]);if(it.length)out.push(['아이템',it]);
-  const rg=vals('regions').filter(r=>q&&hit(r.name,r.id)).map(r=>[r.name,'region:'+r.id,`게이트 ${vals('gates').filter(g=>g.region===r.id&&gateSt(g.id).status==='open').length}곳 · 지도에서 보기`]);if(rg.length)out.push(['지역',rg]);
+  const rg=vals('regions').filter(r=>q&&hit(r.name,r.id)).map(r=>[r.name,'region:'+r.id,`게이트 ${vals('gates').filter(g=>g.region===r.id&&gateSt(g.id).status==='open').length}곳`]);if(rg.length)out.push(['지역',rg]);
   const sc=NAV.flatMap(([,L])=>L).filter(([k,l])=>q&&hit(l)).map(([k,l])=>[l,'go:'+k,'화면']);if(sc.length)out.push(['화면',sc]);
   return out}
 function qsHTML(){const Q=UI.qs,R=qsResults(Q.q),flat=R.flatMap(([,L])=>L);Q.n=flat.length;Q.i=Math.min(Q.i,Math.max(0,flat.length-1));let k=0;
@@ -2267,12 +2253,16 @@ function qsGo(go){qsClose();const [k,id]=[go.slice(0,go.indexOf(':')),go.slice(g
   else if(k==='guild'){UI.screen='guild';UI.guildTab='길드 목록';UI.guildSel=id}
   else if(k==='gate'){UI.gateSel=id;UI.screen='gates'}
   else if(k==='item'){showItem(id);return}
-  else if(k==='region'){UI.screen='acts';UI.actsTab='지도';UI.mapReg=id;UI.mapPlace=null;UI.mapId=null}
+  else if(k==='region'){UI.screen='gates';UI.gF=gfNorm({});UI.gateSel=null}
   else if(k==='go'){UI.screen=id;if(id==='profile')UI.profileId=G.player.id}
   $('#main').scrollTop=0;render()}
 function renderNav(){
-  const cur=UI.screen==='raid'?'gates':UI.screen==='profile'?'db':['raidprep','raidresult'].includes(UI.screen)?'gates':UI.screen;
-  $('#nav').innerHTML=[...NAV,...(SETTINGS.dev?[['개발',[['devtools','개발 도구','⚙']]]]:[])].map(([g,items])=>(g?`<div class="grp">${g}</div>`:'')+items.map(([k,l,ic])=>`<button data-go="${k}" ${cur===k?'aria-current="page"':''}><span class="ic">${ic}</span>${l}${navBadge(k)}</button>`).join('')).join('');
+  const group=['homeHunter','homeDb','homeTrade'].includes(UI.screen)?UI.screen:'life';
+  const sections=[['life','이야기','▶','story',[['life','인생'],['goals','목표 설정'],['bio','일대기']]],['homeHunter','내 헌터','▣','hunter',[['profile','내 정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]],['homeDb','DB','⌕',null,[]],['homeTrade','거래','◇','trade',[['shop','시스템 상점'],['auction','경매장'],['other','기타']]]];
+  $('#nav').innerHTML=sections.map(([screen,label,icon,key,items])=>{
+    const selected=UI.homeTabs?.[key]||items[0]?.[0];
+    return `<div class="nav-section"><button class="nav-parent ${group===screen?'is-active':''}" data-go="${screen}" ${!key&&group===screen?'aria-current="page"':''}><span class="ic">${icon}</span>${label}</button>${items.length?`<div class="nav-subtabs" aria-label="${label} 하위 메뉴">${items.map(([id,name])=>`<button id="nav-${key}-${id}" data-home-tab="${key}|${id}" ${group===screen&&selected===id?'aria-current="page"':''}>${name}</button>`).join('')}</div>`:''}</div>`;
+  }).join('');
 }
 
 /* ---------- 홈 위젯 (WG_*) ---------- */
@@ -2800,7 +2790,7 @@ function autoSchedule(){ROUTINE.state().mode='manual';ROUTINE.state().planned=nu
   toast(`목표(${f.map(x=>DB.aiGoals[x]?.name).join(' · ')||'성격'})에 맞춰 일정을 짰습니다.<div class="dim" style="font-size:11px;margin-top:4px">평일: ${wd.filter(b=>!['ACT_MEAL','ACT_SLEEP'].includes(b.act)).map(b=>DB.actions[b.act].name).join(' · ')}</div>`)}
 V.goals=()=>{const B=DB.balance.BAL_GOAL,act=GOALS.active(),past=(G.goals||[]).filter(g=>g.done||g.failed).slice(0,12);
   const tab=['day','goals','records'].includes(UI.routineTab)?UI.routineTab:'day';
-  const head=`<div class="h-row"><div><h1 class="h1">일과</h1><div class="sub">오늘을 맡기고, 목표를 정하고, 지나온 결과를 확인합니다.</div></div></div><div class="tabs" role="tablist" aria-label="일과 메뉴">${[['day','일과'],['goals','목표'],['records','기록']].map(([id,name])=>`<button role="tab" id="routine-tab-${id}" aria-controls="routine-content" aria-selected="${tab===id}" data-rtab="${id}">${name}</button>`).join('')}</div>`;
+  const head=`<div class="h-row"><div><h1 class="h1">방향 · 목표</h1><div class="sub">삶의 방향을 정하고, 헌터가 살아가는 모습을 지켜봅니다.</div></div></div><div class="tabs" role="tablist" aria-label="일과 메뉴">${[['day','방향'],['goals','목표'],['records','기록']].map(([id,name])=>`<button role="tab" id="routine-tab-${id}" aria-controls="routine-content" aria-selected="${tab===id}" data-rtab="${id}">${name}</button>`).join('')}</div>`;
   const body=html=>head+`<div id="routine-content" role="tabpanel" aria-labelledby="routine-tab-${tab}">${html}</div>`;
   if(tab==='day')return body(ROUTINE.panel());
   if(tab==='records')return body(ROUTINE.panel('records')+`${past.length?`<div class="panel"><div class="ph">지난 목표</div><div class="tw"><table><tbody>${past.map(g=>`<tr><td class="num muted">${dateOf(g.done??g.failed).m}/${dateOf(g.done??g.failed).d}</td><td>${esc(GOALS.name(DB.objectives[g.tpl],g.target))}</td><td>${g.done?'<span class="good">달성</span>':g.gaveUp?'<span class="dim">내려놓음</span>':'<span class="bad">기한 지남</span>'}</td></tr>`).join('')}</tbody></table></div></div>`:''}`);
@@ -3002,6 +2992,7 @@ V.raidprep=()=>{const P=UI.prep,g=DB.gates[P.gid],st=gateSt(g.id),rk=riskEst(g),
       <div><div class="sub">후퇴 기준 (파티 평균 HP)</div><div class="seg">${[20,35,50].map(t=>`<button aria-pressed="${P.retreat===t}" data-retreat="${t}">${t}%</button>`).join('')}</div></div>
       <div class="dim" style="font-size:11px">자동으로 진행하다 위기가 오면 멈추고 선택지를 줍니다. 게이트 안에서는 외부 메시지 · 알림을 받을 수 없습니다.</div></div></div></div>`};
 function startRaid(gid){
+  if(!UI.playRaid)return;
   {const g0=DB.gates[gid],mv=travelTo({region:g0.region,pt:'PT_GATE'});if(mv){const s0=gateSt(gid);if(s0.status!=='open'){toast(`${durTxt(mv)} 걸려 ${esc(g0.name)}에 도착했지만, 게이트는 이미 ${s0.status==='cleared'?`${esc(s0.by||'다른 파티')}가 클리어했습니다`:'브레이크가 일어났습니다'}.`);UI.screen='gates';render();return}}}
   const g=DB.gates[gid],P=UI.prep&&UI.prep.gid===gid?UI.prep:{gid,party:raidParty().slice(1).map(h=>h.id),retreat:35},st=gateSt(gid);
   const mates=P.party.map(id=>H(id)).filter(Boolean),me=G.player;
@@ -3010,7 +3001,7 @@ function startRaid(gid){
   st.entered=true; G.inGate=gid; UI.screen='raid'; render();
   addLog('e',`${g.name} 게이트에 진입했다.${UI.raid.temp?' (협회 매칭 임시 파티)':''} 바깥과의 연락이 끊겼다.`);
   addLog('',`지형: ${g.terrain}.`);
-  clearInterval(UI._rt); UI._rt=setInterval(raidTick,1100);
+  clearInterval(UI._rt); UI._rt=null;
 }
 /* 위기: 자동 진행을 멈추고 선택지. 판정 = 능력치 + d20 + 등급 차 보정 ≥ 난이도 */
 function crisisFits(c,g){const mc=DB.monsters[g.mon]?.cat,rn=DB.ranks[g.rank]?.lv??20;
@@ -3032,8 +3023,7 @@ function raidFx(fx){const R=UI.raid,me=R.party[0],out=[];if(!fx)return out;
   if(fx.progress){R.floor=Math.min(R.floors,R.floor+fx.progress);out.push('진행 +1구역')}
   if(fx.stress){G.cond.stress=clamp(G.cond.stress+fx.stress);out.push(`스트레스 ${fx.stress>0?'+':''}${fx.stress}`)}
   return out}
-function resolveCrisis(i){const R=UI.raid;if(!R||!R.crisis)return;const C=DB.crises[R.crisis.id],ch=C.choices[i],g=DB.gates[R.gid];let ok=true,line='';
-  if(ch.check){const v=attrVal(G.player,ch.check.attr),d=1+Math.floor(Math.random()*20),m=checkMods(ch.check.attr,g),tot=v+d+m.sum;ok=tot>=ch.check.dc;line=` [${attrName(ch.check.attr)} ${v} + d20 ${d}${modTxt(m)} = ${tot} vs ${ch.check.dc} → ${ok?'성공':'실패'}]`}
+function resolveCrisis(i){const R=UI.raid;if(!R||!R.crisis)return;const C=DB.crises[R.crisis.id],ch=C.choices[i],g=DB.gates[R.gid],j=judge(ch,g);R.lastCheck=j;const ok=j.ok,line=ch.check?` [${j.attr} ${j.value} + d20 ${j.dice}${modTxt(checkMods(ch.check.attr,g))} = ${j.total} vs ${j.dc} → ${ok?'성공':'실패'}]`:'';
   const fx=ok?ch.okFx:ch.ngFx,out=raidFx(fx);
   if(ok&&ch.okMemo&&R.crisis.bid){const m=ch.okMemo,r=ensureAcq(R.crisis.bid);remember(R.crisis.bid,m.tag,m.text.replaceAll('{gate}',g.name));(m.rel||[]).forEach(([d,v])=>relAdd(r,d,v,'from'));out.push(`${R.crisis.b}이(가) 이 일을 기억한다`)}if(ch.check&&ok){const w=tryWall(DB.balance.BAL_GROWTH.wallCrisis);if(w.length){out.push(...w);R.wall=(R.wall||[]).concat(w)}}addLog(ok?'k':'h',`${crisisText(ch.t)} — ${crisisText(ok?ch.ok:ch.ng)}${line}${out.length?' ('+out.join(', ')+')':''}`);
   R.crisis=null;
@@ -3251,6 +3241,19 @@ V.raidteam=()=>{const B=DB.balance.BAL_PARTY,T=G.team,me=G.player;
       <div class="tw"><table><thead><tr><th>이름</th><th>등급</th><th>역할</th><th class="r">레벨</th><th>소속</th><th>상태</th><th></th></tr></thead><tbody>${inviteRows(pools[tab].filter(h=>!ids.includes(h.id)).map(h=>h.id),'teaminv','권유',full)||'<tr><td colspan="7" class="muted">권유할 사람이 없습니다.</td></tr>'}</tbody></table></div>
       <div class="dim" style="font-size:11px;padding:8px 12px">설득력 + d20 + 호감 − 등급 차 ≥ ${B.teamDc}. 다른 길드 소속이어도 들어올 수 있습니다.</div></div></div>`};
 /* ---------- 길드 화면: 내 길드 · (영입 · 관리) · 길드 목록 · 길드 창설. 목록은 시스템 상점처럼 왼쪽 표 + 오른쪽 상세 ---------- */
+function replyGuildOffer(i,k){
+  const o=(G.offers||[]).filter(x=>x.exp>nowAbs())[i];if(!o||!['ok','no','neg'].includes(k)||k==='neg'&&o.neg)return null;
+  const gg=DB.guilds[o.gid];let judgement=null,text='';
+  if(k==='ok'){joinGuild(o);text=`${gg.name}에 입단했습니다. 배분율 ${o.share}%.`;}
+  else if(k==='no'){G.offers=G.offers.filter(x=>x!==o);if(o.renew)leaveGuild('계약 만료 · 재계약 거절');text=`${gg.name}의 제안을 거절했습니다.`;}
+  else{const v=attrVal(G.player,'ABL_B17'),r=1+Math.floor(Math.random()*20),tot=v+r;o.neg=true;
+    judgement={dice:r,value:v,total:tot,mods:0,dc:18,attr:'협상력',ok:tot>=18};
+    if(tot>=18){o.share+=1+(tot>=24?1:0);text=`협상 성공 [협상력 ${v} + d20 ${r} = ${tot} vs 18] — 배분율 ${o.share}%`;}
+    else if(Math.random()<.3){G.offers=G.offers.filter(x=>x!==o);text=`협상 실패 [${tot} vs 18] — ${gg.name}이(가) 제안을 거둬들였습니다.`;}
+    else text=`협상 실패 [${tot} vs 18] — 조건은 그대로입니다.`;
+  }
+  toast(esc(text));return {judgement,text,choice:`${gg.name} · 조건 협상`};
+}
 function offersHTML(){const offers=(G.offers||[]).filter(o=>o.exp>nowAbs()&&!o.renew);if(!offers.length)return '';const all=(G.offers||[]).filter(o=>o.exp>nowAbs());
   return `<div class="panel" style="margin-bottom:12px"><div class="ph">받은 계약 제안</div><div class="pb" style="display:grid;gap:10px">${offers.map(o=>{const i=all.indexOf(o),gg=DB.guilds[o.gid];return `<div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--line);padding-bottom:8px"><span class="row" style="gap:8px">${crest(o.gid,32)}<b>${esc(gg.name)}</b><span>배분율 <b class="num">${o.share}%</b> · ${o.months}개월</span><span class="dim">답변 기한 ${durTxt(Math.max(0,o.exp-nowAbs())).replace(/ \d+분$/,'')}</span></span>
       <span class="row"><button class="btn pri" data-offer="${i}|ok">수락</button><button class="btn" data-offer="${i}|neg" ${o.neg?'disabled':''} title="협상력 + d20 vs 18. 실패하면 제안이 철회될 수 있다">${o.neg?'협상함':'배분율 협상'}</button><button class="btn" data-offer="${i}|no">거절</button></span></div>`}).join('')}</div></div>`}
@@ -3287,6 +3290,7 @@ V.guild=()=>{const p=G.player,g=p.guild?DB.guilds[p.guild]:null,tabs=g?['내 길
    렌더 / 이벤트 위임
    ========================================================= */
 function render(){
+  if(UI.mode==='app'&&typeof OBSERVE!=='undefined'){OBSERVE.normalize();OBSERVE.notices()}
   const root=$('#root');
   if(UI.mode==='title'){root.innerHTML=titleHTML();startBg();return}
   if(UI.mode==='intro'&&UI.intro){$('#root').innerHTML=introHTML();return}
@@ -3298,14 +3302,15 @@ function render(){
   renderTop(); renderNav();
   if(UI.screen==='squad')UI.screen='guild';
   if(!V[UI.screen]||(UI.screen==='raid'&&!UI.raid)||(UI.screen==='raidresult'&&!UI.raidResult)||(UI.screen==='raidprep'&&!UI.prep)) UI.screen='life';
-  $('#main').innerHTML=STORY.josa((raidActive()&&UI.screen!=='raid'?`<div class="gbanner"><span><b>게이트 안</b> — ${esc(DB.gates[UI.raid.gid].name)}. 바깥과 연락할 수 없고, 다른 행동을 할 수 없습니다.</span><button class="btn" data-go="raid">공략 화면으로</button></div>`:'')+V[UI.screen]());
+  $('#main').innerHTML=STORY.josa(V[UI.screen]());
   if(UI.screen==='raid') drawRaid();
   if(UI.screen==='acts') mountMap();
   if(typeof LIFEUI!=='undefined') LIFEUI.after();
   const ch=$('#chat'); if(ch) ch.scrollTop=ch.scrollHeight;
+  if(typeof OBSERVE!=='undefined')OBSERVE.clean(root);
 }
 function enterGame(screen='life'){ensureTime();if(typeof LIFEUI!=='undefined')LIFEUI.enter();SIM.prefetch();poolPrefetch();UI.mode='app';UI.screen=screen;UI.editHome=false;UI.alert=null;UI.thWith=null;$('#root').innerHTML='';render()}
-function goTitle(){clearInterval(UI._rt);PLAY.pause();UI.mode='title';UI.panel=null;$('#root').innerHTML='';render()}
+function goTitle(){clearInterval(UI._rt);PLAY.pause();UI.mode='title';UI.panel=null;if(typeof HISTORY_UI!=='undefined')HISTORY_UI.close();if(typeof LIFEUI!=='undefined')LIFEUI.syncPopup();$('#root').innerHTML='';render()}
 
 document.addEventListener('click',e=>{
   if(UI.mode==='intro'){const b=e.target.closest('[data-intro]');if(b){e.preventDefault();b.dataset.intro==='skip'?introDone():introNext()}return}
@@ -3406,14 +3411,7 @@ document.addEventListener('click',e=>{
   if(d.raidgo){startRaid(UI.prep.gid);return}
   if(d.retreat){const v=+d.retreat;if(UI.raid&&UI.screen==='raid')UI.raid.retreat=v;if(UI.prep)UI.prep.retreat=v;render();return}
   if(d.relsel){UI.relSel=d.relsel;render();return}
-  if(d.offer){const [i,k]=d.offer.split('|'),o=(G.offers||[]).filter(x=>x.exp>nowAbs())[+i];if(!o)return;const gg=DB.guilds[o.gid];
-    if(k==='ok'){joinGuild(o);toast(`<b>${esc(gg.name)}</b>에 입단했습니다. 배분율 ${o.share}%.`)}
-    else if(k==='no'){G.offers=G.offers.filter(x=>x!==o);if(o.renew)leaveGuild('계약 만료 · 재계약 거절');toast(`${esc(gg.name)}의 제안을 거절했습니다.`)}
-    else{const v=attrVal(G.player,'ABL_B17'),r=1+Math.floor(Math.random()*20),tot=v+r;o.neg=true;
-      if(tot>=18){o.share+=1+(tot>=24?1:0);toast(`협상 성공 [협상력 ${v} + d20 ${r} = ${tot} vs 18] — 배분율 ${o.share}%`)}
-      else if(Math.random()<.3){G.offers=G.offers.filter(x=>x!==o);toast(`협상 실패 [${tot} vs 18] — ${esc(gg.name)}이(가) 제안을 거둬들였습니다.`)}
-      else toast(`협상 실패 [${tot} vs 18] — 조건은 그대로입니다.`)}
-    render();return}
+  if(d.offer){const [i,k]=d.offer.split('|');replyGuildOffer(+i,k);render();return}
   if(d.guildleave){if(!UI.leaveConfirm){UI.leaveConfirm=true;render();return}UI.leaveConfirm=false;const n=guildName(G.player.guild),ms=isMaster();leaveGuild();toast(ms?`${esc(n)}을(를) 해산했습니다. 남은 자금은 내 돈으로 돌아왔습니다.`:`${esc(n)}에서 탈퇴했습니다.`);render();return}
   if(d.bid){const [gid,v]=d.bid.split('|');placeBid(gid,+v,UI.bidGuild);render();return}
   if(d.bidguild){UI.bidGuild=!UI.bidGuild;render();return}
@@ -3568,7 +3566,11 @@ applySettings(); render(); packsLoad();  /* 대량 콘텐츠 팩을 뒤에서 �
 <script src="engine/status_ui.js"></script>
 <script src="engine/scale.js"></script>
 <script src="engine/mind.js"></script>
+<script src="engine/life_log.js"></script>
 <script src="engine/story.js"></script>
 <script src="engine/play.js"></script>
 <script src="engine/life.js"></script>
+<script src="engine/observe.js"></script>
+<script src="engine/hunter_status.js"></script>
+<script src="engine/history_ui.js"></script>
 <script src="engine/life_ui.js"></script>
