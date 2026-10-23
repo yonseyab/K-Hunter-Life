@@ -20,42 +20,10 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
     assert.match(await p.locator('#hs-traits').innerText(),/정의감/);
     assert.match(await p.locator('#hs-traits').innerText(),/튼튼한 몸/);
     await p.click('[data-hs-tab="base"]');
-    const before=await p.evaluate(()=>({stats:{...G.player.stats},points:G.player.statPts,hp:vitals(G.player).hp,mp:vitals(G.player).mp}));
-    await p.click('[data-hs-adjust="STAT_BODY|1"]');await p.click('[data-hs-adjust="STAT_MANA|1"]');
-    assert.deepEqual(await p.evaluate(()=>({stats:G.player.stats,points:G.player.statPts})),{stats:before.stats,points:5});
-    assert.equal(await p.locator('[data-hs-remaining]').innerText(),'3');
-    assert.equal(+(await p.locator('[data-hs-preview="최대 HP"]').getAttribute('data-after')),before.hp+10);
-    assert.equal(+(await p.locator('[data-hs-preview="최대 MP"]').getAttribute('data-after')),before.mp+10);
-    assert.deepEqual(await p.evaluate(()=>{const r=HUNTER_STATUS.preview();return r.after}),await p.evaluate(()=>vitals({...G.player,stats:{...G.player.stats,STAT_BODY:G.player.stats.STAT_BODY+1,STAT_MANA:G.player.stats.STAT_MANA+1}})));
+    /* 2026-10-24: 성좌(플레이어)는 스탯을 분배하지 않는다 — 분배 칸 · 버튼 없음 */
+    assert.equal(await p.locator('#hs-allocation,[data-hs-adjust],[data-hs-apply],[data-hstatus-scroll]').count(),0);
+    assert.equal(await p.locator('#hunterStatus details[data-sw2more]').count(),0);  /* 내 헌터 상태창은 접지 않는다 */
     await p.screenshot({path:path.join(process.env.OUT||os.tmpdir(),'khl-hunter-status.png'),fullPage:true});
-    await p.click('[data-hs-tab="classSkills"]');
-    await p.screenshot({path:path.join(process.env.OUT||os.tmpdir(),'khl-hunter-status-details.png'),fullPage:true});
-    await p.click('[data-hs-tab="base"]');
-    await p.click('[data-hs-adjust="STAT_BODY|-1"]');assert.equal(await p.locator('[data-hs-remaining]').innerText(),'4');
-    await p.click('[data-hs-reset]');assert.equal(await p.locator('[data-hs-remaining]').innerText(),'5');assert(await p.locator('[data-hs-apply]').isDisabled());
-    for(let i=0;i<5;i++)await p.click('[data-hs-adjust="STAT_BODY|1"]');
-    assert.equal(await p.locator('[data-hs-remaining]').innerText(),'0');
-    assert.equal(await p.locator('[data-hs-adjust$="|1"]:not(:disabled)').count(),0);
-    await p.evaluate(()=>document.querySelector('[data-hs-adjust="STAT_MANA|1"]').click());
-    assert.equal(await p.locator('[data-hs-added="STAT_MANA"]').innerText(),'+0');
-    await p.click('[data-hs-apply]');
-    assert.equal(await p.evaluate(()=>G.player.stats.STAT_BODY),before.stats.STAT_BODY+5);
-    assert.equal(await p.evaluate(()=>G.player.statPts),0);assert(await p.locator('[data-hs-apply]').isDisabled());
-    await p.evaluate(()=>document.querySelector('[data-hs-apply]').click());
-    assert.equal(await p.evaluate(()=>G.player.stats.STAT_BODY),before.stats.STAT_BODY+5);
-    // A pending allocation is not saved; switching to another hunter resets it.
-    await p.evaluate(()=>{G.player.statPts=2;render()});await p.click('[data-hs-adjust="STAT_MIND|1"]');
-    const mind=await p.evaluate(()=>G.player.stats.STAT_MIND);
-    await p.evaluate(()=>{saveGame('slot1');const s=store.get(SAVE_KEY,[]).find(x=>x.slot==='slot1');G=JSON.parse(JSON.stringify(s.data));enterGame();UI.screen='homeHunter';UI.homeTabs.hunter='status';render()});
-    assert.equal(await p.evaluate(()=>G.player.stats.STAT_MIND),mind);
-    assert.equal(await p.locator('[data-hs-added="STAT_MIND"]').innerText(),'+0');
-    assert.equal(await p.evaluate(()=>G.player.stats.STAT_BODY),before.stats.STAT_BODY+5);
-    // If live growth changes the base, an old Apply click cannot spend stale points.
-    await p.click('[data-hs-adjust="STAT_MIND|1"]');
-    await p.evaluate(()=>G.player.statPts=1);await p.click('[data-hs-apply]');
-    assert.equal(await p.evaluate(()=>G.player.stats.STAT_MIND),mind);
-    assert.equal(await p.evaluate(()=>G.player.statPts),1);
-    assert.match(await p.locator('#hs-message').innerText(),/초기화/);
     await p.evaluate(()=>{G.player.traits=[];G.player.skills=[];render()});
     await p.click('[data-hs-tab="traits"]');
     assert.match(await p.locator('#hs-traits').innerText(),/보유 특성 없음/);
@@ -66,6 +34,6 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
       assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'document overflow '+width);
       assert(await p.evaluate(()=>document.querySelector('#main').scrollWidth<=document.querySelector('#main').clientWidth+1),'main overflow '+width);
     }
-    assert.deepEqual(errs,[]);console.log('hunter status / pure preview / point limits / apply / stale data / save / mobile passed; errs []');
+    assert.deepEqual(errs,[]);console.log('hunter status / no allocation / tabs / mobile passed; errs []');
   } finally {await b.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

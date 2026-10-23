@@ -2228,7 +2228,7 @@ function renderTop(){ensureTime();
   const p=G.player,dt=dateOf(G.day);
   $('#top').innerHTML=`<div class="home-clock"><span id="clockAge">${p.age||25}세</span><span id="clockD">${dt.y}년 ${dt.m}월 ${dt.d}일 (${dt.w})</span><span id="clockTime">${hhmm(G.time)}</span></div>
     ${G.dead?'':LIFEUI.controls()}
-    <div class="tools"><span id="awakeningElapsed" title="${esc(awakeningElapsed().title)}">${awakeningElapsed().text}</span><button data-qsopen="1" aria-label="검색">검색</button><button data-savemenu="1" aria-expanded="${!!UI.saveMenu}">저장</button><button data-go="settings">설정</button><button data-totitle="1">타이틀</button></div>
+    <div class="tools"><span id="topCoin" title="성좌 코인">${coinTxt(G.coin||0)}</span><span id="awakeningElapsed" title="${esc(awakeningElapsed().title)}">${awakeningElapsed().text}</span><button data-qsopen="1" aria-label="검색">검색</button><button data-savemenu="1" aria-expanded="${!!UI.saveMenu}">저장</button><button data-go="settings">설정</button><button data-totitle="1">타이틀</button></div>
     ${UI.saveMenu?saveMenuHTML():''}`;
   if(typeof OBSERVE!=='undefined')OBSERVE.clean($('#top'));
 }
@@ -2265,7 +2265,7 @@ function qsGo(go){qsClose();const [k,id]=[go.slice(0,go.indexOf(':')),go.slice(g
   $('#main').scrollTop=0;render()}
 function renderNav(){
   const group=['homeHunter','homeDb','homeTrade'].includes(UI.screen)?UI.screen:'life';
-  const sections=[['life','이야기','▶','story',[['life','인생'],['goals','목표 설정'],['bio','일대기']]],['homeHunter','내 헌터','▣','hunter',[['profile','정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]],['homeDb','DB','⌕',null,[]],['homeTrade','거래','◇','trade',[['shop','상점'],['auction','성좌 경매장'],['other','기타']]]];
+  const sections=[['life','이야기','▶','story',[['life','인생'],['goals','목표 설정'],['bio','일대기']]],['homeHunter','내 헌터','▣','hunter',[['profile','정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]],['homeTrade','성좌','✦','trade',[['starinfo','내 정보'],['shop','상점'],['auction','성좌 경매장'],['achieve','업적']]],['homeDb','DB','⌕',null,[]]];
   $('#nav').innerHTML=sections.map(([screen,label,icon,key,items])=>{
     const selected=UI.homeTabs?.[key]||items[0]?.[0];
     return `<div class="nav-section"><button class="nav-parent ${group===screen?'is-active':''}" data-go="${screen}" ${!key&&group===screen?'aria-current="page"':''}><span class="ic">${icon}</span>${label}</button>${items.length?`<div class="nav-subtabs" aria-label="${label} 하위 메뉴">${items.map(([id,name])=>`<button id="nav-${key}-${id}" data-home-tab="${key}|${id}" ${group===screen&&selected===id?'aria-current="page"':''}>${name}</button>`).join('')}</div>`:''}</div>`;

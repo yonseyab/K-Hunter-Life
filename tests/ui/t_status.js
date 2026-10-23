@@ -12,12 +12,12 @@ const {chromium}=require('playwright');
     await p.screenshot({path:path.join(process.env.OUT||require('os').tmpdir(),'hunter-status-'+(['상태','성장','공개 설정'].indexOf(tab))+'.png')});
   }
   await p.click('[data-sttab="상태"]');
-  assert.match(await p.locator('[data-status-coin]').innerText(),/123,456/);
+  assert.match(await p.locator('#topCoin').innerText(),/123,456/);
   assert.equal(await p.locator('[data-statpt]').count(),0);
   assert.equal(await p.locator('.sw2-sk').count(),0);
   await p.click('[data-statusdetail="injuries"]');assert.match(await p.locator('[role="dialog"]').innerText(),/현재 부상이 없습니다/);await p.click('[aria-label="닫기"]');
   await p.evaluate(()=>{addInjury('PART_TORSO','INJ_CUT',1);render()});await p.click('[data-statusdetail="injuries"]');assert.match(await p.locator('[role="dialog"]').innerText(),/남은 회복 시간/);await p.click('[aria-label="닫기"]');
-  await p.click('[data-sttab="성장"]');const before=await p.evaluate(()=>G.player.stats.STAT_BODY);await p.click('[data-statpt="STAT_BODY"]');assert.equal(await p.evaluate(()=>G.player.stats.STAT_BODY),before+1);assert.equal(await p.evaluate(()=>G.player.statPts),4);
+  await p.click('[data-sttab="성장"]');assert.equal(await p.locator('[data-statpt]').count(),0);  /* 성좌는 스탯을 분배하지 않는다 (2026-10-24) */
   await p.click('[data-sttab="공개 설정"]');const pub=await p.evaluate(()=>G.statusPublic.stats);await p.click('[data-pubtog="stats"]');assert.equal(await p.evaluate(()=>G.statusPublic.stats),!pub);
   await p.click('[data-statusdetail="public"]');assert.equal(await p.locator('[role="dialog"] [data-status-coin]').count(),0);await p.click('[aria-label="닫기"]');
   await p.evaluate(()=>{const skill=G.player.skills[0];G.player.skills=Array.from({length:1000},()=>skill);UI.stTab='상태';render()});assert.equal(await p.locator('.sw2-sk').count(),0);assert.equal(await p.evaluate(()=>{const m=document.querySelector('#main');return m.scrollHeight<=m.clientHeight+1}),true);

@@ -7,12 +7,12 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
     p.on('pageerror',e=>errs.push(e.message));
     await p.goto('file://'+path.resolve(__dirname,'../../game/index.html'));
     await p.evaluate(async()=>{await packsLoad();gameFromScenario('SC_BDEMO');enterGame();await poolPrefetch()});
-    assert.deepEqual(await p.locator('#nav [data-go]').evaluateAll(L=>L.map(x=>x.dataset.go)),['life','homeHunter','homeDb','homeTrade']);
+    assert.deepEqual(await p.locator('#nav [data-go]').evaluateAll(L=>L.map(x=>x.dataset.go)),['life','homeHunter','homeTrade','homeDb']);
     await p.evaluate(()=>{SETTINGS.dev=true;render()});
-    assert.equal(await p.locator('#nav button').count(),14);
+    assert.equal(await p.locator('#nav button').count(),15);
     assert.deepEqual(await p.locator('#nav .nav-subtabs').nth(0).locator('button').allTextContents(),['인생','목표 설정','일대기']);
     assert.deepEqual(await p.locator('#nav .nav-subtabs').nth(1).locator('button').allTextContents(),['정보','상태창','관계','소지품']);
-    for(const [group,screen,items] of [['story','life',[['life','인생'],['goals','목표 설정'],['bio','일대기']]],['hunter','homeHunter',[['profile','정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]],['trade','homeTrade',[['shop','상점'],['auction','성좌 경매장'],['other','기타']]]]) {
+    for(const [group,screen,items] of [['story','life',[['life','인생'],['goals','목표 설정'],['bio','일대기']]],['hunter','homeHunter',[['profile','정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]],['trade','homeTrade',[['starinfo','내 정보'],['shop','상점'],['auction','성좌 경매장'],['achieve','업적']]]]) {
       for(const [id,label] of items) {
         await p.evaluate(()=>{UI.screen='homeDb';render()});
         await p.click(`#nav [data-home-tab="${group}|${id}"]`);
@@ -21,14 +21,14 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
         assert.equal(await p.locator(`#nav [data-home-tab="${group}|${id}"]`).getAttribute('aria-current'),'page');
       }
     }
-    const groups=[['life','이야기',['인생','목표 설정','일대기']],['homeHunter','내 헌터',['정보','상태창','관계','소지품']],['homeDb','DB',['인물','게이트','몬스터','장비','장소','기타','클래스','스킬']],['homeTrade','거래',['상점','성좌 경매장','기타']]];
+    const groups=[['life','이야기',['인생','목표 설정','일대기']],['homeHunter','내 헌터',['정보','상태창','관계','소지품']],['homeDb','DB',['인물','게이트','몬스터','장비','장소','기타','클래스','스킬']],['homeTrade','성좌',['내 정보','상점','성좌 경매장','업적']]];
     for(const [screen,label,names] of groups) {
       await p.click(`#nav [data-go="${screen}"]`);
       assert.deepEqual(await p.locator(`[role="tablist"][aria-label="${label}"] [role="tab"]`).allTextContents(),names);
       for(const name of names) {
         await p.getByRole('tab',{name,exact:true}).click();
         assert.equal(await p.getByRole('tab',{name,exact:true}).getAttribute('aria-selected'),'true');
-        assert.equal(await p.locator('#nav button').count(),14);
+        assert.equal(await p.locator('#nav button').count(),15);
         if(name!=='인생'&&name!=='일대기'&&!(screen==='homeHunter'&&name==='상태창'))assert.equal(await p.getByRole('tabpanel').innerHTML(),'','unimplemented tabs have no content UI');
       }
     }
@@ -55,7 +55,8 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
     // Live values and location update without rebuilding the story log.
     await p.evaluate(()=>{window.homeFirstLine=document.querySelector('#story').firstElementChild;G.loc={region:G.player.region,pt:'PT_TRAIN'};G.coin=81;PLAY.ui()});
     assert((await p.locator('[data-life-location]').innerText()).includes('훈련'));
-    assert.equal(await p.locator('[data-status-coin]').getAttribute('data-status-coin'),'81');
+    assert.match(await p.locator('#topCoin').innerText(),/81/);assert.equal(await p.locator('[data-status-coin]').count(),0);
+    assert.equal(await p.locator('#lifeSide details[data-sw2more]:not([open])').count(),1);await p.click('#lifeSide [data-sw2more] summary');assert(await p.evaluate(()=>UI.swOpen===true));
     assert(await p.evaluate(()=>homeFirstLine===document.querySelector('#story').firstElementChild));
     await p.click('[data-life-widget-edit]');await p.locator('[data-life-widget-toggle="WG_COND"]').check();
     assert.equal(await p.locator('[data-life-widget="WG_COND"]').count(),1);

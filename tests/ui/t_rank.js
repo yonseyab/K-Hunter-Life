@@ -11,7 +11,7 @@ const v0=await p.evaluate(()=>vitals(G.player));
 console.log('lvup',await p.evaluate(()=>{const h=G.player;h.walls=[10,20,30];return addExp(expNeed(h.level)+1).join(' / ')}),JSON.stringify(v0),'→',JSON.stringify(await p.evaluate(()=>vitals(G.player))));
 await p.evaluate(()=>render());await p.screenshot({path:OUT+'/rank_status.png'});
 await p.click('[data-sttab="성장"]');
-for(let i=0;i<5;i++)await p.click('[data-statpt="STAT_BODY"]');
+await p.evaluate(()=>{for(let i=0;i<5;i++){const h=G.player;if((h.statPts||0)>0){h.stats.STAT_BODY++;h.statPts--;rankCheck()}}render()});  /* 스탯 분배는 헌터가 (2026-10-24) — 엔진으로 */
 console.log('pts',await p.evaluate(()=>[G.player.statPts,G.player.stats.STAT_BODY]));
 /* 스탯 · 능력을 크게 올리면 등급 갱신 알림 */
 console.log('rankup',await p.evaluate(()=>{const h=G.player;Object.keys(h.stats).forEach(k=>h.stats[k]+=30);Object.keys(h.abl).forEach(k=>h.abl[k]=Math.min(20,h.abl[k]+3));const r=rankCheck();return [r.join(),h.rank,G.alerts[0].subj]}));

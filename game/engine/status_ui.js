@@ -6,14 +6,15 @@ function statusWindowHTML(h,home=false,options={}){
   const meter=(key,value,max,color)=>`<div class="sw2-c"><div class="k">${key}</div><div class="sw2-m"><b class="num">${value.toLocaleString()}</b><span class="num"> / ${max.toLocaleString()}</span></div>${swBar(value,max,color)}</div>`;
   const inside=raidActive();
   return `<div class="sw2${home?' home-status':''}${inside?' in-gate':''}" role="region" aria-label="상태창">
-    <div class="sw2-h"><span class="sw2-title" title="${inside?esc(DB.gates[UI.raid.gid]?.name||''):''}">STATUS${inside?' — 게이트 안 · 외부 연락 및 다른 행동 불가':''}</span><span style="letter-spacing:normal" aria-label="보유 코인" data-status-coin="${G.coin??0}">코인 ${coinTxt(G.coin??0)}</span></div>
+    <div class="sw2-h"><span class="sw2-title" title="${inside?esc(DB.gates[UI.raid.gid]?.name||''):''}">STATUS${inside?' — 게이트 안 · 외부 연락 및 다른 행동 불가':''}</span></div>
     <div class="sw2-g r1" style="grid-template-columns:1.4fr .7fr 1.2fr .9fr">${cell('이름',esc(h.name))}${cell('레벨',`Lv.${h.level}`)}${cell('클래스',cls?esc(cls.name):'—')}${cell('등급',`${rkBadge(h.rank)} ${DB.ranks[h.rank].name}급`)}</div>
     <div class="sw2-g r2" style="grid-template-columns:repeat(3,minmax(0,1fr))">${meter('HP',Math.round(vt.hp*(c.hp??100)/100),vt.hp,'#5cc48a')}${meter('MP',Math.round(vt.mp*(c.mp??100)/100),vt.mp,'#4fa8e0')}${meter('EXP',ex,need,'#e0a341')}</div>
-    <div class="sw2-sec"><span>기본 스탯</span>${h.statPts?`<button class="btn sm" ${options.hunter?'data-hstatus-scroll="allocation"':'data-sttab="성장"'}>분배할 포인트 ${h.statPts}</button>`:''}</div>
+    ${options.fold?`<details class="sw2-more" data-sw2more ${UI.swOpen?'open':''}><summary>스탯 · 스킬 · 특성 ${UI.swOpen?'접기':'펼치기'}</summary>`:''}
+    <div class="sw2-sec"><span>기본 스탯</span></div>
     <div class="sw2-g r3" style="grid-template-columns:repeat(4,minmax(0,1fr))">${vals('baseStats').map(st=>`<div class="sw2-c sw2-st" title="${esc(st.desc)}"><div class="k">${st.name}</div><div class="v num">${h.stats[st.id]}</div></div>`).join('')}</div>
     <div class="sw2-summary" data-status-skills><span class="k">스킬</span><span>${[...new Set((h.skills||[]).map(([id])=>DB.skills[id]?.name||'알 수 없는 스킬'))].map(esc).join(' · ')||'없음'}</span></div>
     <div class="sw2-summary" data-status-traits><span class="k">특성</span><span>${(h.traits||[]).map(id=>esc(DB.traits[id]?.name||'알 수 없는 특성')).join(' · ')||'없음'}</span></div>
-    <div class="row${home?' home-status-footer':''}" style="padding:10px;gap:8px;flex-wrap:wrap"><button class="btn sm" data-statusdetail="injuries">부상 ${(G.injuries||[]).length}곳</button>${h.level%DB.balance.BAL_GROWTH.wallEvery===0?'<span class="chip w">성장의 벽</span>':''}${home?`<span class="home-status-location" data-life-location>${esc(placeName(locOf()))}</span>`:''}</div>
+    ${options.fold?'</details>':''}<div class="row${home?' home-status-footer':''}" style="padding:10px;gap:8px;flex-wrap:wrap"><button class="btn sm" data-statusdetail="injuries">부상 ${(G.injuries||[]).length}곳</button>${h.level%DB.balance.BAL_GROWTH.wallEvery===0?'<span class="chip w">성장의 벽</span>':''}${home?`<span class="home-status-location" data-life-location>${esc(placeName(locOf()))}</span>`:''}</div>
   </div>`;
 }
 function growthStatusHTML(){
@@ -59,3 +60,6 @@ function settingsOptionsHTML(){return `<div class="pb grid" style="gap:14px">
       <div class="field"><label for="st-ts">텍스트 표시 속도</label><select id="st-ts" data-setsel="textSpeed">${['느림','보통','빠름','즉시'].map(v=>`<option ${SETTINGS.textSpeed===v?'selected':''}>${v}</option>`).join('')}</select></div>
       <div class="field"><label for="st-vol">효과음 (준비 중)</label><input type="range" id="st-vol" disabled value="70"></div>
       <div class="field"><label for="st-bgm">배경음 (준비 중)</label><input type="range" id="st-bgm" disabled value="50"></div></div>`;}
+
+/* 인생 탭 상태창: EXP 아래(스탯 · 스킬 · 특성)는 평소 접어 두고 원할 때 편다 (UI.swOpen 으로 다시 그려도 유지) */
+document.addEventListener('toggle',e=>{const d=e.target;if(!d?.matches?.('[data-sw2more]'))return;UI.swOpen=d.open;const s=d.querySelector('summary');if(s)s.textContent=`스탯 · 스킬 · 특성 ${d.open?'접기':'펼치기'}`;},true);

@@ -7,7 +7,7 @@ const OBSERVE = (() => {
   const blocked = ['actdo','actdur','actall','advance','advmenu','locmenu','goto','scout','raid','raidprep','raidgo','rc','tac','retreat','crisis',
     'partyfor','partygo','partyinv','partykick','partyclear','partyjoin','teamfound','teaminv','teamkick','teamdisband','preploadteam','preploadparty','prepmem',
     'schsel','schadd','schdel','schcopy','schtpl','autosched','schedundo','routine-mode','routine-start','routine-stop','rplan','mapdo','mapgo',
-    'bid','bidguild','equip','delegate','gshare','recshare','release','poach','thread','alert','reply','choice'];
+    'bid','bidguild','equip','statpt','delegate','gshare','recshare','release','poach','thread','alert','reply','choice'];
   const selector = blocked.map(k => '[data-' + k + ']').join(',');
   const directions = { auto: ['성격에 맡기기', null], grow: ['실력 · 승급', 'GOAL_GROW'], money: ['돈 모으기', 'GOAL_WEALTH'],
     rest: ['회복 · 안정', 'GOAL_STABLE'], social: ['사람들과 가까워지기', 'GOAL_PEOPLE'] };

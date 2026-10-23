@@ -48,7 +48,7 @@ const HUNTER_STATUS = (() => {
   function html() {
     lastStamp = stamp();
     const tabs=[['base','기본 상태'],['classSkills','클래스 · 스킬'],['traits','특성']],tab=tabs.some(([id])=>id===UI.hunterStatusTab)?UI.hunterStatusTab:'base';
-    return `<div id="hunterStatus" class="hunter-status"><div class="home-category-tabs hs-tabs" role="tablist" aria-label="상태창 상세">${tabs.map(([id,label])=>`<button role="tab" id="hs-tab-${id}" data-hs-tab="${id}" aria-selected="${id===tab}" aria-controls="hs-content" tabindex="${id===tab?0:-1}">${label}</button>`).join('')}</div><div id="hs-content" class="hs-content" role="tabpanel" aria-labelledby="hs-tab-${tab}">${tab==='base'?`<div id="hs-overview">${statusWindowHTML(G.player,true,{hunter:true})}</div>${allocationHTML()}`:tab==='classSkills'?`${classHTML()}${skillsHTML()}`:traitsHTML()}</div><div id="hs-message" class="hs-message" role="status" aria-live="polite"></div></div>`;
+    return `<div id="hunterStatus" class="hunter-status"><div class="home-category-tabs hs-tabs" role="tablist" aria-label="상태창 상세">${tabs.map(([id,label])=>`<button role="tab" id="hs-tab-${id}" data-hs-tab="${id}" aria-selected="${id===tab}" aria-controls="hs-content" tabindex="${id===tab?0:-1}">${label}</button>`).join('')}</div><div id="hs-content" class="hs-content" role="tabpanel" aria-labelledby="hs-tab-${tab}">${tab==='base'?`<div id="hs-overview">${statusWindowHTML(G.player,true,{hunter:true})}</div>`:tab==='classSkills'?`${classHTML()}${skillsHTML()}`:traitsHTML()}</div><div id="hs-message" class="hs-message" role="status" aria-live="polite"></div></div>`;
   }
   function renderStatus() {
     const root=document.getElementById('hunterStatus'); if(!root)return;

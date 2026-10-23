@@ -14,7 +14,7 @@ await p.evaluate(async()=>{await packsLoad();gameFromScenario('SC_BDEMO');enterG
 ok(await p.locator('#story').count()===1,'이야기 창');ok(await p.locator('#lifeSide').count()===1,'오른쪽 상태');
 ok(await p.locator('#lifeBar button').count()===4,'방향 · 구매 · 장비 버튼');ok(await p.locator('#playbar [data-kspeed]').count()===4,'배속 4개');
 ok(await p.locator('[data-advance="next"]').count()===0,"옛 '계속' 버튼 없음");
-const nav=await p.locator('#nav [data-go]').evaluateAll(L=>L.map(x=>x.dataset.go));ok(JSON.stringify(nav)===JSON.stringify(['life','homeHunter','homeDb','homeTrade']),'좌측 대분류 네 개 '+nav);
+const nav=await p.locator('#nav [data-go]').evaluateAll(L=>L.map(x=>x.dataset.go));ok(JSON.stringify(nav)===JSON.stringify(['life','homeHunter','homeTrade','homeDb']),'좌측 대분류 네 개 '+nav);
 /* 실시간: ▶ 누르면 시계가 움직이고, 문장은 붙기만 한다 */
 const t0=await p.evaluate(()=>nowAbs());
 await p.evaluate(()=>{prefs().play.stop='none';prefs().autoRaid.on='off';DB.balance.BAL_TIME.eventPerHour=0});

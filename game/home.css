@@ -172,3 +172,11 @@ body {margin:0;}
 @media(max-width:420px) {.app .top {gap:6px;}.home-clock {gap:7px;flex-wrap:wrap;}.app .top .tools {gap:3px;}.app .top .tools button {height:28px;padding:0 6px;font-size:11px;}.app .playbar .pbtn {height:28px;padding:0 6px;min-width:30px;}.app .playbar .playrate {margin-left:3px;}.home-status .sw2-c {padding:5px 6px;}.home-status .sw2-c .k {font-size:10px;}.home-status .r2 .sw2-c {grid-template-columns:minmax(0,1fr);gap:1px;}.home-status .sw2-m {text-align:left;}.home-status .sw2-m span {font-size:8px;}.home-status .r2 .stw-bar {grid-column:auto;}.home-status .home-status-footer {padding:5px 6px!important;}.home-status-location {font-size:10px;}.life .lbar .btn {font-size:11px;padding:4px 6px;}#lifeWidgets {grid-template-columns:minmax(0,1fr);}}
 @media(max-width:760px) {.app .nav {align-items:flex-start;}.app .nav-section {flex:1;min-width:0;margin:0;}.app .nav-parent {padding:7px 9px;}.app .nav-subtabs button {padding:5px 9px 5px 18px;white-space:normal;}}
 @media(max-width:420px){.app .top .tools {flex-wrap:wrap;}#awakeningElapsed {font-size:10px;margin-right:4px;}}
+/* 인생 탭 상태창: EXP 아래 접기 (2026-10-24) · 상단 성좌 코인 */
+.sw2-more>summary {list-style:none;cursor:pointer;padding:5px 10px;font-size:11px;color:var(--muted);background:var(--panel);border-bottom:1px solid var(--line);}
+.sw2-more>summary::-webkit-details-marker {display:none;}
+.sw2-more>summary::before {content:'▸ ';}
+.sw2-more[open]>summary::before {content:'▾ ';}
+.sw2-more>summary:hover {color:var(--fg);}
+.sw2-more>summary:focus-visible {outline:2px solid var(--accent);outline-offset:-2px;}
+#topCoin {margin-right:10px;font-size:12px;white-space:nowrap;}

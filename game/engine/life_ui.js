@@ -37,7 +37,7 @@ const LIFEUI = (() => {
     const dt = dateOf(G.day), cd = document.getElementById('clockD'); if (cd) cd.textContent = `${dt.y}년 ${dt.m}월 ${dt.d}일 (${dt.w})`;
     const ct = document.getElementById('clockTime'); if (ct) ct.textContent = hhmm(G.time);
     const ca = document.getElementById('clockAge'); if (ca) ca.textContent = `${G.player.age || 25}세`;
-    const elapsed=document.getElementById('awakeningElapsed');if(elapsed){const info=awakeningElapsed();elapsed.textContent=info.text;elapsed.title=info.title;}
+    const tc=document.getElementById('topCoin');if(tc)tc.innerHTML=coinTxt(G.coin||0);const elapsed=document.getElementById('awakeningElapsed');if(elapsed){const info=awakeningElapsed();elapsed.textContent=info.text;elapsed.title=info.title;}
     if (UI.screen === 'life') { const sd = document.getElementById('lifeSide'); if (sd && !sd.contains(document.activeElement)) sd.innerHTML = sideHTML(); const ws = document.getElementById('lifeWidgets'); if (ws && !ws.contains(document.activeElement)) ws.innerHTML = widgetsHTML(); alignPanels(); }
     refreshMonth();
     if (UI.screen === 'homeHunter' && selectedTab('hunter') === 'status') HUNTER_STATUS.refresh();
@@ -83,7 +83,7 @@ const LIFEUI = (() => {
     return out.join(', ') || '혼자';
   }
   function sideHTML() {
-    return statusWindowHTML(G.player, true);
+    return statusWindowHTML(G.player, true, { fold: true });
   }
   const HOME_WIDGETS = ['WG_MONEY','WG_COND','WG_PEOPLE','WG_GOALS','WG_NEWS'];
   function widgetIds() { const P = PP(); if (!Array.isArray(P.homeWidgets)) P.homeWidgets = ['WG_MONEY','WG_PEOPLE','WG_GOALS']; return P.homeWidgets = [...new Set(P.homeWidgets)].filter(id => HOME_WIDGETS.includes(id)); }
@@ -208,7 +208,7 @@ const LIFEUI = (() => {
     story: {label:'이야기', tabs:[['life','인생'],['goals','목표 설정'],['bio','일대기']]},
     hunter: {label:'내 헌터', tabs:[['profile','정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]},
     db: {label:'DB', tabs:[['people','인물'],['gates','게이트'],['monsters','몬스터'],['equipment','장비'],['places','장소'],['other','기타'],['classes','클래스'],['skills','스킬']]},
-    trade: {label:'거래', tabs:[['shop','상점'],['auction','성좌 경매장'],['other','기타']]}
+    trade: {label:'성좌', tabs:[['starinfo','내 정보'],['shop','상점'],['auction','성좌 경매장'],['achieve','업적']]}
   };
   function selectedTab(group) { const cfg = HOME_TABS[group], state = UI.homeTabs || (UI.homeTabs = {}); if (!cfg.tabs.some(([id])=>id===state[group])) state[group] = cfg.tabs[0][0]; return state[group]; }
   function categoryTabsHTML(group) { const cfg = HOME_TABS[group], current = selectedTab(group); return `<div class="home-category-tabs" role="tablist" aria-label="${cfg.label}">${cfg.tabs.map(([id,label])=>`<button type="button" id="home-tab-${group}-${id}" role="tab" data-home-tab="${group}|${id}" aria-selected="${id===current}" aria-controls="home-panel-${group}" tabindex="${id===current?0:-1}">${label}</button>`).join('')}</div>`; }
