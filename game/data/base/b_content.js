@@ -14,7 +14,7 @@ def('items', [
   {id:'IT_B0011', name:'스마트폰',      cat:'ITC_DAILY', rank:null, price:0, desc:'협회 앱이 깔린 개인 휴대전화. 게이트 안에서는 먹통.'},
   {id:'IT_B0012', name:'집 열쇠',       cat:'ITC_DAILY', rank:null, price:0, desc:''},
   {id:'IT_B0020', name:'구급 키트',     cat:'ITC_CONSUME', rank:null, price:45000, use:{hp:10,cure:'INJ_BLEED'}, desc:'붕대 · 지혈대 · 소독약. 식약처 의료기기 2등급. 지혈대는 2시간 넘게 감지 말 것.'},
-  {id:'IT_B0021', name:'협회 지급 단검', cat:'ITC_WEAPON', rank:'RANK_20', price:180000, slot:'SLOT_WEAPON', req:{STAT_BODY:8}, desc:'신규 등록 헌터 지급품. 마철 단조, 협회 인증 20급. 재판매 금지.'},
+  {id:'IT_B0021', name:'협회 지급 단검', cat:'ITC_WEAPON', rank:'RANK_20', price:180000, slot:'SLOT_WEAPON', req:{STAT_BODY:8}, desc:'신규 등록 헌터 지급품. 협회 인증 20급. 재판매 금지.'},
   {id:'IT_B0022', name:'방검 조끼 (보급형)', cat:'ITC_ARMOR', rank:'RANK_19', price:420000, slot:'SLOT_BODY', req:{STAT_BODY:10}, desc:'경찰 방검복에 마수 가죽을 덧댄 보급형. 국산. 세탁기 사용 금지.'},
   {id:'IT_B0023', name:'마력 포션 (하급)', cat:'ITC_CONSUME', rank:'RANK_18', price:120000, use:{mp:25}, desc:'마력 소폭 회복. 1일 3병 이하 권장. 치유 포션은 존재하지 않는다.'},
   {id:'IT_B0024', name:'게이트용 방호 마스크', cat:'ITC_ARMOR', rank:null, price:95000, slot:'SLOT_FACE', req:{}, desc:'KF 마력 필터 내장. 필터 교체 주기 게이트 3회.'},
