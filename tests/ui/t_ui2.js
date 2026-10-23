@@ -29,9 +29,9 @@ console.log('req',await p.evaluate(()=>{if(!invOf().some(r=>r.item==='IT_0002'))
 console.log('coin',await p.evaluate(()=>{const c0=G.coin;UI.screen='shop';UI.shopTab='buy';UI.shopSel='SS_B0001';render();document.querySelector('[data-shopbuy]').click();const c1=G.coin;return [c0,c1,coinsFor(12,19,true),coinsFor(12,13,false)]}));
 /* 경매장 */
 await p.evaluate(()=>{UI.screen='auction';render()});
-console.log('auc',await p.evaluate(()=>{const A=AUC(),l=A.lots.find(x=>!x.done);const m0=G.money;aucBid(l.id,false);const m1=G.money;l.cap=1e12;DB.balance.BAL_AUCTION.bidPerHour=1;aucTick(1);const m2=G.money;return [A.lots.length,m0-m1,m2-m1,l.bidder]}));
-console.log('auc buy',await p.evaluate(()=>{const l=AUC().lots.find(x=>!x.done&&x.buyout);G.money+=l.buyout;const n0=invOf().filter(r=>r.item===l.item).reduce((a,r)=>a+r.qty,0);aucBid(l.id,true);return [l.done,invOf().filter(r=>r.item===l.item).reduce((a,r)=>a+r.qty,0)-n0]}));
-console.log('auc list',await p.evaluate(()=>{const i=invOf().findIndex(r=>r.loc==='LOC_BAG'&&DB.items[r.item].price);const id=invOf()[i].item;aucList(i,1000,1);const l=AUC().lots.find(x=>x.seller==='ME');l.cap=1e12;DB.balance.BAL_AUCTION.bidPerHour=1;aucTick(3);const m0=G.money;l.end=nowAbs()-1;aucTick(1);return [id,l.bidder,G.money-m0]}));
+/* 성좌 경매장 (코인): 입찰 → 상위 입찰이 나오면 코인 돌려받음 · 즉시 구매 → 헌터 가방으로 선물 */
+console.log('auc',await p.evaluate(()=>{const A=AUC(),l=A.lots.find(x=>!x.done);G.coin=100000;const m0=G.coin;aucBid(l.id,false);const m1=G.coin;l.cap=1e12;DB.balance.BAL_AUCTION.bidPerHour=1;aucTick(1);const m2=G.coin;return [A.lots.length,m0-m1,m2-m1,l.bidder]}));
+console.log('auc buy',await p.evaluate(()=>{const l=AUC().lots.find(x=>!x.done&&x.buyout);G.coin=(G.coin||0)+l.buyout;const n0=invOf().filter(r=>r.item===l.item).reduce((a,r)=>a+r.qty,0);aucBid(l.id,true);return [l.done,invOf().filter(r=>r.item===l.item).reduce((a,r)=>a+r.qty,0)-n0,G.starGifts.length]}));
 await p.evaluate(()=>{UI.screen='auction';UI.aucTab='경매 목록';render()});await p.screenshot({path:OUT+'/auction.png'});
 /* 화면 순회 */
 for(const k of ['home','acts','party','raidteam','guild','auction','status','shop','inventory']){await p.evaluate(k=>{UI.screen=k;render()},k)}

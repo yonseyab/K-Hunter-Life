@@ -11,8 +11,8 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
     await p.evaluate(()=>{SETTINGS.dev=true;render()});
     assert.equal(await p.locator('#nav button').count(),14);
     assert.deepEqual(await p.locator('#nav .nav-subtabs').nth(0).locator('button').allTextContents(),['인생','목표 설정','일대기']);
-    assert.deepEqual(await p.locator('#nav .nav-subtabs').nth(1).locator('button').allTextContents(),['내 정보','상태창','관계','소지품']);
-    for(const [group,screen,items] of [['story','life',[['life','인생'],['goals','목표 설정'],['bio','일대기']]],['hunter','homeHunter',[['profile','내 정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]],['trade','homeTrade',[['shop','시스템 상점'],['auction','경매장'],['other','기타']]]]) {
+    assert.deepEqual(await p.locator('#nav .nav-subtabs').nth(1).locator('button').allTextContents(),['정보','상태창','관계','소지품']);
+    for(const [group,screen,items] of [['story','life',[['life','인생'],['goals','목표 설정'],['bio','일대기']]],['hunter','homeHunter',[['profile','정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]],['trade','homeTrade',[['shop','상점'],['auction','성좌 경매장'],['other','기타']]]]) {
       for(const [id,label] of items) {
         await p.evaluate(()=>{UI.screen='homeDb';render()});
         await p.click(`#nav [data-home-tab="${group}|${id}"]`);
@@ -21,7 +21,7 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
         assert.equal(await p.locator(`#nav [data-home-tab="${group}|${id}"]`).getAttribute('aria-current'),'page');
       }
     }
-    const groups=[['life','이야기',['인생','목표 설정','일대기']],['homeHunter','내 헌터',['내 정보','상태창','관계','소지품']],['homeDb','DB',['인물','게이트','몬스터','장비','장소','기타','클래스','스킬']],['homeTrade','거래',['시스템 상점','경매장','기타']]];
+    const groups=[['life','이야기',['인생','목표 설정','일대기']],['homeHunter','내 헌터',['정보','상태창','관계','소지품']],['homeDb','DB',['인물','게이트','몬스터','장비','장소','기타','클래스','스킬']],['homeTrade','거래',['상점','성좌 경매장','기타']]];
     for(const [screen,label,names] of groups) {
       await p.click(`#nav [data-go="${screen}"]`);
       assert.deepEqual(await p.locator(`[role="tablist"][aria-label="${label}"] [role="tab"]`).allTextContents(),names);

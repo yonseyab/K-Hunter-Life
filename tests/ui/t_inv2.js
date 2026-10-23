@@ -5,9 +5,9 @@ const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950
 await p.goto(''+APP+'');await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.evaluate(()=>{OBSERVE.legacy=true});await p.waitForTimeout(300);
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame('inventory')});
 console.log(await p.evaluate(()=>[...document.querySelectorAll('[data-invloc]')].map(b=>b.innerText).join(' | ')));
-await p.locator('tr[data-invsel]').first().click();await p.locator('[data-shoptab-go]').click();console.log(await p.evaluate(()=>UI.screen+' '+UI.shopTab));
-await p.locator('[data-shopsell]').click();
-await p.click('[data-shoptab="buy"]');await p.click('[data-shopsel="SS_B0001"]');await p.click('[data-shopbuy="SS_B0001"]');
+await p.locator('tr[data-invsel]').first().click();console.log('팔기 버튼',await p.locator('[data-shoptab-go],[data-shopsell]').count());
+/* 상점: 성좌가 사서 선물 → 헌터 가방 */
+await p.evaluate(()=>{G.coin=1000;UI.screen='shop';render()});await p.click('[data-shopsel="SS_B0001"]');await p.click('[data-shopbuy="SS_B0001"]');
 console.log(await p.evaluate(()=>G.inv.filter(r=>r.item==='IT_B0023').map(r=>r.loc+':'+r.qty).join(',')));
 await p.evaluate(()=>{UI.screen='inventory';render()});await p.screenshot({path:''+OUT+'/s_inv2.png'});
 await p.evaluate(()=>{UI.screen='db';UI.dbTab='ITEM';render()});await p.evaluate(()=>{UI.screen='status';render()});

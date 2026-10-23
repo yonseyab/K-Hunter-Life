@@ -165,7 +165,7 @@ function SIM_FACTORY() {
 
   /* 이름 있는 일반인의 각성 (가족 · 친구가 각성할 수 있다). 같은 ID로 헌터가 된다 (G.genHunters) — 관계 · 기억 · 경력 기록은 그대로 */
   function awaken(p) {
-    const r = rng(p.id + '|awaken'), roles = vals('roles'), role = roles[Math.floor(r() * roles.length)].id, cls = vals('classes').filter(c => c.role === role), c = cls.length ? cls[Math.floor(r() * cls.length)] : vals('classes')[0];
+    const r = rng(p.id + '|awaken'), roles = vals('roles'), role = roles[Math.floor(r() * roles.length)].id, cls = vals('classes').filter(c => c.role === role && !c.unique), c = cls.length ? cls[Math.floor(r() * cls.length)] : vals('classes')[0];
     const st = civProg(p), abl = { ...st.abl }; vals('abilities').filter(a => ablSetsOf({ awake: true }).includes(a.set) && abl[a.id] == null).forEach(a => abl[a.id] = cl(Math.round(5 + gauss(r) * 1.5), 1, 20));
     for (const k of Object.keys(abl)) if (!ablSetsOf({ awake: true }).includes(DB.abilities[k]?.set)) delete abl[k];
     const stats = {}; vals('baseStats').forEach(b => stats[b.id] = 8 + Math.floor(r() * 6)); const dt = dateOf(G.day);
@@ -510,7 +510,7 @@ function SIM_FACTORY() {
     const base = { id, name: popName(i), sex, age: P.age[i], region: reg, nation: 'NAT_KR', status: f & F_ALIVE ? '정상' : '사망', looks: null, promoted: true };
     let o;
     if (awake) {
-      const role = G.pop.roles[P.role[i]], cls = vals('classes').filter(c => c.role === role), c = cls.length ? cls[Math.floor(r() * cls.length)] : vals('classes')[0];
+      const role = G.pop.roles[P.role[i]], cls = vals('classes').filter(c => c.role === role && !c.unique), c = cls.length ? cls[Math.floor(r() * cls.length)] : vals('classes')[0];
       const abl = {}; vals('abilities').filter(a => ablSetsOf({ awake: true }).includes(a.set)).forEach(a => abl[a.id] = cl(Math.round(P.abl[i] + gauss(r) * 2.5), 1, 20));
       const st = vals('baseStats'), w = st.map(() => 0.5 + r()), tw = w.reduce((a, b) => a + b, 0), stats = {}; let left = P.stat[i];
       st.forEach((s, k) => { stats[s.id] = k === st.length - 1 ? left : Math.max(1, Math.round(P.stat[i] * w[k] / tw)); left -= stats[s.id]; });

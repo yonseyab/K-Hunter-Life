@@ -53,6 +53,8 @@ tests/ui/                Playwright 테스트 71개 + fixture.js(테스트 전�
 | 9 | 화면 정리 | index.html NAV · life_ui.js | 메뉴 네 묶음, 첫 화면 = 인생, 옛 홈 = 대시보드, 전국 현황 · 일대기 · 기록관 화면 |
 | 10 | 설정 묶음 | life_ui.js `V.settings` · `G.prefs.play` | 재생 · 멈춤 / 판단 · 방침 / 이야기 / 게임 설정 / 환경설정 / 헌터 관리 |
 | + | 인구 · 게이트 규모 | `engine/scale.js` SCALE · sim.js popGen ver 3 | 각성 0.5% · 활동 0.2% · 전국 하루 약 5,470개. 내 주변 개별, 나머지 집계(`G.wagg`). 다른 헌터 공략 시각(`g.clr`) |
+| + | 장비 · 아이템 틀 | `engine/gear.js` GEAR · data/items.js | 등급 6(일반~전설 + 숨은 신화, 보정 +1 · 2 · 4 · 7 · 11 · 16) · 칸 8(양손 · 한 벌 · 특수) · 개성(itemTraits) · 출처 13(itemSources) · 내구도 · 수리(헌터가 자동) · 마정석 80종(게이트 등급 × 품질). 착용은 헌터 판단 `GEAR.consider` (선물받을 때). 옛 칸 · rank 만 있는 장비는 `GEAR.normalize` 가 바꿈. 화면(상태창 › 장비)은 디자인 외주 뒤 |
+| + | 성좌 | `engine/star.js` STAR · data/stars.js | 선물 `STAR.gift`(상점 · 경매 → 헌터 가방) · 성좌 경매장(코인, `G.auction.coin`) · NPC 성좌 `STAR.ofHunter` · 고유 클래스 `STAR.grantClass`(세계에 한 명, `G.uniqueHeld`) · 클래스북 `readBook` · 메시지 `STAR.say`(자리만). 내 성좌 설정 · 업적 · 성좌 화면은 커마 화면 작업 때 |
 
 ### 세이브 (`G`, localStorage `khl.saves.v1`, v:3)
 새 필드: `story`(현재 달 원문 전체, 화면은 최근 300~500줄) · `storyArchive`(월별 묶음 목록/쓰기 대기 원문, 아래 최신 진행 참고) · `chron`(기존 하루 요약, 최대 4000개) · `emo`/`emoLog` · `persF`/`persBase`/`persLog` · `selfHeard` · `mindMem` · `teller` · `play`(오늘 공략 판단) · `milestones`/`retroQ`/`retroOpen` · `snaps`(rookie · prime · last) · `bioCard` · `oldAge` · `wagg` · `legacyOf`/`cast` · `prefs.play`.
@@ -79,6 +81,9 @@ tests/ui/                Playwright 테스트 71개 + fixture.js(테스트 전�
 - 망한 나라 · 대륙 세계사 (Codex 세계관 문서) → `ccNations.state` · 뉴스.
 - 화면 배치 · 메뉴 (사용자: "일단 해 보는 걸로") — 써 보고 고칠 점.
 - 경제: 새 헌터가 두 달이면 돈이 바닥나는 경우가 있다 (QA). 생계형 현실감으로 둘지, 시작 자금 · 하위 등급 수입을 올릴지.
+- 커마 화면에 성좌 칸(이름 · 성향 · 시작 코인 · 헌터가 아는지 · 고유 클래스로 시작) — 사용자와 UI 상의.
+- 업적(헌터가 이루면 성좌 코인) · 성좌 화면 — 성좌 UI 만들 때 같이.
+- 장비 화면 — GPT 이미지 시안이 오면.
 
 물어보지 않고 해도 되는 것
 - 이야기 문장이 많아지면 상세도별 빈도 · 반복 방지 조정.
@@ -89,9 +94,11 @@ tests/ui/                Playwright 테스트 71개 + fixture.js(테스트 전�
 ## 6. 알려진 문제 · 한계
 - 옛 버전 테스트 다수는 `tests/ui/fixture.js`(옛 고정 게이트 · 이벤트를 새 ID 로 바꾼 테스트 전용 데이터)에 기대어 돈다.
 - 자녀 · 범죄 · 잠재력 전체 보기는 보류 (사용자 '나중에').
+- 이벤트 본문이 소식으로 넘어갈 때 `{p}` 가 치환 안 되는 경우가 가끔 있다 (QA, `OBSERVE.notices` · b_story 의 알림 본문). 성좌 작업과 무관한 기존 문제.
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
 ## 7. 진행 상황
+- [완료] 2026-10-24 (Claude) 성좌 · 아이템 틀 (사용자와 목록 합의, UI는 꼭 필요한 곳만): 아이템 등급 · 칸 · 개성 · 출처 · 내구도 · 마정석 체계, 스탯 착용 조건 없앰, 착용은 헌터 판단(화면의 착용 버튼 없앰 — `OBSERVE` 차단 목록 'equip'), 상점 = 성좌가 사서 선물(판매 탭 · 소지품의 '시스템 상점에 팔기' 없앰), 원화 경매장 → 성좌 경매장(코인, 내 출품 없앰), NPC 성좌 · 고유 클래스(선천 각성 제외 · 한 명만 · 원래 클래스 바뀜) · 클래스북 틀, 좌측 '내 정보' → '정보'. 견본 데이터는 넣지 않음(표만). 장비 화면 이미지 의뢰서 `docs/outsource/gear_view_image_prompt.md`. 남은 것: 내 성좌 설정 · 시작 코인 · 고유 클래스로 시작(커마 화면) · 업적 · 성좌 화면 — 사용자와 상의하며
 - [완료] 2026-10-23 (Claude) GPT 수정본에 맞추기 + 주사위: ① PC 로컬 수정본을 GitHub main 에 그대로 반영 ② `OBSERVE.legacy`(검사용) — 켜면 옛 직접 조작 화면 · `doNowDirect` · 수동 `startRaid` · 팝업 생략. 게임에서는 꺼져 있다 ③ 옛 UI 테스트 28개를 새 화면에 맞춤(좌측 메뉴 · 상단 도구 · 위치 메뉴 · 알림 배지 대신 함수 호출, 일과 제목 '방향 · 목표') ④ 판정 주사위 새로 그림: 정이십면체 모양(SVG), 굴리는 동안 숫자가 점점 느려지며 멈추고 착지 · 결과 색(성공 초록 · 실패 빨강 · 20 금색 · 1 어두운 빨강), 아래에 능력치 + d20 + 보정 = 합계 칸과 난이도 눈금 막대가 차오른다. 장식 숫자는 정해진 순서(난수 안 씀), 움직임 줄이기 설정이면 바로 결과. 위치 `engine/life_ui.js` performChoice · `home.css` d20-* ⑤ 테스트 71개 · 데이터 검사 통과
 - [완료] 2026-10-23 사용자 정정 반영: 성격 요약명 바로 아래 짧은 설명 한 문단을 복원했다. persRoles/persStyles의 desc를 조합하며 긴 세부 목록은 복원하지 않았다. 256개 이름과 게임 판단 수치는 유지한다. 의상 스타일은 기본 10개+확장 50개 전부 짧고 일관된 취향 문구로 바꿨다(캐주얼한 옷차림 선호 / 몸의 선이 드러나는 옷 선호). 기존 ID/desc/검색/자동 줄바꿈 유지. t_personality_names/t_creation_text/t_ccbasic 및 데이터/asserts 통과. 아래 이전 요약명 전용/의상 단어화 기록은 이 정정으로 대체한다.
 - [완료] 2026-10-23 성격 요약 정정: 오른쪽/최종 확인의 요약은 표제와 짧은 이름만 표시한다. index.html의 상세 요약 생성/외주 문장 병합/CSS를 제거하고 personality.js의 strong/mid/view/stress/hunter/balanced 및 원본 세부 설명 테이블을 삭제했다. 확장 `ext/pers_PB.js`와 로드 목록 항목도 삭제했다. `persRoles`/`persStyles` 각 16행의 axes/poles 규칙으로 8개 축을 모두 반영하는 256가지 짧은 요약명을 생성한다. 미정/중간 축이 많으면 기존 극성 adj/noun으로 주요 성향만 반영한다. 단계별 levels 예시와 MIND의 수치 판단은 유지한다. t_personality_names는 256개 고유명, 모든 축 영향, 난수/수치 변경 없음, 상세 원본 부재, 슬라이더 노드 보존/실시간 갱신, 확인 화면과 모바일을 검증한다. t_ccbasic/t_mind 및 데이터/asserts도 통과했다.

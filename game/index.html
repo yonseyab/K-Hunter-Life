@@ -699,6 +699,7 @@ function def(table, rows){
 <script src="data/abilities.js"></script>
 <script src="data/actions.js"></script>
 <script src="data/items.js"></script>
+<script src="data/stars.js"></script>
 <script src="data/content.js"></script>
 <script src="data/traits.js"></script>
 <script src="data/classes.js"></script>
@@ -777,7 +778,7 @@ function ensureTime(){
   if(!Array.isArray(G.schedule)||!G.schedule.length||typeof G.schedule[0]?.[0]==='string') G.schedule=schedFromTpl(G.player.guild?'SCH_GUILD':'SCH_SOLO');
   G.lastDay=G.lastDay??G.day; G.startDay=G.startDay??G.day; G.layout=(G.layout||[]).filter(o=>WIDGETS[o.id]); syncGenGates(); syncNpcState(); syncGuildState(); syncMyGuild(); if(!G.pop) SIM.init(); else if(SIM.owner!==G.created) SIM.regen(); if(G.simDay==null) SIM.day(G.day);  /* 시작한 날의 NPC 하루도 계획해 둔다 */
   (G.scouted||[]).forEach(id=>{if(!KNOW.get(id,'report')&&H(id)){KNOW.report(H(id));G.know[id].report.src='KS_OLD'}});G.scouted=[];  /* 예전 '스카우트 완료' 목록 → 보고서 */
-  (G.relations||[]).forEach(ensureRel); G.gStart=G.gStart??nowAbs(); G.injuries=G.injuries||[]; G.train=G.train||{log:[],prog:{}}; G.timeLog=G.timeLog||[]; G.stopOn=G.stopOn||{event:true,lowEnergy:true}; G.slot=slotOf(G.time);
+  (G.relations||[]).forEach(ensureRel); G.gStart=G.gStart??nowAbs(); G.injuries=G.injuries||[]; if(typeof GEAR!=='undefined'){GEAR.fixSave();STAR.ensure()} G.train=G.train||{log:[],prog:{}}; G.timeLog=G.timeLog||[]; G.stopOn=G.stopOn||{event:true,lowEnergy:true}; G.slot=slotOf(G.time);
 }
 function advanceClock(min){G.time+=min;while(G.time>=1440){G.time-=1440;G.day++}G.slot=slotOf(G.time)}
 /* 일정 블록: 앞뒤 하루까지 절대 시각(분)으로 펼친다. 자정을 넘는 블록도 처리 */
@@ -1693,14 +1694,12 @@ function triggerEvent(id,tm,ctx){
 }
 /* 판정 보정: 스탯 · 상태 · 장비 (BAL_EFFECT). 게이트 안에서는 등급 차도 더한다 */
 /* 착용 조건 (메이플스토리식 스탯 요구치). 등급은 성능, req 는 착용 제한 */
-const reqOf=it=>it?.req||{};
+const reqOf=it=>({});  /* 2026-10-23: 착용은 누구나 (특수 조건은 나중에) */
 function reqMiss(it,h){h=h||G.player;const out=[];Object.entries(reqOf(it)).forEach(([k,v])=>{if(k==='lv'){if((h.level||1)<v)out.push(['레벨',h.level||1,v]);return}const cur=h.stats?.[k]??0;if(cur<v)out.push([DB.baseStats[k]?.name||k,cur,v])});return out}
 function reqHTML(it,h){const R=Object.entries(reqOf(it));if(!R.length)return '<span class="dim">없음 (누구나 착용)</span>';h=h||G.player;
   return R.map(([k,v])=>{const cur=k==='lv'?(h.level||1):(h.stats?.[k]??0),ok=cur>=v;return `<span class="ireq ${ok?'ok':'no'}">${k==='lv'?'레벨':DB.baseStats[k]?.name||k} <b class="num">${v}</b>${ok?'':` <small>(지금 ${cur})</small>`}</span>`}).join('')}
 /* 장비 성능 (등급 기준, BAL_EFFECT) — 상세 화면 표시용 */
-function itemPerf(it){const E=DB.balance.BAL_EFFECT;if(!it?.rank||!it.slot)return [];const g=21-DB.ranks[it.rank].lv;
-  if(it.slot==='SLOT_WEAPON')return [['근접 · 무기 판정',`+${Math.floor(g/E.weaponDiv)}`],['공략 전력',`+${Math.round(g*E.weaponPow*100)/100}`]];
-  if(['SLOT_BODY','SLOT_HANDS'].includes(it.slot))return [['받는 피해',`−${Math.round(g*E.armorDef*1000)/10}%`]];return []}
+function itemPerf(it){return GEAR.perf(it)}
 function showItem(id,from){UI.itemView=id;let el=$('#iv');if(!el){el=document.createElement('div');el.id='iv';document.body.appendChild(el)}el.innerHTML=itemViewHTML(id);if(typeof OBSERVE!=='undefined')OBSERVE.clean(el);el.querySelector('.ivp')?.focus()}
 function closeItem(){UI.itemView=null;$('#iv')?.remove()}
 function itemViewHTML(id){const it=DB.items[id];if(!it)return '';const rk=it.rank?DB.ranks[it.rank]:null,own=invOf().map((r,i)=>({...r,i})).filter(r=>r.item===id),miss=it.slot?reqMiss(it):[],perf=itemPerf(it);
@@ -1711,7 +1710,7 @@ function itemViewHTML(id){const it=DB.items[id];if(!it)return '';const rk=it.ran
     <div class="ivb"><p class="ivd">${esc(it.desc||'설명 없음')}</p>
       <div class="ivg">
         ${it.slot?`<div class="ivc"><div class="k">착용 조건</div><div class="ireqs">${reqHTML(it)}</div>${miss.length?'<div class="bad" style="font-size:11px">조건이 부족해 지금은 착용할 수 없습니다</div>':''}</div>`:''}
-        ${perf.length?`<div class="ivc"><div class="k">성능 <span class="dim">(${rk.name}급 기준)</span></div>${perf.map(([k,v])=>`<div class="row" style="justify-content:space-between"><span>${k}</span><b class="num good">${v}</b></div>`).join('')}</div>`:''}
+        ${perf.length?`<div class="ivc"><div class="k">성능 <span class="dim">(${GEAR.gradeOf(it)?.name||''} 등급 기준)</span></div>${perf.map(([k,v])=>`<div class="row" style="justify-content:space-between"><span>${k}</span><b class="num good">${v}</b></div>`).join('')}</div>`:''}
         ${it.use?`<div class="ivc"><div class="k">사용 효과</div>${Object.entries(it.use).map(([k,v])=>`<div>${k==='cure'?esc(DB.injuryTypes[v]?.name||v)+' 치료':k==='hp'?`HP ${v}% 회복`:k==='mp'?`MP ${v}% 회복`:k==='energy'?`기력 +${v}`:k}</div>`).join('')}</div>`:''}
         <div class="ivc"><div class="k">가격</div><div class="row" style="justify-content:space-between"><span>기준가</span><b class="num">${it.price==null?'감정 필요':won(it.price)}</b></div>${it.price!=null?`<div class="row" style="justify-content:space-between"><span>협회 매입가</span><span class="num">${won(assocPrice(it))}</span></div>`:''}${shop?`<div class="row" style="justify-content:space-between"><span>시스템 상점</span><span class="num">${coinTxt(shop.coin??coinPrice(shop.price))}</span></div>`:''}${auc.length?`<div class="row" style="justify-content:space-between"><span>경매 최저</span><span class="num">${won(Math.min(...auc.map(l=>l.bid||l.start)))}</span></div>`:''}</div>
         ${drops.length?`<div class="ivc"><div class="k">얻는 곳</div>${drops.join('<br>')}</div>`:''}
@@ -1719,12 +1718,12 @@ function itemViewHTML(id){const it=DB.items[id];if(!it)return '';const rk=it.ran
       </div>
       ${own.length?`<div class="row" style="gap:6px;flex-wrap:wrap">${it.slot?(()=>{const on=own.find(r=>r.loc==='LOC_BODY'),bag=own.find(r=>DB.itemLocs[r.loc]?.carry&&r.loc!=='LOC_BODY');return on?`<button class="btn" data-equip="${on.i}|off" data-ivrefresh="${id}">착용 해제</button>`:bag?`<button class="btn pri" data-equip="${bag.i}|on" data-ivrefresh="${id}" ${miss.length?'disabled':''}>착용</button>`:''})():''}${it.use&&own.some(r=>DB.itemLocs[r.loc]?.carry)?`<button class="btn pri" data-useitem="${own.find(r=>DB.itemLocs[r.loc]?.carry).i}" data-ivrefresh="${id}">사용</button>`:''}<button class="btn" data-go="auction" data-ivclose="1">경매장</button></div>`:''}
     </div></div>`}
-function equipped(slot){const r=invOf().find(x=>x.loc==='LOC_BODY'&&DB.items[x.item]?.slot===slot);return r?DB.items[r.item]:null}
+function equipped(slot){return GEAR.at(slot)?.it||null}
 function checkMods(attr,gate){const E=DB.balance.BAL_EFFECT,h=G.player,c=G.cond,out=[],ab=DB.abilities[attr],st=ab?E.groupStat[ab.g]:DB.baseStats[attr]?attr:null;
   if(st&&DB.abilities[attr]){const v=Math.floor((h.stats?.[st]||10)/E.statDiv)-1;if(v)out.push([DB.baseStats[st].name,v])}
   if(c.stress>=E.stressHigh)out.push(['스트레스',E.stressPen]);if(c.energy<E.energyLow)out.push(['기력 부족',E.energyPen]);
   const inj=(G.injuries||[]).filter(j=>j.sev>=2).length;if(inj)out.push(['부상',Math.max(E.injuryPenMax,inj*E.injuryPen)]);
-  if(ab?.g==='ABG_A1'){const w=equipped('SLOT_WEAPON');if(w?.rank){const v=Math.floor((21-DB.ranks[w.rank].lv)/E.weaponDiv);if(v)out.push([w.name,v])}}
+  out.push(...GEAR.checkParts(attr));
   if(gate){const m=gateMod(gate);if(m)out.push(['등급 차',m])}
   return {sum:out.reduce((a,x)=>a+x[1],0),parts:out}}
 const modTxt=m=>m.parts.map(([n,v])=>` ${v>0?'+':''}${v}(${n})`).join('');
@@ -1960,7 +1959,7 @@ function autoStep(cc,st){
     cc._tl=null;
   }
   if(st===5){
-    const c=rpick(vals('classes')); cc.cls=c.id; cc.clsSkills=rsample(c.pool,c.pick);
+    const c=rpick(vals('classes').filter(c=>!c.unique)); cc.cls=c.id; cc.clsSkills=rsample(c.pool,c.pick);
     cc.comSkills=rsample(vals('skills').filter(s=>s.scope==='common').map(s=>s.id),rint(0,DB.ccRules.RULE_START.commonSkills));
   }
   if(st===6) cc.ab=genStart('real',Math.random);
@@ -1969,7 +1968,7 @@ function autoAll(cc){[0,1,2,3,4,5,6].forEach(i=>autoStep(cc,i)); cc.seed=Math.ra
 const clsReady=cc=>{const c=DB.classes[cc.cls];return !!c&&cc.clsSkills.length===c.pick};
 function clsListHTML(){
   const cc=UI.cc, q=(cc.clsQ||'').trim().toLowerCase(), g=cc.clsG||'';
-  const list=vals('classes').filter(c=>(!g||c.cat===g)&&(!q||(c.name+' '+c.id+' '+(DB.classCats[c.cat]?.name||'')).toLowerCase().includes(q)));
+  const list=vals('classes').filter(c=>!c.unique&&(!g||c.cat===g)&&(!q||(c.name+' '+c.id+' '+(DB.classCats[c.cat]?.name||'')).toLowerCase().includes(q)));
   return list.map(c=>`<button class="cs-item" data-clspick="${c.id}" aria-current="${cc.cls===c.id}"><span class="nm">${esc(c.name)}${c.unique?' <span class="chip w">고유</span>':''}</span><span class="dim">${DB.classCats[c.cat]?.name||''} · 후보 ${c.pool.length}</span></button>`).join('')||'<div class="tempty">조건에 맞는 클래스가 없습니다.</div>';
 }
 function skillTile(sk,on,attr){return `<button class="lk-tile text sk-tile" ${attr} aria-pressed="${on}" title="${esc(sk.name)} (${sk.id})"><span class="ck" aria-hidden="true">${on?'✓':''}</span><span>${esc(sk.name)}</span><small>${sk.kind} · ${sk.id}</small></button>`}
@@ -2198,7 +2197,7 @@ const NAV = [
   ['이야기', [['life','인생','▶'],['bio','일대기','✎']]],
   ['내 헌터', [['status','상태창','▣'],['relations','관계','♡'],['inventory','소지품','▥'],['finance','재정','₩'],['goals','방향 · 목표','★']]],
   ['세계', [['gates','게이트','◎'],['world','전국 현황','◍'],['guild','길드','⚑'],['db','DB','⌕'],['auction','경매장','⚖']]],
-  ['관리', [['home','대시보드','⌂'],['shop','시스템 상점','◇'],['archive','기록관','❖'],['settings','설정','⚙']]],
+  ['관리', [['home','대시보드','⌂'],['shop','상점','◇'],['archive','기록관','❖'],['settings','설정','⚙']]],
 ];
 const unreadAlerts=()=>G.alerts.filter(m=>m.unread).length, unreadMsgs=()=>G.threads.reduce((a,t)=>a+t.unread,0);
 const navBadge=k=>{const n=k==='messenger'?unreadMsgs():k==='alerts'?alertsUnread():0;return n?`<span class="badge">${n}</span>`:''};
@@ -2266,7 +2265,7 @@ function qsGo(go){qsClose();const [k,id]=[go.slice(0,go.indexOf(':')),go.slice(g
   $('#main').scrollTop=0;render()}
 function renderNav(){
   const group=['homeHunter','homeDb','homeTrade'].includes(UI.screen)?UI.screen:'life';
-  const sections=[['life','이야기','▶','story',[['life','인생'],['goals','목표 설정'],['bio','일대기']]],['homeHunter','내 헌터','▣','hunter',[['profile','내 정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]],['homeDb','DB','⌕',null,[]],['homeTrade','거래','◇','trade',[['shop','시스템 상점'],['auction','경매장'],['other','기타']]]];
+  const sections=[['life','이야기','▶','story',[['life','인생'],['goals','목표 설정'],['bio','일대기']]],['homeHunter','내 헌터','▣','hunter',[['profile','정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]],['homeDb','DB','⌕',null,[]],['homeTrade','거래','◇','trade',[['shop','상점'],['auction','성좌 경매장'],['other','기타']]]];
   $('#nav').innerHTML=sections.map(([screen,label,icon,key,items])=>{
     const selected=UI.homeTabs?.[key]||items[0]?.[0];
     return `<div class="nav-section"><button class="nav-parent ${group===screen?'is-active':''}" data-go="${screen}" ${!key&&group===screen?'aria-current="page"':''}><span class="ic">${icon}</span>${label}</button>${items.length?`<div class="nav-subtabs" aria-label="${label} 하위 메뉴">${items.map(([id,name])=>`<button id="nav-${key}-${id}" data-home-tab="${key}|${id}" ${group===screen&&selected===id?'aria-current="page"':''}>${name}</button>`).join('')}</div>`:''}</div>`;
@@ -2525,7 +2524,7 @@ V.inventory=()=>{const inv=invOf(), locs=vals('itemLocs'), loc=UI.invLoc||'ALL',
       <dl class="kv" style="font-size:12px"><dt>분류</dt><dd>${DB.itemCats[sel.it.cat]?.name}</dd><dt>등급</dt><dd>${sel.it.rank?DB.ranks[sel.it.rank].name+'급':'—'}</dd><dt>수량</dt><dd class="num">${sel.qty}</dd><dt>개당 기준가</dt><dd class="num">${sel.it.price==null?'감정 필요':sel.it.price?won(sel.it.price):'—'}</dd><dt>위치</dt><dd>${DB.itemLocs[sel.loc]?.name}</dd></dl>
       ${sel.it.slot?`<div style="font-size:12px"><div class="sub" style="margin-bottom:4px">착용 조건</div><div class="ireqs">${reqHTML(sel.it)}</div></div>`:''}<div><button class="btn sm" data-item="${sel.it.id}">자세히 보기</button></div>
       ${(()=>{const L=DB.itemLocs[sel.loc];
-        if(L?.carry) return `<div class="row"><button class="btn" data-go="shop" data-shoptab-go="sell" data-shoppick="${sel.i}">시스템 상점에 팔기</button></div>`;
+        if(L?.carry) return '';
         return `<div class="dim" style="font-size:11px">${L?.name||''}에 있는 물건입니다. 팔거나 옮기려면 그곳에 가서 가져와야 합니다 (이동은 향후 구현).</div>`})()}
       ${sel.it.use&&DB.itemLocs[sel.loc]?.carry?`<div class="row"><button class="btn pri" data-useitem="${sel.i}">사용</button><span class="dim" style="font-size:11px">${Object.entries(sel.it.use).map(([k,v])=>k==='cure'?DB.injuryTypes[v].name+' 치료':`${({mp:'MP',hp:'HP',energy:'기력'})[k]} +${v}${k==='energy'?'':'%'}`).join(' · ')}</span></div>`:''}
       ${['ITC_STONE','ITC_MAT'].includes(sel.it.cat)&&DB.itemLocs[sel.loc]?.carry&&sel.it.price?`<div class="row"><button class="btn" data-actdo="ACT_ASSOC_SELL" data-acttgt="${sel.it.id}|${sel.loc}">협회 매입소에 전부 팔기 · 개당 ${won(assocPrice(sel.it))}${mktMul(sel.it.id)!==1?` (시세 ${mktMul(sel.it.id)>1?'+':''}${Math.round((mktMul(sel.it.id)-1)*100)}%)`:''} · 합계 ${won(assocPrice(sel.it)*sel.qty)} · ${durTxt(DB.actions.ACT_ASSOC_SELL.durs[0])}</button></div>`:''}
@@ -2533,39 +2532,9 @@ V.inventory=()=>{const inv=invOf(), locs=vals('itemLocs'), loc=UI.invLoc||'ALL',
     </div>`:'<div class="pb muted">물건을 고르세요.</div>'}</div></div>`};
 
 /* 물건 옮기기 · 더하기 · 빼기 (같은 물건 · 같은 위치는 한 줄로 합친다) */
-/* ---------- 협회 경매장 (BAL_AUCTION). G.auction = {lots:[{id,item,qty,seller,start,bid,bidder,buyout,end,cap}], seq} ---------- */
-const AUC=()=>G.auction||(G.auction={lots:[],seq:0,log:[]});
-const npcSellerName=()=>{const L=allHunters().filter(h=>h.id!==G.player.id);return L.length?pick(L).name:'익명'};
-function aucNew(n){const B=DB.balance.BAL_AUCTION,A=AUC(),pool=vals('items').filter(i=>B.cats.includes(i.cat)&&i.price);for(let k=0;k<n&&A.lots.filter(l=>l.end>nowAbs()).length<B.maxLots;k++){const it=pick(pool),r=(a)=>a[0]+Math.random()*(a[1]-a[0]),qty=['ITC_STONE','ITC_MAT','ITC_CONSUME'].includes(it.cat)?1+Math.floor(Math.random()*4):1,base=it.price*qty;
-  A.lots.push({id:'AU'+(++A.seq),item:it.id,qty,seller:npcSellerName(),start:Math.round(base*r(B.start)/1000)*1000,bid:0,bidder:null,buyout:Math.round(base*r(B.buyout)/1000)*1000,end:nowAbs()+Math.round(r(B.days)*1440),cap:base*r(B.npcMax)})}}
-const aucNext=l=>Math.max(l.start,Math.round(l.bid*(1+DB.balance.BAL_AUCTION.step)/1000)*1000);
-function aucRefund(l){if(l.bidder==='ME'&&l.bid){G.money+=l.bid;const dt=dateOf(G.day);G.ledger.unshift([`${dt.m}/${dt.d}`,`경매 입찰금 반환 (${DB.items[l.item].name})`,l.bid])}}
-function aucBid(id,buy){const A=AUC(),l=A.lots.find(x=>x.id===id);if(!l||l.end<=nowAbs()||l.done){toast('끝난 경매입니다');return}if(l.seller==='ME'){toast('내가 출품한 물건입니다');return}
-  const amt=buy?l.buyout:aucNext(l);if(G.money<amt){toast('돈이 부족합니다');return}aucRefund(l);G.money-=amt;l.bid=amt;l.bidder='ME';const dt=dateOf(G.day);G.ledger.unshift([`${dt.m}/${dt.d}`,`경매 ${buy?'즉시 구매':'입찰'} (${DB.items[l.item].name})`,-amt]);
-  if(buy){aucClose(l)}else toast(`${DB.items[l.item].name}에 ${won(amt)} 입찰했다`)}
-function aucList(i,start,days){const B=DB.balance.BAL_AUCTION,r=invOf()[i];if(!r||!DB.itemLocs[r.loc]?.carry)return;const it=DB.items[r.item];start=Math.max(1000,Math.round(start/1000)*1000);
-  invTake(i,r.qty>0?1:0);const base=(it.price||start);AUC().lots.push({id:'AU'+(++AUC().seq),item:it.id,qty:1,seller:'ME',start,bid:0,bidder:null,buyout:null,end:nowAbs()+days*1440,cap:base*(B.npcMax[0]+Math.random()*(B.npcMax[1]-B.npcMax[0]))});toast(`${it.name}을(를) 시작가 ${won(start)}로 ${days}일 출품했다`)}
-function aucClose(l){const B=DB.balance.BAL_AUCTION,it=DB.items[l.item],dt=dateOf(G.day);l.done=true;l.end=Math.min(l.end,nowAbs());
-  if(l.bidder==='ME'){invAdd(l.item,l.qty,'LOC_BAG');G.alerts.unshift({from:'SYS_ASSOC',ev:null,resolved:null,unread:true,when:hhmm(G.time),subj:`[경매 낙찰] ${it.name}${l.qty>1?' ×'+l.qty:''}`,actions:[['소지품','inventory']],body:`${won(l.bid)}에 낙찰받았습니다. 가방에 넣었습니다.`});pushHistory(`경매 낙찰: ${it.name}`,won(l.bid))}
-  if(l.seller==='ME'){if(l.bidder){const net=Math.round(l.bid*(1-B.fee));G.money+=net;G.ledger.unshift([`${dt.m}/${dt.d}`,`경매 판매 (${it.name}, 수수료 ${Math.round(B.fee*100)}%)`,net]);G.alerts.unshift({from:'SYS_ASSOC',ev:null,resolved:null,unread:true,when:hhmm(G.time),subj:`[경매 판매] ${it.name}`,actions:[['경매장','auction']],body:`${l.bidder}에게 ${won(l.bid)}에 팔렸습니다. 수수료를 빼고 ${won(net)}이 입금되었습니다.`})}
-    else{invAdd(l.item,l.qty,'LOC_BAG');G.alerts.unshift({from:'SYS_ASSOC',ev:null,resolved:null,unread:true,when:hhmm(G.time),subj:`[경매 유찰] ${it.name}`,actions:[['경매장','auction']],body:'입찰자가 없어 물건을 돌려받았습니다 (가방).'})}}}
-function aucTick(hours){const B=DB.balance.BAL_AUCTION,A=AUC(),now=nowAbs();for(let h=0;h<hours;h++){A.lots.forEach(l=>{if(l.done||l.end<=now||l.bidder&&l.bidder!=='ME'&&Math.random()<.5)return;if(Math.random()<B.bidPerHour){const nx=aucNext(l);if(nx>l.cap)return;const who=npcSellerName();if(l.bidder==='ME'){aucRefund(l);G.alerts.unshift({from:'SYS_ASSOC',ev:null,resolved:null,unread:true,when:hhmm(G.time),subj:`[경매] ${DB.items[l.item].name} 상위 입찰 발생`,actions:[['경매장','auction']],body:`${who}이(가) ${won(nx)}을 불렀습니다. 입찰금은 돌려드렸습니다.`})}l.bid=nx;l.bidder=who}})}
-  A.lots.filter(l=>!l.done&&l.end<=now).forEach(aucClose);A.lots=A.lots.filter(l=>!l.done||now-l.end<3*1440)}
-function aucDay(){aucNew(DB.balance.BAL_AUCTION.newPerDay)}
-V.auction=()=>{const A=AUC();if(!A.lots.length)aucNew(10);const tab=UI.aucTab||'경매 목록',now=nowAbs(),open=A.lots.filter(l=>!l.done&&l.end>now),cat=UI.aucCat||'ALL';
-  const L=tab==='내 입찰'?A.lots.filter(l=>l.bidder==='ME'):tab==='내 출품'?A.lots.filter(l=>l.seller==='ME'):open.filter(l=>l.seller!=='ME'&&(cat==='ALL'||DB.items[l.item].cat===cat));
-  const left=l=>l.done||l.end<=now?(l.bidder==='ME'||l.seller==='ME'&&l.bidder?'<span class="good">낙찰</span>':'<span class="dim">종료</span>'):durTxt(l.end-now).replace(/ \d+분$/,'');
-  const carry=invOf().map((r,i)=>({...r,i,it:DB.items[r.item]})).filter(r=>r.it&&DB.itemLocs[r.loc]?.carry&&r.loc!=='LOC_BODY'&&r.it.price!=null),sel=carry.find(r=>r.i===UI.aucSel)||carry[0];
-  return `<div class="h-row"><div><h1 class="h1">경매장</h1><div class="sub">헌터 협회 경매장 · 원화 거래 · 출품 수수료 ${Math.round(DB.balance.BAL_AUCTION.fee*100)}% · 입찰금은 상위 입찰이 나오면 돌려받습니다</div></div><div class="panel pb stat" style="min-width:180px"><div class="lab"><span>보유 현금</span></div><div class="big num" style="font-size:20px">${won(G.money)}</div></div></div>
-  <div class="tabs" role="tablist">${['경매 목록','내 입찰','내 출품','출품하기'].map(t=>`<button role="tab" aria-selected="${tab===t}" data-auctab="${t}">${t}</button>`).join('')}</div>
-  ${tab==='출품하기'?`<div class="grid rgrid" style="grid-template-columns:minmax(0,1fr) 340px;gap:12px;align-items:start"><div class="panel pb tight"><div class="tw"><table><thead><tr><th>지닌 물건</th><th>분류</th><th>등급</th><th class="r">수량</th><th class="r">기준가</th></tr></thead><tbody>${carry.map(r=>`<tr data-aucsel="${r.i}" class="${sel&&r.i===sel.i?'sel':''}" style="cursor:pointer"><td><b>${esc(r.it.name)}</b></td><td>${DB.itemCats[r.it.cat]?.name||''}</td><td>${r.it.rank?rkBadge(r.it.rank):'<span class="dim">—</span>'}</td><td class="r num">${r.qty}</td><td class="r num">${won(r.it.price)}</td></tr>`).join('')||'<tr><td colspan="5" class="muted">출품할 수 있는 물건이 없습니다 (가방의 물건만, 착용 중이면 해제 후).</td></tr>'}</tbody></table></div></div>
-    <div class="panel">${sel?`<div class="ph"><span>${esc(sel.it.name)}</span><button class="btn sm" data-item="${sel.it.id}">자세히</button></div><div class="pb" style="display:grid;gap:10px"><div class="field"><label for="aucstart">시작가 (원)</label><input id="aucstart" type="number" min="1000" step="1000" value="${Math.round(sel.it.price*.8/1000)*1000}"></div>
-      <div><div class="sub">기간</div><div class="seg">${[1,2,3].map(d=>`<button aria-pressed="${(UI.aucDays||2)===d}" data-aucdays="${d}">${d}일</button>`).join('')}</div></div><button class="btn pri" data-auclist="${sel.i}">1개 출품하기</button><div class="dim" style="font-size:11px">기준가보다 많이 높으면 입찰이 잘 붙지 않습니다. 유찰되면 가방으로 돌아옵니다.</div></div>`:'<div class="pb muted">물건을 고르세요.</div>'}</div></div>`
-  :`${tab==='경매 목록'?`<div class="chips" style="margin:0 0 10px">${[['ALL','전체'],...DB.balance.BAL_AUCTION.cats.map(c=>[c,DB.itemCats[c]?.name])].map(([id,n])=>`<button class="chip ${cat===id?'a':''}" data-auccat="${id}">${n}</button>`).join('')}</div>`:''}
-  <div class="panel pb tight"><div class="tw"><table><thead><tr><th>물건</th><th>등급</th><th class="r">수량</th><th>출품자</th><th class="r">현재가</th><th>최고 입찰</th><th class="r">즉시 구매</th><th>남은 시간</th><th></th></tr></thead><tbody>
-    ${L.sort((a,b)=>a.end-b.end).map(l=>{const it=DB.items[l.item],live=!l.done&&l.end>now,nx=aucNext(l);return `<tr><td><b data-item="${it.id}" style="cursor:pointer;text-decoration:underline dotted">${esc(it.name)}</b> <span class="dim">${DB.itemCats[it.cat]?.name||''}</span></td><td>${it.rank?rkBadge(it.rank):'<span class="dim">—</span>'}</td><td class="r num">${l.qty}</td><td class="muted">${l.seller==='ME'?'나':esc(l.seller)}</td><td class="r num">${won(l.bid||l.start)}</td><td>${l.bidder==='ME'?'<span class="chip a">나</span>':l.bidder?esc(l.bidder):'<span class="dim">없음</span>'}</td><td class="r num">${l.buyout?won(l.buyout):'—'}</td><td class="num">${left(l)}</td>
-      <td class="r">${live&&l.seller!=='ME'?`<span class="row" style="gap:4px;justify-content:flex-end;flex-wrap:nowrap"><button class="btn sm" data-aucbid="${l.id}" ${l.bidder==='ME'||G.money<nx?'disabled':''}>${l.bidder==='ME'?'최고가':won(nx)+' 입찰'}</button>${l.buyout?`<button class="btn sm pri" data-aucbuy="${l.id}" ${G.money<l.buyout?'disabled':''}>즉시 구매</button>`:''}</span>`:''}</td></tr>`}).join('')||`<tr><td colspan="9" class="muted">${tab==='경매 목록'?'올라온 물건이 없습니다.':'없습니다.'}</td></tr>`}</tbody></table></div></div>`}`};
-function invAdd(item,qty,loc){const inv=invOf(),r=inv.find(x=>x.item===item&&x.loc===loc);if(r)r.qty+=qty;else inv.push({item,qty,loc})}
+/* 성좌 경매장 (코인) → engine/star.js */
+/* 장비는 한 개씩 따로 (내구도가 하나마다 다르다) */
+function invAdd(item,qty,loc,dur){const inv=invOf(),it=DB.items[item];if(it&&GEAR.slotOf(it)){for(let k=0;k<qty;k++)inv.push({item,qty:1,loc,dur:dur??GEAR.maxDur(it)??undefined});return}const r=inv.find(x=>x.item===item&&x.loc===loc);if(r)r.qty+=qty;else inv.push({item,qty,loc})}
 function invTake(i,qty){const inv=invOf(),r=inv[i];if(!r)return 0;const n=Math.min(qty,r.qty);r.qty-=n;if(r.qty<=0)inv.splice(i,1);return n}
 
 /* 물건 사용 (use 데이터). 게이트 안에서는 공략 중인 내 HP · MP에 적용 */
@@ -2576,14 +2545,12 @@ function useItem(i){const r=invOf()[i];if(!r)return;const it=DB.items[r.item],u=
   if(u.cure){const j=(G.injuries||[]).findIndex(x=>x.type===u.cure);if(j>=0){out.push(`${injTxt(G.injuries[j])} 치료`);G.injuries.splice(j,1)}}
   invTake(i,1);if(R){addLog('r',`${it.name} 사용 (${out.join(', ')||'효과 없음'})`);drawRaid()}else{toast(`<b>${esc(it.name)}</b> 사용 — ${out.join(', ')||'효과 없음'}`);render()}}
 /* 장비 착용: 같은 부위에 이미 착용한 물건은 가방으로 옮긴다 */
-function equip(i,on){const r=invOf()[i];if(!r)return;const it=DB.items[r.item];if(!it.slot)return;if(on){const miss=reqMiss(it);if(miss.length){toast(`착용 조건이 부족합니다: ${miss.map(m=>`${m[0]} ${m[1]}/${m[2]}`).join(', ')}`);return}}
-  if(on){invOf().filter(x=>x.loc==='LOC_BODY'&&DB.items[x.item]?.slot===it.slot&&x!==r).forEach(x=>x.loc='LOC_BAG');if(r.qty>1){r.qty--;invAdd(r.item,1,'LOC_BODY')}else r.loc='LOC_BODY'}
-  else{if(r.qty>1){r.qty--;invAdd(r.item,1,'LOC_BAG')}else r.loc='LOC_BAG'}
-  const merged=[];invOf().forEach(x=>{const m=merged.find(y=>y.item===x.item&&y.loc===x.loc);if(m)m.qty+=x.qty;else merged.push(x)});G.inv=merged;
-  UI.invSel=G.inv.findIndex(x=>x.item===r.item&&x.loc===(on?'LOC_BODY':'LOC_BAG'));toast(`${esc(it.name)} ${on?'착용':'착용 해제'}`)}
-/* ---------- 시스템 상점 (원화 결제 · 시스템이 파는 물건 구매 → 가방 · 지닌 물건 판매) ---------- */
+/* 직접 착용은 검사용 옛 화면에서만 (관찰형: 무엇을 입을지는 헌터가 정한다, GEAR.consider) */
+function equip(i,on){const r=invOf()[i];if(!r)return;const it=DB.items[r.item];if(!GEAR.equip(i,on))return;
+  UI.invSel=G.inv.indexOf(r);toast(`${esc(it.name)} ${on?'착용':'착용 해제'}`)}
+/* ---------- 상점 (성좌가 코인으로 사서 헌터에게 선물 — engine/star.js STAR.gift) ---------- */
 const shopLeft=s=>{G.shop=G.shop||{};return s.stock==null?null:(G.shop[s.id]??s.stock)};
-/* 코인 (시스템 화폐). 시스템 상점은 코인으로만 거래한다 */
+/* 코인 = 성좌 포인트 (2026-10-24). 상점 · 성좌 경매장은 코인으로만 거래한다 */
 const coinPrice=w=>Math.max(1,Math.round((w||0)/DB.balance.BAL_COIN.wonPerCoin));
 const coinTxt=n=>`<span class="coin">◈ ${Math.round(n).toLocaleString()}</span>`;
 const shopCoin=s=>s.coin??coinPrice(s.price);
@@ -2592,16 +2559,16 @@ function coinsFor(kills,gateLv,ok){const B=DB.balance.BAL_COIN;return Math.round
 function shopTotHTML(){const q=Math.max(1,UI.shopQty||1);
   if(UI.shopTab==='sell'){const r=invOf()[UI.shopSel];if(!r)return '';const it=DB.items[r.item];return `합계 <b class="num good">+${coinTxt(sellPrice(it)*Math.min(q,r.qty))}</b>`}
   const s=DB.sysShop[UI.shopSel];if(!s)return '';const t=shopCoin(s)*q;return `합계 <b class="num ${t>(G.coin||0)?'bad':''}">${coinTxt(t)}</b> · 결제 후 잔여 <span class="num">${coinTxt((G.coin||0)-t)}</span>`}
-V.shop=()=>{const tab=UI.shopTab||'buy', inv=invOf();
-  const head=`<div class="h-row"><div><h1 class="h1">시스템 상점</h1><div class="sub">상태창의 시스템 상점은 코인으로 거래합니다. 코인은 몬스터를 처치할 때마다 쌓입니다. 산 물건은 가방으로 들어오고, 지닌 물건(착용 · 가방)을 코인을 받고 팔 수 있습니다.</div></div>
+V.shop=()=>{UI.shopTab='buy';const tab='buy', inv=invOf();  /* 성좌는 사서 선물만 한다. 파는 건 헌터가 이야기 속에서 알아서 */
+  const head=`<div class="h-row"><div><h1 class="h1">상점</h1><div class="sub">성좌가 코인으로 물건을 사서 헌터에게 선물합니다. 산 물건은 바로 헌터 가방으로 가고, 쓸지 · 입을지는 헌터가 정합니다. 코인은 헌터가 몬스터를 처치할 때마다 쌓입니다.</div></div>
     <div class="panel pb stat" style="min-width:180px"><div class="lab"><span>보유 코인</span></div><div class="big num" style="font-size:20px">${coinTxt(G.coin||0)}</div></div></div>
-    <div class="tabs" role="tablist">${[['buy','구매'],['sell','판매']].map(([k,n])=>`<button role="tab" aria-selected="${tab===k}" data-shoptab="${k}">${n}</button>`).join('')}</div>`;
+`;
   const qtyRow=(max,btn)=>`<div class="row" style="flex-wrap:wrap;gap:8px"><label class="sub" for="shopqty">수량</label><input id="shopqty" class="abin" style="width:70px" type="number" min="1" max="${max}" value="${Math.min(Math.max(1,UI.shopQty||1),max)}" data-shopqty="1">${btn}</div><div id="shoptot" style="font-size:12px">${shopTotHTML()}</div>`;
   if(tab==='buy'){const list=vals('sysShop').filter(s=>DB.items[s.item]), s=DB.sysShop[UI.shopSel]||list[0]; if(s)UI.shopSel=s.id; const it=s&&DB.items[s.item], left=s?shopLeft(s):0;
     return head+`<div class="grid g-side" style="margin-top:12px"><div class="panel pb tight"><div class="tw"><table><thead><tr><th>상품</th><th>분류</th><th>등급</th><th class="r">가격</th><th class="r">재고</th><th>ID</th></tr></thead><tbody>
       ${list.map(x=>{const i=DB.items[x.item],l=shopLeft(x);return `<tr data-shopsel="${x.id}" tabindex="0" class="${x.id===s?.id?'sel':''}" style="cursor:pointer"><td><b>${esc(i.name)}</b></td><td>${DB.itemCats[i.cat]?.name||'—'}</td><td>${i.rank?rkBadge(i.rank):'<span class="dim">—</span>'}</td><td class="r num">${coinTxt(shopCoin(x))}</td><td class="r num ${l===0?'bad':''}">${l==null?'∞':l}</td><td class="dim num">${x.id}</td></tr>`}).join('')}</tbody></table></div></div>
       <div class="panel" style="align-self:start">${s?`<div class="ph"><span>${esc(it.name)}</span><span class="dim num" style="font-weight:400">${it.id}</span></div><div class="pb" style="display:grid;gap:10px">
-        <p style="margin:0">${esc(it.desc||'설명 없음')}</p><dl class="kv" style="font-size:12px"><dt>가격</dt><dd class="num">${coinTxt(shopCoin(s))}</dd><dt>재고</dt><dd>${left==null?'무제한':left+'개'}</dd><dt>등급</dt><dd>${it.rank?DB.ranks[it.rank].name+'급':'—'}</dd><dt>받는 곳</dt><dd>가방</dd></dl>
+        <p style="margin:0">${esc(it.desc||'설명 없음')}</p><dl class="kv" style="font-size:12px"><dt>가격</dt><dd class="num">${coinTxt(shopCoin(s))}</dd><dt>재고</dt><dd>${left==null?'무제한':left+'개'}</dd><dt>등급</dt><dd>${it.rank?DB.ranks[it.rank].name+'급':'—'}</dd><dt>받는 곳</dt><dd>헌터 가방 (선물)</dd></dl>
         ${qtyRow(left==null?99:Math.max(1,left),`<button class="btn pri" data-shopbuy="${s.id}" ${left===0||shopCoin(s)>(G.coin||0)?'disabled':''}>구매</button>`)}<div><button class="btn sm" data-item="${it.id}">자세히 보기</button></div>
         ${left===0?'<div class="bad" style="font-size:12px">품절</div>':shopCoin(s)>(G.coin||0)?'<div class="bad" style="font-size:12px">코인이 부족합니다. 몬스터를 처치하면 쌓입니다.</div>':''}</div>`:'<div class="pb muted">판매 중인 상품이 없습니다.</div>'}</div></div>`}
   const rows=inv.map((r,i)=>({...r,i,it:DB.items[r.item]})).filter(r=>r.it&&DB.itemLocs[r.loc]?.carry), sel=rows.find(r=>r.i===UI.shopSel)||rows[0]; if(sel)UI.shopSel=sel.i;
@@ -3046,7 +3013,7 @@ const RAID_LOG={move:['{a}이(가) 앞장서서 통로를 확보한다.','좁은
 function addLog(c,t){const R=UI.raid;R.log.push([R.t,c,t]);if(UI.screen==='raid')drawRaid()}
 /* 파티 전력 vs 게이트 전력 (능력치 기반, 수치는 BAL_GATE.power 임시값) */
 function raidPower(R){const P=DB.balance.BAL_GATE.power,g=DB.gates[R.gid],alive=R.party.filter(p=>p.hp>0);if(!alive.length)return {pp:0,gp:1,r:P.rClamp[0]};
-  const E=DB.balance.BAL_EFFECT,meBonus=()=>{const w=equipped('SLOT_WEAPON'),sk=G.player.skills||[];return (w?.rank?(21-DB.ranks[w.rank].lv)*E.weaponPow:0)+(sk.length?sk.reduce((a,x)=>a+x[1],0)/sk.length*E.skillPow:0)};
+  const E=DB.balance.BAL_EFFECT,meBonus=()=>{const sk=G.player.skills||[];return GEAR.power()+(sk.length?sk.reduce((a,x)=>a+x[1],0)/sk.length*E.skillPow:0)};
   const pp=alive.reduce((a,p)=>{const me=p.id===G.player.id,h=me?G.player:H(p.id);return a+(h?roleScore(h,h.roleMain)+h.level*P.perLevel+(me?meBonus():0):8)},0)/alive.length,gp=P.gateBase+(21-DB.ranks[g.rank].lv)*P.perRank;
   return {pp:Math.round(pp*10)/10,gp,r:Math.max(P.rClamp[0],Math.min(P.rClamp[1],pp/gp))}}
 function raidTick(){const R=UI.raid;if(!R||R.paused||R.done)return;const g=DB.gates[R.gid],mob=DB.monsters[g.mon].name,pw=raidPower(R),pr=pw.r;
@@ -3066,7 +3033,7 @@ function raidTick(){const R=UI.raid;if(!R||R.paused||R.done)return;const g=DB.ga
     if(R.party[0].hp<=0){playerDown(`${mob}의 공격`);return}
     if(R.party.reduce((a,p)=>a+p.hp,0)/R.party.length<R.retreat){R.done=true;addLog('e',`파티 체력이 후퇴 기준(${R.retreat}%) 아래. 후퇴한다.`);finishRaid(false);break}}
   if(UI.screen==='raid')drawRaid()}
-const armorMul=()=>{const E=DB.balance.BAL_EFFECT;return ['SLOT_BODY','SLOT_HANDS'].reduce((m,s)=>{const a=equipped(s);return a?.rank?m*(1-(21-DB.ranks[a.rank].lv)*E.armorDef):m},1)};
+const armorMul=()=>GEAR.armorMul();
 /* ---------- 쓰러짐 · 죽음 (죽음 = 게임 종료) ---------- */
 function playerDown(cause){const R=UI.raid,D=DB.balance.BAL_DEATH,others=R.party.slice(1).filter(p=>p.hp>0).length,pr=raidPower(R).r;
   const chance=(others?D.rescue:D.soloRescue)*Math.min(1,Math.max(0.3,pr));
@@ -3085,7 +3052,8 @@ V.gameover=()=>{const h=G.player,D=G.dead,d=dateOf(D.day),start=G.startDay??0,cl
     <div class="dim" style="font-size:11px">${D.kind==='retire'?'이 헌터의 이야기는 여기서 끝납니다. 세이브는 은퇴 상태로 바뀌었습니다.':'이 헌터의 세이브는 사망 상태로 바뀌었습니다. 죽음은 되돌릴 수 없습니다.'}</div></div></div>`};
 /* 경제 (BAL_ECON): 게이트 총수익 · 마정석 등급 · 내 몫 */
 const gateValue=lv=>{const E=DB.balance.BAL_ECON;return Math.round(E.gateBase*Math.pow(E.perRank,20-lv))};
-const stoneFor=lv=>DB.balance.BAL_ECON.stoneTiers.find(([min])=>lv>=min)?.[1]||'IT_B0001';
+/* 마정석 = 그 게이트 등급 × 품질(stoneQuals 비중으로 뽑음). 예: '17급 최상급 마정석' */
+const stoneFor=lv=>{const Q=vals('stoneQuals'),t=Q.reduce((a,q)=>a+q.w,0);let x=Math.random()*t;const q=Q.find(q=>(x-=q.w)<0)||Q[0];return `IT_ST${String(Math.max(1,Math.min(20,lv))).padStart(2,'0')}_${q.n}`};
 function raidPayout(g,ok,frac,n){const E=DB.balance.BAL_ECON,lv=DB.ranks[g.rank].lv,v=gateValue(lv)*(ok?1:E.failRate*Math.max(0.25,frac||0));return Math.round(v/Math.max(1,n))}
 function finishRaid(ok){clearInterval(UI._rt);afterRaidParty(UI.raid);UI.autoDue=true;G.stats=G.stats||{};G.stats.raids=(G.stats.raids||0)+1;const R=UI.raid,g=DB.gates[R.gid],me=G.player,n=R.party.length,mon=DB.monsters[g.mon],st=gateSt(g.id),dt0=dateOf(G.day);
   perform(DB.actions.ACT_GATE_RAID,Math.max(15,R.t),{target:g.id});worldTickAcc(Math.max(15,R.t));
@@ -3102,6 +3070,7 @@ function finishRaid(ok){clearInterval(UI._rt);afterRaidParty(UI.raid);UI.autoDue
   R.loot.forEach(l=>{invAdd(l.item,l.qty,'LOC_BAG');added.push([l.item,l.qty]);got.push(`${DB.items[l.item].name} ×${l.qty}`)});
   {const sold=autoSellLoot(added);if(sold){R.sold=sold[1];got.push(`→ 자동 판매 ${won(sold[1])}`)}}
   const B=DB.balance.BAL_GATE,exp=Math.round(B.expBase*Math.pow(21-DB.ranks[g.rank].lv,2)*(g.floors/5)*(ok?1:.4)),lv0=me.level,lvl=addExp(exp);
+  GEAR.afterRaid(ok);
   const coins=coinsFor(R.kills,DB.ranks[g.rank].lv,ok);G.coin=(G.coin||0)+coins;R.coins=coins;
   if(ok){st.status='cleared';st.clearedAt=nowAbs();st.by=me.guild?`${guildName(me.guild)} (나)`:n>1?`${me.name} 외 ${n-1}명 파티 (나)`:`${me.name} (나)`;G.rep+=1;G.stats=G.stats||{};G.stats.cleared=(G.stats.cleared||0)+1;lvl.push(...tryWall(B.wallGate??DB.balance.BAL_GROWTH.wallGate))}
   R.party.slice(1).forEach(pm=>{const r=ensureAcq(pm.id);if(!r)return;relAdd(r,'RD_CLOSE',2,'both');relAdd(r,'RD_TRUST',ok?2:-1,'from');remember(pm.id,'raid',`${g.name} 공략을 함께 했다 (${ok?'성공':'후퇴'})`)});
@@ -3453,7 +3422,6 @@ document.addEventListener('click',e=>{
   if(d.aucdays){UI.aucDays=+d.aucdays;render();return}
   if(d.aucbid){aucBid(d.aucbid,false);render();return}
   if(d.aucbuy){aucBid(d.aucbuy,true);render();return}
-  if(d.auclist!=null){aucList(+d.auclist,+($('#aucstart')?.value||0),UI.aucDays||2);UI.aucTab='내 출품';render();return}
   if(d.ivclose){closeItem();if(d.go){UI.screen=d.go;render()}return}
   if(d.qsopen){qsOpen();return}
   if(d.qsclose){qsClose();return}
@@ -3486,8 +3454,8 @@ document.addEventListener('click',e=>{
   if(d.shopsel!=null){UI.shopSel=UI.shopTab==='sell'?+d.shopsel:d.shopsel;UI.shopQty=1;render();return}
   if(d.shopbuy){const s=DB.sysShop[d.shopbuy],it=DB.items[s.item],left=shopLeft(s),n=Math.max(1,Math.min(UI.shopQty||1,left??99)),t=shopCoin(s)*n;
     if(t>(G.coin||0)){toast('코인이 부족합니다.');return}
-    G.coin-=t;if(left!=null)G.shop[s.id]=left-n;invAdd(s.item,n,'LOC_BAG');
-    toast(`<b>${esc(it.name)}</b> ${n}개를 샀습니다 (−◈${t.toLocaleString()} 코인). 가방에 넣었습니다.`);UI.shopQty=1;render();return}
+    G.coin-=t;if(left!=null)G.shop[s.id]=left-n;STAR.gift(s.item,n,'shop');
+    toast(`<b>${esc(it.name)}</b> ${n}개를 헌터에게 보냈습니다 (−◈${t.toLocaleString()} 코인).`);UI.shopQty=1;render();return}
   if(d.shopsell!=null){const i=+d.shopsell,r=invOf()[i];if(!r)return;const it=DB.items[r.item],n=Math.max(1,Math.min(UI.shopQty||1,r.qty)),t=sellPrice(it)*n;
     invTake(i,n);G.coin=(G.coin||0)+t;
     toast(`<b>${esc(it.name)}</b> ${n}개를 팔았습니다 (+◈${t.toLocaleString()} 코인).`);UI.shopSel=null;UI.shopQty=1;render();return}
@@ -3579,6 +3547,8 @@ applySettings(); render(); packsLoad();  /* 대량 콘텐츠 팩을 뒤에서 �
 <script src="engine/play.js"></script>
 <script src="engine/life.js"></script>
 <script src="engine/observe.js"></script>
+<script src="engine/gear.js"></script>
+<script src="engine/star.js"></script>
 <script src="engine/hunter_status.js"></script>
 <script src="engine/history_ui.js"></script>
 <script src="engine/life_ui.js"></script>

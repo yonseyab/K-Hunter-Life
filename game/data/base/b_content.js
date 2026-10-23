@@ -6,18 +6,18 @@
 
 /* ---------- 아이템 · 시스템 상점 ---------- */
 def('items', [
-  {id:'IT_B0001', name:'마정석 (하)',   cat:'ITC_STONE', rank:'RANK_19', price:89000,    desc:'원산지: 20~16급 게이트. 협회 인증 등급 하. 매입가는 협회 고시가로만 거래한다. 개인 간 거래 시 과태료.'},
-  {id:'IT_B0002', name:'마정석 (중)',   cat:'ITC_STONE', rank:'RANK_14', price:620000,   desc:'원산지: 15~11급 게이트. 협회 인증 등급 중. 운반 시 등록증 지참.'},
-  {id:'IT_B0003', name:'마정석 (상)',   cat:'ITC_STONE', rank:'RANK_08', price:4500000,  desc:'원산지: 10~6급 게이트. 협회 인증 등급 상. 반출 신고 대상.'},
-  {id:'IT_B0004', name:'마정석 (최상)', cat:'ITC_STONE', rank:'RANK_03', price:30000000, desc:'원산지: 5급 이상 게이트. 국가 관리 물자. 발견 즉시 협회 신고 의무.'},
+  {id:'IT_B0001', old:true, name:'옛 마정석 (하)',   cat:'ITC_STONE', rank:'RANK_19', price:89000,    desc:'원산지: 20~16급 게이트. 협회 인증 등급 하. 매입가는 협회 고시가로만 거래한다. 개인 간 거래 시 과태료.'},
+  {id:'IT_B0002', old:true, name:'옛 마정석 (중)',   cat:'ITC_STONE', rank:'RANK_14', price:620000,   desc:'원산지: 15~11급 게이트. 협회 인증 등급 중. 운반 시 등록증 지참.'},
+  {id:'IT_B0003', old:true, name:'옛 마정석 (상)',   cat:'ITC_STONE', rank:'RANK_08', price:4500000,  desc:'원산지: 10~6급 게이트. 협회 인증 등급 상. 반출 신고 대상.'},
+  {id:'IT_B0004', old:true, name:'옛 마정석 (최상)', cat:'ITC_STONE', rank:'RANK_03', price:30000000, desc:'원산지: 5급 이상 게이트. 국가 관리 물자. 발견 즉시 협회 신고 의무.'},
   {id:'IT_B0010', name:'지갑',          cat:'ITC_DAILY', rank:null, price:0, desc:'신분증 · 헌터 등록증 · 체크카드.'},
   {id:'IT_B0011', name:'스마트폰',      cat:'ITC_DAILY', rank:null, price:0, desc:'협회 앱이 깔린 개인 휴대전화. 게이트 안에서는 먹통.'},
   {id:'IT_B0012', name:'집 열쇠',       cat:'ITC_DAILY', rank:null, price:0, desc:''},
   {id:'IT_B0020', name:'구급 키트',     cat:'ITC_CONSUME', rank:null, price:45000, use:{hp:10,cure:'INJ_BLEED'}, desc:'붕대 · 지혈대 · 소독약. 식약처 의료기기 2등급. 지혈대는 2시간 넘게 감지 말 것.'},
-  {id:'IT_B0021', name:'협회 지급 단검', cat:'ITC_WEAPON', rank:'RANK_20', price:180000, slot:'SLOT_WEAPON', req:{STAT_BODY:8}, desc:'신규 등록 헌터 지급품. 협회 인증 20급. 재판매 금지.'},
-  {id:'IT_B0022', name:'방검 조끼 (보급형)', cat:'ITC_ARMOR', rank:'RANK_19', price:420000, slot:'SLOT_BODY', req:{STAT_BODY:10}, desc:'경찰 방검복에 마수 가죽을 덧댄 보급형. 국산. 세탁기 사용 금지.'},
+  {id:'IT_B0021', name:'협회 지급 단검', cat:'ITC_WEAPON', grade:'IG_1', rank:'RANK_20', price:180000, slot:'SLOT_WEAPON', sources:['SRC_ASSOC_GIVE'], desc:'신규 등록 헌터 지급품. 협회 인증 20급. 재판매 금지.'},
+  {id:'IT_B0022', name:'방검 조끼 (보급형)', cat:'ITC_ARMOR', grade:'IG_1', rank:'RANK_19', price:420000, slot:'SLOT_TOP', sources:['SRC_ASSOC_GIVE'], desc:'경찰 방검복에 마수 가죽을 덧댄 보급형. 국산. 세탁기 사용 금지.'},
   {id:'IT_B0023', name:'마력 포션 (하급)', cat:'ITC_CONSUME', rank:'RANK_18', price:120000, use:{mp:25}, desc:'마력 소폭 회복. 1일 3병 이하 권장. 치유 포션은 존재하지 않는다.'},
-  {id:'IT_B0024', name:'게이트용 방호 마스크', cat:'ITC_ARMOR', rank:null, price:95000, slot:'SLOT_FACE', req:{}, desc:'KF 마력 필터 내장. 필터 교체 주기 게이트 3회.'},
+  {id:'IT_B0024', name:'게이트용 방호 마스크', cat:'ITC_GEAR', rank:null, price:95000, desc:'KF 마력 필터 내장. 필터 교체 주기 게이트 3회.'},
   {id:'IT_B0030', name:'마수 송곳니', cat:'ITC_MAT', rank:'RANK_17', price:35000, desc:'공방 가공 소재. 협회 매입 대상.'},
   {id:'IT_B0031', name:'점액 결정',   cat:'ITC_MAT', rank:'RANK_19', price:12000, desc:'부정형 몬스터 잔해. 장갑 착용 후 취급.'},
 ]);

@@ -206,9 +206,9 @@ const LIFEUI = (() => {
   /* 이야기 · 내 헌터 · 거래는 좌측 하위 메뉴도 표시한다. 인생 외 새 탭 내용은 비워 둔다. */
   const HOME_TABS = {
     story: {label:'이야기', tabs:[['life','인생'],['goals','목표 설정'],['bio','일대기']]},
-    hunter: {label:'내 헌터', tabs:[['profile','내 정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]},
+    hunter: {label:'내 헌터', tabs:[['profile','정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]},
     db: {label:'DB', tabs:[['people','인물'],['gates','게이트'],['monsters','몬스터'],['equipment','장비'],['places','장소'],['other','기타'],['classes','클래스'],['skills','스킬']]},
-    trade: {label:'거래', tabs:[['shop','시스템 상점'],['auction','경매장'],['other','기타']]}
+    trade: {label:'거래', tabs:[['shop','상점'],['auction','성좌 경매장'],['other','기타']]}
   };
   function selectedTab(group) { const cfg = HOME_TABS[group], state = UI.homeTabs || (UI.homeTabs = {}); if (!cfg.tabs.some(([id])=>id===state[group])) state[group] = cfg.tabs[0][0]; return state[group]; }
   function categoryTabsHTML(group) { const cfg = HOME_TABS[group], current = selectedTab(group); return `<div class="home-category-tabs" role="tablist" aria-label="${cfg.label}">${cfg.tabs.map(([id,label])=>`<button type="button" id="home-tab-${group}-${id}" role="tab" data-home-tab="${group}|${id}" aria-selected="${id===current}" aria-controls="home-panel-${group}" tabindex="${id===current?0:-1}">${label}</button>`).join('')}</div>`; }

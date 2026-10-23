@@ -8,7 +8,7 @@ const e=await p.evaluate(()=>{gameFromScenario('SC_BDEMO');enterGame();const g20
   return {v20:gateValue(20),v15:gateValue(15),v10:gateValue(10),v1:gateValue(1),s20:stoneFor(20),s15:stoneFor(15),s8:stoneFor(8),s3:stoneFor(3),
     p4:raidPayout(g20,true,1,4),fail:raidPayout(g20,false,0.5,4),fail0:raidPayout(g20,false,0,4)}});
 console.log(JSON.stringify(e));
-ok(e.v20===1000000&&Math.abs(e.v15-6630000)<20000&&e.v10>4e7&&e.v1>1.2e9,'게이트 총수익');ok(e.s20==='IT_B0001'&&e.s15==='IT_B0002'&&e.s8==='IT_B0003'&&e.s3==='IT_B0004','마정석 등급');
+ok(e.v20===1000000&&Math.abs(e.v15-6630000)<20000&&e.v10>4e7&&e.v1>1.2e9,'게이트 총수익');ok(/^IT_ST20_[1-4]$/.test(e.s20)&&/^IT_ST15_[1-4]$/.test(e.s15)&&/^IT_ST08_[1-4]$/.test(e.s8)&&/^IT_ST03_[1-4]$/.test(e.s3),'마정석 = 게이트 등급 × 품질');
 ok(e.p4===250000&&e.fail===50000&&e.fail0===25000,'몫 · 실패');
 /* 커마 발동 조건 */
 const c=await p.evaluate(()=>{G.player.sex='여';G.bio=G.bio||{};G.bio.look={LK_CHEST_S:'SZ_5',LK_FIGURE:'LV_4',LK_HEIGHT:165,LK_WEIGHT:48};G.player.look=G.bio.look;G.bio.bg={BI_HOOD:['NB_0001','NB_0003'],BI_JOB:'JB_0004'};G.bio.pers={PX_EXTRO:9};G.bio.blood='AB';
