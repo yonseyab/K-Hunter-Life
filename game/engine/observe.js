@@ -35,7 +35,7 @@ const OBSERVE = (() => {
     });
     root.querySelectorAll('[data-wpsel="WG_ALERTS"],[data-wpsel="WG_MSG"]').forEach(el=>el.remove());
   }
-  const plain = s => { const e = document.createElement('div'); e.innerHTML = s || ''; return e.textContent.trim(); };
+  const plain = s => { const e = document.createElement('div'); e.innerHTML = s || ''; const t = e.textContent.trim(); return typeof STORY !== 'undefined' && STORY.fill ? STORY.fill(t) : t; };  /* {p} 같은 자리 표시를 채운다 */
   function notices() {
     if (!G || !G.story) return;
     (G.alerts || []).slice().reverse().forEach(m => {

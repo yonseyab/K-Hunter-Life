@@ -905,7 +905,7 @@ function loveDay(){const B=DB.balance.BAL_REL;G.relations.forEach(r=>{if(!DB.rel
   if(r.from.RD_ROMANCE<B.leaveAt){r.status='RS_EX';if(homeOf().partner===r.id)homeOf().partner=null;relAdd(r,'RD_CLOSE',-10,'both');pushHistory(`${nameOf(r.id)}이(가) 이별을 고함`,'');const th=threadWith(r.id);th.msgs.push({from:r.id,t:'우리… 이제 그만하는 게 좋겠어. 요즘 너무 멀어진 것 같아.',tm:hhmm(G.time)});th.unread++}})}
 /* 거래 내역은 최근 LEDGER_KEEP 건만 남기고, 지운 것은 합계(G.ledgerSum)로 접는다 (QA: 1년이면 2천 건 넘게 쌓여 재정 화면이 느려졌다) */
 const LEDGER_KEEP=300;function ledgerTidy(){const L=G.ledger||[];if(L.length<=LEDGER_KEEP)return;const S=G.ledgerSum||(G.ledgerSum={inc:0,exp:0,n:0});L.splice(LEDGER_KEEP).forEach(l=>{if(l[2]>0)S.inc+=l[2];else S.exp-=l[2];S.n++})}
-function dayTick(){alertTidy();ledgerTidy();if(G.lastDay!=null&&G.lastDay<G.day&&!raidActive())SIM.gc();  /* 쓰이지 않는 승격 인물 정리 (세이브 크기) */G.lastDay=G.lastDay??G.day;while(G.lastDay<G.day){G.lastDay++;marketDay();npcDay();contractDay();lifeDay(G.lastDay);guildMonth(G.lastDay);npcGuildMonth(G.lastDay);aucDay();poachDay(G.lastDay);npcGuildSign();loveDay();rankCheck();SCALE.day(G.lastDay);SCALE.tidyUsed();G.offers=(G.offers||[]).filter(o=>o.exp>nowAbs());UI.autoDue=true}}
+function dayTick(){alertTidy();ledgerTidy();if(G.lastDay!=null&&G.lastDay<G.day&&!raidActive())SIM.gc();  /* 쓰이지 않는 승격 인물 정리 (세이브 크기) */G.lastDay=G.lastDay??G.day;while(G.lastDay<G.day){G.lastDay++;marketDay();npcDay();contractDay();lifeDay(G.lastDay);guildMonth(G.lastDay);npcGuildMonth(G.lastDay);aucDay();poachDay(G.lastDay);npcGuildSign();loveDay();autoStatAlloc();rankCheck();SCALE.day(G.lastDay);SCALE.tidyUsed();G.offers=(G.offers||[]).filter(o=>o.exp>nowAbs());UI.autoDue=true}}
 function worldTickAcc(min){togetherTick(min);G.wAcc=(G.wAcc||0)+min;const h=Math.floor(G.wAcc/60);if(h>0){G.wAcc-=h*60;worldTick(h);checkGates();aucTick(h)}resolveBids();dayTick();SIM.tick();GOALS.check();const hf=processHappen();if(hf)UI._hapEv=hf;if(typeof LIFE!=='undefined')LIFE.watch()}
 /* 시간 진행. opt.span 이면 opt.until 까지 진행만 하고 결과를 돌려준다 (runTimeAsync 가 하루씩 나눠 부른다) */
 function runTime(mode,opt={}){ensureTime();if(G.dead)return;if(raidActive()){toast('게이트 안에서는 바깥 시간을 따로 진행할 수 없습니다. 공략을 마치거나 후퇴하세요.');return}const B=DB.balance.BAL_TIME,start=opt.start??nowAbs(),target=opt.until??advTarget(mode),e0=opt.e0??G.cond.energy,lines=opt.lines||[],ups=opt.ups||[];let stop=null,guard=0;
@@ -1209,9 +1209,20 @@ function addExp(n){const h=G.player,B=DB.balance.BAL_GROWTH,out=[];h.exp=(h.exp|
     if(h.level%B.wallEvery===0&&!(h.walls||[]).includes(h.level)){h.exp=need;out.push(`성장의 벽 (Lv.${h.level}) — 경험치가 더 오르지 않습니다`);break}
     if(h.pot&&h.level>=h.pot.level){h.exp=need;out.push('더 이상 강해지지 않는 느낌이 든다');break}
     h.exp-=need;h.level++;h.statPts=(h.statPts||0)+B.statPerLevel;
-    pushHistory(`레벨 ${h.level} 달성`,'');out.push(`레벨 업! Lv.${h.level} · 스탯 포인트 +${B.statPerLevel} (상태창에서 분배)`)}
+    pushHistory(`레벨 ${h.level} 달성`,'');out.push(`레벨 업! Lv.${h.level} · 스탯 포인트 +${B.statPerLevel}`)}
+  autoStatAlloc();
   if(out.some(x=>x.startsWith('레벨 업')))out.push(...rankCheck());
   return out}
+/* 스탯 포인트는 헌터가 성향대로 알아서 나눈다 (2026-10-24 사용자: 선택지 · 이벤트가 생길 때까지 임시).
+   비중 = 1 + 주 역할 적합도 가중치(roles.keys)의 스탯별 합, 모험 추구 → 육체 · 안정 추구 → 정신, 실리적일수록 한 스탯에 몰아 준다 */
+function autoStatAlloc(){const h=G.player;let n=Math.floor(h.statPts||0);if(n<=0||!h.stats)return null;
+  const E=DB.balance.BAL_EFFECT,st=Object.keys(h.stats),w={},pv=k=>G.bio?.pers?.[k]??h.pers?.[k]??5.5;st.forEach(s=>w[s]=1);
+  const keys=DB.roles[h.roleMain]?.keys||{};for(const a in keys){const s=DB.baseStats[a]?a:E.groupStat[DB.abilities[a]?.g];if(s in w)w[s]+=keys[a]}
+  const adv=(pv('PX_ADVEN')-5.5)/4.5;if('STAT_BODY' in w)w.STAT_BODY*=1+Math.max(0,adv)*.5;if('STAT_MIND' in w)w.STAT_MIND*=1+Math.max(0,-adv)*.5;
+  const prag=(pv('PX_PRAG')-5.5)/4.5;st.forEach(s=>w[s]=Math.pow(w[s],1+prag*.6));
+  const tot=st.reduce((a,s)=>a+w[s],0),add={};while(n-->0){let x=Math.random()*tot;const s=st.find(s=>(x-=w[s])<0)||st[0];h.stats[s]++;h.statPts--;add[s]=(add[s]||0)+1}
+  const txt=Object.entries(add).sort((a,b)=>b[1]-a[1]).map(([s,v])=>`${DB.baseStats[s]?.name||s} +${v}`).join(' · ');
+  if(typeof STORY!=='undefined')STORY.add('up',`스탯 포인트를 스스로 나눴다 — ${txt}.`,1);rankCheck();return add}
 /* 등급 자동 갱신: 상태창이 판단 (BAL_RANKUP). 올라가기만 한다 */
 const rankNeed=r=>{const B=DB.balance.BAL_RANKUP,k=20-r;return {st:Math.round(B.statBase+B.statStep*k+(B.statCurve||0)*k*k),abl:B.ablBase+B.ablStep*k}};
 function rankQualify(h){const B=DB.balance.BAL_RANKUP,st=Object.values(h.stats||{}).reduce((a,b)=>a+b,0),sets=ablSetsOf(h),n=sets.reduce((t,x)=>t+ablIn(x).length,0)||1,avg=ablSum(h)/n;
