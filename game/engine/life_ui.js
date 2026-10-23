@@ -136,7 +136,7 @@ const LIFEUI = (() => {
     el.addEventListener('cancel',e=>e.preventDefault());document.body.appendChild(el);return el;
   }
   function syncPopup() {
-    if(typeof OBSERVE!=='undefined'&&OBSERVE.legacy){document.getElementById('lifeEventModal')?.close();return;}  /* 검사용: 옛 화면 테스트에서는 팝업을 띄우지 않는다 */
+
     if(popupGame!==G){resetPopup();popupGame=G;}
     if(UI.mode!=='app'){resetPopup();return;}
     if(popupBusy||delegating)return;

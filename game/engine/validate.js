@@ -33,7 +33,7 @@ function reqErrs(q, DB, where) {
   if (q.who && q.who !== 'tgt') o.push(`${where}: who 는 'tgt' 만`);
   return o;
 }
-/* 세 층 원칙 (REBUILD_PLAN 2장): 캐릭터에 대해 단정하는 사실(asserts)은 반드시 조건(req)에 같은 사실이 있어야 한다.
+/* 세 층 원칙: 캐릭터에 대해 단정하는 사실(asserts)은 반드시 조건(req)에 같은 사실이 있어야 한다.
    같은 종류(k) · 같은 대상 키(aspect · item · axis · id · key · who)이고, 조건 범위가 단정 범위 안에 들어야 한다 */
 const ASSERT_KEYS = ['aspect', 'item', 'axis', 'id', 'key', 'who', 'type', 'dim', 'v'];
 function reqFlat(req) { const out = []; (req || []).forEach(q => { if (q && q.k === 'all') out.push(...reqFlat(q.of)); else out.push(q); }); return out; }
@@ -74,7 +74,7 @@ const RULES = [
   ['gates', (g, DB) => [...(!DB.ranks[g.rank] ? [`rank ${g.rank} 없음`] : []), ...(g.mon && !DB.monsters[g.mon] ? [`mon ${g.mon} 없음`] : []), ...(!DB.regions[g.region] ? [`region ${g.region} 없음`] : [])]],
   ['hunters', (h, DB) => [...(!DB.ranks[h.rank] ? [`rank ${h.rank} 없음`] : []), ...(h.level < 1 ? ['level < 1'] : []), ...Object.entries(h.abl || {}).filter(([k, v]) => !DB.abilities[k] || v < 1 || v > 20).map(([k, v]) => `abl ${k}=${v}`)]],
   ['balance', (b) => (b.proto !== true ? ['proto:true 표시 없음 ([prototype_default])'] : [])],
-  /* 외주 데이터용 규칙 (docs/outsource) */
+  /* 외주 데이터용 규칙 */
   ['events', (e, DB) => { const o = [], ON = ['npcInjured', 'npcRaidWin', 'npcRankUp', 'npcDied', 'npcAwaken', 'career:promo', 'career:fired', 'career:hired', 'career:grad', 'career:boom', 'career:slump'];
     if (!['alert', 'msg'].includes(e.ch)) o.push('ch 는 alert · msg'); if (e.ch === 'msg' && (!e.to || !(e.lines || []).length)) o.push('msg 는 to · lines 필요'); if (e.ch === 'alert' && (!e.from || !e.body)) o.push('alert 는 from · body 필요');
     if (e.on && !ON.includes(e.on)) o.push('on 값이 잘못됨: ' + e.on); if (e.on === 'npcDied' && e.ch !== 'alert') o.push('npcDied 는 alert 로');

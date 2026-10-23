@@ -5,8 +5,5 @@
    추가한 뒤: node tools/validate_data.js
    ========================================================= */
 var HL_EXT = [
-  'lookOpts_LA.js',
-  'lookOpts_LB.js',
-  'bgOpts_BB.js',
 ];
 HL_EXT.forEach(function (f) { document.write('<script src="data/ext/' + f + '"><\/script>'); });

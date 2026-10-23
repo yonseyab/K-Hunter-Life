@@ -1,59 +1,51 @@
 # 인수인계 (K-Hunter-Life)
 
-> **최신 상태 요약: [Codex → Claude 작업 인계 · 2026-10-23](CODEX_TO_CLAUDE_2026-10-23.md).** 충돌 시 최신 인계/최신 사용자 결정을 우선한다. 로컬 경로는 `C:\Users\YON\Desktop\K-Hunter-Life`. GPT 로컬 수정본은 2026-10-23 Claude가 GitHub(main) · 게임 페이지 · PC 폴더에 모두 맞춰 반영했다 (아래 7장).
-
-이 문서만 읽고 작업을 이어받을 수 있게 정리한다. 작업이 끝날 때마다 갱신한다. 사용자 결정은 [DECISIONS.md](DECISIONS.md), 설계 원안은 [REBUILD_PLAN.md](REBUILD_PLAN.md), 콘텐츠 스타일은 [STYLE_CHECKLIST.md](STYLE_CHECKLIST.md).
+이 문서만 읽고 작업을 이어받을 수 있게 정리한다. 작업이 끝날 때마다 갱신한다. 사용자 결정은 [DECISIONS.md](DECISIONS.md), 콘텐츠 스타일은 [STYLE_CHECKLIST.md](STYLE_CHECKLIST.md), 경제 기준은 [ECONOMY.md](ECONOMY.md), QA 봇은 [QA.md](QA.md).
 
 ## 1. 한 줄
-**최신 방향 변경 (2026-10-23, 반영):** 시뮬레이션 중심으로 방향 · 목표 · 중요 선택 · 구매 · 장비 관리만 직접 정한다. `engine/observe.js`가 기존 화면 링크 · 직접 행동 버튼을 정리하고 클릭 실행도 차단한다. `doNow`는 실행하지 않으며 `startRaid`는 자동 공략 내부에서만 호출한다. 인생 화면의 일정 편집 · 직접 공략 · 다시 맡기기를 제거했다. '방향 · 목표'에서 생활 방향을 선택하면 GOALS → ROUTINE → SIM 자동 일정에 반영한다. 소식과 대화는 이야기 창, 사건 · 길드 계약 · 공략 위기는 선택 카드로 전달한다. 공략 위기 대기 상태는 `G.play.pendingRaid`에 저장해 이어 갈 수 있다. 기존 수동 일정 저장은 자동 모드로 전환한다. 아래의 옛 직접 플레이 설명보다 DECISIONS.md의 최신 결정이 우선한다.
+한국 헌터물 + 성좌물 **관찰형** 인생 시뮬레이션. 커마한 헌터의 인생이 하루 30초로 흘러가고, 플레이어는 그 헌터의 **성좌**로서 지켜보며 코인으로 선물한다. 직접 행동 · 공략 · 장비 착용 · 스탯 분배는 하지 않는다 (헌터가 성향대로 정한다). `game/index.html` 을 브라우저로 열면 동작한다 (빌드 없음).
 
-커마한 헌터의 인생이 하루 30초로 흘러가고, 플레이어는 지켜보다가 원할 때 끼어드는 한국 헌터물 인생 시뮬레이션 (『80억분의 1』의 디테일한 버전). `game/index.html` 을 브라우저로 열면 동작한다 (빌드 없음).
-
-- 게임 페이지(아티팩트): https://claude.ai/artifact/1KVipZo2SnDCQkUgtbLpri (새 페이지. 옛 Hunter Life 페이지는 건드리지 않음)
+- 게임 페이지(아티팩트): https://claude.ai/artifact/1KVipZo2SnDCQkUgtbLpri (옛 Hunter Life 페이지는 건드리지 않음)
 - PC 폴더: `C:\Users\YON\Desktop\K-Hunter-Life` (로컬 폴더에는 `.git` 없음 — GitHub 와는 Claude 가 파일을 옮겨 맞춘다)
 - 옛 버전: [yonseyab/Hunter-Life](https://github.com/yonseyab/Hunter-Life) — 보관본. 옛 저장과 호환하지 않는다.
+- 2026-10-24 정리: 옛 직접 조작 화면 · 옛 외주 문서/데이터 · 끝난 계획 문서 · 한 번 쓴 도구를 지웠다 (GitHub 기록에 남아 있음).
 
 ## 2. 구조
 
-### 최신 홈 UI (2026-10-23, 실제 게임 반영)
-- **거래 추가:** 좌측 거래 아래 시스템 상점/경매장/기타. `V.homeTrade`와 `UI.homeTabs.trade`로 사이드바/내부 탭 선택을 연동한다. 내용은 빈 패널이며 기존 V.shop · V.auction은 유지한다.
-- **좌측 하위 메뉴 추가:** 이야기 아래 인생/목표 설정/일대기, 내 헌터 아래 내 정보/상태창/관계/소지품을 표시한다. 사이드바 선택과 화면 내부 탭이 연동된다. DB 하위 탭은 화면 안에만 유지한다. 아래의 '하위 탭은 사이드바에 표시하지 않음'보다 이 변경이 우선한다.
-- **최신 변경:** 16:9에서 중앙 620px 제한을 제거해 상태창 · 인생 기록을 넓혔다. 좌측은 이야기 · 내 헌터 · DB만 표시하고, 하위 탭은 화면 안에서 바꾼다. 이야기(인생/목표 설정/일대기), 내 헌터(내 정보/상태창/관계/소지품), DB(인물/게이트/몬스터/장비/장소/기타/클래스/스킬). 인생 외 새 탭에는 내용 UI를 만들지 않았다. 기존 V.* 기능은 유지한다. 탭 선택은 UI.homeTabs에만 기록한다. 아래의 '인생만 표시' 설명보다 이 변경이 우선한다.
-- 로그 시각은 고정 42px 칸 대신 글자 너비 + 6px 간격으로 표시한다. 새로운 타임라인 · 대화 카드 등으로 원본 로그를 바꾸지 않는다.
-- `game/home.css`: 기존 스타일 뒤에 불러오는 인생 홈 레이아웃. 사각형 · 같은 폰트 · 일정한 상단 높이, 작은 상태창 위/원본 로그 아래/위젯 오른쪽. 모바일은 세로로 쌓인다.
-- `statusWindowHTML(h, true)`가 원래 상태창 항목을 작은 홈 상태창으로 표시한다. 위치는 상태창 우측 하단이며 현재 행동 설명 줄은 없다. 재생 중 수치와 위치를 부분 갱신한다.
-- 좌측 메뉴는 `renderNav`에서 인생만 그린다. `NAV`의 전체 화면 목록과 `V.*` 구현은 유지하며 검색 · 버튼 · 위젯에서 이용할 수 있다.
-- 위젯 구성 · 순서는 `G.prefs.play.homeWidgets`에 저장한다. 기존 WIDGETS의 자금 · 컨디션 · 가까운 사람 · 목표 · 뉴스를 재사용한다. 구성 버튼은 박스 밖 위쪽, 첫 위젯 상단 · 높이는 상태창과 맞춘다.
-- 홈 회귀 검사는 `tests/ui/t_home.js`. 위치 · 실시간 갱신 · 로그 DOM 유지 · 메뉴 하나 · 내부 화면 보존 · 위젯 저장 왕복 · 320px까지 검사한다.
+### 화면 (2026-10-24)
+- 좌측 메뉴(`renderNav`): **이야기**(인생 · 목표 설정 · 일대기) · **내 헌터**(정보 · 상태창 · 관계 · 소지품) · **성좌**(내 정보 · 상점 · 성좌 경매장 · 업적) · **DB**. 하위 탭은 `UI.homeTabs`. 인생 · 상태창 외 새 탭은 아직 빈 패널.
+- 인생 탭: 원본 로그 + 작은 상태창(`statusWindowHTML(h,true,{fold:true})`, EXP 아래 접기 `UI.swOpen`) + 위젯(`G.prefs.play.homeWidgets`, `WIDGETS` 재사용). 상단에 코인(`#topCoin`) · 각성 경과.
+- 내 헌터 › 상태창: `engine/hunter_status.js` (기본 상태 · 클래스/스킬 · 특성. 스탯 분배 없음).
+- `engine/observe.js`: 직접 조작 링크 · 버튼을 지우고 클릭을 막는다. 사건 · 위기는 `engine/life_ui.js` 의 선택 팝업(d20).
+- 옛 `V.*` 화면 중 아직 남은 것(소지품 · 상점 · 경매장 · 게이트 · 길드 · DB · 관계 · 정보 · 재정 · 뉴스 · 전국 현황 · 기록관 · 설정 · 공략 화면)은 검색 · 버튼 · 알림 링크로 열린다. 새 탭 UI를 만들 때 바꾼다.
 
 ```
-game/index.html          엔진 · UI 본체 (옛 prototype/index.html 을 tools/patch_index.py 로 고침)
-game/life.css            인생 화면 · 재생 막대 · 일대기 스타일
-game/data/*.js           시스템 테이블 (옛 버전에서 옮김: 능력치 · 행동 · 관계 · 세계 수치 · 커마 선택지 · 지역 · 지도 · 게이트 장소 20만)
-game/data/system.js      새 시스템 테이블: 의미 태그 · 이유 조각 · 감정 · 고비 · 멈춤 종류 · 국가 상태 · BAL_PLAY/MIND/TELLER/SMALL/EMO/SELF/SCALE/AGE
-game/data/base/          Claude 최소 재료 (배치 B): b_hunters.js(자동 생성) · b_content.js · b_story.js(이야기 문장 · 위기 · 이벤트 · 데모)
-game/data/ext · packs    외주 데이터 자리 (지금 ext 에는 옛 커마 선택지 LA · LB · BB · PB 만)
-game/engine/             sim.js(NPC · 배경 인구 · 워커) · goals · routine · autoraid · know · validate · status_ui (옛 버전)
-                         scale.js · mind.js · story.js · play.js · life.js · life_ui.js (새 버전)
-tools/                   validate_data.js · gen_id_reference.js · qa_sim.js · gen_base_hunters.js · build_*.py · patch_index.py(기록용)
-tests/ui/                Playwright 테스트 71개 + fixture.js(테스트 전용 데이터). 옛 직접 조작 화면을 쓰는 테스트는 `OBSERVE.legacy=true`(검사용 스위치)로 연다
+game/index.html          엔진 · UI 본체
+game/*.css               life · home · hunter_status · history
+game/data/*.js           시스템 테이블 (능력치 · 행동 · 관계 · 세계 수치 · 커마 선택지 · 지역 · 지도 · 게이트 장소 · 아이템 · 성좌 · 장소 · 몬스터 형식)
+game/data/system.js      판단 · 감정 · 고비 · 멈춤 · 국가 상태 · BAL_PLAY/MIND/TELLER/SMALL/EMO/SELF/SCALE/AGE
+game/data/base/          Claude 최소 재료 (배치 B): b_hunters.js · b_content.js · b_story.js(이야기 문장 · 위기 · 이벤트 · 데모)
+game/data/ext · packs    외주 데이터 자리 (지금 비어 있음 — `_list.js` · `_manifest.js` 에 파일 이름을 한 줄씩)
+game/engine/             sim · goals · routine · autoraid · know · validate · status_ui (옛 버전에서) · scale · mind · story · play · life · life_ui · observe · hunter_status · history_ui · life_log · gear · star · monster
+tools/                   validate_data.js · qa_sim.js · build_regions.py · build_maps.py · build_gate_pool.py
+tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데이터)
 ```
 
-### 새 시스템 (REBUILD_PLAN 4장 → 구현 위치)
+### 시스템 → 구현 위치
 | # | 시스템 | 어디 | 핵심 |
 |---|---|---|---|
 | 1 | 실시간 재생 | `engine/play.js` PLAY | 하루 30초(×1) · ×2 · ×5 · ×20 · 다음 사건까지. 틱마다 `runTime` 을 분 단위로 잘게, 자정 넘을 때 `SIM.ensure`(워커). 아침에 하루 계획(`ROUTINE.plan`) · 공략 판단(`MIND.wantRaid` → `pickGate` → `runRaid`) |
 | 2 | 인생 화면 · 이야기 창 | `engine/story.js` STORY · `engine/life_ui.js` | 행동 · 이동 · 작은 일 · 만남 · 반응 · 공략 장면 · 세상 소식 · 하루 마무리 · 시작 전 인생. 상세도 3단계. 조사 자동(`STORY.josa`). 이야기 창은 붙이기만 |
 | 3 | 판단 엔진 | `engine/mind.js` MIND | 태그(mindTags) × 재료(성격 · 감정 · 상태 · 자기 인식 · 방침) + 판정 확률 + 관계 · 기억 + 무작위(예측 가능성). 이벤트 · 위기 · 하루 공략 · 게이트 고르기. 이유 문장(mindWhy). 성격 변화(`drift`). NPC 점수(`npcScore`) |
-| 4 | 세 층 원칙 | `engine/validate.js` assertErrs · `tools/validate_data.js` · `docs/CC_IMPACT.md` | `asserts` ⊆ `req` 강제, 단정 낱말 검사, 조건 키 looks · emo · self · adult · place |
+| 4 | 세 층 원칙 | `engine/validate.js` assertErrs · `tools/validate_data.js` | `asserts` ⊆ `req` 강제, 단정 낱말 검사, 조건 키 looks · emo · self · adult · place |
 | 5 | 이야기꾼 | `engine/mind.js` TELLER | 조용하면 확률 ↑, 몰리면 ↓ (이벤트 · 작은 일) |
 | 6 | 멈춤 · 개입 | `engine/story.js` EVT · play.js | 안 멈춤 / 큰 갈림길만 / 사건마다 + 종류별. 자동 결정. 위기에서 멈추면 옛 공략 화면으로 넘김. 끼어들기 막대 · '다시 맡기기' |
 | 7 | 고비 · 일대기 | `engine/life.js` LIFE | 상태 비교로 고비 감지 → 회고 카드 + 한 줄. 나이 · 은퇴 생각 · 노화. 끝나면 일대기 한 장(장 · 기록 · 사람 · 감정 흐름 · 성격 변화 · 노년 · 작별) |
 | 8 | 이어 가기 | `engine/life.js` LEGACY | 같은 세계 새 인물(커마 → `adoptWorld`) · 플레이 중 인물 바꾸기(`switchTo`) · 기록관(`khl.archive.v1`, 시점 · 관계) · 파일 내보내기/가져오기 |
-| 9 | 화면 정리 | index.html NAV · life_ui.js | 메뉴 네 묶음, 첫 화면 = 인생, 옛 홈 = 대시보드, 전국 현황 · 일대기 · 기록관 화면 |
+| 9 | 화면 | index.html `renderNav` · life_ui.js | 위 '화면' 참고 |
 | 10 | 설정 묶음 | life_ui.js `V.settings` · `G.prefs.play` | 재생 · 멈춤 / 판단 · 방침 / 이야기 / 게임 설정 / 환경설정 / 헌터 관리 |
 | + | 인구 · 게이트 규모 | `engine/scale.js` SCALE · sim.js popGen ver 3 | 각성 0.5% · 활동 0.2% · 전국 하루 약 5,470개. 내 주변 개별, 나머지 집계(`G.wagg`). 다른 헌터 공략 시각(`g.clr`) |
-| + | 장비 · 아이템 틀 | `engine/gear.js` GEAR · data/items.js | 등급 6(일반~전설 + 숨은 신화, 보정 +1 · 2 · 4 · 7 · 11 · 16) · 칸 8(양손 · 한 벌 · 특수) · 개성(itemTraits) · 출처 13(itemSources) · 내구도 · 수리(헌터가 자동) · 마정석 80종(게이트 등급 × 품질). 착용은 헌터 판단 `GEAR.consider` (선물받을 때). 옛 칸 · rank 만 있는 장비는 `GEAR.normalize` 가 바꿈. 화면(상태창 › 장비)은 디자인 외주 뒤 |
+| + | 장비 · 아이템 틀 | `engine/gear.js` GEAR · data/items.js | 등급 6(일반~전설 + 숨은 신화, 보정 +1 · 2 · 4 · 7 · 11 · 16) · 칸 8(양손 · 한 벌 · 특수) · 개성(itemTraits) · 출처 13(itemSources) · 내구도 · 수리(헌터가 자동) · 마정석 80종(게이트 등급 × 품질). 착용은 헌터 판단 `GEAR.consider` (선물받을 때). 옛 칸 · rank 만 있는 장비는 `GEAR.normalize` 가 바꿈. 화면(상태창 › 장비)은 아직 |
 | + | 성좌 | `engine/star.js` STAR · data/stars.js | 선물 `STAR.gift`(상점 · 경매 → 헌터 가방) · 성좌 경매장(코인, `G.auction.coin`) · NPC 성좌 `STAR.ofHunter` · 고유 클래스 `STAR.grantClass`(세계에 한 명, `G.uniqueHeld`) · 클래스북 `readBook` · 메시지 `STAR.say`(자리만). 내 성좌 설정 · 업적 · 성좌 화면은 커마 화면 작업 때 |
 
 ### 세이브 (`G`, localStorage `khl.saves.v1`, v:3)
@@ -61,15 +53,15 @@ tests/ui/                Playwright 테스트 71개 + fixture.js(테스트 전�
 
 ## 3. 반드시 지킬 것
 - 게임 안 AI(LLM) 금지. 모든 내용은 ID 기반 데이터 + 규칙.
-- 콘텐츠는 Codex 외주. Claude 는 최소 재료만 (배치 B). **의뢰서는 사용자와 상의한 뒤** — 기술 부분은 [outsource/00_기술_형식.md](outsource/00_기술_형식.md).
-- 아이템 **체계 설계** 의뢰서: [outsource/02a_아이템_체계_의뢰.md](outsource/02a_아이템_체계_의뢰.md) (2026-10-23, 사용자 요청). 결과물은 `docs/design/ITEM_SYSTEM_PROPOSAL.md` 로 받고, 그 뒤 아이템 데이터 의뢰(02)를 고친다.
-- 커마 값은 능력치 효과가 아니라 사건 · 반응 · 선택 · 묘사의 재료 ([CC_IMPACT.md](CC_IMPACT.md)).
+- 관찰형: 플레이어(성좌)가 헌터를 직접 조종하는 UI를 만들지 않는다.
+- 콘텐츠는 나중에 한꺼번에 외주. **외주 의뢰서 · 형식 문서는 사용자가 정할 때까지 만들지 않는다.** 데이터 형식은 각 data 파일 머리 주석과 `engine/validate.js` 규칙이 기준.
+- 커마 값은 능력치 효과가 아니라 사건 · 반응 · 선택 · 묘사의 재료 (조건 키는 `engine/validate.js` REQ_K).
 - 밸런스 수치는 `balance` 테이블(`BAL_*`, proto:true). 코드에 상수로 박지 않는다.
 - 문서 최신 유지: 이 문서 · DECISIONS.md.
 
 ## 4. 작업 순서 (매 변경)
 1. `node tools/validate_data.js`
-2. `CHROMIUM=/opt/pw-browsers/chromium OUT=/tmp/claude-0 NODE_PATH=$(npm root -g) node tests/ui/run_all.js` (62개, 순서대로 약 25분. 병렬: `ls tests/ui/t_*.js | xargs -P 6 …`)
+2. `CHROMIUM=/opt/pw-browsers/chromium OUT=/tmp/claude-0 NODE_PATH=$(npm root -g) node tests/ui/run_all.js` (병렬: `ls tests/ui/t_*.js | xargs -P 6 …`)
 3. 큰 변경이면 QA 봇: `DAYS=120 RUNS=3 node tools/qa_sim.js` (docs/QA.md)
 4. 커밋 → push → PC 동기화(바탕화면 폴더) → 게임 페이지(아티팩트) 갱신
 
@@ -83,7 +75,7 @@ tests/ui/                Playwright 테스트 71개 + fixture.js(테스트 전�
 - 경제: 새 헌터가 두 달이면 돈이 바닥나는 경우가 있다 (QA). 생계형 현실감으로 둘지, 시작 자금 · 하위 등급 수입을 올릴지.
 - 커마 화면에 성좌 칸(이름 · 성향 · 시작 코인 · 헌터가 아는지 · 고유 클래스로 시작) — 사용자와 UI 상의.
 - 업적(헌터가 이루면 성좌 코인) · 성좌 화면 — 성좌 UI 만들 때 같이.
-- 장비 화면 — GPT 이미지 시안이 오면.
+- 장비 화면 — 디자인을 정하면.
 - (나중에, 콘텐츠 넣기 전) 대량 콘텐츠 대비: 가짜 이벤트 10만 개로 속도 시험 → 발동 시점별 색인(지금은 `vals('events')` · `vals('storyLines')` 를 매번 전체 훑음) · 묶음별 지연 로딩 · 세이브 IndexedDB. claude.ai 페이지는 256MB(파일당 16MB) 한도.
 - 외주 의뢰서 · 형식 문서는 사용자가 정할 때까지 더 만들지 않는다 (2026-10-24).
 - 스탯 포인트 분배: 지금은 임시 자동 분배(`autoStatAlloc`, 레벨업 · 하루마다). 성좌에게 묻기 등은 선택지 · 이벤트 만들 때.
@@ -100,8 +92,9 @@ tests/ui/                Playwright 테스트 71개 + fixture.js(테스트 전�
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
 ## 7. 진행 상황
-- [완료] 2026-10-24 (Claude) 게이트 · 몬스터 형식: 몬스터 등급 범위(`ranks`) · 크기 · 꼬리표 · 약점/저항 · 지형 · 보스 · 소재 부위 표(비어 있음), 게이트 = 잡몹 1~3 + 보스(`engine/monster.js` MONSTER.compose, `g.mobs` · `g.boss`), 특별한 게이트 분류 `gateKinds`(브레이크만, 넘치면 `g.kind`). 형식 문서 `docs/outsource/04_게이트_몬스터_형식.md`
-- [완료] 2026-10-24 (Claude) 장소 외주 준비: `placeTypes` 추가 필드(group · where · sources · desc) · 새 테이블 `placeTags` · `places`(이름 있는 개별 장소, 지금은 데이터만) · 검사 규칙. 형식 문서 `docs/outsource/03_장소_의뢰.md` (의뢰는 나중에 한꺼번에 — 지금 보내지 않음)
+- [완료] 2026-10-24 (Claude) 정리: 옛 직접 조작 화면(행동 · 파티 · 공략대 · 공략 준비 · 일정 · 알림 · 메신저 · 대시보드 · 개발 도구)과 그 처리 코드 · 위젯 배치 편집 · `OBSERVE.legacy` · `doNowDirect` 삭제, 옛 테스트 29개 삭제, 외주 문서 전부 · 끝난 계획 문서(REBUILD_PLAN · CODEX 인계 · CC_IMPACT · DATA_IDS · NPC_SIM) · 한 번 쓴 도구 · 옛 외주 커마 데이터(lookOpts_LA/LB · bgOpts_BB) 삭제
+- [완료] 2026-10-24 (Claude) 게이트 · 몬스터 형식: 몬스터 등급 범위(`ranks`) · 크기 · 꼬리표 · 약점/저항 · 지형 · 보스 · 소재 부위 표(비어 있음), 게이트 = 잡몹 1~3 + 보스(`engine/monster.js` MONSTER.compose, `g.mobs` · `g.boss`), 특별한 게이트 분류 `gateKinds`(브레이크만, 넘치면 `g.kind`). (형식 문서는 정리 때 삭제 — data/content.js 주석이 기준)
+- [완료] 2026-10-24 (Claude) 장소 외주 준비: `placeTypes` 추가 필드(group · where · sources · desc) · 새 테이블 `placeTags` · `places`(이름 있는 개별 장소, 지금은 데이터만) · 검사 규칙. (형식 문서는 정리 때 삭제 — data/places.js 주석이 기준)
 - [완료] 2026-10-24 (Claude) 스탯 임시 자동 분배(`autoStatAlloc`, 이야기 창 한 줄) · 소식 줄 `{p}` 치환 고침(`OBSERVE.notices` 가 `STORY.fill`)
 - [완료] 2026-10-24 (Claude) 메뉴 · 상태창 정리: 좌측 메뉴 순서(DB 맨 아래) · '성좌' 묶음(내 정보 · 상점 · 성좌 경매장 · 업적 — 빈 탭), 스탯 분배 화면 없앰(`OBSERVE` 차단 'statpt', 상태창 분배 칸 삭제 — 포인트는 쌓이고 헌터 판단 분배는 나중), 인생 탭 상태창 EXP 아래 접기(`UI.swOpen`), 코인은 상단 `#topCoin`
 - [완료] 2026-10-24 (Claude) 성좌 · 아이템 틀 (사용자와 목록 합의, UI는 꼭 필요한 곳만): 아이템 등급 · 칸 · 개성 · 출처 · 내구도 · 마정석 체계, 스탯 착용 조건 없앰, 착용은 헌터 판단(화면의 착용 버튼 없앰 — `OBSERVE` 차단 목록 'equip'), 상점 = 성좌가 사서 선물(판매 탭 · 소지품의 '시스템 상점에 팔기' 없앰), 원화 경매장 → 성좌 경매장(코인, 내 출품 없앰), NPC 성좌 · 고유 클래스(선천 각성 제외 · 한 명만 · 원래 클래스 바뀜) · 클래스북 틀, 좌측 '내 정보' → '정보'. 견본 데이터는 넣지 않음(표만). 장비 화면 이미지 의뢰서 `docs/outsource/gear_view_image_prompt.md`. 남은 것: 내 성좌 설정 · 시작 코인 · 고유 클래스로 시작(커마 화면) · 업적 · 성좌 화면 — 사용자와 상의하며
