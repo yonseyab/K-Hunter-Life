@@ -60,6 +60,7 @@ tests/ui/                Playwright 테스트 71개 + fixture.js(테스트 전�
 ## 3. 반드시 지킬 것
 - 게임 안 AI(LLM) 금지. 모든 내용은 ID 기반 데이터 + 규칙.
 - 콘텐츠는 Codex 외주. Claude 는 최소 재료만 (배치 B). **의뢰서는 사용자와 상의한 뒤** — 기술 부분은 [outsource/00_기술_형식.md](outsource/00_기술_형식.md).
+- 아이템 **체계 설계** 의뢰서: [outsource/02a_아이템_체계_의뢰.md](outsource/02a_아이템_체계_의뢰.md) (2026-10-23, 사용자 요청). 결과물은 `docs/design/ITEM_SYSTEM_PROPOSAL.md` 로 받고, 그 뒤 아이템 데이터 의뢰(02)를 고친다.
 - 커마 값은 능력치 효과가 아니라 사건 · 반응 · 선택 · 묘사의 재료 ([CC_IMPACT.md](CC_IMPACT.md)).
 - 밸런스 수치는 `balance` 테이블(`BAL_*`, proto:true). 코드에 상수로 박지 않는다.
 - 문서 최신 유지: 이 문서 · DECISIONS.md.
