@@ -1,0 +1,13 @@
+/* =========================================================
+   data/ext/_list.js — 외주 · 추가 데이터 파일 목록
+   외주로 받은 파일을 data/ext/ 에 넣고 아래 목록에 파일 이름을 한 줄 추가하면 게임이 읽는다.
+   (기존 데이터 뒤에 읽히므로 같은 테이블에 행이 더해진다. 같은 ID가 있으면 경고 — 검증 도구가 잡는다)
+   추가한 뒤: node tools/validate_data.js
+   ========================================================= */
+var HL_EXT = [
+  'lookOpts_LA.js',
+  'lookOpts_LB.js',
+  'bgOpts_BB.js',
+  'pers_PB.js',
+];
+HL_EXT.forEach(function (f) { document.write('<script src="data/ext/' + f + '"><\/script>'); });

@@ -1,0 +1,46 @@
+/* K-Hunter-Life — 인생 화면 · 재생 막대 · 일대기 (engine/life_ui.js). index.html 의 다크 테마 변수를 쓴다 */
+.playbar{display:flex;align-items:center;gap:4px;padding:0 8px}
+.playbar .pbtn{min-width:34px;height:30px;border:1px solid var(--line2);background:var(--panel2);color:var(--fg);border-radius:6px;font:600 12px var(--mono,inherit);cursor:pointer}
+.playbar .pbtn.main{min-width:40px;font-size:15px;background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.playbar .pbtn.on{border-color:var(--accent);color:var(--accent)}
+.playbar .pbtn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.playbar .pstate{font-size:11px;color:var(--muted);margin-left:6px;white-space:nowrap}
+.life{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:14px;height:calc(100vh - 120px);min-height:420px}
+.lmain{display:flex;flex-direction:column;min-width:0;min-height:0}
+.story{flex:1;min-height:0;overflow-y:auto;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:14px;line-height:1.65}
+.sl{display:flex;gap:8px;align-items:baseline;padding:1px 0}
+.sl .tm{flex:0 0 42px;color:var(--dim);font:500 11px var(--mono,monospace)}
+.sl .tag{flex:0 0 auto;font-size:10px;padding:0 5px;border-radius:4px;background:var(--panel2);color:var(--muted);border:1px solid var(--line2)}
+.sl .tx{min-width:0}
+.sl.k-act .tx,.sl.k-move .tx,.sl.k-decide .tx{color:var(--muted)}
+.sl.k-raid .tx{color:#f0c9a0}
+.sl.k-event .tx,.sl.k-choice .tx{color:#bfe0ff}
+.sl.k-mile{margin:4px 0;padding:4px 6px;border-left:3px solid #e0b341;background:rgba(224,179,65,.07)}
+.sl.k-emo .tx,.sl.k-pers .tx{font-style:italic;color:#c9b6ea}
+.sl.k-news .tx{color:#9fb3c8}
+.sl.k-sys .tx{color:var(--accent)}
+.sl.k-prologue .tx,.sl.k-old .tx{color:#e6e0d0}
+.sl.sday{justify-content:center;margin:10px 0 4px;color:var(--dim);font-size:12px;border-top:1px dashed var(--line2);padding-top:6px}
+.lbar{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.lside{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-y:auto;font-size:13px}
+.lside .sname{font:700 16px inherit;margin-bottom:2px}
+.lside .ssub{color:var(--muted);font-size:12px;margin-bottom:10px}
+.srow{display:flex;justify-content:space-between;gap:8px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.srow>span{color:var(--muted)}
+.srow b{text-align:right;font-weight:600;min-width:0;overflow-wrap:anywhere}
+.emodot{display:inline-block;width:9px;height:9px;border-radius:50%;margin:0 5px 0 2px;vertical-align:middle}
+.sself{margin-top:10px}.sself summary{cursor:pointer;color:var(--muted);font-size:12px}
+.kcard{margin-top:10px;background:var(--panel2);border:1px solid var(--accent);border-radius:10px;padding:12px}
+.kcard.retro{border-color:#e0b341}
+.kcard .kh{font-weight:700;margin-bottom:4px}
+.kcard .kb{color:var(--fg);font-size:13px;line-height:1.6}
+.kcard .kch{display:grid;gap:6px;margin-top:8px}
+.bio .bhead{text-align:center;margin:8px 0}
+.bio .chap{padding:6px 0;border-bottom:1px solid var(--line)}
+.bio .note{color:#e0b341;font-style:italic;margin-left:10px}
+.emobar{display:flex;height:16px;border-radius:4px;overflow:hidden;margin-bottom:6px}
+.emobar i{flex:1;min-width:1px}
+.farewell{text-align:center;font-size:18px;margin:18px 0;color:#e6e0d0;font-style:italic}
+.chk{display:inline-flex;align-items:center;gap:4px;margin:2px 10px 2px 0;font-size:13px}
+@media (max-width:900px){.life{grid-template-columns:1fr;height:auto}.story{height:55vh}.lside{order:-1}}
+@media (max-width:520px){.playbar .pstate{display:none}.playbar{flex-wrap:wrap}}
