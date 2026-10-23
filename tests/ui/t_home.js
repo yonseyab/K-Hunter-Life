@@ -56,7 +56,7 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
     await p.evaluate(()=>{window.homeFirstLine=document.querySelector('#story').firstElementChild;G.loc={region:G.player.region,pt:'PT_TRAIN'};G.coin=81;PLAY.ui()});
     assert((await p.locator('[data-life-location]').innerText()).includes('훈련'));
     assert.match(await p.locator('#topCoin').innerText(),/81/);assert.equal(await p.locator('[data-status-coin]').count(),0);
-    assert.equal(await p.locator('#lifeSide details[data-sw2more]:not([open])').count(),1);await p.click('#lifeSide [data-sw2more] summary');assert(await p.evaluate(()=>UI.swOpen===true));
+    assert.equal(await p.locator('#lifeSide details[data-sw2more]:not([open])').count(),1);await p.click('#lifeSide [data-sw2more] summary');await p.waitForFunction(()=>UI.swOpen===true,null,{timeout:3000});
     assert(await p.evaluate(()=>homeFirstLine===document.querySelector('#story').firstElementChild));
     await p.click('[data-life-widget-edit]');await p.locator('[data-life-widget-toggle="WG_COND"]').check();
     assert.equal(await p.locator('[data-life-widget="WG_COND"]').count(),1);
