@@ -10,6 +10,7 @@
    slot  : 착용 칸 (equipSlots). twoHand:true = 무기 + 보조 칸을 같이 차지, onePiece:true = 상의 + 하의 칸을 같이 차지. special:true 인 물건만 특수 칸
    traits: 개성 ID 목록 (itemTraits, 0~3개). 종류 · 크기는 등급에 따라 (itemGrades.traits · mag)
    sources: 구하는 곳 ID 목록 (itemSources). 없으면 등급 기본값
+   matCat · matPart: 소재면 몬스터 계열(monsterCats) · 부위(matParts) — 계열 × 부위로 몬스터와 자동 연결 (나중에)
    classBook: 클래스북이면 그 클래스 ID (고유 클래스북 = 성좌 없이 고유 클래스를 얻는 드문 길)
    price : 개당 기준가(원, 표시용)
    use   : 사용 효과 — mp/hp(% 회복) · energy · cure(부상 종류 하나를 치료). 없으면 사용 불가

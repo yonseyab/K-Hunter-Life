@@ -978,12 +978,11 @@ function spawnGate(r,region){const W=DB.balance.BAL_WORLD,regs=vals('gatePlacePo
   if(!regs.length)return null; /* 장소 목록을 아직 불러오는 중 (시작 직후 잠깐) */
   if(region){const pp=placePoolOf(region);if(pp&&!poolHas(pp.id))return null}
   const reg=region?{region}:wpick(regs.map(p=>({region:p.region,w:(DB.regions[p.region].gateDensity||1)*nearW(p.region)}))),lv=SCALE.pickRankLv(r);
-  const mons=vals('monsters').filter(m=>m.rank),mon=mons.slice().sort((a,b)=>Math.abs(DB.ranks[a.rank].lv-lv)-Math.abs(DB.ranks[b.rank].lv-lv))[Math.floor(r()*2)];
   const fl=W.floors[0]+Math.floor(r()*(W.floors[1]-W.floors[0]+1)),hl=W.hoursLeft[0]+Math.floor(r()*(W.hoursLeft[1]-W.hoursLeft[0])),pm=Math.max(2,Math.min(8,Math.round((21-lv)/2)+2));
   G.genSeq=(G.genSeq||0)+1;const id='GT_G'+String(G.genSeq).padStart(4,'0');
-  const gi=gis[Math.floor(r()*gis.length)],nm=gateNameFor(reg.region,r,pick(vals('gatePlaces').find(x=>x.region===reg.region)?.places||['이름 없는 공터']));
+  const gi=gis[Math.floor(r()*gis.length)],cmp=MONSTER.compose(r,lv,gi.id),nm=gateNameFor(reg.region,r,pick(vals('gatePlaces').find(x=>x.region===reg.region)?.places||['이름 없는 공터']));
   const g={id,name:nm.name,place:nm.place,interior:gi.id,region:nm.region,rank:'RANK_'+String(lv).padStart(2,'0'),type:r()<.5?'던전형':'필드형',floors:fl,hoursLeft:hl,party:`${Math.max(2,pm-2)}~${pm}인`,partyMax:pm,owner:null,bid:lv<=14,
-    mon:mon.id,monCount:`${fl*5}~${fl*8}`,terrain:gi.name,res:pick(['저급 마정석','약초','광석 조각','몬스터 부산물']),reward:'—',gen:true,born:nowAbs()};
+    mon:cmp.mon,mobs:cmp.mobs,boss:cmp.boss,monCount:`${fl*5}~${fl*8}`,terrain:gi.name,res:pick(['저급 마정석','약초','광석 조각','몬스터 부산물']),reward:'—',gen:true,born:nowAbs()};
   g.clr=SCALE.fate(g,hl);G.genGates=G.genGates||{};G.genGates[id]=g;DB.gates[id]=g;G.gates=G.gates||{};G.gates[id]={breakAt:nowAbs()+hl*60,scouted:false,entered:false,permit:false,status:'open'};
   if(gateNoteWants(g))G.alerts.unshift({from:'SYS_ASSOC',ev:null,resolved:null,unread:true,when:hhmm(G.time),subj:`[공지] ${regionName(g.region)} ${DB.ranks[g.rank].name}급 게이트 출현 — ${g.name}`,actions:[['게이트 상세','gate:'+id]],body:`${g.name}에 ${DB.ranks[g.rank].name}급 ${g.type} 게이트가 출현했습니다. 브레이크까지 ${hl}시간. ${g.bid?'공략권은 입찰로 정합니다.':'협회 개방 게이트이므로 신청한 헌터 누구나 공략할 수 있습니다.'}`});
   /* 뉴스: 내 주변(newsKm 안) 또는 높은 등급(newsRankLv 이하)만 — 전국 게이트를 다 실으면 뉴스가 넘친다 */
@@ -1184,7 +1183,7 @@ function resolveBids(){vals('gates').forEach(g=>{const st=gateSt(g.id);if(!g.bid
     newsAdd('게이트','',`${gd.name}, ${g.name} 공략권 낙찰`)}})}
 /* 브레이크: 뉴스는 게이트 출현 뉴스와 같은 범위(newsKm 안 또는 newsRankLv 급 이하), 재난 알림은 내 사는 곳 · 지금 있는 곳에서 newsKm 안만 (QA 2026-10-23: 전국 브레이크가 다 알림으로 와서 넘쳤다) */
 const nearMe=(rg,km)=>kmBetween(G.player.region,rg)<=km||kmBetween(locOf().region||G.player.region,rg)<=km;
-function checkGates(){const W=DB.balance.BAL_WORLD;vals('gates').forEach(g=>{const st=gateSt(g.id);if(st.status==='open'&&gateLeft(g)<=0){st.status='broken';st.breakAt=Math.min(st.breakAt,nowAbs());const lv=DB.ranks[g.rank].lv,mine=g.region===G.player.region||g.region===locOf().region,near=mine&&lv<=17;if(lv<=W.newsRankLv||near)newsAdd('속보','b',`${g.name} 게이트 브레이크 — 몬스터 유출`);if(mine&&typeof STORY!=='undefined')STORY.add('news',`[재난 문자] ${regionName(g.region)} ${g.name} ${DB.ranks[g.rank].name}급 게이트 브레이크. 주변 시민은 대피 바랍니다.`,lv<=17?2:3);if(near)G.alerts.unshift({from:'SYS_ALERT',ev:null,resolved:null,unread:true,when:hhmm(G.time),subj:`[브레이크] ${g.name} 게이트에서 몬스터 유출`,actions:[['게이트 보기','gate:'+g.id]],body:`공략 기한이 지나 ${g.name} 게이트에서 몬스터가 밖으로 나왔습니다. 게이트는 그대로 남아 있으며 진입할 수 있습니다. 주변 시민은 대피해 주십시오.`})}})}
+function checkGates(){const W=DB.balance.BAL_WORLD;vals('gates').forEach(g=>{const st=gateSt(g.id);if(st.status==='open'&&gateLeft(g)<=0){st.status='broken';MONSTER.markBreak(g);st.breakAt=Math.min(st.breakAt,nowAbs());const lv=DB.ranks[g.rank].lv,mine=g.region===G.player.region||g.region===locOf().region,near=mine&&lv<=17;if(lv<=W.newsRankLv||near)newsAdd('속보','b',`${g.name} 게이트 브레이크 — 몬스터 유출`);if(mine&&typeof STORY!=='undefined')STORY.add('news',`[재난 문자] ${regionName(g.region)} ${g.name} ${DB.ranks[g.rank].name}급 게이트 브레이크. 주변 시민은 대피 바랍니다.`,lv<=17?2:3);if(near)G.alerts.unshift({from:'SYS_ALERT',ev:null,resolved:null,unread:true,when:hhmm(G.time),subj:`[브레이크] ${g.name} 게이트에서 몬스터 유출`,actions:[['게이트 보기','gate:'+g.id]],body:`공략 기한이 지나 ${g.name} 게이트에서 몬스터가 밖으로 나왔습니다. 게이트는 그대로 남아 있으며 진입할 수 있습니다. 주변 시민은 대피해 주십시오.`})}})}
 /* 위험 추정: 캐릭터가 아는 정보(등급 차 · 사전 조사 여부)만으로 계산. 실제 위험과 다를 수 있다 */
 function riskEst(g){const me=DB.ranks[G.player.rank].lv,gl=DB.ranks[g.rank].lv,gap=me-gl,st=gateSt(g.id);
   const lv=gap<=0?0:gap<=2?1:gap<=5?2:3,name=['낮음','주의','위험','치명적'][lv],tone=['good','','warn','bad'][lv];
@@ -3558,6 +3557,7 @@ applySettings(); render(); packsLoad();  /* 대량 콘텐츠 팩을 뒤에서 �
 <script src="engine/play.js"></script>
 <script src="engine/life.js"></script>
 <script src="engine/observe.js"></script>
+<script src="engine/monster.js"></script>
 <script src="engine/gear.js"></script>
 <script src="engine/star.js"></script>
 <script src="engine/hunter_status.js"></script>

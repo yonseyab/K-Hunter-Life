@@ -98,6 +98,7 @@ tests/ui/                Playwright 테스트 71개 + fixture.js(테스트 전�
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
 ## 7. 진행 상황
+- [완료] 2026-10-24 (Claude) 게이트 · 몬스터 형식: 몬스터 등급 범위(`ranks`) · 크기 · 꼬리표 · 약점/저항 · 지형 · 보스 · 소재 부위 표(비어 있음), 게이트 = 잡몹 1~3 + 보스(`engine/monster.js` MONSTER.compose, `g.mobs` · `g.boss`), 특별한 게이트 분류 `gateKinds`(브레이크만, 넘치면 `g.kind`). 형식 문서 `docs/outsource/04_게이트_몬스터_형식.md`
 - [완료] 2026-10-24 (Claude) 장소 외주 준비: `placeTypes` 추가 필드(group · where · sources · desc) · 새 테이블 `placeTags` · `places`(이름 있는 개별 장소, 지금은 데이터만) · 검사 규칙. 형식 문서 `docs/outsource/03_장소_의뢰.md` (의뢰는 나중에 한꺼번에 — 지금 보내지 않음)
 - [완료] 2026-10-24 (Claude) 스탯 임시 자동 분배(`autoStatAlloc`, 이야기 창 한 줄) · 소식 줄 `{p}` 치환 고침(`OBSERVE.notices` 가 `STORY.fill`)
 - [완료] 2026-10-24 (Claude) 메뉴 · 상태창 정리: 좌측 메뉴 순서(DB 맨 아래) · '성좌' 묶음(내 정보 · 상점 · 성좌 경매장 · 업적 — 빈 탭), 스탯 분배 화면 없앰(`OBSERVE` 차단 'statpt', 상태창 분배 칸 삭제 — 포인트는 쌓이고 헌터 판단 분배는 나중), 인생 탭 상태창 EXP 아래 접기(`UI.swOpen`), 코인은 상단 `#topCoin`

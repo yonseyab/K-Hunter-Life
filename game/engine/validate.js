@@ -113,6 +113,11 @@ const RULES = [
   ['placeTypes', (t, DB) => [...(t.group && !['life', 'hunter', 'shop', 'public', 'move', 'nature', 'etc'].includes(t.group) ? ['group 값: ' + t.group] : []), ...(t.where && !['all', 'city', 'metro', 'rare'].includes(t.where) ? ['where 값: ' + t.where] : []),
     ...(t.sources || []).filter(x => !DB.itemSources?.[x]).map(x => '구하는 곳 ' + x + ' 없음'), ...(!t.name ? ['name 필요'] : [])]],
   ['placeTags', (t) => (!t.name ? ['name 필요'] : [])],
+  ['monsters', (m, DB) => { const r = m.ranks; const bad = r && (!Array.isArray(r) || r.length !== 2 || !DB.ranks[r[0]] || !DB.ranks[r[1]] || DB.ranks[r[0]].lv < DB.ranks[r[1]].lv);
+    return [...(!m.rank && !r ? ['rank 또는 ranks 필요'] : []), ...(bad ? ['ranks 는 [약한 쪽, 센 쪽] 등급 두 개'] : []), ...(m.size && !DB.monsterSizes?.[m.size] ? ['size ' + m.size + ' 없음'] : []),
+      ...(m.tags || []).filter(x => !DB.monsterTags?.[x]).map(x => '꼬리표 ' + x + ' 없음'), ...[...(m.weak || []), ...(m.resist || [])].filter(x => !DB.elements?.[x]).map(x => '약점/저항 ' + x + ' 없음'),
+      ...(m.habitats || []).filter(x => !DB.gateInteriors?.[x]).map(x => '지형 ' + x + ' 없음'), ...(m.boss != null && typeof m.boss !== 'boolean' ? ['boss 는 true · false'] : [])]; }],
+  ['items', (it, DB) => [...(it.matCat && !DB.monsterCats?.[it.matCat] ? ['matCat ' + it.matCat + ' 없음'] : []), ...(it.matPart && !DB.matParts?.[it.matPart] ? ['matPart ' + it.matPart + ' 없음'] : [])]],
   ['places', (() => { const seen = new Map(); return (pl, DB) => { const k = pl.region + '|' + pl.name, d = seen.get(k); if (!d) seen.set(k, pl.id);
     return [...(!DB.placeTypes?.[pl.type] ? ['type ' + pl.type + ' 없음'] : []), ...(!DB.regions?.[pl.region] ? ['region ' + pl.region + ' 없음'] : []), ...(!pl.name || pl.name.length > 24 ? ['name 1~24자'] : []),
       ...(!pl.desc || pl.desc.length > 60 ? ['desc 1~60자'] : []), ...(!['local', 'region', 'national'].includes(pl.scale) ? ['scale 은 local · region · national'] : []), ...(typeof pl.real !== 'boolean' ? ['real 은 true · false'] : []),
