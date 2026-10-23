@@ -1,6 +1,6 @@
 # ID 참조 (자동 생성)
 
-> `node tools/gen_id_reference.js` 로 만든 문서입니다. 손으로 고치지 마세요. 생성 시각: 2026-10-23 11:04
+> `node tools/gen_id_reference.js` 로 만든 문서입니다. 손으로 고치지 마세요. 생성 시각: 2026-10-23 16:04
 > 외주 데이터에서 **다른 데이터를 가리킬 때는 이 문서에 있는 ID만** 쓰세요. 없는 ID를 쓰면 검증에서 걸립니다.
 
 ## 등급 (RANK_)
@@ -469,18 +469,98 @@ A = 각성자 전용(30) · B = 공통(40) · C = 비각성자 전용(20). 플�
 
 | ID | 이름 | 분류 | 등급 | 기준가 | 사용 | 부위 |
 |---|---|---|---|---|---|---|
-| IT_B0001 | 마정석 (하) | ITC_STONE | RANK_19 | 89000 |  |  |
-| IT_B0002 | 마정석 (중) | ITC_STONE | RANK_14 | 620000 |  |  |
-| IT_B0003 | 마정석 (상) | ITC_STONE | RANK_08 | 4500000 |  |  |
-| IT_B0004 | 마정석 (최상) | ITC_STONE | RANK_03 | 30000000 |  |  |
+| IT_ST20_1 | 20급 하급 마정석 | ITC_STONE | RANK_20 | 37000 |  |  |
+| IT_ST20_2 | 20급 중급 마정석 | ITC_STONE | RANK_20 | 61000 |  |  |
+| IT_ST20_3 | 20급 상급 마정석 | ITC_STONE | RANK_20 | 98000 |  |  |
+| IT_ST20_4 | 20급 최상급 마정석 | ITC_STONE | RANK_20 | 158000 |  |  |
+| IT_ST19_1 | 19급 하급 마정석 | ITC_STONE | RANK_19 | 53000 |  |  |
+| IT_ST19_2 | 19급 중급 마정석 | ITC_STONE | RANK_19 | 89000 |  |  |
+| IT_ST19_3 | 19급 상급 마정석 | ITC_STONE | RANK_19 | 142000 |  |  |
+| IT_ST19_4 | 19급 최상급 마정석 | ITC_STONE | RANK_19 | 231000 |  |  |
+| IT_ST18_1 | 18급 하급 마정석 | ITC_STONE | RANK_18 | 78000 |  |  |
+| IT_ST18_2 | 18급 중급 마정석 | ITC_STONE | RANK_18 | 130000 |  |  |
+| IT_ST18_3 | 18급 상급 마정석 | ITC_STONE | RANK_18 | 208000 |  |  |
+| IT_ST18_4 | 18급 최상급 마정석 | ITC_STONE | RANK_18 | 338000 |  |  |
+| IT_ST17_1 | 17급 하급 마정석 | ITC_STONE | RANK_17 | 114000 |  |  |
+| IT_ST17_2 | 17급 중급 마정석 | ITC_STONE | RANK_17 | 190000 |  |  |
+| IT_ST17_3 | 17급 상급 마정석 | ITC_STONE | RANK_17 | 304000 |  |  |
+| IT_ST17_4 | 17급 최상급 마정석 | ITC_STONE | RANK_17 | 493000 |  |  |
+| IT_ST16_1 | 16급 하급 마정석 | ITC_STONE | RANK_16 | 166000 |  |  |
+| IT_ST16_2 | 16급 중급 마정석 | ITC_STONE | RANK_16 | 277000 |  |  |
+| IT_ST16_3 | 16급 상급 마정석 | ITC_STONE | RANK_16 | 443000 |  |  |
+| IT_ST16_4 | 16급 최상급 마정석 | ITC_STONE | RANK_16 | 720000 |  |  |
+| IT_ST15_1 | 15급 하급 마정석 | ITC_STONE | RANK_15 | 243000 |  |  |
+| IT_ST15_2 | 15급 중급 마정석 | ITC_STONE | RANK_15 | 404000 |  |  |
+| IT_ST15_3 | 15급 상급 마정석 | ITC_STONE | RANK_15 | 647000 |  |  |
+| IT_ST15_4 | 15급 최상급 마정석 | ITC_STONE | RANK_15 | 1050000 |  |  |
+| IT_ST14_1 | 14급 하급 마정석 | ITC_STONE | RANK_14 | 354000 |  |  |
+| IT_ST14_2 | 14급 중급 마정석 | ITC_STONE | RANK_14 | 590000 |  |  |
+| IT_ST14_3 | 14급 상급 마정석 | ITC_STONE | RANK_14 | 945000 |  |  |
+| IT_ST14_4 | 14급 최상급 마정석 | ITC_STONE | RANK_14 | 1540000 |  |  |
+| IT_ST13_1 | 13급 하급 마정석 | ITC_STONE | RANK_13 | 517000 |  |  |
+| IT_ST13_2 | 13급 중급 마정석 | ITC_STONE | RANK_13 | 862000 |  |  |
+| IT_ST13_3 | 13급 상급 마정석 | ITC_STONE | RANK_13 | 1380000 |  |  |
+| IT_ST13_4 | 13급 최상급 마정석 | ITC_STONE | RANK_13 | 2240000 |  |  |
+| IT_ST12_1 | 12급 하급 마정석 | ITC_STONE | RANK_12 | 755000 |  |  |
+| IT_ST12_2 | 12급 중급 마정석 | ITC_STONE | RANK_12 | 1260000 |  |  |
+| IT_ST12_3 | 12급 상급 마정석 | ITC_STONE | RANK_12 | 2010000 |  |  |
+| IT_ST12_4 | 12급 최상급 마정석 | ITC_STONE | RANK_12 | 3270000 |  |  |
+| IT_ST11_1 | 11급 하급 마정석 | ITC_STONE | RANK_11 | 1100000 |  |  |
+| IT_ST11_2 | 11급 중급 마정석 | ITC_STONE | RANK_11 | 1840000 |  |  |
+| IT_ST11_3 | 11급 상급 마정석 | ITC_STONE | RANK_11 | 2940000 |  |  |
+| IT_ST11_4 | 11급 최상급 마정석 | ITC_STONE | RANK_11 | 4780000 |  |  |
+| IT_ST10_1 | 10급 하급 마정석 | ITC_STONE | RANK_10 | 1610000 |  |  |
+| IT_ST10_2 | 10급 중급 마정석 | ITC_STONE | RANK_10 | 2680000 |  |  |
+| IT_ST10_3 | 10급 상급 마정석 | ITC_STONE | RANK_10 | 4290000 |  |  |
+| IT_ST10_4 | 10급 최상급 마정석 | ITC_STONE | RANK_10 | 6970000 |  |  |
+| IT_ST09_1 | 9급 하급 마정석 | ITC_STONE | RANK_09 | 2350000 |  |  |
+| IT_ST09_2 | 9급 중급 마정석 | ITC_STONE | RANK_09 | 3920000 |  |  |
+| IT_ST09_3 | 9급 상급 마정석 | ITC_STONE | RANK_09 | 6270000 |  |  |
+| IT_ST09_4 | 9급 최상급 마정석 | ITC_STONE | RANK_09 | 10200000 |  |  |
+| IT_ST08_1 | 8급 하급 마정석 | ITC_STONE | RANK_08 | 3430000 |  |  |
+| IT_ST08_2 | 8급 중급 마정석 | ITC_STONE | RANK_08 | 5720000 |  |  |
+| IT_ST08_3 | 8급 상급 마정석 | ITC_STONE | RANK_08 | 9150000 |  |  |
+| IT_ST08_4 | 8급 최상급 마정석 | ITC_STONE | RANK_08 | 14900000 |  |  |
+| IT_ST07_1 | 7급 하급 마정석 | ITC_STONE | RANK_07 | 5010000 |  |  |
+| IT_ST07_2 | 7급 중급 마정석 | ITC_STONE | RANK_07 | 8350000 |  |  |
+| IT_ST07_3 | 7급 상급 마정석 | ITC_STONE | RANK_07 | 13400000 |  |  |
+| IT_ST07_4 | 7급 최상급 마정석 | ITC_STONE | RANK_07 | 21700000 |  |  |
+| IT_ST06_1 | 6급 하급 마정석 | ITC_STONE | RANK_06 | 7310000 |  |  |
+| IT_ST06_2 | 6급 중급 마정석 | ITC_STONE | RANK_06 | 12200000 |  |  |
+| IT_ST06_3 | 6급 상급 마정석 | ITC_STONE | RANK_06 | 19500000 |  |  |
+| IT_ST06_4 | 6급 최상급 마정석 | ITC_STONE | RANK_06 | 31700000 |  |  |
+| IT_ST05_1 | 5급 하급 마정석 | ITC_STONE | RANK_05 | 10700000 |  |  |
+| IT_ST05_2 | 5급 중급 마정석 | ITC_STONE | RANK_05 | 17800000 |  |  |
+| IT_ST05_3 | 5급 상급 마정석 | ITC_STONE | RANK_05 | 28500000 |  |  |
+| IT_ST05_4 | 5급 최상급 마정석 | ITC_STONE | RANK_05 | 46300000 |  |  |
+| IT_ST04_1 | 4급 하급 마정석 | ITC_STONE | RANK_04 | 15600000 |  |  |
+| IT_ST04_2 | 4급 중급 마정석 | ITC_STONE | RANK_04 | 26000000 |  |  |
+| IT_ST04_3 | 4급 상급 마정석 | ITC_STONE | RANK_04 | 41600000 |  |  |
+| IT_ST04_4 | 4급 최상급 마정석 | ITC_STONE | RANK_04 | 67600000 |  |  |
+| IT_ST03_1 | 3급 하급 마정석 | ITC_STONE | RANK_03 | 22800000 |  |  |
+| IT_ST03_2 | 3급 중급 마정석 | ITC_STONE | RANK_03 | 37900000 |  |  |
+| IT_ST03_3 | 3급 상급 마정석 | ITC_STONE | RANK_03 | 60700000 |  |  |
+| IT_ST03_4 | 3급 최상급 마정석 | ITC_STONE | RANK_03 | 98600000 |  |  |
+| IT_ST02_1 | 2급 하급 마정석 | ITC_STONE | RANK_02 | 33200000 |  |  |
+| IT_ST02_2 | 2급 중급 마정석 | ITC_STONE | RANK_02 | 55400000 |  |  |
+| IT_ST02_3 | 2급 상급 마정석 | ITC_STONE | RANK_02 | 88600000 |  |  |
+| IT_ST02_4 | 2급 최상급 마정석 | ITC_STONE | RANK_02 | 144000000 |  |  |
+| IT_ST01_1 | 1급 하급 마정석 | ITC_STONE | RANK_01 | 48500000 |  |  |
+| IT_ST01_2 | 1급 중급 마정석 | ITC_STONE | RANK_01 | 80900000 |  |  |
+| IT_ST01_3 | 1급 상급 마정석 | ITC_STONE | RANK_01 | 129400000 |  |  |
+| IT_ST01_4 | 1급 최상급 마정석 | ITC_STONE | RANK_01 | 210200000 |  |  |
+| IT_B0001 | 옛 마정석 (하) | ITC_STONE | RANK_19 | 89000 |  |  |
+| IT_B0002 | 옛 마정석 (중) | ITC_STONE | RANK_14 | 620000 |  |  |
+| IT_B0003 | 옛 마정석 (상) | ITC_STONE | RANK_08 | 4500000 |  |  |
+| IT_B0004 | 옛 마정석 (최상) | ITC_STONE | RANK_03 | 30000000 |  |  |
 | IT_B0010 | 지갑 | ITC_DAILY | — | 0 |  |  |
 | IT_B0011 | 스마트폰 | ITC_DAILY | — | 0 |  |  |
 | IT_B0012 | 집 열쇠 | ITC_DAILY | — | 0 |  |  |
 | IT_B0020 | 구급 키트 | ITC_CONSUME | — | 45000 | {"hp":10,"cure":"INJ_BLEED"} |  |
 | IT_B0021 | 협회 지급 단검 | ITC_WEAPON | RANK_20 | 180000 |  | SLOT_WEAPON |
-| IT_B0022 | 방검 조끼 (보급형) | ITC_ARMOR | RANK_19 | 420000 |  | SLOT_BODY |
+| IT_B0022 | 방검 조끼 (보급형) | ITC_ARMOR | RANK_19 | 420000 |  | SLOT_TOP |
 | IT_B0023 | 마력 포션 (하급) | ITC_CONSUME | RANK_18 | 120000 | {"mp":25} |  |
-| IT_B0024 | 게이트용 방호 마스크 | ITC_ARMOR | — | 95000 |  | SLOT_FACE |
+| IT_B0024 | 게이트용 방호 마스크 | ITC_GEAR | — | 95000 |  |  |
 | IT_B0030 | 마수 송곳니 | ITC_MAT | RANK_17 | 35000 |  |  |
 | IT_B0031 | 점액 결정 | ITC_MAT | RANK_19 | 12000 |  |  |
 
@@ -489,12 +569,13 @@ A = 각성자 전용(30) · B = 공통(40) · C = 비각성자 전용(20). 플�
 | ID | 이름 |
 |---|---|
 | SLOT_WEAPON | 무기 |
-| SLOT_BODY | 몸통 |
-| SLOT_HANDS | 손 |
-| SLOT_FACE | 얼굴 |
-| SLOT_NECK | 목걸이 |
-| SLOT_RING | 반지 |
-| SLOT_EAR | 귀걸이 |
+| SLOT_SUB | 보조 |
+| SLOT_TOP | 상의 |
+| SLOT_BOTTOM | 하의 |
+| SLOT_EAR | 귀 |
+| SLOT_NECK | 목 |
+| SLOT_HAND | 손 |
+| SLOT_SPECIAL | 특수 |
 
 ## 몬스터 분류 (MC_)
 
@@ -1059,7 +1140,7 @@ A = 각성자 전용(30) · B = 공통(40) · C = 비각성자 전용(20). 플�
 | traits | 8 | TR_B0008 |
 | skills | 34 | SK_B0106 |
 | classes | 7 | CLS_B07 |
-| items | 14 | IT_B0031 |
+| items | 94 | IT_B0031 |
 | sysShop | 4 | SS_B0004 |
 | monsters | 12 | MON_B012 |
 | gatePlaces | 1 | GP_B_MAPO |

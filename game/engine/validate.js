@@ -110,6 +110,13 @@ const RULES = [
   ['constellations', (c, DB) => [...(c.trait && !DB.starTraits?.[c.trait] ? ['성향 ' + c.trait + ' 없음'] : []), ...(c.cls && !DB.classes?.[c.cls]?.unique ? ['cls 는 고유 클래스(unique)여야 함'] : [])]],
   ['classes', (c, DB) => (c.unique && c.star && !DB.constellations?.[c.star] ? ['star ' + c.star + ' 없음'] : [])],
   ['starMessages', (m) => (!m.on || !m.text ? ['on · text 필요'] : [])],
+  ['placeTypes', (t, DB) => [...(t.group && !['life', 'hunter', 'shop', 'public', 'move', 'nature', 'etc'].includes(t.group) ? ['group 값: ' + t.group] : []), ...(t.where && !['all', 'city', 'metro', 'rare'].includes(t.where) ? ['where 값: ' + t.where] : []),
+    ...(t.sources || []).filter(x => !DB.itemSources?.[x]).map(x => '구하는 곳 ' + x + ' 없음'), ...(!t.name ? ['name 필요'] : [])]],
+  ['placeTags', (t) => (!t.name ? ['name 필요'] : [])],
+  ['places', (() => { const seen = new Map(); return (pl, DB) => { const k = pl.region + '|' + pl.name, d = seen.get(k); if (!d) seen.set(k, pl.id);
+    return [...(!DB.placeTypes?.[pl.type] ? ['type ' + pl.type + ' 없음'] : []), ...(!DB.regions?.[pl.region] ? ['region ' + pl.region + ' 없음'] : []), ...(!pl.name || pl.name.length > 24 ? ['name 1~24자'] : []),
+      ...(!pl.desc || pl.desc.length > 60 ? ['desc 1~60자'] : []), ...(!['local', 'region', 'national'].includes(pl.scale) ? ['scale 은 local · region · national'] : []), ...(typeof pl.real !== 'boolean' ? ['real 은 true · false'] : []),
+      ...(pl.tags || []).filter(x => !DB.placeTags?.[x]).map(x => '꼬리표 ' + x + ' 없음'), ...(d && d !== pl.id ? ['같은 지역에 같은 이름: ' + d] : [])]; }; })()],
   ['sysShop', (x) => (!(x.coin >= 1) ? ['coin(코인 가격) 필요'] : [])],
   ['skills', (k) => [...(!['class', 'common', 'unique'].includes(k.scope) ? ['scope 는 class · common · unique'] : []), ...(!['액티브', '패시브'].includes(k.kind) ? ['kind 는 액티브 · 패시브'] : [])]],
   ['hearTexts', (h) => [...(!['npcInjured', 'npcRaidWin', 'npcRankUp', 'npcDied', 'npcAwaken', 'career:promo', 'career:fired', 'career:hired', 'career:grad', 'career:boom', 'career:slump', 'guildSign', 'guildLeave'].includes(h.on) ? ['on 값이 잘못됨: ' + h.on] : []), ...(!h.text || !h.text.includes('{a}') ? ['text 에 {a} 필요'] : [])]],
