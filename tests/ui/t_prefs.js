@@ -5,12 +5,8 @@ const errs=[];const p=await (await b.newContext({viewport:{width:1500,height:950
 const ok=(c,m)=>{if(!c)errs.push('단언 실패: '+m)};
 await p.goto(APP);await p.addScriptTag({path:require('path').join(__dirname,'fixture.js')});await p.waitForFunction(()=>typeof DB!=='undefined');
 await p.evaluate(async()=>{const c=newCC();autoAll(c);gameFromCreation(c);enterGame();await poolPrefetch()});
-/* 1) 설정 화면: 탭 · 선택 */
-await p.evaluate(()=>{UI.screen='settings';UI.settingsTab='게임 설정';render()});
-ok(await p.locator('#pf-sell').count()===1&&await p.locator('#pf-gm').count()===1,'설정 화면');
-await p.selectOption('#pf-sell','stone');await p.selectOption('#pf-gm','custom');
-ok(await p.locator('#pf-gf').count()===1,'직접 설정 항목');await p.selectOption('#pf-ga','near');await p.selectOption('#pf-gk','10');await p.selectOption('#pf-gf','20');await p.selectOption('#pf-gt','19');await p.selectOption('#pf-gkind','open');
-await p.screenshot({path:OUT+'/pf_settings.png'});
+/* 1) 설정 값 (화면은 2026-10-24 삭제 — 판매 · 알림은 헌터가 알아서. 값은 엔진에 남아 있다) */
+await p.evaluate(()=>{const P=prefs();P.autoSell='stone';Object.assign(P.gateNote,{mode:'custom',area:'near',km:10,from:20,to:19,kind:'open'})});
 const r1=await p.evaluate(()=>JSON.stringify(G.prefs));console.log(r1);
 ok(r1.includes('"autoSell":"stone"')&&r1.includes('"mode":"custom"')&&r1.includes('"km":10')&&r1.includes('"to":19')&&r1.includes('"kind":"open"'),'설정 저장');
 /* 2) 알림 판정 */

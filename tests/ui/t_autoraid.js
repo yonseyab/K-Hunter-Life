@@ -22,8 +22,7 @@ ok(r3.raids===0&&r3.solo,'혼자 가지 않기 '+JSON.stringify(r3));
 /* 4) 고정 하루 횟수 없음: 기력 · 감정 · 최근 공략으로 판단 (지치면 안 감) */
 const r4=await p.evaluate(()=>{prefs().autoRaid.minParty=1;G.cond.energy=10;G.time=600;PLAY.st().gd=-1;PLAY.st().lastRaidAt=-1e9;const r0=G.stats.raids;PLAY.maybeRaid();return {tired:G.stats.raids-r0,blocked:AUTORAID.blocked()}});
 ok(r4.tired===0,'지치면 쉼');ok(!/횟수/.test(r4.blocked||''),'하루 횟수 제한 없음');
-/* 5) 설정 › 판단 · 방침 패널에서 공략 방침 */
-await p.evaluate(()=>{UI.settingsTab='판단 · 방침';UI.screen='settings';render()});
-ok(await p.locator('[data-kpref="autoRaid.policy"]').count()===1,'방침 패널');await p.selectOption('[data-kpref="autoRaid.policy"]','profit');ok(await p.evaluate(()=>prefs().autoRaid.policy==='profit'),'방침 바꾸기');
+/* 5) 설정에서 헌터의 방침을 정하지 않는다 (2026-10-24 — 성좌는 헌터의 삶을 정하지 않는다) */
+await p.evaluate(()=>{UI.screen='settings';render()});ok(await p.locator('[data-kpref^="autoRaid."]').count()===0,'방침 설정 없음');
 await p.screenshot({path:OUT+'/ar_panel.png'});
 console.log(JSON.stringify({r1,r2,r3,r4}));console.log('errs',errs);await b.close()})();

@@ -179,7 +179,7 @@ const LIFEUI = (() => {
   }
 
   function barHTML() {
-    return `<button class="btn" data-kset="판단 · 방침">방침 바꾸기</button><button class="btn" data-home-tab="trade|shop">성좌 상점</button>`;
+    return `<button class="btn" data-home-tab="trade|shop">성좌 상점</button>`;
   }
   /* 이야기 · 내 헌터 · 거래는 좌측 하위 메뉴도 표시한다. 인생 외 새 탭 내용은 비워 둔다. */
   const HOME_TABS = {
@@ -192,7 +192,7 @@ const LIFEUI = (() => {
   function categoryTabsHTML(group) { const cfg = HOME_TABS[group], current = selectedTab(group); return `<div class="home-category-tabs" role="tablist" aria-label="${cfg.label}">${cfg.tabs.map(([id,label])=>`<button type="button" id="home-tab-${group}-${id}" role="tab" data-home-tab="${group}|${id}" aria-selected="${id===current}" aria-controls="home-panel-${group}" tabindex="${id===current?0:-1}">${label}</button>`).join('')}</div>`; }
   function panelOpen(group) { return `<div id="home-panel-${group}" class="home-category-panel" role="tabpanel" aria-labelledby="home-tab-${group}-${selectedTab(group)}">`; }
   function emptyCategory(group) { return categoryTabsHTML(group) + panelOpen(group) + '</div>'; }
-  V.homeHunter = () => categoryTabsHTML('hunter') + panelOpen('hunter') + (selectedTab('hunter') === 'status' ? HUNTER_STATUS.html() : selectedTab('hunter') === 'relations' && typeof HUNTER_REL !== 'undefined' ? HUNTER_REL.html() : '') + '</div>';
+  V.homeHunter = () => categoryTabsHTML('hunter') + panelOpen('hunter') + (selectedTab('hunter') === 'profile' && typeof HUNTER_INFO !== 'undefined' ? HUNTER_INFO.html() : selectedTab('hunter') === 'status' ? HUNTER_STATUS.html() : selectedTab('hunter') === 'relations' && typeof HUNTER_REL !== 'undefined' ? HUNTER_REL.html() : '') + '</div>';
   V.homeDb = () => emptyCategory('db');
   V.homeTrade = () => categoryTabsHTML('trade') + panelOpen('trade') + (typeof STAR_UI !== 'undefined' ? STAR_UI.html(selectedTab('trade')) : '') + '</div>';
   /* ---------- 인생 화면 ---------- */
@@ -257,42 +257,28 @@ const LIFEUI = (() => {
   V.archive = () => `<div class="h-row"><h1 class="h1">기록관</h1><div class="sub">끝난 헌터를 보관했다가 다른 새 게임에 넣습니다 (커마 '확인' 단계에서 시점 · 관계 선택)</div></div>
     <div class="panel" style="max-width:860px"><div class="ph">보관한 헌터 <span class="row" style="gap:6px"><button class="btn sm" data-karnow="1">지금 헌터 보관</button><label class="btn sm">파일 가져오기<input type="file" accept=".json,application/json" data-karimp="1" hidden></label></span></div>${archiveListHTML(true)}</div>`;
 
-  /* ---------- 설정 묶음 ---------- */
-  const TABS = ['재생 · 멈춤', '판단 · 방침', '이야기', '게임 설정', '환경설정', '헌터 관리'];
+  /* ---------- 설정 (2026-10-24 정리: 헌터의 삶을 정하는 방침 · 판매 · 알림 · 다른 인물로 바꾸기 · 기록관 · 옛 화면용 설정 삭제) ---------- */
+  const TABS = ['재생', '화면', '헌터 관리', '개발'];
   const sel = (key, cur, opts) => `<select data-kpref="${key}">${opts.map(([v, n]) => `<option value="${v}" ${String(cur) === String(v) ? 'selected' : ''}>${n}</option>`).join('')}</select>`;
+  const tgl = (key, on, title, sub) => `<div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div><b>${title}</b><div class="sub">${sub}</div></div><button class="tgl" aria-pressed="${on}" data-set="${key}" aria-label="${title}"></button></div>`;
   V.settings = () => {
-    const tab = TABS.includes(UI.settingsTab) ? UI.settingsTab : TABS[0], P = PP(), A = prefs().autoRaid;
+    const tab = TABS.includes(UI.settingsTab) ? UI.settingsTab : TABS[0], P = PP();
     let body = '';
-    if (tab === '재생 · 멈춤') body = `<div class="pb grid" style="gap:12px">
-      <div class="field"><label>언제 멈출까</label>${sel('play.stop', P.stop, [['none', '안 멈춤 (전부 캐릭터가 결정)'], ['big', '큰 갈림길만'], ['each', '사건마다']])}</div>
-      <div class="field"><label>멈출 종류</label><div class="chips">${vals('stopKinds').map(k => `<label class="chk"><input type="checkbox" data-kkind="${k.id}" ${(P.kinds?.[k.id] ?? k.dflt) ? 'checked' : ''}> ${k.name}${k.big ? ' <span class="dim">(큰 갈림길)</span>' : ''}</label>`).join('')}</div></div>
-      <div class="field"><label>자동 결정</label>${sel('play.autoDecide', P.autoDecide !== false, [['true', '켬 — 멈추지 않는 사건은 캐릭터가 고른다'], ['false', '끔 — 모든 선택지에서 멈춘다']])}</div>
-      <div class="field"><label>배속 기본값</label>${sel('play.speed', P.speed || 1, DB.balance.BAL_PLAY.speeds.map(x => [x, '×' + x]))}</div>
-      <p class="muted">×1 = 하루 ${DB.balance.BAL_PLAY.secPerDay}초. 게임을 끈 동안에는 시간이 흐르지 않습니다.</p></div>`;
-    else if (tab === '판단 · 방침') body = `<div class="pb grid" style="gap:12px">
-      <div class="field"><label>예측 가능성</label>${sel('play.predict', P.predict, [['steady', '거의 성격대로'], ['some', '가끔 의외'], ['often', '자주 의외']])}</div>
-      <div class="field"><label>방침 대 성격 <span class="dim">${Math.round((P.policyVsChar ?? 0.4) * 100)}% 방침</span></label><input type="range" min="0" max="1" step="0.1" value="${P.policyVsChar ?? 0.4}" data-kpref="play.policyVsChar" aria-label="방침 대 성격"><div class="dim" style="font-size:11px">0 = 캐릭터 성격대로 · 1 = 정해 둔 방침대로</div></div>
-      <div class="field"><label>생활 방침</label>${sel('play.pace', P.pace || 'balance', [['work', '일 위주'], ['balance', '균형'], ['rest', '쉼 위주']])}</div>
-      <div class="field"><label>공략 방침</label>${sel('autoRaid.policy', A.policy, Object.entries(AUTORAID.POLICY))}</div>
-      <div class="field"><label>게이트 고르기</label>${sel('autoRaid.grade', A.grade, [['easy', '쉬운 게이트'], ['fit', '내 등급에 맞게'], ['hard', '도전']])}</div>
-      <div class="field"><label>거리</label>${sel('autoRaid.km', A.km, [5, 10, 20, 40].map(k => [k, k + 'km 안']))}</div>
-      <div class="field"><label>후퇴 (파티 평균 HP)</label>${sel('autoRaid.retreat', A.retreat, [20, 35, 50, 65].map(k => [k, k + '% 아래']))}</div>
-      <div class="field"><label>파티</label>${sel('autoRaid.minParty', A.minParty, [[1, '혼자도 간다'], [2, '2명 이상'], [3, '3명 이상']])}</div>
-      <div class="field"><label>게이트 공략</label>${sel('autoRaid.on', A.on, [['on', '캐릭터가 판단해서 간다'], ['off', '당분간 공략을 쉰다']])}</div>
-      <p class="muted">하루 몇 번 같은 고정 제한은 없습니다. 기력 · HP · 감정 · 돈 사정 · 성격으로 그날그날 정합니다.</p></div>`;
-    else if (tab === '이야기') body = `<div class="pb grid" style="gap:12px">
+    if (tab === '재생') body = `<div class="pb grid" style="gap:12px">
+      <div class="field"><label>헌터가 성좌에게 물어 올 때</label>${sel('play.stop', P.stop, [['none', '멈추지 않는다 (헌터가 혼자 정한다)'], ['big', '큰 갈림길만'], ['each', '사건마다']])}</div>
+      <div class="field"><label>물어 올 일</label><div class="chips">${vals('stopKinds').map(k => `<label class="chk"><input type="checkbox" data-kkind="${k.id}" ${(P.kinds?.[k.id] ?? k.dflt) ? 'checked' : ''}> ${k.name}${k.big ? ' <span class="dim">(큰 갈림길)</span>' : ''}</label>`).join('')}</div></div>
       <div class="field"><label>문장 상세도</label>${sel('play.detail', P.detail || 'detail', [['detail', '자세히 — 시간대별 행동 전부'], ['normal', '보통'], ['summary', '요약 — 사건 · 하루 정리만']])}</div>
-      <div class="field"><label>이야기꾼</label>${sel('play.teller', P.teller || 'on', [['on', '켬 — 너무 조용하거나 몰리지 않게 살짝 거든다'], ['off', '끔']])}</div></div>`;
-    else if (tab === '게임 설정') body = prefsHTML();
-    else if (tab === '환경설정') body = settingsOptionsHTML();
-    else {
-      const C = LEGACY.candidates();
-      body = `<div class="pb grid" style="gap:14px">
-        <div><b>다른 인물로 바꾸기</b><p class="muted">같은 세계의 아는 헌터로 이어서 플레이합니다. ${esc(G.player.name)}은(는) NPC가 되어 성격대로 계속 삽니다.</p>
-          ${C.length ? C.slice(0, 12).map(h => `<div class="srow"><span>${esc(h.name)} ${rkBadge(h.rank)} <span class="dim">${esc(DB.roles[h.roleMain]?.name || '')} · ${esc(guildName(h.guild))}</span></span><button class="btn sm" data-kswitch="${h.id}" ${raidActive() || G.dead ? 'disabled' : ''}>${UI.swArm === h.id ? '정말 바꾸기' : '이 사람으로'}</button></div>`).join('') : '<div class="muted">아는 헌터가 아직 없습니다.</div>'}</div>
-        <div><b>기록관 · 파일</b><div class="row" style="gap:6px;margin-top:6px"><button class="btn" data-karnow="1">지금 모습 보관</button><button class="btn" data-karexp="">파일로 내보내기</button></div></div>
-        <div><b>은퇴</b><p class="muted">은퇴하면 노년을 짧게 흘린 뒤 일대기 한 장이 남습니다.</p><button class="btn ${UI.retireArm ? 'club' : ''}" data-retire="1" ${raidActive() || G.dead ? 'disabled' : ''}>${UI.retireArm ? '정말 은퇴하기 (다시 누르기)' : '은퇴하기'}</button></div></div>`;
-    }
+      <div class="field"><label>배속 기본값</label>${sel('play.speed', P.speed || 1, DB.balance.BAL_PLAY.speeds.map(x => [x, '×' + x]))}</div>
+      <p class="muted">헌터가 성좌를 알기 전에는 묻지 않는다. ×1 = 하루 ${DB.balance.BAL_PLAY.secPerDay}초. 게임을 끈 동안에는 시간이 흐르지 않는다.</p></div>`;
+    else if (tab === '화면') body = `<div class="pb grid" style="gap:14px">
+      <div class="field"><label for="st-fs">글자 크기</label><select id="st-fs" data-setsel="fontSize">${[12, 13, 14, 15].map(v => `<option value="${v}" ${SETTINGS.fontSize == v ? 'selected' : ''}>${v}px${v === 13 ? ' (기본)' : ''}</option>`).join('')}</select></div>
+      ${tgl('intro', SETTINGS.intro !== false, '새 게임 인트로', '성좌 · 헌터를 만들기 전에 짧은 글 인트로를 보여 준다.')}
+      ${tgl('autosave', SETTINGS.autosave !== false, '자동 저장', '하루가 지날 때와 공략이 끝날 때 성좌 칸에 저장한다.')}</div>`;
+    else if (tab === '개발') body = `<div class="pb grid" style="gap:14px">
+      ${tgl('dev', !!SETTINGS.dev, '개발자 보기', '숨은 값(잠재력 · 상대의 감정 · 게이트 내부 · 다른 헌터 능력치)을 그대로 보여 준다. 밸런스 확인용.')}
+      ${tgl('showTrig', SETTINGS.showTrig !== false, '이벤트 발동 조건 표시', '이벤트가 어떤 데이터로 발동했는지 보여 준다.')}</div>`;
+    else body = `<div class="pb grid" style="gap:14px">
+        <div><b>은퇴</b><p class="muted">은퇴하면 노년을 짧게 흘린 뒤 일대기 한 장이 남고, 이 성좌로 새 헌터를 지켜볼 수 있다.</p><button class="btn ${UI.retireArm ? 'club' : ''}" data-retire="1" ${raidActive() || G.dead ? 'disabled' : ''}>${UI.retireArm ? '정말 은퇴할까? 한 번 더 누르면 은퇴' : '은퇴'}</button></div></div>`;
     return `<div class="h-row"><h1 class="h1">설정</h1></div><div class="tabs" role="tablist">${TABS.map(t => `<button role="tab" aria-selected="${tab === t}" data-settingstab="${t}">${t}</button>`).join('')}</div><div class="panel" style="max-width:780px">${body}</div>`;
   };
 

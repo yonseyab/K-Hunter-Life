@@ -52,7 +52,7 @@ def('ranks', [
 def('relTypes', [
   {id:'REL_MOTHER',  name:'어머니',   tag:'가족'}, {id:'REL_FATHER', name:'아버지', tag:'가족'},
   {id:'REL_SISTER',  name:'여동생',   tag:'가족'}, {id:'REL_BROTHER',name:'남동생', tag:'가족'},
-  {id:'REL_OSIS',    name:'누나/언니',tag:'가족'}, {id:'REL_OBRO',   name:'형/오빠',tag:'가족'},
+  {id:'REL_OSIS',    name:'누나 · 언니', nameM:'누나', nameF:'언니', tag:'가족'}, {id:'REL_OBRO',   name:'형 · 오빠', nameM:'형', nameF:'오빠', tag:'가족'},
   {id:'REL_GRAND',   name:'할머니',   tag:'가족'}, {id:'REL_SPOUSE', name:'배우자', tag:'가족'},
   {id:'REL_CHILD',   name:'자녀',     tag:'가족'}, {id:'REL_GRANDPA', name:'할아버지', tag:'가족'},
   {id:'REL_STEP',    name:'의붓 부모', tag:'가족'},

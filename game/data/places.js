@@ -11,6 +11,8 @@
    placeTags  : 장소 꼬리표 {id:'PTAG_…', name, desc} — 분위기 · 가격대 · 위험 · 혼잡 같은 사건 조건 재료
    places     : 이름 있는 개별 장소 {id:'PL_<배치><5자리>', name, type(placeTypes), region(regions), desc 한 문장, tags(placeTags), scale(local 동네 · region 시 · 군 · 구 · national 전국에 알려짐), real(실존 공공 지명 기반이면 true)}
                 지금은 데이터만 — 게임에서 쓰는 건 나중 (이동 · 단골 · 사건 조건)
+   2026-10-24 (선택 필드): placeTypes · places 의 terrain(terrains — 거기서 싸움이 나면 지형), hours [여는 시, 닫는 시](0~24),
+                price 가격대 1~5, crowd 붐빔 1~5, safe 안전 1~5 (사람과 싸움 · 범죄 사건의 재료)
    ========================================================= */
 def('placeTypes', [
   {id:'PT_HOME',     name:'집',          icon:'⌂'},

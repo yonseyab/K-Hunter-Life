@@ -126,6 +126,22 @@ const RULES = [
   ['skills', (k) => [...(!['class', 'common', 'unique'].includes(k.scope) ? ['scope 는 class · common · unique'] : []), ...(!['액티브', '패시브'].includes(k.kind) ? ['kind 는 액티브 · 패시브'] : [])]],
   ['hearTexts', (h) => [...(!['npcInjured', 'npcRaidWin', 'npcRankUp', 'npcDied', 'npcAwaken', 'career:promo', 'career:fired', 'career:hired', 'career:grad', 'career:boom', 'career:slump', 'guildSign', 'guildLeave'].includes(h.on) ? ['on 값이 잘못됨: ' + h.on] : []), ...(!h.text || !h.text.includes('{a}') ? ['text 에 {a} 필요'] : [])]],
   ['gateInteriors', (g) => (!g.name ? ['name 필요'] : [])],
+  /* 2026-10-24 전투 개편 대비 선택 필드 */
+  ['monsters', (m, DB) => { const e = []; if (m.stat && typeof m.stat !== 'object') e.push('stat 은 {hp,atk,def,spd}');
+    if (m.group && (!Array.isArray(m.group) || m.group.length !== 2 || m.group[0] > m.group[1])) e.push('group 은 [최소, 최대]');
+    (m.attacks || []).forEach((a, i) => { if (!a.name) e.push(`attacks[${i}] name 필요`); if (a.kind && !DB.attackKinds?.[a.kind]) e.push(`attacks[${i}] kind ${a.kind} 없음`); if (a.el && !DB.elements?.[a.el]) e.push(`attacks[${i}] el ${a.el} 없음`); (a.se || []).forEach(x => { if (!DB.statusEffects?.[x.se]) e.push(`attacks[${i}] se ${x.se} 없음`); }); });
+    (m.phases || []).forEach((ph, i) => { if (!(ph.hp > 0 && ph.hp < 1)) e.push(`phases[${i}] hp 는 0~1`); }); return e; }],
+  ['skills', (k, DB) => { const e = [], T = ['self', 'ally', 'allies', 'enemy', 'enemies', 'area'];
+    if (k.target && !T.includes(k.target)) e.push('target 은 ' + T.join(' · ')); if (k.cls && !DB.classes[k.cls]) e.push(`cls ${k.cls} 없음`);
+    if (k.kind2 && !DB.attackKinds?.[k.kind2]) e.push(`kind2 ${k.kind2} 없음`); if (k.el && !DB.elements?.[k.el]) e.push(`el ${k.el} 없음`);
+    (k.se || []).forEach(x => { if (!DB.statusEffects?.[x.se]) e.push(`se ${x.se} 없음`); }); return e; }],
+  ['classes', (c, DB) => [...Object.keys(c.stats || {}).filter(s => !DB.baseStats[s]).map(s => `stats ${s} 없음`), ...(c.keys || []).filter(a => !DB.abilities?.[a]).map(a => `keys ${a} 없음`),
+    ...(c.next || []).filter(n => !DB.classes[n.to]).map(n => `next ${n.to} 없음`), ...(c.traits || []).filter(t => !DB.traits?.[t]).map(t => `traits ${t} 없음`)]],
+  ['statusEffects', (x) => [...(!x.name ? ['name 필요'] : []), ...(x.kind && !['buff', 'debuff'].includes(x.kind) ? ['kind 는 buff · debuff'] : [])]],
+  ['terrains', (x) => (!x.name ? ['name 필요'] : [])],
+  ['gateInteriors', (g, DB) => (g.terrain && !DB.terrains?.[g.terrain] ? [`terrain ${g.terrain} 없음`] : [])],
+  ['placeTypes', (t, DB) => (t.terrain && !DB.terrains?.[t.terrain] ? [`terrain ${t.terrain} 없음`] : [])],
+  ['places', (t, DB) => (t.terrain && !DB.terrains?.[t.terrain] ? [`terrain ${t.terrain} 없음`] : [])],
   ['gatePlacePool', (p, DB) => [...(!DB.regions[p.region] ? [`region ${p.region} 없음`] : []), ...(!(p.n > 0) ? ['n 없음'] : []), ...(!/^pool\/pl_[A-Z]+\.js$/.test(p.file || '') ? ['file 은 pool/pl_<시도>.js'] : [])]],
   ['regions', (r) => [...(!Array.isArray(r.geo) || r.geo.length !== 2 ? ['geo [경도, 위도] 필요'] : []), ...(!r.prov ? ['prov(시도 지도 키) 필요'] : [])]],
   ['objectives', (o) => [...(!['long', 'mid', 'short'].includes(o.term) ? ['term'] : []), ...(o.term === 'short' && !o.days ? ['단기는 days 필요'] : []), ...(!['rank', 'level', 'money', 'rep', 'cleared', 'raids', 'trainHours', 'social', 'stressBelow', 'req'].includes(o.measure) ? ['measure 값'] : [])]],

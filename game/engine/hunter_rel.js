@@ -1,7 +1,7 @@
 /* =========================================================
    hunter_rel.js — 내 헌터 › 관계 탭 (2026-10-24)
    헌터가 사람들(그리고 성좌)을 어떻게 생각하는지 지켜보는 화면. 성좌는 직접 고르거나 조작하지 않는다 — 행동 버튼 없음.
-   마음은 숫자 대신 말로 보인다(막대는 느낌만). 상대의 마음은 헌터의 짐작(relRead).
+   마음은 숫자 대신 말로 보인다(막대는 느낌만). 상대의 마음은 보여 주지 않는다 (2026-10-24).
    맨 위 '성좌' 칸: 헌터가 성좌를 아는지 · 신뢰 단계 문장(STARADV.stageText) · 받은 선물 · 물어본 일.
    ========================================================= */
 const HUNTER_REL = (() => {
@@ -40,16 +40,15 @@ const HUNTER_REL = (() => {
   /* ---------- 사람 ---------- */
   function row(r, sel) {
     const p = P(r.id);
-    return `<button class="hr-item ${sel ? 'sel' : ''}" data-hrel="${r.id}"><span class="hr-av">${esc((p.name || '?').slice(-2))}</span><span class="hr-nm"><b>${esc(p.name)}</b><span>${esc(gist(r))}</span></span><span class="hr-tag">${esc(DB.relStatus[r.status]?.name && !isFam(r) ? DB.relStatus[r.status].name : DB.relTypes[r.rel]?.name || '')}</span></button>`;
+    return `<button class="hr-item ${sel ? 'sel' : ''}" data-hrel="${r.id}"><span class="hr-av">${esc((p.name || '?').slice(-2))}</span><span class="hr-nm"><b>${esc(p.name)}</b><span>${esc(gist(r))}</span></span><span class="hr-tag">${esc(DB.relStatus[r.status]?.name && !isFam(r) ? DB.relStatus[r.status].name : relName(r.rel) || '')}</span></button>`;
   }
   function detail(r) {
     const p = P(r.id), hh = H(r.id), dims = dimsFor(r), me = nm();
     const lines = (G.story || []).filter(x => x.who === r.id).slice(-6).reverse();
-    return `<div class="hr-head"><span class="hr-av big">${esc((p.name || '?').slice(-2))}</span><div><h2>${esc(p.name)}</h2><div class="sub">${esc(DB.relTypes[r.rel]?.name || '')}${hh ? ' · ' + DB.ranks[hh.rank].name + '급 ' + DB.roles[hh.roleMain].name : p.job && p.job !== '—' ? ' · ' + esc(p.job) : ''}${p.age ? ' · ' + p.age + '세' : ''}</div></div></div>
+    return `<div class="hr-head"><span class="hr-av big">${esc((p.name || '?').slice(-2))}</span><div><h2>${esc(p.name)}</h2><div class="sub">${esc(relName(r.rel) || '')}${hh ? ' · ' + DB.ranks[hh.rank].name + '급 ' + DB.roles[hh.roleMain].name : p.job && p.job !== '—' ? ' · ' + esc(p.job) : ''}${p.age ? ' · ' + p.age + '세' : ''}</div></div></div>
       <div class="hr-gist">${esc(me)}은(는) ${esc(p.name)}을(를) — <b>${esc(gist(r))}</b></div>
-      <div class="hr-cols">
+      <div class="hr-cols one">
         <section class="hr-sec"><div class="sub">${esc(me)}의 마음</div>${dims.map(d => bar(d, r.to[d.id], d.id === 'RD_LIKE' ? likeWord(r.to[d.id]) : lvWord(r.to[d.id]))).join('')}</section>
-        <section class="hr-sec"><div class="sub">${esc(p.name)}의 마음 <span class="dim">(${esc(me)}의 짐작)</span></div>${dims.map(d => { const x = relRead(r, d.id); return bar(d, x.v, x.v == null ? (x.t && x.t !== '?' ? x.t : '모름') : d.id === 'RD_LIKE' ? likeWord(x.v) : lvWord(x.v)); }).join('')}</section>
       </div>
       ${r.note ? `<section class="hr-sec"><div class="sub">메모</div><div class="hr-log">${esc(r.note)}</div></section>` : ''}
       <section class="hr-sec"><div class="sub">함께한 일</div>${lines.map(x => { const d = dateOf(Math.floor(x.t / 1440)); return `<div class="hr-log"><span class="num muted">${d.m}/${d.d}</span> ${esc(x.s)}</div>`; }).join('') || '<div class="dim hr-log">아직 없음</div>'}</section>`;
@@ -59,7 +58,7 @@ const HUNTER_REL = (() => {
     const groups = list(), all = groups.flatMap(([, a]) => a), hasStar = typeof STARACC !== 'undefined' && !!STARACC.cur();
     let sel = UI.hrelSel; if (sel === 'STAR' && !hasStar) sel = null; if (sel !== 'STAR' && !all.some(r => r.id === sel)) sel = hasStar ? 'STAR' : all[0]?.id;
     const right = sel === 'STAR' ? starDetail() : sel ? detail(all.find(r => r.id === sel)) : '<div class="dim">아직 아는 사람이 없다.</div>';
-    return `<div class="hr"><div class="hr-intro sub">${esc(nm())}이(가) 사람들을 어떻게 생각하는지. 마음은 말로만 보인다 — 상대의 마음은 ${esc(nm())}의 짐작이다.</div>
+    return `<div class="hr"><div class="hr-intro sub">${esc(nm())}이(가) 사람들을 어떻게 생각하는지. 마음은 말로만 보인다.</div>
       <div class="hr-body"><nav class="hr-list" aria-label="관계 목록">${hasStar ? `<div class="hr-grp">성좌</div>${starRow(sel === 'STAR')}` : ''}${groups.map(([g, a]) => `<div class="hr-grp">${g} <span class="dim">${a.length}</span></div>${a.map(r => row(r, r.id === sel)).join('')}`).join('')}</nav>
       <div class="hr-detail">${right}</div></div></div>`;
   }

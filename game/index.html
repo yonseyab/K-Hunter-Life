@@ -1517,6 +1517,8 @@ const relOf=id=>G.relations.find(r=>r.id===id);
 const REL_KEY={close:'RD_CLOSE',trust:'RD_TRUST',love:'RD_ROMANCE',like:'RD_LIKE'};
 const dimClamp=(d,v)=>Math.max(DB.relDims[d].range[0],Math.min(DB.relDims[d].range[1],Math.round(v)));
 const isFam=r=>DB.relTypes[r.rel]?.tag==='가족';
+/* 관계 이름: 내 헌터의 성별에 맞춰 (형 · 오빠 → 남자면 형, 여자면 오빠). nameM · nameF 가 없으면 name */
+function relName(id,sex){const t=DB.relTypes[id];if(!t)return '';if(sex==null)sex=(typeof G!=='undefined'&&G&&G.player?G.player.sex:null);return sex==='여'?(t.nameF||t.name):sex==='남'?(t.nameM||t.name):t.name}
 function relSync(r){r.close=r.to.RD_CLOSE;r.trust=r.to.RD_TRUST;r.love=(r.to.RD_ROMANCE>0||r.status==='RS_DATING')?r.to.RD_ROMANCE:null}
 function ensureRel(r){if(r.to){relSync(r);return r}const rr=rng(r.id+'|rel'),fam=isFam(r);r.to={};r.from={};
   vals('relDims').forEach(d=>{r.to[d.id]=d.def;r.from[d.id]=d.def});
@@ -1619,7 +1621,7 @@ function describeReq(q){
     case 'slot': return '시간대: '+q.in.map(i=>SLOTS[i]).join('/');
     case 'trait': return '특성: '+DB.traits[q.id].name;
     case 'density': return '거주 지역 게이트 밀도 ≥ '+q.min;
-    case 'rel': return q.type?'관계: '+DB.relTypes[q.type].name+' 있음':'관계: '+nameOf(q.id)+' 아는 사이';
+    case 'rel': return q.type?'관계: '+relName(q.type)+' 있음':'관계: '+nameOf(q.id)+' 아는 사이';
     case 'known': return '대상을 앎';
     case 'family': return '대상이 가족';
     case 'relStat': return `대상 ${({close:'친밀도',trust:'신뢰',love:'호감'})[q.key]} ≥ ${q.min}`;
@@ -2067,8 +2069,10 @@ function bgOptsFor(it){
   const pool=DB.bgPools[it.pool]||{};
   if(pool.table) return vals(pool.table).map(r=>({id:r.id,name:r.name,group:(r.prov&&DB.maps?.['MAP_'+r.prov]?.name)||r.name.split(' ')[0]})); /* 지역(230곳)은 시도별로 묶음 */
   if(!BG_IDX){BG_IDX={};vals('bgOpts').forEach(o=>(BG_IDX[o.pool]||(BG_IDX[o.pool]=[])).push(o))}
-  return BG_IDX[it.pool]||[];
+  return (BG_IDX[it.pool]||[]).map(bgRelName);
 }
+/* 가족 선택지 이름도 내 헌터 성별에 맞춰 (형 · 오빠 → 형 / 오빠) */
+function bgRelName(o){if(!o||!o.rel)return o;const sx=UI.cc?.sex,t=DB.relTypes[o.rel];if(!sx||!t||!(t.nameM||t.nameF))return o;return Object.assign({},o,{name:relName(o.rel,sx)})}
 function ensureBg(cc){
   cc.bgv=cc.bgv||{};
   vals('bgItems').forEach(it=>{const v=cc.bgv[it.id], list=bgOptsFor(it), d=DB.bgPools[it.pool]?.def;
@@ -2096,7 +2100,7 @@ const CH={
   bi:{label:'기본 정보 항목', items:()=>BI_ITEMS, opts:(it,cc)=>biOpts(it,cc), kind:()=>'text', vals:cc=>cc,
       opt:id=>DB.ccNations[id]||DB.ccBirthplaces[id]||DB.ccLanguages[id]||DB.ccVoices[id]||DB.ccSpeech[id]||(id==null||id===''?null:{id,name:/^\d+$/.test(id)?id+'세':String(id)})},
   lk:{label:'외형 항목', items:cc=>cc.sex?lookSet(cc.sex).items.map(id=>DB.ccLook[id]):[], opts:(it,cc)=>lookOptsFor(it,cc.sex), kind:it=>DB.lookPools[it.pool]?.kind||'text', vals:cc=>cc.look, opt:id=>DB.lookOpts[id]},
-  bg:{label:'출신 · 배경 항목', items:()=>vals('bgItems'), opts:it=>bgOptsFor(it), kind:()=>'text', vals:cc=>cc.bgv, opt:id=>DB.bgOpts[id]||(DB.regions[id]&&{id,name:DB.regions[id].name})},
+  bg:{label:'출신 · 배경 항목', items:()=>vals('bgItems'), opts:it=>bgOptsFor(it), kind:()=>'text', vals:cc=>cc.bgv, opt:id=>bgRelName(DB.bgOpts[id])||(DB.regions[id]&&{id,name:DB.regions[id].name})},
 };
 const chItem=ns=>CH[ns].items(UI.cc).find(i=>i.id===UI.cc[ns+'Sel']);
 function chVal(ns,it,v){
@@ -2305,7 +2309,7 @@ const WIDGETS={
   WG_LOG:{name:'활동 기록',sizes:['2x1','2x2','1x2','4x1','4x2'],go:'goals',tight:false,r:(w,h)=>{const L=(G.actLog||[]).slice(0,h*(w>1?5:6));return L.length?`<div class="mini actlog">${L.map(x=>{const dt=dateOf(Math.floor(x.t/1440));return `<div class="li al-${x.k}"><span class="dim num" style="font-size:10px;min-width:${w>1?62:40}px">${w>1?`${dt.m}/${dt.d} `:''}${hhmm(x.t%1440)}</span><span class="tx">${esc(x.s)}</span></div>`}).join('')}</div>`:'<div class="dim">시간을 진행하거나 행동을 하면 여기에 쌓입니다.</div>'}},
   WG_SCHED:{name:'오늘 일정',sizes:['1x1','1x2'],go:'schedule',r:(w,h)=>{const now=nowAbs(),L=blocksNear(now).filter(b=>b.e>now).slice(0,h*4);return `<div class="mini">${L.map(b=>{const on=b.s<=now;return `<div class="row" style="justify-content:space-between;flex-wrap:nowrap;gap:6px"><span class="num ${on?'':'muted'}" style="font-size:11px">${hhmm(b.s)}</span><span class="${on?'':'muted'}" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${DB.actions[b.act]?.name||'—'}${on?' · 지금':''}</span></div>`}).join('')||'<div class="muted">일정 없음</div>'}</div>`}},
   WG_PARTY:{name:'파티 상태',sizes:['2x1','1x2','2x2'],go:'guild',r:(w,h)=>{const m=guildMembers(G.player.guild);return m.length?`<div class="mini">${m.slice(0,h*4).map(x=>`<div class="li" data-hunter="${x.id}"><span style="flex:none;width:52px">${x.name}</span>${w>1?`<span class="dim" style="font-size:11px;width:72px;flex:none">${DB.roles[x.roleMain].name}</span>`:''}<div class="bar hp${x.fit<65?' low':''}" style="flex:1"><i style="width:${x.fit}%"></i></div></div>`).join('')}</div>`:'<div class="muted">소속 길드가 없습니다.</div>'}},
-  WG_PEOPLE:{name:'가까운 사람',sizes:['1x1','2x1','1x2'],go:'relations',r:(w,h)=>`<div class="mini">${G.relations.slice().sort((a,b)=>b.close-a.close).slice(0,h*4).map(r=>`<div class="meter" style="grid-template-columns:${w>1?'120px':'52px'} 1fr 24px;margin:0"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--fg)">${w>1?nameOf(r.id)+' · '+DB.relTypes[r.rel].name:nameOf(r.id)}</span>${bar(r.close)}<span class="num">${r.close}</span></div>`).join('')}</div>`},
+  WG_PEOPLE:{name:'가까운 사람',sizes:['1x1','2x1','1x2'],go:'relations',r:(w,h)=>`<div class="mini">${G.relations.slice().sort((a,b)=>b.close-a.close).slice(0,h*4).map(r=>`<div class="meter" style="grid-template-columns:${w>1?'120px':'52px'} 1fr 24px;margin:0"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--fg)">${w>1?nameOf(r.id)+' · '+relName(r.rel):nameOf(r.id)}</span>${bar(r.close)}<span class="num">${r.close}</span></div>`).join('')}</div>`},
 };
 /* 위젯 추가: 빈 칸을 누르면 팝업. 왼쪽 위젯 목록 · 오른쪽 설명과 실제 데이터로 그린 미리보기 · 크기 고르기 (사용자 요청 2026-10-23) */
 const V={};
@@ -2535,7 +2539,7 @@ function dbListHTML(rows){const t=dbTab(),R=new Set(t.right||[]),sel=UI.dbSel;
 function civDetailHTML(n,rel,kv){const dev=!!SETTINGS.dev,cl=rel?.to?.RD_CLOSE||0,known=dev||cl>=30||!!KNOW.get(n.id,'career'),cr=SIM.careerOf(n),st=G.ai?.[n.id],J=DB.aiJobs[cr.job];
   const jt=known?SIM.jobTitle(n):esc(n.job||'—'),log=(st?.careerLog||[]).slice(0,5);
   const evName={promo:'승진',fired:'해고',hired:'취업',grad:'졸업 · 취업',boom:'장사 잘됨',slump:'장사 부진'};
-  return `<div class="pb" style="display:grid;gap:10px">${kv([['구분','일반인 (비각성자)'],['나이',n.age?n.age+'세':'—'],['직업',jt],['거주',regionName(n.region)],['나와의 관계',rel?DB.relTypes[rel.rel].name:'모르는 사이'],
+  return `<div class="pb" style="display:grid;gap:10px">${kv([['구분','일반인 (비각성자)'],['나이',n.age?n.age+'세':'—'],['직업',jt],['거주',regionName(n.region)],['나와의 관계',rel?relName(rel.rel):'모르는 사이'],
       ...(known&&J&&!cr.unemp?[[J.student?'재학':'지금 직급',`${cr.mon||0}개월째`]]:[]),...(known&&J&&!cr.unemp&&!J.student?(()=>{const c=SIM.commuteOf(n);return c?[['일터',`${regionName(c.region)}${c.min?` · 출퇴근 편도 ${durTxt(c.min)}`:' (사는 곳)'}`]]:[]})():[]),...(dev?[['업무 능력',J?.keys?(J.keys.reduce((a,k)=>a+(SIM.aiOf(n).abl?.[k]||8),0)/J.keys.length).toFixed(1):'—'],['시급',won(SIM.payOf(cr))]]:[])])}
     ${known&&log.length?`<div><div class="sub" style="margin-bottom:4px">경력</div>${log.map(([d,e,t])=>`<div style="font-size:12px"><span class="num muted">${dateOf(d).m}/${dateOf(d).d}</span> ${evName[e]||e} <span class="dim">${esc(t)}</span></div>`).join('')}</div>`:''}
     <div class="dim" style="font-size:11px">${known?'':'자세한 사정은 더 가까워져야 압니다 (친밀도 30+ 또는 직접 들은 소식).'}</div>
@@ -2630,7 +2634,7 @@ V.profile=()=>{
     <div class="hf-main"><div class="hf-tag">HUNTER FILE · 헌터 협회 등록 기록</div><div class="hf-nm">${esc(h.name)}</div>
       <div class="hf-sub">${DB.classes[h.cls]?.name||'클래스 미확인'} · ${rm.name}${h.roleSub?' / '+DB.roles[h.roleSub].name:''}</div>
       <div class="hf-guild">${crest(h.guild,26)}<span>${g?esc(g.name)+` <small>${guildTier(g).name}</small>`:'무소속'}</span></div>
-      <div class="hf-chips"><span class="chip ${stTxt==='정상'?'g':'b'}">${esc(stTxt)}</span>${known?`<span class="chip">Lv.${h.level}</span>`:'<span class="chip">Lv.?</span>'}<span class="chip">${esc(h.style||'—')}</span>${!me&&rel?`<span class="chip a">${DB.relTypes[rel.rel].name}</span>`:''}</div></div>
+      <div class="hf-chips"><span class="chip ${stTxt==='정상'?'g':'b'}">${esc(stTxt)}</span>${known?`<span class="chip">Lv.${h.level}</span>`:'<span class="chip">Lv.?</span>'}<span class="chip">${esc(h.style||'—')}</span>${!me&&rel?`<span class="chip a">${relName(rel.rel)}</span>`:''}</div></div>
     <div class="hf-grid">${[['등록 번호',`<span class="num">${regNo}</span>`],['각성',esc(h.awakened||'—')],['활동 지역',regionName(h.region)],['나이 · 성별',`${h.age?h.age+'세':'—'} · ${h.sex||'—'}`],['신장 · 체중',`${h.height?h.height+'cm':'—'} · ${h.weight?h.weight+'kg':'—'}`],['명성',stars(fame)]].map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join('')}</div></section>`;
   const lifeCols=`<div class="acols"><div class="acol"><h5>특성</h5>${h.traits.map(t=>`<div class="ar"><span class="chip ${tTone(t)}">${DB.traits[t].name}</span><span class="dim num" style="font-size:10px">${t}</span></div>`).join('')||'<div class="dim">없음</div>'}</div><div class="acol"><h5>스킬</h5>${h.skills.map(([s,lv])=>`<div class="ar"><span>${DB.skills[s].name}</span><span class="dim">${DB.skills[s].kind} · 숙련 ${lv}</span></div>`).join('')||'<div class="dim">없음</div>'}</div></div>`;
   const abil=`<div class="pbox hbox"><div class="hd"><span>전투 능력 평가 <span class="dim" style="font-weight:400">1~20 · <span class="v1">1~5</span> <span class="v2">6~10</span> <span class="v3">11~15</span> <span class="v4">16~20</span> · 강조 = ${rm.name} 핵심</span></span><div class="seg">${[...aSets.map(st=>[st,DB.ablSets[st].name]),['ETC','특성 · 스킬']].map(([v,n])=>`<button aria-pressed="${aView===v}" data-attrview="${v}">${n}</button>`).join('')}</div></div>
@@ -2648,7 +2652,7 @@ V.profile=()=>{
   const pot=`<div class="pbox hbox"><div class="hd">잠재력 추정 <span class="dim" style="font-weight:400">${me?'본인도 모름':known?'스카우트 추정':'미조사'}</span></div><div class="bd" style="display:grid;gap:10px">
       <div class="trio"><div>레벨<b>${known?'Lv.'+h.level:'?'}</b></div><div>다음 벽<b>${known?'Lv.'+wallOf(h.level):'?'}</b></div><div>레벨 한계<b>${pv.lv}</b></div></div>
       <div class="trio"><div>세부 능력 합계<b>${known?ablSum(h):'?'}</b></div><div>최대<b>${ablMaxOf(aSets)}</b></div><div>합계 상한<b>${pv.cap}</b></div></div></div></div>`;
-  const tie=`<div class="pbox hbox"><div class="hd">소속 · 관계</div><dl class="bd kv" style="font-size:12px"><dt>소속</dt><dd>${guildName(h.guild)}</dd><dt>계약</dt><dd>${h.contract?.share??0}% · ${esc(h.contract?.until||'—')}</dd><dt>사기</dt><dd>${esc(me?G.cond.mood:h.morale||'—')}</dd><dt>나와의 관계</dt><dd>${me?'본인':rel?`${DB.relTypes[rel.rel].name} · 친밀 ${rel.close} · 신뢰 ${rel.trust}`:'모르는 사이'}</dd></dl>
+  const tie=`<div class="pbox hbox"><div class="hd">소속 · 관계</div><dl class="bd kv" style="font-size:12px"><dt>소속</dt><dd>${guildName(h.guild)}</dd><dt>계약</dt><dd>${h.contract?.share??0}% · ${esc(h.contract?.until||'—')}</dd><dt>사기</dt><dd>${esc(me?G.cond.mood:h.morale||'—')}</dd><dt>나와의 관계</dt><dd>${me?'본인':rel?`${relName(rel.rel)} · 친밀 ${rel.close} · 신뢰 ${rel.trust}`:'모르는 사이'}</dd></dl>
       ${(()=>{const L=(G.rumors||[]).filter(x=>x.about.includes(h.id)).slice(0,2);return L.length?`<div class="bd" style="padding-top:0">${L.map(x=>`<div class="warn" style="font-size:11px">소문: ${esc(x.text)}${SETTINGS.dev?` <b>[${x.truth?'사실':'거짓'}]</b>`:''}</div>`).join('')}</div>`:''})()}</div>`;
   const pubBox=me?`<div class="pbox hbox"><div class="hd">상태창</div><div class="bd">${statusWindowHTML(h)}</div></div>`:`<div class="pbox hbox"><div class="hd">공개 상태창</div><div class="bd">${pubStatusHTML(h)}</div></div>`;
   return head+banner+`<div class="hprof"><div class="pcol">${pubBox}${pot}${style}</div><div class="pcol">${abil}${record}</div><div class="pcol">${formation}${assess}${tie}</div></div>`;
@@ -2676,7 +2680,7 @@ V.goals=()=>{const B=DB.balance.BAL_GOAL,act=GOALS.active(),past=(G.goals||[]).f
     <td>${has?'<span class="chip g">진행 중</span>':`<button class="btn sm" data-goaladd="${o.id}" ${!op.length||(o.measure==='req'&&GOALS.value(o))?'disabled':''}>정하기</button>`}</td></tr>`}).join('')}</tbody></table></div></div>
   `)};
 V.relations=()=>{ensureTime();const L=G.relations.filter(r=>P(r.id)),sel=L.find(r=>r.id===UI.relSel)||L[0];
-  const stName=r=>isFam(r)?DB.relTypes[r.rel].name:(DB.relStatus[r.status]?.name||DB.relTypes[r.rel]?.name||'—');
+  const stName=r=>isFam(r)?relName(r.rel):(DB.relStatus[r.status]?.name||relName(r.rel)||'—');
   const dimRow=(d,v,txt)=>{const D=DB.relDims[d],lo=D.range[0],neg=v!=null&&v<0,w=v==null?0:lo<0?Math.abs(v):(v-lo)/(D.range[1]-lo)*100;
     return `<div class="rdim"><span>${D.name}</span><div class="bar ${neg?'neg':''}"><i style="width:${clamp(w)}%;background:${neg?'':D.color}"></i></div><span class="rd">${txt??v}</span></div>`};
   const det=r=>{const p=P(r.id),hh=H(r.id),fam=isFam(r),adult=isAdultP(p)&&isAdultP(G.player),dims=vals('relDims').filter(d=>!(d.adult&&(!adult||fam))),lk=looksOf(p);
@@ -2684,7 +2688,7 @@ V.relations=()=>{ensureTime();const L=G.relations.filter(r=>P(r.id)),sel=L.find(
     const hist=G.timeLog.filter(x=>x.tgt===r.id).slice(0,6);
     return `<div class="panel"><div class="ph"><span>${esc(p.name)} <span class="chip">${DB.relTypes[r.rel].tag}</span> <span class="chip ${DB.relStatus[r.status]?.romance?'w':''}">${stName(r)}</span>${homeOf().partner===r.id?' <span class="chip g">같이 사는 중</span>':''}</span>${hh?`<button class="btn" data-hunter="${r.id}">정보창</button>`:''}</div>
       <div class="pb" style="display:grid;gap:12px">
-        <div class="muted" style="font-size:12px">${DB.relTypes[r.rel].name}${hh?' · '+DB.ranks[hh.rank].name+'급 '+DB.roles[hh.roleMain].name:p.job?' · '+esc(p.job):''}${p.age?' · '+p.age+'세':''} <span class="dim num">${r.id}</span></div>
+        <div class="muted" style="font-size:12px">${relName(r.rel)}${hh?' · '+DB.ranks[hh.rank].name+'급 '+DB.roles[hh.roleMain].name:p.job?' · '+esc(p.job):''}${p.age?' · '+p.age+'세':''} <span class="dim num">${r.id}</span></div>
         ${r.note?`<div style="font-size:12px">${esc(r.note)}</div>`:''}
         <div class="rcols"><div><div class="sub" style="margin-bottom:4px">내가 ${esc(p.name)}에게</div>${dims.map(d=>dimRow(d.id,r.to[d.id])).join('')}</div>
           <div><div class="sub" style="margin-bottom:4px">${esc(p.name)}이(가) 나에게 <span class="dim">(짐작)</span></div>${dims.map(d=>{const x=relRead(r,d.id);return dimRow(d.id,x.v,x.t)}).join('')}
@@ -2891,7 +2895,7 @@ V.gameover=()=>{const h=G.player,D=G.dead,d=dateOf(D.day),start=G.startDay??0,cl
     <div class="dim" style="letter-spacing:.4em">${D.kind==='retire'?'RETIRED':'GAME OVER'}</div><h1 class="h1" style="font-size:28px">${esc(h.name)}</h1>
     <div class="muted">${d.m}월 ${d.d}일 ${hhmm(D.time)} · ${D.kind==='retire'?'헌터 생활을 마치고 은퇴했다':esc(D.cause)}</div>
     <div class="grid g4">${[['등급',DB.ranks[h.rank].name+'급'],['레벨','Lv.'+h.level],['헌터로 산 날',(D.day-start+1)+'일'],['게이트 클리어',(G.stats?.cleared||0)+'회']].map(([k,v])=>`<div class="panel pb stat"><div class="lab"><span>${k}</span></div><div class="big" style="font-size:20px">${v}</div></div>`).join('')}</div>
-    <div style="text-align:left"><div class="sub" style="margin-bottom:6px">가까웠던 사람들</div>${close.map(r=>`<div style="font-size:12px">${esc(nameOf(r.id))} <span class="dim">${DB.relTypes[r.rel]?.name||''}${DB.relStatus[r.status]?.romance?' · '+DB.relStatus[r.status].name:''}</span></div>`).join('')||'<div class="dim">없음</div>'}</div>
+    <div style="text-align:left"><div class="sub" style="margin-bottom:6px">가까웠던 사람들</div>${close.map(r=>`<div style="font-size:12px">${esc(nameOf(r.id))} <span class="dim">${relName(r.rel)||''}${DB.relStatus[r.status]?.romance?' · '+DB.relStatus[r.status].name:''}</span></div>`).join('')||'<div class="dim">없음</div>'}</div>
     <div style="text-align:left"><div class="sub" style="margin-bottom:6px">인생 기록</div>${(G.history||[]).slice(0,14).map(r=>`<div style="font-size:12px"><span class="num muted">${r[0]}</span> ${esc(r[1])} <span class="dim">${esc(r[2]||'')}</span></div>`).join('')}</div>
     <div class="row" style="justify-content:center"><button class="btn" data-totitle="1">타이틀로</button><button class="btn pri" data-title="new">새 헌터 만들기</button></div>
     <div class="dim" style="font-size:11px">${D.kind==='retire'?'이 헌터의 이야기는 여기서 끝납니다. 세이브는 은퇴 상태로 바뀌었습니다.':'이 헌터의 세이브는 사망 상태로 바뀌었습니다. 죽음은 되돌릴 수 없습니다.'}</div></div></div>`};
@@ -3320,3 +3324,4 @@ applySettings(); render(); packsLoad();  /* 대량 콘텐츠 팩을 뒤에서 �
 <script src="engine/life_ui.js"></script>
 <script src="engine/star_ui.js"></script>
 <script src="engine/hunter_rel.js"></script>
+<script src="engine/hunter_info.js"></script>

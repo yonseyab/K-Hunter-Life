@@ -44,22 +44,13 @@ function statusDetail(kind){
   if(kind==='public'){showInfo(`<h2>공개 상태창 미리보기</h2>${pubStatusHTML(G.player)}`);return;}
   showInfo(`<h2>부상 상세</h2>${(G.injuries||[]).map(j=>`<div class="panel pb" style="margin-bottom:8px"><b>${esc(injTxt(j))}</b><div class="muted">${DB.injurySev['SEV_'+j.sev].name} · 남은 회복 시간 ${durTxt(Math.max(0,j.until-nowAbs()))}</div></div>`).join('')||'<p class="muted">현재 부상이 없습니다.</p>'}`);
 }
-V.settings=()=>{
-  const tab=['헌터 관리','게임 설정'].includes(UI.settingsTab)?UI.settingsTab:'환경설정';
-  return `<div class="h-row"><h1 class="h1">설정</h1></div><div class="tabs" role="tablist">${['환경설정','게임 설정','헌터 관리'].map(t=>`<button role="tab" aria-selected="${tab===t}" data-settingstab="${t}">${t}</button>`).join('')}</div><div style="max-width:760px">${tab==='환경설정'?`<div class="panel">${settingsOptionsHTML()}</div>`:tab==='게임 설정'?`<div class="panel"><div class="ph">게임 설정 · ${esc(G.player.name)} <span class="dim" style="font-weight:400">이 헌터의 저장에 함께 저장됩니다</span></div>${prefsHTML()}</div>`:`<div class="panel"><div class="ph">헌터 관리 · ${esc(G.player.name)}</div><div class="pb"><p>은퇴하면 이 헌터의 이야기가 끝나고, 저장은 은퇴 기록으로 남습니다.</p><button class="btn ${UI.retireArm?'club':''}" data-retire="1" ${raidActive()||G.dead?'disabled':''}>${UI.retireArm?'정말 은퇴하기 (다시 누르기)':'은퇴하기'}</button>${raidActive()?'<p class="muted">게이트 공략 중에는 은퇴할 수 없습니다.</p>':''}</div></div>`}</div>`;
-};
-
-function settingsOptionsHTML(){return `<div class="pb grid" style="gap:14px">
-      <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div><b>이벤트 발동 조건 표시</b><div class="sub">개발용. 이벤트가 어떤 데이터로 발동했는지 보여줍니다.</div></div><button class="tgl" aria-pressed="${SETTINGS.showTrig}" data-set="showTrig" aria-label="이벤트 발동 조건 표시"></button></div>
-      <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div><b>개발자 보기</b><div class="sub">숨은 값(잠재력 · 상대의 감정 · 게이트 내부 · 다른 헌터 능력치)을 그대로 보여 줍니다. 밸런스 확인용.</div></div><button class="tgl" aria-pressed="${!!SETTINGS.dev}" data-set="dev" aria-label="개발자 보기"></button></div>
-      <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div><b>행동 결과 팝업</b><div class="sub">시간을 진행하거나 행동을 하면 오른쪽 아래에 결과를 잠깐 띄웁니다. 꺼도 홈의 '활동 기록' 위젯에 계속 쌓입니다.</div></div><button class="tgl" aria-pressed="${!!SETTINGS.actToast}" data-set="actToast" aria-label="행동 결과 팝업"></button></div>
-      <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div><b>자동 저장</b><div class="sub">하루가 지날 때와 게이트 공략이 끝날 때 헌터별 자동 저장 칸에 저장합니다 (최근 ${AUTO_KEEP}명까지).</div></div><button class="tgl" aria-pressed="${SETTINGS.autosave!==false}" data-set="autosave" aria-label="자동 저장"></button></div>
-      <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div><b>새 게임 인트로</b><div class="sub">새로 시작할 때 세계를 소개하는 짧은 인트로를 보여 줍니다.</div></div><button class="tgl" aria-pressed="${SETTINGS.intro!==false}" data-set="intro" aria-label="새 게임 인트로"></button></div>
+/* 타이틀 › 설정 패널 (게임 중 설정은 engine/life_ui.js V.settings) */
+function settingsOptionsHTML(){const t=(k,on,title,sub)=>`<div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div><b>${title}</b><div class="sub">${sub}</div></div><button class="tgl" aria-pressed="${on}" data-set="${k}" aria-label="${title}"></button></div>`;
+  return `<div class="pb grid" style="gap:14px">
       <div class="field"><label for="st-fs">글자 크기</label><select id="st-fs" data-setsel="fontSize">${[12,13,14,15].map(v=>`<option value="${v}" ${SETTINGS.fontSize==v?'selected':''}>${v}px${v===13?' (기본)':''}</option>`).join('')}</select></div>
-      <div class="field"><label for="st-rs">게이트 공략 기본 속도</label><select id="st-rs" data-setsel="raidSpeed">${[1,2,4].map(v=>`<option value="${v}" ${SETTINGS.raidSpeed==v?'selected':''}>×${v}</option>`).join('')}</select></div>
-      <div class="field"><label for="st-ts">텍스트 표시 속도</label><select id="st-ts" data-setsel="textSpeed">${['느림','보통','빠름','즉시'].map(v=>`<option ${SETTINGS.textSpeed===v?'selected':''}>${v}</option>`).join('')}</select></div>
-      <div class="field"><label for="st-vol">효과음 (준비 중)</label><input type="range" id="st-vol" disabled value="70"></div>
-      <div class="field"><label for="st-bgm">배경음 (준비 중)</label><input type="range" id="st-bgm" disabled value="50"></div></div>`;}
+      ${t('intro',SETTINGS.intro!==false,'새 게임 인트로','성좌 · 헌터를 만들기 전에 짧은 글 인트로를 보여 준다.')}
+      ${t('autosave',SETTINGS.autosave!==false,'자동 저장','하루가 지날 때와 공략이 끝날 때 성좌 칸에 저장한다.')}
+      ${t('dev',!!SETTINGS.dev,'개발자 보기','숨은 값을 그대로 보여 준다. 밸런스 확인용.')}</div>`;}
 
 /* 인생 탭 상태창: EXP 아래(스탯 · 스킬 · 특성)는 평소 접어 두고 원할 때 편다 (UI.swOpen 으로 다시 그려도 유지) */
 document.addEventListener('toggle',e=>{const d=e.target;if(!d?.matches?.('[data-sw2more]'))return;UI.swOpen=d.open;const s=d.querySelector('summary');if(s)s.textContent=`스탯 · 스킬 · 특성 ${d.open?'접기':'펼치기'}`;},true);

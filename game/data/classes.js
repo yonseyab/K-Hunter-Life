@@ -8,6 +8,18 @@
             star : 그 고유 클래스가 묶인 성좌 (constellations, 성좌 하나에 고유 클래스 하나). 받으면 원래 클래스가 바뀐다 (STAR.grantClass)
    고유 스킬: skills.scope 'unique' — 고유 클래스의 pool 에만 들어간다. 이름 · 성능은 그 성좌와 엮인다 (외주)
    클래스는 능력치와 맞지 않을 수 있고, 게임 중 클래스북으로 바뀔 수 있다.
+   ── 2026-10-24 전투 개편 대비 (선택 필드) ──
+   stats  : 레벨업 때 주능력치가 오르는 경향 {STAT_BODY:가중치, …} (헌터 판단 자동 분배의 재료)
+   keys   : 이 클래스에 중요한 세부 능력 [ABL_…] (전투 판정 · 성장 문장의 재료)
+   gear   : 잘 맞는 장비 갈래 [itemCats 또는 장비 꼬리표 ID] — 헌터가 장비를 고를 때 가산
+   next   : 상위 클래스로 바뀌는 길 [{to(classes), cond(조건 문장 · 나중에 규칙)}]
+   traits : 클래스를 받으면 같이 붙는 특성 [traits]
+   ── 스킬 (skills) 형식 ──
+   scope  : class 클래스 전용 · common 공용 · unique 고유   kind : 액티브 · 패시브   desc : 설명
+   선택 필드 (2026-10-24): cls(주인 클래스) · target(self 자신 · ally 아군 하나 · allies 아군 전체 · enemy 적 하나 · enemies 적 전체 · area 범위)
+            cost {mp, hp, cd(재사용 턴)} · power(배율) · kind2(attackKinds) · el(elements) · scale(주로 기대는 능력 STAT_ · ABL_ ID)
+            se [{se(statusEffects), chance, turns}] · maxLv(스킬 레벨 상한) · tags(꼬리표) · req(배우는 조건 문장)
+            lines {use:[..], hit:[..], miss:[..]} — 전투 문장 {u} 쓰는 사람 · {t} 대상 · {s} 스킬 이름
    ========================================================= */
 def('classCats', [
   {"id":"CC_MELEE","name":"근접"},

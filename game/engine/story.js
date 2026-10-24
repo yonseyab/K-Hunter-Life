@@ -88,7 +88,7 @@ const STORY = (() => {
     const t = r.to || {}, jealous = (t.RD_RIVAL || 0) + (t.RD_GRUDGE || 0) >= 50 || (r.from?.RD_RIVAL || 0) >= 50;
     if (jealous && Math.random() < 0.5) { const j = pickLine('react:jealous'); if (j) { const fx = fxApply(j.fx); SELF.hear('looks', -0.5); add('react', fill(j.text, { who: nameOf(c.id) }), j.lv ?? 2, fx ? { fx } : null); EMO.on('insulted'); if (typeof ACTIVE !== 'undefined') ACTIVE.feel(c.id, 'EM_ANGER', 0.2); return; } }
     const l = pickLine('meet', c.id); if (!l) return;
-    const fx = fxApply(l.fx, c.id); add('meet', fill(l.text, { who: nameOf(c.id), rel: DB.relTypes[r.rel]?.name || '' }), l.lv ?? 2, { who: c.id, fx }); EMO.on('social'); TELLER.note(1, false); if (typeof ACTIVE !== 'undefined') ACTIVE.feel(c.id, 'EM_JOY', 0.2);
+    const fx = fxApply(l.fx, c.id); add('meet', fill(l.text, { who: nameOf(c.id), rel: relName(r.rel) || '' }), l.lv ?? 2, { who: c.id, fx }); EMO.on('social'); TELLER.note(1, false); if (typeof ACTIVE !== 'undefined') ACTIVE.feel(c.id, 'EM_JOY', 0.2);
     G.lastMeet = nowAbs();
   }
   /* 모르는 사람의 반응 (2층). 사실(외모 점수)에 묶여 있다 */
