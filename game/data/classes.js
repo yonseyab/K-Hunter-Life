@@ -17,7 +17,18 @@
    [작업]   notes · src · ver
    클래스는 능력치와 맞지 않을 수 있고, 게임 중 클래스북으로 바뀔 수 있다.
 
+   ════ 스킬 분류 (2026-10-24 사용자 결정) — 세 축 ════
+     소속 scope : class 클래스 전용 · common 공용 · unique 고유(성좌) · monster 몬스터
+     종류 kind  : 액티브(쓰는 것) · 패시브(늘 켜진 것)
+     효과 영역 domains [skillDomains] : 이 스킬이 어디서 효과를 내는지 (하나 이상). 영역마다 엔진이 읽는 칸이 정해져 있다 (아래 skillDomains)
+   클래스 분류: 계열 cat(classCats 6) × 역할 role(roles 7). rarity 1~5 는 분류가 아니라 속성 (각성 확률 · 이름 분위기)
+   이름 분위기 (2026-10-24): 희귀도로 섞는다 — 1~2 시스템 게임풍(탱커 · 아처 · [액티브] 실드 배시) · 3~4 한자 · 무협(검귀 · 일섬(一閃)) · 5 · 고유 웹소설 칭호([검성의 계승자])
+
    ════ 스킬 형식 (skills) — 필수는 id · name · scope · kind ════
+   [영역별로 엔진이 실제로 읽는 칸]
+            전투 SD_COMBAT : 액티브 → move (combatMoves 기술 ID) · 패시브 → cstat {hp, atk, mag, def, res, spd(배율)} {acc, eva, crit(더하기)}
+            탐색 SD_EXPLORE: checks {ABL_ · STAT_: 보정} — 공략 중 위기 판정에 더한다
+            생활 SD_LIFE · 사회 SD_SOCIAL: checks {…} — 공략 밖 판정(사건 · 일상)에 더한다 · acts [actions] 쓰이는 행동
    [기본]   id 'SK_<배치><번호>' · name · alias · en · scope(class 클래스 전용 · common 공용 · unique 고유 · monster 몬스터) · kind(액티브 · 패시브)
             cat 공용 스킬 묶음(skillCats — 공용 스킬은 필수. 커마 공용 스킬 고르기 화면의 묶음 칩)
             cls 주인 클래스 · classes [classes 같이 쓰는 클래스] · grade 스킬 등급(글 또는 1~5) · rarity 1~5 · tier 1~5 · desc · lore · img · icon · fx 시각 효과 ID · sound
@@ -34,7 +45,14 @@
    [문장]   lines {use, hit, miss, crit, kill, fail, idle} — {u} 쓰는 사람 · {t} 대상 · {s} 스킬 이름
    [작업]   notes · src · ver
    ========================================================= */
-/* 공용 스킬 묶음 (2026-10-24). 커마 › 공용 스킬 화면의 묶음 칩 */
+/* 스킬 효과 영역 (2026-10-24). reads: 엔진이 읽는 칸 */
+def('skillDomains', [
+  {id:'SD_COMBAT',  name:'전투', reads:'move · cstat', desc:'게이트 전투에서 쓰는 기술 · 능력치 보정 (engine/combat.js)'},
+  {id:'SD_EXPLORE', name:'탐색', reads:'checks', desc:'공략 중 위기 · 함정 · 길 찾기 판정 보정'},
+  {id:'SD_LIFE',    name:'생활', reads:'checks · acts', desc:'공략 밖 일상 판정 · 일 · 훈련 · 회복'},
+  {id:'SD_SOCIAL',  name:'사회', reads:'checks · acts', desc:'사람 사이 판정 · 협상 · 관계'},
+]);
+/* 공용 스킬 묶음 (2026-10-24). 커마 › 공용 스킬 화면의 묶음 칩 (공용 스킬의 세부 분류) */
 def('skillCats', [
   {id:'SKC_SURVIVE', name:'생존'},
   {id:'SKC_COMBAT',  name:'전투 보조'},

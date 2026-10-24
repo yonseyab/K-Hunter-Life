@@ -56,7 +56,9 @@ const COMBAT = (() => {
   function fromLevel(o, opt = {}) { const t = typicalStats(o.level || 1), lv = o.rankLv ?? 20; return hunterUnit({ ...o, stats: t.stats, abl: t.abl, gearAtk: gearOfRank(lv), gearDef: gearOfRank(lv), skills: [] }, opt); }
   function hunterUnit(src, opt) {
     const d = derive(src), u = unit({ side: 'P', id: src.id, name: src.name, role: src.role, level: src.level, ...d });
-    u.moves = movesOf(src.role, src.skills); u.hp = Math.round(u.max * cl((opt.hpPct ?? 100) / 100, 0.01, 1)); u.mp = Math.round(u.mpMax * cl((opt.mpPct ?? 100) / 100, 0, 1));
+    u.moves = movesOf(src.role, src.skills);
+    /* 전투 패시브 (skills.cstat): 배율 칸은 곱하고 acc · eva · crit 는 더한다 */
+    (src.skills || []).forEach(([sid]) => { const c = DB.skills?.[sid]?.cstat; if (!c) return; for (const k in c) { if (['acc', 'eva', 'crit'].includes(k)) u[k] += c[k]; else if (k === 'hp') u.max = Math.round(u.max * c[k]); else if (u[k] != null) u[k] *= c[k]; } }); u.hp = Math.round(u.max * cl((opt.hpPct ?? 100) / 100, 0.01, 1)); u.mp = Math.round(u.mpMax * cl((opt.mpPct ?? 100) / 100, 0, 1));
     u.threatMul = src.role === 'ROLE_TANK' ? B().threat.tank : 1;
     return u;
   }

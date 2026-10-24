@@ -237,6 +237,7 @@ const DB_UI = (() => {
       name: { n: '이름', v: k => k.name },
       scope: { n: '범위', v: k => k.scope === 'class' ? '클래스 전용' : '공용', g: 1 },
       kind: { n: '종류', v: k => k.kind || '', g: 1 },
+      domain: { n: '효과 영역', v: k => (k.domains || []).map(d => nm('skillDomains', d)), g: 1, o: ord('skillDomains') },
       cls: { n: '클래스', v: k => nm('classes', k.cls), g: 1 },
       ccat: { n: '계열', v: k => k.cls ? nm('classCats', DB.classes[k.cls]?.cat) : '', g: 1, o: O.classCats },
       cat: { n: '묶음 (공용)', v: k => nm('skillCats', k.cat), g: 1, o: O.skillCats },
@@ -246,11 +247,14 @@ const DB_UI = (() => {
       tags: { n: '쓰임', v: k => k.tags || [], g: 1 },
       cost: { n: '비용', v: k => k.cost ? [k.cost.mp ? '마력 ' + k.cost.mp : '', k.cost.stamina ? '체력 ' + k.cost.stamina : ''].filter(Boolean).join(' ') : '', s: k => (k.cost?.mp || 0) + (k.cost?.stamina || 0) },
     },
-    cols: ['name', 'scope', 'kind', 'cls', 'cat', 'grade', 'cost'], sort: ['scope', 1], group: 'scope',
+    cols: ['name', 'scope', 'kind', 'domain', 'cls', 'cat'], sort: ['scope', 1], group: 'scope',
     detail(k) {
       const use = k.lines?.use || [], owners = vals('classes').filter(x => (x.pool || []).includes(k.id) || (x.passive || []).includes(k.id) || (x.learn || []).some(l => l.skill === k.id));
       const old = [['대상', TGT[k.target] || ''], ['위력', k.power ? '×' + k.power : ''], ['비용', k.cost ? JSON.stringify(k.cost) : ''], ['속성', esc(elName(k.el))], ['상태 이상', (k.se || []).map(s => `${esc(seName(s.se))} ${Math.round(s.chance * 100)}%`).join(' · ')]].filter(r => r[1]);
       return head(k.name, k.id, `<span class="chip">${esc(k.kind || '')}</span>`) + `<p class="dbx-sum">${k.scope === 'class' ? '클래스 전용' : '공용'} ${esc(k.kind || '')} 스킬. ${esc(k.desc || '')}</p>`
+        + kv([['효과 영역', (k.domains || []).map(d => esc(nm('skillDomains', d))).join(' · ') || '<span class="dim">정해지지 않음</span>']])
+        + (k.cstat ? sec('전투 패시브', `<div>${Object.entries(k.cstat).map(([a, v]) => ['acc', 'eva', 'crit'].includes(a) ? `${({ acc: '명중', eva: '회피', crit: '치명' })[a]} ${v > 0 ? '+' : ''}${v}` : `${({ hp: '체력', atk: '공격', mag: '마공', def: '방어', res: '저항', spd: '공격 간격' })[a] || a} ×${v}`).join(' · ')}</div>`) : '')
+        + (k.checks ? sec('판정 보정', `<div>${Object.entries(k.checks).map(([a, v]) => `${esc(attrName(a))} ${v > 0 ? '+' : ''}${v}`).join(' · ')} <span class="dim">(${(k.domains || []).includes('SD_EXPLORE') ? '공략 중' : '공략 밖'})</span></div>`) : '')
         + sec('전투에서', k.move ? `<ul class="dbx-ul"><li>${esc(COMBAT.describeMove(k.move))}</li></ul><div class="dbx-note">스킬 레벨 1당 위력 · 치유 +5%.</div>` : '<div class="dim">전투 효과 없음 — 아직 전투 기술(move)이 붙어 있지 않다.</div>')
         + kv([['클래스', k.cls && DB.classes[k.cls] ? go('classes', k.cls, DB.classes[k.cls].name) : ''], ['묶음', esc(nm('skillCats', k.cat))]])
         + sec('가진 클래스', chips(owners.map(x => go('classes', x.id, x.name)))) + sec('알려진 보유자', chips(holders(h => (h.skills || []).some(([s]) => s === k.id))))

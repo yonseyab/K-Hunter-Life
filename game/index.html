@@ -1735,6 +1735,8 @@ function checkMods(attr,gate){const E=DB.balance.BAL_EFFECT,h=G.player,c=G.cond,
   if(c.stress>=E.stressHigh)out.push(['스트레스',E.stressPen]);if(c.energy<E.energyLow)out.push(['기력 부족',E.energyPen]);
   const inj=(G.injuries||[]).filter(j=>j.sev>=2).length;if(inj)out.push(['부상',Math.max(E.injuryPenMax,inj*E.injuryPen)]);
   out.push(...GEAR.checkParts(attr));
+  /* 스킬 판정 보정 (skills.checks): 공략 중이면 탐색 영역, 밖이면 생활 · 사회 영역 */
+  (h.skills||[]).forEach(([sid])=>{const k=DB.skills[sid],v=k?.checks?.[attr];if(!v)return;const d=k.domains||[];if(gate?d.includes('SD_EXPLORE'):(d.includes('SD_LIFE')||d.includes('SD_SOCIAL')))out.push([k.name,v])});
   if(gate){const m=gateMod(gate);if(m)out.push(['등급 차',m])}
   return {sum:out.reduce((a,x)=>a+x[1],0),parts:out}}
 const modTxt=m=>m.parts.map(([n,v])=>` ${v>0?'+':''}${v}(${n})`).join('');
