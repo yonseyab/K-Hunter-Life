@@ -23,11 +23,9 @@ const day0=await p.evaluate(()=>G.day);
 await p.selectOption('#contRel','mentor');await p.click('[data-kcont="new"]');
 ok(await p.evaluate(()=>UI.mode==='create'&&!!UI.continueFrom),'커마로 넘어감');
 await p.evaluate(()=>{const cc=UI.cc;autoAll(cc);cc.step=CC_STEPS.length-1;render()});
-ok(await p.locator('[data-karadd]').count()===1,'커마 확인 단계에 기록관 넣기');
-await p.selectOption('#arWhen','rookie');await p.selectOption('#arRel','rival');await p.click('[data-karadd]');
 await p.evaluate(()=>{gameFromCreation(UI.cc);UI.cc=null;enterGame()});
 const cont=await p.evaluate(d0=>({same:G.day===d0,legacy:(G.legacyOf||[]).length,rel:G.relations.map(r=>r.rel),arch:Object.keys(G.genHunters).filter(k=>k.startsWith('HN_A')).length,lnpc:Object.keys(G.genHunters).filter(k=>k.startsWith('HN_L')).length,story:G.story.some(x=>/같은 세계/.test(x.s))}),day0);
-ok(cont.same&&cont.legacy>=1&&cont.rel.includes('REL_MENTOR')&&cont.rel.includes('REL_RIVAL')&&cont.arch===1&&cont.lnpc>=1&&cont.story,'같은 세계 이어 가기 '+JSON.stringify(cont));
+ok(cont.same&&cont.legacy>=1&&cont.rel.includes('REL_MENTOR')&&cont.lnpc>=1&&cont.story,'같은 세계 이어 가기 '+JSON.stringify(cont));
 /* 고비 · 나이 · 노화 사망 */
 const age=await p.evaluate(()=>{G.player.age=103;G.player.birth='1923-01-01';DB.balance.BAL_AGE.maxAge=103;LIFE.daily();return {dead:G.dead?.cause}});
 ok(/노환|병/.test(age.dead||''),'노화로 생을 마침 '+JSON.stringify(age));

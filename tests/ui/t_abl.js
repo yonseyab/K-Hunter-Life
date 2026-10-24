@@ -24,9 +24,9 @@ console.log('over:',await p.locator('#abtot').innerText());
 await p.screenshot({path:''+OUT+'/s_ab2.png'});
 // auto all and confirm
 await p.click('[data-ccauto="all"]');await p.click('[data-ccstep="7"]');await p.waitForTimeout(100);
-console.log('start enabled',await p.locator('[data-ccstart]').isEnabled());
+console.log('start enabled',await p.locator('[data-ccstartask]').isEnabled());
 await p.screenshot({path:''+OUT+'/s_ab3.png',fullPage:false});
-await p.click('[data-ccstart]');await p.waitForTimeout(200);
+await p.click('[data-ccstartask]');await p.click('[data-ccstart]');await p.waitForTimeout(200);
 await p.click('[data-go="profile"]').catch(()=>p.evaluate(()=>{UI.screen='profile';UI.profileId=G.player.id;render()}));
 await p.evaluate(()=>{UI.screen='profile';UI.profileId=G.player.id;UI.profTab='개요';render()});await p.waitForTimeout(100);
 await p.screenshot({path:''+OUT+'/s_ab4.png'});

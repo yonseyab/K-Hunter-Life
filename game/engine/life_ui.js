@@ -326,16 +326,7 @@ const LIFEUI = (() => {
     if (UI.panel === 'archive') h = h.replace('<div class="t-right"></div>', `<div class="t-right"><div class="t-panel"><div class="ph">기록관 <span class="row" style="gap:6px"><label class="btn sm">파일 가져오기<input type="file" accept=".json,application/json" data-karimp="1" hidden></label><button class="more" data-tpanel="">닫기</button></span></div>${archiveListHTML(false)}</div></div>`);
     return h;
   };
-  const _cc = ccHTML;
-  ccHTML = function () {
-    let h = _cc(); const cc = UI.cc; if (!cc || cc.step !== CC_STEPS.length - 1) return h;
-    const A = LEGACY.list(), adds = cc.archiveAdds || [];
-    const box = `<div class="panel" style="margin-top:14px"><div class="ph">기록관에서 인물 넣기 <span class="dim" style="font-weight:400">끝난 헌터를 이 세계의 인물로 — 어느 시점의 모습인지와 새 캐릭터와의 관계</span></div><div class="pb">
-      ${UI.continueFrom ? `<div class="srow"><span>같은 세계에서 이어 가기 — 전 주인공 <b>${esc(UI.continueFrom.player.name)}</b></span><span>${esc(LEGACY.REL_NAME[UI.continueRel] || '')}</span></div>` : ''}
-      ${A.length ? `<div class="row" style="gap:6px;flex-wrap:wrap"><select id="arPick">${A.map(e => `<option value="${esc(e.aid)}">${esc(e.name)} (${DB.ranks[e.rank]?.name || '?'}급)</option>`).join('')}</select><select id="arWhen"><option value="rookie">신입</option><option value="prime">전성기</option><option value="last" selected>마지막 (은퇴 후)</option></select><select id="arRel">${Object.entries(LEGACY.REL_NAME).map(([k, n]) => `<option value="${k}">${n}</option>`).join('')}</select><button class="btn" data-karadd="1">넣기</button></div>` : '<div class="muted">보관한 헌터가 없습니다.</div>'}
-      ${adds.map((x, i) => { const e = A.find(a => a.aid === x.aid); return `<div class="srow"><span>${esc(e?.name || '?')} · ${({ rookie: '신입', prime: '전성기', last: '마지막' })[x.when]} · ${esc(LEGACY.REL_NAME[x.rel])}</span><button class="btn sm" data-karrm="${i}">빼기</button></div>`; }).join('')}</div></div>`;
-    return h.replace('<div class="cc-foot">', box + '<div class="cc-foot">');
-  };
+  /* 시작 전 확인의 '기록관에서 인물 넣기'는 2026-10-24 사용자 요청으로 뺐다 (LEGACY 기능은 남김) */
   const _gfc = gameFromCreation;
   gameFromCreation = function (cc) {
     _gfc(cc);
