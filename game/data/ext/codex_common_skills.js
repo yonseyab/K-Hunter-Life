@@ -1,4 +1,4 @@
-/* Codex 01 · 공용 스킬 160개. 동의와 도구 및 환경의 제약을 생략하지 않는다. */
+/* Codex 01 · 공용 스킬 240개. 동의와 도구 및 환경의 제약을 생략하지 않는다. */
 
 def('skills', [
   {
@@ -1396,5 +1396,692 @@ def('skills', [
     crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생활·기술', '출근전확인'],
     risk:1, src:'codex', cost:{stamina:8, cd:3}, se:[{se:'SE_C017', chance:1, turns:2}], daily:true,
     lines:{use:['{u}은(는) {s}의 조건을 확인한다.', '{u}은(는) 열쇠와 등록증 및 작업 장비를 나가기 전에 확인한다.'], hit:['{u}의 출근전확인이 확인한 범위 안에서 작용한다.', '{u}은(는) 출근전확인의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 출근전확인이 필요한 지점을 놓친다.', '{u}은(는) 출근전확인의 위치를 다시 잡는다.'], crit:['{u}은(는) 출근전확인의 순서와 힘을 정확히 맞춘다.', '{u}의 출근전확인이 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 출근전확인을 중단한다.', '{u}은(는) 출근전확인을 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5155']
+  },
+  // 2026-10-24 추가분: 기존 ID와 행을 보존한다.
+  {
+    id:'SK_C5161', name:'젖은장갑교대', en:'Wet Glove Rotation', scope:'common', kind:'액티브',
+    cat:'SKC_SURVIVE', grade:1, rarity:2, tier:1, desc:'젖은 장갑을 벗고 마른 장갑으로 바꿀 순서를 고른다. 마른 장갑과 쉴 자리가 필요하다.',
+    lore:'젖은 장갑을 벗고 마른 장갑으로 바꿀 순서를 고른다. 마른 장갑과 쉴 자리가 필요하다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_B35', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생존', '젖은장갑교대'],
+    risk:1, src:'codex', cost:{mp:5, cd:2}, se:[{se:'SE_C017', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 젖은 장갑을 벗고 마른 장갑으로 바꿀 순서를 고른다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5168']
+  },
+  {
+    id:'SK_C5162', name:'차가운벽분리', en:'Cold Wall Gap', scope:'common', kind:'액티브',
+    cat:'SKC_SURVIVE', grade:1, rarity:1, tier:1, desc:'몸과 찬 벽 사이에 가방이나 천을 놓아 열 손실을 줄인다. 보온 재료가 없으면 효과가 작다.',
+    lore:'몸과 찬 벽 사이에 가방이나 천을 놓아 열 손실을 줄인다. 보온 재료가 없으면 효과가 작다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_B35', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생존', '차가운벽분리'],
+    risk:1, src:'codex', cost:{mp:6, cd:3}, se:[{se:'SE_C021', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 몸과 찬 벽 사이에 가방이나 천을 놓아 열 손실을 줄인다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5163', name:'식량봉투점검', en:'Ration Seal Check', scope:'common', kind:'패시브',
+    cat:'SKC_SURVIVE', grade:1, rarity:1, tier:1, desc:'식량 봉투의 팽창과 밀봉 손상을 살핀다. 외관만으로 식품 안전을 확정하지 못한다.',
+    lore:'식량 봉투의 팽창과 밀봉 손상을 살핀다. 외관만으로 식품 안전을 확정하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_B35', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생존', '식량봉투점검'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 식량 봉투의 팽창과 밀봉 손상을 살핀다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5164', name:'우천고정끈', en:'Rain Strap Set', scope:'common', kind:'액티브',
+    cat:'SKC_SURVIVE', grade:1, rarity:1, tier:1, desc:'빗물에 미끄러지는 장비끈을 다시 고정한다. 손상된 끈은 교체해야 한다.',
+    lore:'빗물에 미끄러지는 장비끈을 다시 고정한다. 손상된 끈은 교체해야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_B35', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생존', '우천고정끈'],
+    risk:1, src:'codex', cost:{mp:8, cd:3}, se:[{se:'SE_C028', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 빗물에 미끄러지는 장비끈을 다시 고정한다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5165', name:'쉼터배수눈', en:'Shelter Drain Watch', scope:'common', kind:'패시브',
+    cat:'SKC_SURVIVE', grade:1, rarity:1, tier:1, desc:'쉬려는 곳으로 빗물이 모이는 방향을 읽는다. 급격한 범람을 모두 예측하지 못한다.',
+    lore:'쉬려는 곳으로 빗물이 모이는 방향을 읽는다. 급격한 범람을 모두 예측하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_B35', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생존', '쉼터배수눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 쉬려는 곳으로 빗물이 모이는 방향을 읽는다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5166', name:'야간표식띠', en:'Night Marker Strip', scope:'common', kind:'액티브',
+    cat:'SKC_SURVIVE', grade:1, rarity:2, tier:1, desc:'동료가 알아볼 표식띠를 몸 바깥에 단다. 표식은 적에게도 보인다.',
+    lore:'동료가 알아볼 표식띠를 몸 바깥에 단다. 표식은 적에게도 보인다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_B35', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생존', '야간표식띠'],
+    risk:1, src:'codex', cost:{mp:6, cd:3}, se:[{se:'SE_C024', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 동료가 알아볼 표식띠를 몸 바깥에 단다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5167', name:'오염봉투분리', en:'Contamination Bag Sort', scope:'common', kind:'액티브',
+    cat:'SKC_SURVIVE', grade:1, rarity:1, tier:1, desc:'오염된 물품을 청결 물품과 다른 봉투에 넣는다. 새 봉투와 표시할 도구가 필요하다.',
+    lore:'오염된 물품을 청결 물품과 다른 봉투에 넣는다. 새 봉투와 표시할 도구가 필요하다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_B35', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생존', '오염봉투분리'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, se:[{se:'SE_C026', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 오염된 물품을 청결 물품과 다른 봉투에 넣는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5168', name:'신발젖음눈', en:'Boot Moisture Check', scope:'common', kind:'패시브',
+    cat:'SKC_SURVIVE', grade:1, rarity:1, tier:1, desc:'신발 안의 젖음과 마찰 변화를 구별한다. 젖은 신발을 스스로 말리지는 못한다.',
+    lore:'신발 안의 젖음과 마찰 변화를 구별한다. 젖은 신발을 스스로 말리지는 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_B35', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생존', '신발젖음눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 신발 안의 젖음과 마찰 변화를 구별한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']},
+    combo:['SK_C5161']
+  },
+  {
+    id:'SK_C5169', name:'대피집결기억', en:'Assembly Recall', scope:'common', kind:'패시브',
+    cat:'SKC_SURVIVE', grade:1, rarity:1, tier:1, desc:'합의한 집결 장소와 확인 신호를 기억한다. 집결지가 실제로 안전한지는 다시 확인해야 한다.',
+    lore:'합의한 집결 장소와 확인 신호를 기억한다. 집결지가 실제로 안전한지는 다시 확인해야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_B35', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생존', '대피집결기억'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 합의한 집결 장소와 확인 신호를 기억한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']},
+    combo:['SK_C5188']
+  },
+  {
+    id:'SK_C5170', name:'귀가소모점검', en:'Return Fatigue Check', scope:'common', kind:'패시브',
+    cat:'SKC_SURVIVE', grade:1, rarity:1, tier:1, desc:'돌아갈 거리에 필요한 물과 기력을 함께 가늠한다. 돌발 우회로의 소모는 달라질 수 있다.',
+    lore:'돌아갈 거리에 필요한 물과 기력을 함께 가늠한다. 돌발 우회로의 소모는 달라질 수 있다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_B35', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생존', '귀가소모점검'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 돌아갈 거리에 필요한 물과 기력을 함께 가늠한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']},
+    combo:['SK_C5234']
+  },
+  {
+    id:'SK_C5171', name:'헛손당김', en:'Empty Hand Feint', scope:'common', kind:'액티브',
+    cat:'SKC_COMBAT', grade:1, rarity:2, tier:1, desc:'빈손을 짧게 내밀어 상대의 시선을 나눈다. 상대가 속아 줄 것이라고 보장하지 못한다.',
+    lore:'빈손을 짧게 내밀어 상대의 시선을 나눈다. 상대가 속아 줄 것이라고 보장하지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A06', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['전투 보조', '헛손당김'],
+    risk:2, src:'codex', cost:{stamina:7, cd:2}, se:[{se:'SE_C008', chance:0.5, turns:1}], ai:{enemies:1},
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 빈손을 짧게 내밀어 상대의 시선을 나눈다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5172', name:'방패손바꿈', en:'Shield Hand Switch', scope:'common', kind:'액티브',
+    cat:'SKC_COMBAT', grade:1, rarity:1, tier:1, desc:'방패를 받친 뒤 손잡이를 바꿔 쥔다. 바꾸는 동안 방호면이 좁아진다.',
+    lore:'방패를 받친 뒤 손잡이를 바꿔 쥔다. 바꾸는 동안 방호면이 좁아진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A06', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['전투 보조', '방패손바꿈'],
+    risk:1, src:'codex', cost:{stamina:8, cd:3}, se:[{se:'SE_C014', chance:1, turns:2}], lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 방패를 받친 뒤 손잡이를 바꿔 쥔다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5173', name:'발판한칸', en:'One Footing Check', scope:'common', kind:'액티브',
+    cat:'SKC_COMBAT', grade:1, rarity:1, tier:1, desc:'공격 전에 자기 발이 닿을 한 칸을 확인한다. 확인하는 동안 공격이 늦어진다.',
+    lore:'공격 전에 자기 발이 닿을 한 칸을 확인한다. 확인하는 동안 공격이 늦어진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A06', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['전투 보조', '발판한칸'],
+    risk:1, src:'codex', cost:{stamina:5, cd:2}, se:[{se:'SE_C016', chance:1, turns:2}], lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 공격 전에 자기 발이 닿을 한 칸을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']},
+    combo:['SK_C5175']
+  },
+  {
+    id:'SK_C5174', name:'끈걸림풀림', en:'Strap Snag Release', scope:'common', kind:'액티브',
+    cat:'SKC_COMBAT', grade:1, rarity:1, tier:1, desc:'장비끈이 팔에 걸린 지점을 손으로 푼다. 찢어진 끈은 수선해야 한다.',
+    lore:'장비끈이 팔에 걸린 지점을 손으로 푼다. 찢어진 끈은 수선해야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A06', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['전투 보조', '끈걸림풀림'],
+    risk:1, src:'codex', cost:{stamina:6, cd:3}, se:[{se:'SE_C017', chance:1, turns:2}], lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 장비끈이 팔에 걸린 지점을 손으로 푼다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5175', name:'반격여유눈', en:'Counter Window Read', scope:'common', kind:'패시브',
+    cat:'SKC_COMBAT', grade:1, rarity:1, tier:1, desc:'상대의 큰 동작 뒤 남는 빈 간격을 읽는다. 빈틈이 실제 안전을 보장하지는 않는다.',
+    lore:'상대의 큰 동작 뒤 남는 빈 간격을 읽는다. 빈틈이 실제 안전을 보장하지는 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A06', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['전투 보조', '반격여유눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 상대의 큰 동작 뒤 남는 빈 간격을 읽는다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5173']
+  },
+  {
+    id:'SK_C5176', name:'양옆사선눈', en:'Flank Lane Check', scope:'common', kind:'패시브',
+    cat:'SKC_COMBAT', grade:1, rarity:2, tier:1, desc:'자기 공격선 양옆의 동료 위치를 살핀다. 사각에서 들어오는 사람은 놓칠 수 있다.',
+    lore:'자기 공격선 양옆의 동료 위치를 살핀다. 사각에서 들어오는 사람은 놓칠 수 있다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A06', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['전투 보조', '양옆사선눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 자기 공격선 양옆의 동료 위치를 살핀다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5177', name:'장전손가림', en:'Reload Hand Cover', scope:'common', kind:'액티브',
+    cat:'SKC_COMBAT', grade:1, rarity:1, tier:1, desc:'재장전하는 손 앞에 얇은 파편막을 둔다. 재장전 자체를 빠르게 하지는 않는다.',
+    lore:'재장전하는 손 앞에 얇은 파편막을 둔다. 재장전 자체를 빠르게 하지는 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A06', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['전투 보조', '장전손가림'],
+    risk:1, src:'codex', cost:{stamina:5, cd:2}, se:[{se:'SE_C013', chance:1, turns:2}], shield:0.35,
+    ai:{hpBelow:0.7}, lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 재장전하는 손 앞에 얇은 파편막을 둔다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5180']
+  },
+  {
+    id:'SK_C5178', name:'접근각나눔', en:'Approach Angle Split', scope:'common', kind:'액티브',
+    cat:'SKC_COMBAT', grade:1, rarity:1, tier:1, desc:'동료와 접근 방향이 겹치지 않도록 신호를 맞춘다. 상대의 동의와 응답이 필요하다.',
+    lore:'동료와 접근 방향이 겹치지 않도록 신호를 맞춘다. 상대의 동의와 응답이 필요하다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A06', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['전투 보조', '접근각나눔'],
+    risk:1, src:'codex', cost:{stamina:6, cd:3}, se:[{se:'SE_C024', chance:1, turns:2}], lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 동료와 접근 방향이 겹치지 않도록 신호를 맞춘다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5179', name:'휘두름끝눈', en:'Swing End Watch', scope:'common', kind:'패시브',
+    cat:'SKC_COMBAT', grade:1, rarity:1, tier:1, desc:'무기의 회수 끝이 향하는 위치를 읽는다. 무기의 반동을 없애지는 못한다.',
+    lore:'무기의 회수 끝이 향하는 위치를 읽는다. 무기의 반동을 없애지는 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A06', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['전투 보조', '휘두름끝눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 무기의 회수 끝이 향하는 위치를 읽는다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5180', name:'빈탄소리구별', en:'Empty Shot Sound', scope:'common', kind:'패시브',
+    cat:'SKC_COMBAT', grade:1, rarity:1, tier:1, desc:'장비가 빈 상태에서 내는 익숙한 소리를 구별한다. 새 장비에서는 먼저 소리를 익혀야 한다.',
+    lore:'장비가 빈 상태에서 내는 익숙한 소리를 구별한다. 새 장비에서는 먼저 소리를 익혀야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A06', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['전투 보조', '빈탄소리구별'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 장비가 빈 상태에서 내는 익숙한 소리를 구별한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5177']
+  },
+  {
+    id:'SK_C5181', name:'표면습기촉', en:'Surface Moisture Touch', scope:'common', kind:'패시브',
+    cat:'SKC_SENSE', grade:1, rarity:2, tier:1, desc:'안전하게 닿을 수 있는 면의 습기 차이를 읽는다. 전기나 오염 위험이 있는 면은 만지지 않는다.',
+    lore:'안전하게 닿을 수 있는 면의 습기 차이를 읽는다. 전기나 오염 위험이 있는 면은 만지지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '표면습기촉'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 안전하게 닿을 수 있는 면의 습기 차이를 읽는다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5190']
+  },
+  {
+    id:'SK_C5182', name:'문경첩소리', en:'Hinge Sound Read', scope:'common', kind:'패시브',
+    cat:'SKC_SENSE', grade:1, rarity:1, tier:1, desc:'문 경첩의 마찰음에서 움직임의 변화를 읽는다. 소리 없는 장치는 놓칠 수 있다.',
+    lore:'문 경첩의 마찰음에서 움직임의 변화를 읽는다. 소리 없는 장치는 놓칠 수 있다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '문경첩소리'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 문 경첩의 마찰음에서 움직임의 변화를 읽는다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5183', name:'얕은기울기눈', en:'Shallow Tilt Read', scope:'common', kind:'패시브',
+    cat:'SKC_SENSE', grade:1, rarity:1, tier:1, desc:'가까운 물체의 기울기를 기준선과 대조한다. 정밀 수평계를 대신하지 못한다.',
+    lore:'가까운 물체의 기울기를 기준선과 대조한다. 정밀 수평계를 대신하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '얕은기울기눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 가까운 물체의 기울기를 기준선과 대조한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5184', name:'남은빛흔들림', en:'Lamp Flicker Watch', scope:'common', kind:'패시브',
+    cat:'SKC_SENSE', grade:1, rarity:1, tier:1, desc:'휴대등의 밝기가 불규칙하게 변하는 것을 알아챈다. 빛의 변화만으로 고장 원인을 확정하지 못한다.',
+    lore:'휴대등의 밝기가 불규칙하게 변하는 것을 알아챈다. 빛의 변화만으로 고장 원인을 확정하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '남은빛흔들림'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 휴대등의 밝기가 불규칙하게 변하는 것을 알아챈다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5185', name:'가까운열기확인', en:'Near Heat Check', scope:'common', kind:'액티브',
+    cat:'SKC_SENSE', grade:1, rarity:1, tier:1, desc:'손을 대기 전에 가까운 표면의 열기를 확인한다. 내부 온도 전체를 알 수는 없다.',
+    lore:'손을 대기 전에 가까운 표면의 열기를 확인한다. 내부 온도 전체를 알 수는 없다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '가까운열기확인'],
+    risk:1, src:'codex', cost:{mp:5, cd:2}, se:[{se:'SE_C016', chance:1, turns:2}], lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 손을 대기 전에 가까운 표면의 열기를 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5186', name:'끈마찰청취', en:'Cord Friction Listen', scope:'common', kind:'패시브',
+    cat:'SKC_SENSE', grade:1, rarity:2, tier:1, desc:'당겨지는 끈이 모서리에 닿는 소리를 구별한다. 현장 소음이 크면 들리지 않을 수 있다.',
+    lore:'당겨지는 끈이 모서리에 닿는 소리를 구별한다. 현장 소음이 크면 들리지 않을 수 있다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '끈마찰청취'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 당겨지는 끈이 모서리에 닿는 소리를 구별한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5187', name:'상자속빈틈', en:'Box Gap Estimate', scope:'common', kind:'액티브',
+    cat:'SKC_SENSE', grade:1, rarity:1, tier:1, desc:'안전하게 흔든 상자의 울림으로 큰 빈틈을 짐작한다. 위험물이나 파손 우려가 있으면 흔들지 않는다.',
+    lore:'안전하게 흔든 상자의 울림으로 큰 빈틈을 짐작한다. 위험물이나 파손 우려가 있으면 흔들지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '상자속빈틈'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, se:[{se:'SE_C016', chance:1, turns:2}], lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 안전하게 흔든 상자의 울림으로 큰 빈틈을 짐작한다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5188', name:'먼표식대조', en:'Distant Marker Compare', scope:'common', kind:'액티브',
+    cat:'SKC_SENSE', grade:1, rarity:1, tier:1, desc:'이미 아는 먼 표식과 현재 보이는 방향을 대조한다. 가려진 표식을 새로 볼 수는 없다.',
+    lore:'이미 아는 먼 표식과 현재 보이는 방향을 대조한다. 가려진 표식을 새로 볼 수는 없다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '먼표식대조'],
+    risk:1, src:'codex', cost:{mp:8, cd:3}, se:[{se:'SE_C016', chance:1, turns:2}], lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 이미 아는 먼 표식과 현재 보이는 방향을 대조한다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']},
+    combo:['SK_C5169']
+  },
+  {
+    id:'SK_C5189', name:'이중그림자눈', en:'Double Shadow Read', scope:'common', kind:'패시브',
+    cat:'SKC_SENSE', grade:1, rarity:1, tier:1, desc:'그림자 둘의 방향 차이로 조명 위치를 가늠한다. 반사광이 복잡하면 오차가 커진다.',
+    lore:'그림자 둘의 방향 차이로 조명 위치를 가늠한다. 반사광이 복잡하면 오차가 커진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '이중그림자눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 그림자 둘의 방향 차이로 조명 위치를 가늠한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5190', name:'접점변색눈', en:'Contact Discoloration', scope:'common', kind:'패시브',
+    cat:'SKC_SENSE', grade:1, rarity:1, tier:1, desc:'전원을 끈 장비 접점의 변색을 살핀다. 변색이 없다고 안전한 것은 아니다.',
+    lore:'전원을 끈 장비 접점의 변색을 살핀다. 변색이 없다고 안전한 것은 아니다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '접점변색눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 전원을 끈 장비 접점의 변색을 살핀다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5181']
+  },
+  {
+    id:'SK_C5191', name:'처치손씻김', en:'Care Hand Rinse', scope:'common', kind:'액티브',
+    cat:'SKC_HEAL', grade:1, rarity:2, tier:1, desc:'준비한 깨끗한 물로 처치 전 손을 씻는 순서를 돕는다. 손씻기만으로 모든 오염을 없애지는 못한다.',
+    lore:'준비한 깨끗한 물로 처치 전 손을 씻는 순서를 돕는다. 손씻기만으로 모든 오염을 없애지는 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B37', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['회복·응급', '처치손씻김'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, se:[{se:'SE_C025', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 준비한 깨끗한 물로 처치 전 손을 씻는 순서를 돕는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5192', name:'장갑벗는순서', en:'Glove Removal Order', scope:'common', kind:'액티브',
+    cat:'SKC_HEAL', grade:1, rarity:1, tier:1, desc:'오염된 장갑의 바깥면이 피부에 닿지 않게 벗는다. 장갑이 찢어졌다면 별도 확인이 필요하다.',
+    lore:'오염된 장갑의 바깥면이 피부에 닿지 않게 벗는다. 장갑이 찢어졌다면 별도 확인이 필요하다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B37', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['회복·응급', '장갑벗는순서'],
+    risk:1, src:'codex', cost:{mp:8, cd:3}, se:[{se:'SE_C025', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 오염된 장갑의 바깥면이 피부에 닿지 않게 벗는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5193', name:'붕대젖음관찰', en:'Dressing Wetness Watch', scope:'common', kind:'패시브',
+    cat:'SKC_HEAL', grade:1, rarity:1, tier:1, desc:'붕대가 새로 젖는 위치와 속도를 살핀다. 관찰만으로 출혈을 멈추지는 못한다.',
+    lore:'붕대가 새로 젖는 위치와 속도를 살핀다. 관찰만으로 출혈을 멈추지는 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B37', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['회복·응급', '붕대젖음관찰'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 붕대가 새로 젖는 위치와 속도를 살핀다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']},
+    combo:['SK_C5195']
+  },
+  {
+    id:'SK_C5194', name:'부목끝완충', en:'Splint Edge Padding', scope:'common', kind:'액티브',
+    cat:'SKC_HEAL', grade:1, rarity:1, tier:1, desc:'준비한 천으로 부목 끝과 피부 사이를 받친다. 골절을 맞추거나 움직임을 허용하는 기술은 아니다.',
+    lore:'준비한 천으로 부목 끝과 피부 사이를 받친다. 골절을 맞추거나 움직임을 허용하는 기술은 아니다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B37', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['회복·응급', '부목끝완충'],
+    risk:1, src:'codex', cost:{mp:6, cd:3}, se:[{se:'SE_C018', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 준비한 천으로 부목 끝과 피부 사이를 받친다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5200']
+  },
+  {
+    id:'SK_C5195', name:'후송기록전달', en:'Evacuation Handover', scope:'common', kind:'액티브',
+    cat:'SKC_HEAL', grade:1, rarity:1, tier:1, desc:'관찰한 변화와 처치 시각을 후송 담당에게 전달한다. 진단을 확정하거나 의료진을 대신하지 못한다.',
+    lore:'관찰한 변화와 처치 시각을 후송 담당에게 전달한다. 진단을 확정하거나 의료진을 대신하지 못한다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B37', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['회복·응급', '후송기록전달'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, se:[{se:'SE_C024', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 관찰한 변화와 처치 시각을 후송 담당에게 전달한다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5193']
+  },
+  {
+    id:'SK_C5196', name:'처치수량눈', en:'Care Stock Watch', scope:'common', kind:'패시브',
+    cat:'SKC_HEAL', grade:1, rarity:2, tier:1, desc:'사용한 처치 물품과 남은 수량을 연결해 기억한다. 없는 물품을 보충하지 못한다.',
+    lore:'사용한 처치 물품과 남은 수량을 연결해 기억한다. 없는 물품을 보충하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B37', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['회복·응급', '처치수량눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 사용한 처치 물품과 남은 수량을 연결해 기억한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5197', name:'가벼운쓸림보조', en:'Abrasion Support', scope:'common', kind:'액티브',
+    cat:'SKC_HEAL', grade:1, rarity:1, tier:1, desc:'깨끗이 확인한 얕은 쓸림 부위의 회복을 조금 돕는다. 깊거나 오염된 상처에는 적용하지 않는다.',
+    lore:'깨끗이 확인한 얕은 쓸림 부위의 회복을 조금 돕는다. 깊거나 오염된 상처에는 적용하지 않는다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B37', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['회복·응급', '가벼운쓸림보조'],
+    risk:1, src:'codex', cost:{mp:10, cd:4}, se:[{se:'SE_C019', chance:1, turns:2}], heal:0.2,
+    ai:{allyHurt:true}, daily:true, lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 깨끗이 확인한 얕은 쓸림 부위의 회복을 조금 돕는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5198', name:'휴식중통증눈', en:'Rest Pain Watch', scope:'common', kind:'패시브',
+    cat:'SKC_HEAL', grade:1, rarity:1, tier:1, desc:'쉬는 동안 달라지는 통증 표현과 자세를 살핀다. 원인 질환이나 손상을 확정하지 못한다.',
+    lore:'쉬는 동안 달라지는 통증 표현과 자세를 살핀다. 원인 질환이나 손상을 확정하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B37', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['회복·응급', '휴식중통증눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 쉬는 동안 달라지는 통증 표현과 자세를 살핀다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5199', name:'처치포장점검', en:'Care Package Check', scope:'common', kind:'패시브',
+    cat:'SKC_HEAL', grade:1, rarity:1, tier:1, desc:'처치 도구 포장의 손상과 개봉 표시를 읽는다. 포장이 멀쩡해도 사용 기한을 따로 봐야 한다.',
+    lore:'처치 도구 포장의 손상과 개봉 표시를 읽는다. 포장이 멀쩡해도 사용 기한을 따로 봐야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B37', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['회복·응급', '처치포장점검'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 처치 도구 포장의 손상과 개봉 표시를 읽는다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5200', name:'부축전확인', en:'Pre Assist Check', scope:'common', kind:'액티브',
+    cat:'SKC_HEAL', grade:1, rarity:1, tier:1, desc:'부축하기 전에 동료에게 아픈 부위와 움직일 수 있는 범위를 묻는다. 목이나 척추 손상이 의심되면 함부로 옮기지 않는다.',
+    lore:'부축하기 전에 동료에게 아픈 부위와 움직일 수 있는 범위를 묻는다. 목이나 척추 손상이 의심되면 함부로 옮기지 않는다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B37', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['회복·응급', '부축전확인'],
+    risk:1, src:'codex', cost:{mp:8, cd:3}, se:[{se:'SE_C017', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 부축하기 전에 동료에게 아픈 부위와 움직일 수 있는 범위를 묻는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5194']
+  },
+  {
+    id:'SK_C5201', name:'가로끈넘기', en:'Cross Cord Step', scope:'common', kind:'액티브',
+    cat:'SKC_MOVE', grade:1, rarity:2, tier:1, desc:'확인한 낮은 끈을 장비에 걸리지 않게 넘어간다. 폭발물이나 함정 의심선에는 접근하지 않는다.',
+    lore:'확인한 낮은 끈을 장비에 걸리지 않게 넘어간다. 폭발물이나 함정 의심선에는 접근하지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A05', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['이동', '가로끈넘기'],
+    risk:1, src:'codex', cost:{stamina:5, cd:2}, se:[{se:'SE_C015', chance:1, turns:2}], move:'retreat',
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 확인한 낮은 끈을 장비에 걸리지 않게 넘어간다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5204']
+  },
+  {
+    id:'SK_C5202', name:'문옆멈춤', en:'Door Side Stop', scope:'common', kind:'액티브',
+    cat:'SKC_MOVE', grade:1, rarity:1, tier:1, desc:'문이 열리는 방향 옆에서 속도를 줄여 선다. 문 반대편 위험을 알 수는 없다.',
+    lore:'문이 열리는 방향 옆에서 속도를 줄여 선다. 문 반대편 위험을 알 수는 없다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A05', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['이동', '문옆멈춤'],
+    risk:1, src:'codex', cost:{stamina:6, cd:3}, se:[{se:'SE_C014', chance:1, turns:2}], move:'retreat',
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 문이 열리는 방향 옆에서 속도를 줄여 선다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5203', name:'발목각유지', en:'Ankle Angle Control', scope:'common', kind:'패시브',
+    cat:'SKC_MOVE', grade:1, rarity:1, tier:1, desc:'울퉁불퉁한 바닥에서 발목이 꺾이는 각도를 줄인다. 이미 생긴 부상을 보완하지 못한다.',
+    lore:'울퉁불퉁한 바닥에서 발목이 꺾이는 각도를 줄인다. 이미 생긴 부상을 보완하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A05', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['이동', '발목각유지'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 울퉁불퉁한 바닥에서 발목이 꺾이는 각도를 줄인다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5204', name:'등짐회전폭', en:'Pack Turn Width', scope:'common', kind:'패시브',
+    cat:'SKC_MOVE', grade:1, rarity:1, tier:1, desc:'등짐이 벽에 닿지 않을 회전 폭을 가늠한다. 통로가 너무 좁으면 짐을 내려야 한다.',
+    lore:'등짐이 벽에 닿지 않을 회전 폭을 가늠한다. 통로가 너무 좁으면 짐을 내려야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A05', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['이동', '등짐회전폭'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 등짐이 벽에 닿지 않을 회전 폭을 가늠한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5201']
+  },
+  {
+    id:'SK_C5205', name:'얕은물보폭', en:'Shallow Water Stride', scope:'common', kind:'액티브',
+    cat:'SKC_MOVE', grade:1, rarity:1, tier:1, desc:'바닥을 확인하며 얕은 물에서 짧게 걷는다. 깊은 곳과 급류는 건너지 않는다.',
+    lore:'바닥을 확인하며 얕은 물에서 짧게 걷는다. 깊은 곳과 급류는 건너지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A05', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['이동', '얕은물보폭'],
+    risk:1, src:'codex', cost:{stamina:5, cd:2}, se:[{se:'SE_C017', chance:1, turns:2}], move:'retreat',
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 바닥을 확인하며 얕은 물에서 짧게 걷는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5206', name:'발끝이물눈', en:'Toe Debris Check', scope:'common', kind:'패시브',
+    cat:'SKC_MOVE', grade:1, rarity:2, tier:1, desc:'발끝에 닿는 작은 이물질의 저항을 읽는다. 날카로운 물체를 맨발로 확인하지 않는다.',
+    lore:'발끝에 닿는 작은 이물질의 저항을 읽는다. 날카로운 물체를 맨발로 확인하지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A05', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['이동', '발끝이물눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 발끝에 닿는 작은 이물질의 저항을 읽는다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5207', name:'사다리손교대', en:'Ladder Hand Change', scope:'common', kind:'액티브',
+    cat:'SKC_MOVE', grade:1, rarity:1, tier:1, desc:'고정한 사다리에서 손과 발의 교대 순서를 고른다. 약한 사다리의 강도를 높여 주지는 못한다.',
+    lore:'고정한 사다리에서 손과 발의 교대 순서를 고른다. 약한 사다리의 강도를 높여 주지는 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A05', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['이동', '사다리손교대'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, se:[{se:'SE_C028', chance:1, turns:2}], lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 고정한 사다리에서 손과 발의 교대 순서를 고른다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']},
+    combo:['SK_C5210']
+  },
+  {
+    id:'SK_C5208', name:'양손짐착지', en:'Two Hand Load Landing', scope:'common', kind:'액티브',
+    cat:'SKC_MOVE', grade:1, rarity:1, tier:1, desc:'두 손으로 든 짐을 낮은 받침에 내려놓으며 무릎을 굽힌다. 높은 곳에서 뛰어내리는 용도로 쓰지 않는다.',
+    lore:'두 손으로 든 짐을 낮은 받침에 내려놓으며 무릎을 굽힌다. 높은 곳에서 뛰어내리는 용도로 쓰지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A05', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['이동', '양손짐착지'],
+    risk:1, src:'codex', cost:{stamina:8, cd:3}, se:[{se:'SE_C018', chance:1, turns:2}], lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 두 손으로 든 짐을 낮은 받침에 내려놓으며 무릎을 굽힌다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5209', name:'뒤따름보폭', en:'Following Stride', scope:'common', kind:'패시브',
+    cat:'SKC_MOVE', grade:1, rarity:1, tier:1, desc:'앞사람과 간격을 두고 보폭을 맞춘다. 앞사람의 발판이 항상 안전한 것은 아니다.',
+    lore:'앞사람과 간격을 두고 보폭을 맞춘다. 앞사람의 발판이 항상 안전한 것은 아니다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A05', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['이동', '뒤따름보폭'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 앞사람과 간격을 두고 보폭을 맞춘다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5210', name:'멈춤거리눈', en:'Stopping Distance Read', scope:'common', kind:'패시브',
+    cat:'SKC_MOVE', grade:1, rarity:1, tier:1, desc:'바닥 상태에 따라 자기 제동 거리를 가늠한다. 예상보다 미끄러우면 멈추기 어렵다.',
+    lore:'바닥 상태에 따라 자기 제동 거리를 가늠한다. 예상보다 미끄러우면 멈추기 어렵다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A05', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['이동', '멈춤거리눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', lines:{use:['{u}은(는) 바닥 상태에 따라 자기 제동 거리를 가늠한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5207']
+  },
+  {
+    id:'SK_C5211', name:'확인한것나눔', en:'Known Fact Sorting', scope:'common', kind:'액티브',
+    cat:'SKC_MIND', grade:1, rarity:2, tier:1, desc:'확인한 사실과 아직 모르는 부분을 나눠 적는다. 기록한 사실도 잘못 관찰했을 수 있다.',
+    lore:'확인한 사실과 아직 모르는 부분을 나눠 적는다. 기록한 사실도 잘못 관찰했을 수 있다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B09', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['정신', '확인한것나눔'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, se:[{se:'SE_C016', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 확인한 사실과 아직 모르는 부분을 나눠 적는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5215']
+  },
+  {
+    id:'SK_C5212', name:'반응앞호흡', en:'Breath Before Reply', scope:'common', kind:'액티브',
+    cat:'SKC_MIND', grade:1, rarity:1, tier:1, desc:'대답하기 전에 짧게 숨을 고른다. 긴급한 상황에서는 행동을 늦출 수 있다.',
+    lore:'대답하기 전에 짧게 숨을 고른다. 긴급한 상황에서는 행동을 늦출 수 있다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B09', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['정신', '반응앞호흡'],
+    risk:1, src:'codex', cost:{mp:8, cd:3}, se:[{se:'SE_C017', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 대답하기 전에 짧게 숨을 고른다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5213']
+  },
+  {
+    id:'SK_C5213', name:'반복생각표시', en:'Recurring Thought Mark', scope:'common', kind:'패시브',
+    cat:'SKC_MIND', grade:1, rarity:1, tier:1, desc:'되풀이되는 생각을 알아채고 짧게 표시한다. 생각이 즉시 사라진다고 보장하지 못한다.',
+    lore:'되풀이되는 생각을 알아채고 짧게 표시한다. 생각이 즉시 사라진다고 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B09', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['정신', '반복생각표시'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 되풀이되는 생각을 알아채고 짧게 표시한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']},
+    combo:['SK_C5212']
+  },
+  {
+    id:'SK_C5214', name:'아직할일분리', en:'Pending Task Sort', scope:'common', kind:'액티브',
+    cat:'SKC_MIND', grade:1, rarity:1, tier:1, desc:'끝나지 않은 일과 지금 할 수 있는 일을 나눈다. 시간이나 자원이 새로 생기지는 않는다.',
+    lore:'끝나지 않은 일과 지금 할 수 있는 일을 나눈다. 시간이나 자원이 새로 생기지는 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B09', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['정신', '아직할일분리'],
+    risk:1, src:'codex', cost:{mp:6, cd:3}, se:[{se:'SE_C025', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 끝나지 않은 일과 지금 할 수 있는 일을 나눈다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5215', name:'과한확신눈', en:'Confidence Check', scope:'common', kind:'패시브',
+    cat:'SKC_MIND', grade:1, rarity:1, tier:1, desc:'근거보다 확신이 앞서는 순간을 돌아본다. 자기 편향을 전부 알아채지는 못한다.',
+    lore:'근거보다 확신이 앞서는 순간을 돌아본다. 자기 편향을 전부 알아채지는 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B09', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['정신', '과한확신눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 근거보다 확신이 앞서는 순간을 돌아본다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']},
+    combo:['SK_C5211']
+  },
+  {
+    id:'SK_C5216', name:'기다림끝정리', en:'End Of Wait Reset', scope:'common', kind:'액티브',
+    cat:'SKC_MIND', grade:1, rarity:2, tier:1, desc:'오래 기다린 뒤 첫 행동을 다시 짚는다. 놓친 정보를 저절로 알 수는 없다.',
+    lore:'오래 기다린 뒤 첫 행동을 다시 짚는다. 놓친 정보를 저절로 알 수는 없다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B09', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['정신', '기다림끝정리'],
+    risk:1, src:'codex', cost:{mp:8, cd:3}, se:[{se:'SE_C017', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 오래 기다린 뒤 첫 행동을 다시 짚는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5217', name:'감정표현순서', en:'Feeling Statement Order', scope:'common', kind:'액티브',
+    cat:'SKC_MIND', grade:1, rarity:1, tier:1, desc:'느낀 점과 관찰한 사실을 나눠 말할 순서를 고른다. 상대의 반응을 통제하지 못한다.',
+    lore:'느낀 점과 관찰한 사실을 나눠 말할 순서를 고른다. 상대의 반응을 통제하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B09', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['정신', '감정표현순서'],
+    risk:1, src:'codex', cost:{mp:5, cd:2}, se:[{se:'SE_C023', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 느낀 점과 관찰한 사실을 나눠 말할 순서를 고른다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5218', name:'자기속도눈', en:'Own Pace Watch', scope:'common', kind:'패시브',
+    cat:'SKC_MIND', grade:1, rarity:1, tier:1, desc:'평소보다 급해진 말과 동작의 속도를 알아챈다. 알아차린다고 바로 진정되는 것은 아니다.',
+    lore:'평소보다 급해진 말과 동작의 속도를 알아챈다. 알아차린다고 바로 진정되는 것은 아니다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B09', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['정신', '자기속도눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 평소보다 급해진 말과 동작의 속도를 알아챈다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5219', name:'주변되확인', en:'Surrounding Recheck', scope:'common', kind:'액티브',
+    cat:'SKC_MIND', grade:1, rarity:1, tier:1, desc:'긴 생각 뒤 시선을 돌려 현재 위치를 확인한다. 이미 놓친 사건을 복원하지 못한다.',
+    lore:'긴 생각 뒤 시선을 돌려 현재 위치를 확인한다. 이미 놓친 사건을 복원하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B09', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['정신', '주변되확인'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, se:[{se:'SE_C016', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 긴 생각 뒤 시선을 돌려 현재 위치를 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5220', name:'쉰뒤차이눈', en:'After Rest Compare', scope:'common', kind:'패시브',
+    cat:'SKC_MIND', grade:1, rarity:1, tier:1, desc:'쉬기 전과 뒤의 손 떨림과 호흡을 비교한다. 의료 상태를 수치로 확정하지 못한다.',
+    lore:'쉬기 전과 뒤의 손 떨림과 호흡을 비교한다. 의료 상태를 수치로 확정하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B09', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['정신', '쉰뒤차이눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 쉬기 전과 뒤의 손 떨림과 호흡을 비교한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5221', name:'변경조건확인', en:'Changed Terms Check', scope:'common', kind:'액티브',
+    cat:'SKC_SOCIAL', grade:1, rarity:2, tier:1, desc:'이전 합의와 달라진 조건을 하나씩 확인한다. 상대가 숨긴 변경은 별도 증거가 필요하다.',
+    lore:'이전 합의와 달라진 조건을 하나씩 확인한다. 상대가 숨긴 변경은 별도 증거가 필요하다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['사회·교섭', '변경조건확인'],
+    risk:1, src:'codex', cost:{stamina:5, cd:2}, se:[{se:'SE_C025', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 이전 합의와 달라진 조건을 하나씩 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5230']
+  },
+  {
+    id:'SK_C5222', name:'인용말분리', en:'Quoted Claim Sort', scope:'common', kind:'패시브',
+    cat:'SKC_SOCIAL', grade:1, rarity:1, tier:1, desc:'직접 본 사실과 남에게 들은 말을 나눠 전달한다. 전달한 말의 진실성을 보장하지 못한다.',
+    lore:'직접 본 사실과 남에게 들은 말을 나눠 전달한다. 전달한 말의 진실성을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['사회·교섭', '인용말분리'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 직접 본 사실과 남에게 들은 말을 나눠 전달한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5223', name:'응답시간맞춤', en:'Response Timing', scope:'common', kind:'액티브',
+    cat:'SKC_SOCIAL', grade:1, rarity:1, tier:1, desc:'상대가 대답할 시간을 남기고 말을 멈춘다. 상대가 대답해야 할 의무를 만들지는 못한다.',
+    lore:'상대가 대답할 시간을 남기고 말을 멈춘다. 상대가 대답해야 할 의무를 만들지는 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['사회·교섭', '응답시간맞춤'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, se:[{se:'SE_C017', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 상대가 대답할 시간을 남기고 말을 멈춘다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5224', name:'연락경로합의', en:'Contact Route Agreement', scope:'common', kind:'액티브',
+    cat:'SKC_SOCIAL', grade:1, rarity:1, tier:1, desc:'업무에 쓸 연락 경로와 확인 방식을 맞춘다. 합의하지 않은 연락을 강제하지 못한다.',
+    lore:'업무에 쓸 연락 경로와 확인 방식을 맞춘다. 합의하지 않은 연락을 강제하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['사회·교섭', '연락경로합의'],
+    risk:1, src:'codex', cost:{stamina:8, cd:3}, se:[{se:'SE_C024', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 업무에 쓸 연락 경로와 확인 방식을 맞춘다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5225', name:'책임범위메모', en:'Responsibility Note', scope:'common', kind:'액티브',
+    cat:'SKC_SOCIAL', grade:1, rarity:1, tier:1, desc:'각자 동의한 책임 범위를 짧게 적는다. 법적 효력을 스스로 판단하지 못한다.',
+    lore:'각자 동의한 책임 범위를 짧게 적는다. 법적 효력을 스스로 판단하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['사회·교섭', '책임범위메모'],
+    risk:1, src:'codex', cost:{stamina:5, cd:2}, se:[{se:'SE_C025', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 각자 동의한 책임 범위를 짧게 적는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5227']
+  },
+  {
+    id:'SK_C5226', name:'말바뀜대조', en:'Statement Comparison', scope:'common', kind:'패시브',
+    cat:'SKC_SOCIAL', grade:1, rarity:2, tier:1, desc:'앞서 들은 말과 지금의 표현 차이를 비교한다. 차이만으로 거짓말을 확정하지 못한다.',
+    lore:'앞서 들은 말과 지금의 표현 차이를 비교한다. 차이만으로 거짓말을 확정하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['사회·교섭', '말바뀜대조'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 앞서 들은 말과 지금의 표현 차이를 비교한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5227', name:'공개범위묻기', en:'Disclosure Boundary', scope:'common', kind:'액티브',
+    cat:'SKC_SOCIAL', grade:1, rarity:1, tier:1, desc:'인계할 정보 중 공개해도 되는 범위를 묻는다. 동의하지 않은 개인정보를 퍼뜨리지 않는다.',
+    lore:'인계할 정보 중 공개해도 되는 범위를 묻는다. 동의하지 않은 개인정보를 퍼뜨리지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['사회·교섭', '공개범위묻기'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, se:[{se:'SE_C017', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 인계할 정보 중 공개해도 되는 범위를 묻는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5225']
+  },
+  {
+    id:'SK_C5228', name:'이름호칭확인', en:'Form Of Address Check', scope:'common', kind:'액티브',
+    cat:'SKC_SOCIAL', grade:1, rarity:1, tier:1, desc:'상대가 원하는 이름과 호칭을 확인한다. 친밀감이 자동으로 생기지는 않는다.',
+    lore:'상대가 원하는 이름과 호칭을 확인한다. 친밀감이 자동으로 생기지는 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['사회·교섭', '이름호칭확인'],
+    risk:1, src:'codex', cost:{stamina:8, cd:3}, se:[{se:'SE_C024', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 상대가 원하는 이름과 호칭을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5229', name:'남은질문정리', en:'Remaining Questions', scope:'common', kind:'패시브',
+    cat:'SKC_SOCIAL', grade:1, rarity:1, tier:1, desc:'대화 중 확인하지 못한 질문을 구분해 기억한다. 상대가 답을 알고 있다고 보장하지 못한다.',
+    lore:'대화 중 확인하지 못한 질문을 구분해 기억한다. 상대가 답을 알고 있다고 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['사회·교섭', '남은질문정리'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 대화 중 확인하지 못한 질문을 구분해 기억한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5230', name:'합의되읽기', en:'Agreement Readback', scope:'common', kind:'액티브',
+    cat:'SKC_SOCIAL', grade:1, rarity:1, tier:1, desc:'합의한 내용을 끝에 짧게 되읽는다. 잘못 이해한 부분은 다시 확인해야 한다.',
+    lore:'합의한 내용을 끝에 짧게 되읽는다. 잘못 이해한 부분은 다시 확인해야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['사회·교섭', '합의되읽기'],
+    risk:1, src:'codex', cost:{stamina:6, cd:3}, se:[{se:'SE_C024', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 합의한 내용을 끝에 짧게 되읽는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5221']
+  },
+  {
+    id:'SK_C5231', name:'작업복건조순서', en:'Workwear Drying Order', scope:'common', kind:'액티브',
+    cat:'SKC_LIFE', grade:1, rarity:2, tier:1, desc:'젖은 작업복을 재질과 오염에 따라 나눠 말린다. 제조사 지침과 적절한 건조 공간이 필요하다.',
+    lore:'젖은 작업복을 재질과 오염에 따라 나눠 말린다. 제조사 지침과 적절한 건조 공간이 필요하다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_B31', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생활·기술', '작업복건조순서'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, se:[{se:'SE_C026', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 젖은 작업복을 재질과 오염에 따라 나눠 말린다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5232', name:'빌린물건기록', en:'Borrowed Item Note', scope:'common', kind:'액티브',
+    cat:'SKC_LIFE', grade:1, rarity:1, tier:1, desc:'빌린 물건의 수량과 반환 시각을 적는다. 기록만으로 분실을 막지는 못한다.',
+    lore:'빌린 물건의 수량과 반환 시각을 적는다. 기록만으로 분실을 막지는 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_B31', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생활·기술', '빌린물건기록'],
+    risk:1, src:'codex', cost:{stamina:8, cd:3}, se:[{se:'SE_C025', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 빌린 물건의 수량과 반환 시각을 적는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5237']
+  },
+  {
+    id:'SK_C5233', name:'충전선구별', en:'Cable Sorting', scope:'common', kind:'패시브',
+    cat:'SKC_LIFE', grade:1, rarity:1, tier:1, desc:'장비에 맞는 충전선과 손상된 선을 나눠 둔다. 규격을 모르면 연결하지 않는다.',
+    lore:'장비에 맞는 충전선과 손상된 선을 나눠 둔다. 규격을 모르면 연결하지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_B31', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생활·기술', '충전선구별'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 장비에 맞는 충전선과 손상된 선을 나눠 둔다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']},
+    combo:['SK_C5238']
+  },
+  {
+    id:'SK_C5234', name:'남은교통비', en:'Transit Fare Check', scope:'common', kind:'액티브',
+    cat:'SKC_LIFE', grade:1, rarity:1, tier:1, desc:'귀가에 필요한 교통비와 남은 돈을 대조한다. 돈을 새로 만들어 주지는 않는다.',
+    lore:'귀가에 필요한 교통비와 남은 돈을 대조한다. 돈을 새로 만들어 주지는 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_B31', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생활·기술', '남은교통비'],
+    risk:1, src:'codex', cost:{stamina:6, cd:3}, se:[{se:'SE_C025', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 귀가에 필요한 교통비와 남은 돈을 대조한다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5170']
+  },
+  {
+    id:'SK_C5235', name:'보관함표식', en:'Locker Label', scope:'common', kind:'액티브',
+    cat:'SKC_LIFE', grade:1, rarity:1, tier:1, desc:'보관함의 내용과 인계자를 짧게 표시한다. 표식과 실제 내용은 따로 대조해야 한다.',
+    lore:'보관함의 내용과 인계자를 짧게 표시한다. 표식과 실제 내용은 따로 대조해야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_B31', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생활·기술', '보관함표식'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, se:[{se:'SE_C025', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 보관함의 내용과 인계자를 짧게 표시한다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5236', name:'뚜껑나사눈', en:'Cap Thread Check', scope:'common', kind:'패시브',
+    cat:'SKC_LIFE', grade:1, rarity:2, tier:1, desc:'용기 뚜껑의 나사산이 비뚤어진 곳을 살핀다. 깨진 뚜껑을 수리하지는 못한다.',
+    lore:'용기 뚜껑의 나사산이 비뚤어진 곳을 살핀다. 깨진 뚜껑을 수리하지는 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_B31', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생활·기술', '뚜껑나사눈'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 용기 뚜껑의 나사산이 비뚤어진 곳을 살핀다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5237', name:'기한표나누기', en:'Deadline Board', scope:'common', kind:'액티브',
+    cat:'SKC_LIFE', grade:1, rarity:1, tier:1, desc:'납품과 반납 및 개인 일정의 기한을 나눠 적는다. 일을 끝낼 시간을 자동으로 늘려 주지 않는다.',
+    lore:'납품과 반납 및 개인 일정의 기한을 나눠 적는다. 일을 끝낼 시간을 자동으로 늘려 주지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_B31', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생활·기술', '기한표나누기'],
+    risk:1, src:'codex', cost:{stamina:5, cd:2}, se:[{se:'SE_C025', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 납품과 반납 및 개인 일정의 기한을 나눠 적는다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5232']
+  },
+  {
+    id:'SK_C5238', name:'소모품개봉표', en:'Opened Stock Label', scope:'common', kind:'액티브',
+    cat:'SKC_LIFE', grade:1, rarity:1, tier:1, desc:'소모품을 개봉한 시각과 용도를 표시한다. 개봉 뒤 성능이 보장되는 것은 아니다.',
+    lore:'소모품을 개봉한 시각과 용도를 표시한다. 개봉 뒤 성능이 보장되는 것은 아니다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_B31', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생활·기술', '소모품개봉표'],
+    risk:1, src:'codex', cost:{stamina:6, cd:3}, se:[{se:'SE_C025', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 소모품을 개봉한 시각과 용도를 표시한다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}, combo:['SK_C5233']
+  },
+  {
+    id:'SK_C5239', name:'작은부품기억', en:'Small Part Recall', scope:'common', kind:'패시브',
+    cat:'SKC_LIFE', grade:1, rarity:1, tier:1, desc:'분해할 때 꺼낸 작은 부품의 순서를 기억한다. 처음부터 없던 부품은 알 수 없다.',
+    lore:'분해할 때 꺼낸 작은 부품의 순서를 기억한다. 처음부터 없던 부품은 알 수 없다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_B31', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생활·기술', '작은부품기억'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', daily:true, lines:{use:['{u}은(는) 분해할 때 꺼낸 작은 부품의 순서를 기억한다.', '{u}의 {s}이(가) 익숙한 확인 순서로 이어진다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
+  },
+  {
+    id:'SK_C5240', name:'퇴근정리선', en:'End Shift Layout', scope:'common', kind:'액티브',
+    cat:'SKC_LIFE', grade:1, rarity:1, tier:1, desc:'다음 사람이 확인할 물건과 폐기할 물건을 나눈다. 폐기 기준을 모르면 담당자에게 확인해야 한다.',
+    lore:'다음 사람이 확인할 물건과 폐기할 물건을 나눈다. 폐기 기준을 모르면 담당자에게 확인해야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_B31', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['생활·기술', '퇴근정리선'],
+    risk:1, src:'codex', cost:{stamina:8, cd:3}, se:[{se:'SE_C025', chance:1, turns:2}], daily:true,
+    lines:{use:['{u}은(는) {s}에 필요한 조건을 확인한다.', '{u}은(는) 다음 사람이 확인할 물건과 폐기할 물건을 나눈다.'], hit:['{u}의 {s}이(가) 확인한 범위 안에서 작용한다.', '{u}은(는) {s}의 결과를 확인하고 손을 거둔다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 순서와 힘을 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}은(는) {s}을(를) 멈추고 준비 상태를 다시 확인한다.']}
   }
 ]);

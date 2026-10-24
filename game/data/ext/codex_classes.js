@@ -1,4 +1,4 @@
-/* Codex 01 · 1차 클래스 72개. 분류마다 12개. 모든 클래스의 각성 후보는 6개 중 2개다. */
+/* Codex 01 · 1차 클래스 108개. 분류마다 18개. 각성 후보는 6개 중 2개다. */
 
 def('classes', [
   {
@@ -662,5 +662,338 @@ def('classes', [
     hpMul:1, mpMul:1.1, statReq:{STAT_SENSE:13}, ablReq:{ABL_A26:9}, gear:['ITC_GEAR', 'ITC_ARMOR'],
     weapons:['절연충전선'], armors:['작업복', '방진 작업복'], fame:'rare', pay:1.05, demand:4,
     jobs:['마정석 전원 장비 정비', '회수품 가공 단기 계약', '공방 검수 보조'], habits:['충전선을 뽑기 전에 전원을 끈다.', '마정석 전원의 잔량을 인계표에 적는다.', '절연 피복이 갈라진 선을 따로 뺀다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 충전사 항목을 다시 읽는다.', '{u}은(는) 충전사 등록 절차와 준비할 장비를 확인한다.'], levelUp:['{u}은(는) 절연충전선을 쥐었을 때 달라진 힘을 가늠한다.', '{u}은(는) 충전사 훈련표 옆에 오늘의 기록을 남긴다.'], idle:['{u}은(는) 절연충전선의 마모를 살피며 다음 계약을 기다린다.', '{u}은(는) 작업 의뢰서의 재료 수량과 납품 시각을 대조한다.']}, src:'codex'
+  },
+  // 2026-10-24 추가분: 기존 ID와 행을 보존한다.
+  {
+    id:'CLS_C073', name:'대검병', alias:['넓은날'], en:'Heavy Blade Guard', cat:'CC_MELEE',
+    tier:1, rarity:1, desc:'넓은 검면과 긴 회수 동작을 관리하는 전열.', lore:'잔해 통로 개방에서 일감을 구한다. 천장과 아군의 간격이 좁으면 휘두르지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_MDPS',
+    roles:['ROLE_MDPS'], range:'melee', resource:'stamina', pick:2, pool:['SK_C0721', 'SK_C0722', 'SK_C0723', 'SK_C0724', 'SK_C0725', 'SK_C0726'],
+    passive:['SK_C0727'], learn:[{skill:'SK_C0728', lv:10}, {skill:'SK_C0729', lv:25}, {skill:'SK_C0730', lv:45}], stats:{STAT_BODY:3, STAT_MIND:1, STAT_SENSE:1}, keys:['ABL_A02', 'ABL_A01', 'ABL_A04', 'ABL_A06'], growth:{hp:43, mp:10},
+    hpMul:1.3, mpMul:0.85, statReq:{STAT_BODY:12}, ablReq:{ABL_A02:9}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['대검'], armors:['경갑', '방검복'], fame:'common', pay:1, demand:3,
+    jobs:['잔해 통로 개방', '협회 등록 현장 보조'], habits:['검을 눕힐 자리를 먼저 확인한다.', '큰 칼집을 벗기기 전에 뒤를 돌아본다.', '훈련 뒤 허리 보호대를 풀어 쉰다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 대검병 항목을 다시 읽는다.', '{u}은(는) 넓은날의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 대검의 반응이 달라진 지점을 확인한다.', '{u}은(는) 대검병 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 대검의 마모와 고정부를 살핀다.', '{u}은(는) 다음 잔해 통로 개방의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C074', name:'갈고리병', alias:['걸이조'], en:'Hook Guard', cat:'CC_MELEE',
+    tier:1, rarity:2, desc:'갈고리를 걸고 당겨 적의 자세를 바꾸는 전열.', lore:'갑각 개체 제압에서 일감을 구한다. 갈고리를 걸 틈이 없으면 당기기 어렵다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_MDPS',
+    roles:['ROLE_MDPS'], range:'melee', resource:'stamina', pick:2, pool:['SK_C0731', 'SK_C0732', 'SK_C0733', 'SK_C0734', 'SK_C0735', 'SK_C0736'],
+    passive:['SK_C0737'], learn:[{skill:'SK_C0738', lv:10}, {skill:'SK_C0739', lv:25}, {skill:'SK_C0740', lv:45}], stats:{STAT_BODY:3, STAT_MIND:1, STAT_SENSE:1}, keys:['ABL_A02', 'ABL_A01', 'ABL_A04', 'ABL_A06'], growth:{hp:44, mp:11},
+    hpMul:1.3, mpMul:0.85, statReq:{STAT_BODY:13}, ablReq:{ABL_A02:10}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['갈고리창'], armors:['경갑', '방검복'], fame:'common', pay:1.05, demand:3,
+    jobs:['갑각 개체 제압', '협회 등록 현장 보조'], habits:['갈고리의 휜 끝을 빛에 비춘다.', '회수한 줄에 꼬임이 없는지 본다.', '걸린 옷자락을 손으로 먼저 푼다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 갈고리병 항목을 다시 읽는다.', '{u}은(는) 걸이조의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 갈고리창의 반응이 달라진 지점을 확인한다.', '{u}은(는) 갈고리병 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 갈고리창의 마모와 고정부를 살핀다.', '{u}은(는) 다음 갑각 개체 제압의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C075', name:'방진병', alias:['맞방패'], en:'Formation Guard', cat:'CC_MELEE',
+    tier:1, rarity:1, desc:'옆 동료와 방패 간격을 맞추는 대열 전열.', lore:'대규모 후송로 방호에서 일감을 구한다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_TANK',
+    roles:['ROLE_TANK'], range:'melee', resource:'stamina', pick:2, pool:['SK_C0741', 'SK_C0742', 'SK_C0743', 'SK_C0744', 'SK_C0745', 'SK_C0746'],
+    passive:['SK_C0747'], learn:[{skill:'SK_C0748', lv:10}, {skill:'SK_C0749', lv:25}, {skill:'SK_C0750', lv:45}], stats:{STAT_BODY:3, STAT_MIND:1, STAT_SENSE:1}, keys:['ABL_A02', 'ABL_A01', 'ABL_A04', 'ABL_A06'], growth:{hp:45, mp:10},
+    hpMul:1.3, mpMul:0.85, statReq:{STAT_BODY:14}, ablReq:{ABL_A02:11}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['사각방패'], armors:['경갑', '방검복'], fame:'common', pay:1.1, demand:3,
+    jobs:['대규모 후송로 방호', '협회 등록 현장 보조'], habits:['옆자리와 팔꿈치 간격을 남긴다.', '방패 측면의 고무 마모를 본다.', '줄을 설 때 앞사람의 보폭을 맞춘다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 방진병 항목을 다시 읽는다.', '{u}은(는) 맞방패의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 사각방패의 반응이 달라진 지점을 확인한다.', '{u}은(는) 방진병 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 사각방패의 마모와 고정부를 살핀다.', '{u}은(는) 다음 대규모 후송로 방호의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C076', name:'완갑병', alias:['팔방패'], en:'Armguard Defender', cat:'CC_MELEE',
+    tier:1, rarity:2, desc:'팔의 방호면으로 가까운 충격을 받는 전열.', lore:'협소 통로 선두 방호에서 일감을 구한다. 팔로 받은 하중은 몸과 발이 지탱해야 한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_TANK',
+    roles:['ROLE_TANK'], range:'melee', resource:'stamina', pick:2, pool:['SK_C0751', 'SK_C0752', 'SK_C0753', 'SK_C0754', 'SK_C0755', 'SK_C0756'],
+    passive:['SK_C0757'], learn:[{skill:'SK_C0758', lv:10}, {skill:'SK_C0759', lv:25}, {skill:'SK_C0760', lv:45}], stats:{STAT_BODY:3, STAT_MIND:1, STAT_SENSE:1}, keys:['ABL_A02', 'ABL_A01', 'ABL_A04', 'ABL_A06'], growth:{hp:43, mp:11},
+    hpMul:1.3, mpMul:0.85, statReq:{STAT_BODY:15}, ablReq:{ABL_A02:9}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['대형완갑'], armors:['경갑', '방검복'], fame:'common', pay:1.15, demand:3,
+    jobs:['협소 통로 선두 방호', '협회 등록 현장 보조'], habits:['완갑 안쪽의 멍든 자리를 확인한다.', '팔을 굽혀 경첩의 소리를 듣는다.', '출근 전 손목 버클을 잠근다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 완갑병 항목을 다시 읽는다.', '{u}은(는) 팔방패의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 대형완갑의 반응이 달라진 지점을 확인한다.', '{u}은(는) 완갑병 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 대형완갑의 마모와 고정부를 살핀다.', '{u}은(는) 다음 협소 통로 선두 방호의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C077', name:'추격병', alias:['끝보폭'], en:'Pursuit Skirmisher', cat:'CC_MELEE',
+    tier:1, rarity:3, desc:'도주 방향을 읽고 짧은 추격을 잇는 근접.', lore:'이탈 개체 추격 보조에서 일감을 구한다. 확인하지 못한 길까지 무작정 따라가지 않는다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_MDPS',
+    roles:['ROLE_MDPS'], range:'melee', resource:'stamina', pick:2, pool:['SK_C0761', 'SK_C0762', 'SK_C0763', 'SK_C0764', 'SK_C0765', 'SK_C0766'],
+    passive:['SK_C0767'], learn:[{skill:'SK_C0768', lv:10}, {skill:'SK_C0769', lv:25}, {skill:'SK_C0770', lv:45}], stats:{STAT_BODY:3, STAT_MIND:1, STAT_SENSE:1}, keys:['ABL_A02', 'ABL_A01', 'ABL_A04', 'ABL_A06'], growth:{hp:44, mp:10},
+    hpMul:1.3, mpMul:0.85, statReq:{STAT_BODY:12}, ablReq:{ABL_A02:10}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['단창'], armors:['경갑', '방검복'], fame:'common', pay:1, demand:3,
+    jobs:['이탈 개체 추격 보조', '협회 등록 현장 보조'], habits:['달리기 전 신발 뒤축을 누른다.', '길모퉁이에서는 속도를 낮춘다.', '회수 지점의 위치를 지도에 남긴다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 추격병 항목을 다시 읽는다.', '{u}은(는) 끝보폭의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 단창의 반응이 달라진 지점을 확인한다.', '{u}은(는) 추격병 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 단창의 마모와 고정부를 살핀다.', '{u}은(는) 다음 이탈 개체 추격 보조의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C078', name:'절단사', alias:['줄날'], en:'Cutting Line Worker', cat:'CC_MELEE',
+    tier:1, rarity:4, desc:'장력을 건 절단선으로 이음새를 가르는 근접.', lore:'마수 부속지 절단 보조에서 일감을 구한다. 줄이 끊어지면 장력이 주변으로 튄다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_MDPS',
+    roles:['ROLE_MDPS'], range:'melee', resource:'stamina', pick:2, pool:['SK_C0771', 'SK_C0772', 'SK_C0773', 'SK_C0774', 'SK_C0775', 'SK_C0776'],
+    passive:['SK_C0777'], learn:[{skill:'SK_C0778', lv:10}, {skill:'SK_C0779', lv:25}, {skill:'SK_C0780', lv:45}], stats:{STAT_BODY:3, STAT_MIND:1, STAT_SENSE:1}, keys:['ABL_A02', 'ABL_A01', 'ABL_A04', 'ABL_A06'], growth:{hp:45, mp:11},
+    hpMul:1.3, mpMul:0.85, statReq:{STAT_BODY:13}, ablReq:{ABL_A02:11}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['절단선'], armors:['경갑', '방검복'], fame:'rare', pay:1.05, demand:3,
+    jobs:['마수 부속지 절단 보조', '협회 등록 현장 보조'], habits:['줄날을 케이스 안에서만 푼다.', '절단 장갑의 손상부터 본다.', '작업 반경에 들어오는 사람에게 알린다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 절단사 항목을 다시 읽는다.', '{u}은(는) 줄날의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 절단선의 반응이 달라진 지점을 확인한다.', '{u}은(는) 절단사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 절단선의 마모와 고정부를 살핀다.', '{u}은(는) 다음 마수 부속지 절단 보조의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C079', name:'투륜수', alias:['돌아날'], en:'Returning Ring Thrower', cat:'CC_RANGED',
+    tier:1, rarity:1, desc:'되돌아오는 투륜의 궤도를 관리하는 후열.', lore:'개방 구역 순환 견제에서 일감을 구한다. 귀환 궤도에 동료가 있으면 던지지 않는다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_RDPS',
+    roles:['ROLE_RDPS'], range:'far', resource:'stamina', pick:2, pool:['SK_C0781', 'SK_C0782', 'SK_C0783', 'SK_C0784', 'SK_C0785', 'SK_C0786'],
+    passive:['SK_C0787'], learn:[{skill:'SK_C0788', lv:10}, {skill:'SK_C0789', lv:25}, {skill:'SK_C0790', lv:45}], stats:{STAT_BODY:2, STAT_MIND:1, STAT_SENSE:2}, keys:['ABL_A02', 'ABL_A06', 'ABL_A17', 'ABL_A22'], growth:{hp:28, mp:13},
+    hpMul:1, mpMul:0.95, statReq:{STAT_SENSE:12}, ablReq:{ABL_A02:9}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['회수투륜'], armors:['경갑', '활동복'], fame:'common', pay:1, demand:3,
+    jobs:['개방 구역 순환 견제', '협회 등록 현장 보조'], habits:['투륜 안쪽의 흠을 확인한다.', '물건을 던지기 전에 돌아올 길을 본다.', '회수 장갑을 다른 장갑과 나눠 둔다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 투륜수 항목을 다시 읽는다.', '{u}은(는) 돌아날의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 회수투륜의 반응이 달라진 지점을 확인한다.', '{u}은(는) 투륜수 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 회수투륜의 마모와 고정부를 살핀다.', '{u}은(는) 다음 개방 구역 순환 견제의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C080', name:'장궁수', alias:['긴활'], en:'Longbow Worker', cat:'CC_RANGED',
+    tier:1, rarity:2, desc:'긴 활대의 당김과 직선 사선을 관리하는 궁수.', lore:'개방 게이트 원거리 엄호에서 일감을 구한다. 긴 활대가 펴질 공간이 필요하다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_RDPS',
+    roles:['ROLE_RDPS'], range:'far', resource:'stamina', pick:2, pool:['SK_C0791', 'SK_C0792', 'SK_C0793', 'SK_C0794', 'SK_C0795', 'SK_C0796'],
+    passive:['SK_C0797'], learn:[{skill:'SK_C0798', lv:10}, {skill:'SK_C0799', lv:25}, {skill:'SK_C0800', lv:45}], stats:{STAT_BODY:2, STAT_MIND:1, STAT_SENSE:2}, keys:['ABL_A02', 'ABL_A06', 'ABL_A17', 'ABL_A22'], growth:{hp:29, mp:14},
+    hpMul:1, mpMul:0.95, statReq:{STAT_SENSE:13}, ablReq:{ABL_A02:10}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['장궁'], armors:['경갑', '활동복'], fame:'common', pay:1.05, demand:3,
+    jobs:['개방 게이트 원거리 엄호', '협회 등록 현장 보조'], habits:['활집을 벽에 기대기 전에 바닥을 받친다.', '시위를 풀어 보관한다.', '어깨 스트레칭 뒤 장비를 든다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 장궁수 항목을 다시 읽는다.', '{u}은(는) 긴활의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 장궁의 반응이 달라진 지점을 확인한다.', '{u}은(는) 장궁수 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 장궁의 마모와 고정부를 살핀다.', '{u}은(는) 다음 개방 게이트 원거리 엄호의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C081', name:'속궁수', alias:['짧은활'], en:'Shortbow Repeater', cat:'CC_RANGED',
+    tier:1, rarity:1, desc:'가벼운 활과 짧은 준비 동작을 쓰는 후열.', lore:'좁은 구역 연속 견제에서 일감을 구한다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_RDPS',
+    roles:['ROLE_RDPS'], range:'far', resource:'stamina', pick:2, pool:['SK_C0801', 'SK_C0802', 'SK_C0803', 'SK_C0804', 'SK_C0805', 'SK_C0806'],
+    passive:['SK_C0807'], learn:[{skill:'SK_C0808', lv:10}, {skill:'SK_C0809', lv:25}, {skill:'SK_C0810', lv:45}], stats:{STAT_BODY:2, STAT_MIND:1, STAT_SENSE:2}, keys:['ABL_A02', 'ABL_A06', 'ABL_A17', 'ABL_A22'], growth:{hp:30, mp:13},
+    hpMul:1, mpMul:0.95, statReq:{STAT_SENSE:14}, ablReq:{ABL_A02:11}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['단궁'], armors:['경갑', '활동복'], fame:'common', pay:1.1, demand:3,
+    jobs:['좁은 구역 연속 견제', '협회 등록 현장 보조'], habits:['화살통의 칸을 순서대로 채운다.', '손가락 보호구를 자주 바꿔 낀다.', '남은 화살 수를 짧게 센다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 속궁수 항목을 다시 읽는다.', '{u}은(는) 짧은활의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 단궁의 반응이 달라진 지점을 확인한다.', '{u}은(는) 속궁수 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 단궁의 마모와 고정부를 살핀다.', '{u}은(는) 다음 좁은 구역 연속 견제의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C082', name:'작살수', alias:['닻창'], en:'Harpoon Worker', cat:'CC_RANGED',
+    tier:1, rarity:2, desc:'줄이 연결된 작살로 표적의 이탈을 제한하는 후열.', lore:'수변 개체 회수 보조에서 일감을 구한다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_RDPS',
+    roles:['ROLE_RDPS'], range:'far', resource:'stamina', pick:2, pool:['SK_C0811', 'SK_C0812', 'SK_C0813', 'SK_C0814', 'SK_C0815', 'SK_C0816'],
+    passive:['SK_C0817'], learn:[{skill:'SK_C0818', lv:10}, {skill:'SK_C0819', lv:25}, {skill:'SK_C0820', lv:45}], stats:{STAT_BODY:2, STAT_MIND:1, STAT_SENSE:2}, keys:['ABL_A02', 'ABL_A06', 'ABL_A17', 'ABL_A22'], growth:{hp:28, mp:14},
+    hpMul:1, mpMul:0.95, statReq:{STAT_SENSE:15}, ablReq:{ABL_A02:9}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['줄작살'], armors:['경갑', '활동복'], fame:'common', pay:1.15, demand:3,
+    jobs:['수변 개체 회수 보조', '협회 등록 현장 보조'], habits:['작살줄을 느슨하게 풀어 말린다.', '고정점의 강도를 먼저 읽는다.', '회수 전에 줄 주변 사람을 물린다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 작살수 항목을 다시 읽는다.', '{u}은(는) 닻창의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 줄작살의 반응이 달라진 지점을 확인한다.', '{u}은(는) 작살수 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 줄작살의 마모와 고정부를 살핀다.', '{u}은(는) 다음 수변 개체 회수 보조의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C083', name:'색탄수', alias:['색점'], en:'Marker Shot Worker', cat:'CC_RANGED',
+    tier:1, rarity:3, desc:'표식탄으로 노출 위치와 위험 구역을 알리는 후열.', lore:'시야 불량 구역 표적 표시에서 일감을 구한다. 표식은 닦이거나 가려지면 사라진다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_RDPS',
+    roles:['ROLE_RDPS'], range:'far', resource:'stamina', pick:2, pool:['SK_C0821', 'SK_C0822', 'SK_C0823', 'SK_C0824', 'SK_C0825', 'SK_C0826'],
+    passive:['SK_C0827'], learn:[{skill:'SK_C0828', lv:10}, {skill:'SK_C0829', lv:25}, {skill:'SK_C0830', lv:45}], stats:{STAT_BODY:2, STAT_MIND:1, STAT_SENSE:2}, keys:['ABL_A02', 'ABL_A06', 'ABL_A17', 'ABL_A22'], growth:{hp:29, mp:13},
+    hpMul:1, mpMul:0.95, statReq:{STAT_SENSE:12}, ablReq:{ABL_A02:10}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['표식탄발사기'], armors:['경갑', '활동복'], fame:'common', pay:1, demand:3,
+    jobs:['시야 불량 구역 표적 표시', '협회 등록 현장 보조'], habits:['표식탄의 색을 팀원과 맞춘다.', '작업 뒤 장비의 안료를 닦는다.', '위험 표식과 회수 표식을 나눠 적는다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 색탄수 항목을 다시 읽는다.', '{u}은(는) 색점의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 표식탄발사기의 반응이 달라진 지점을 확인한다.', '{u}은(는) 색탄수 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 표식탄발사기의 마모와 고정부를 살핀다.', '{u}은(는) 다음 시야 불량 구역 표적 표시의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C084', name:'반사수', alias:['벽탄'], en:'Ricochet Operator', cat:'CC_RANGED',
+    tier:1, rarity:4, desc:'확인한 반사면으로 탄의 궤도를 꺾는 사격수.', lore:'엄폐 측면 사격 보조에서 일감을 구한다. 반사면의 재질이 다르면 탄도가 달라진다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_RDPS',
+    roles:['ROLE_RDPS'], range:'far', resource:'stamina', pick:2, pool:['SK_C0831', 'SK_C0832', 'SK_C0833', 'SK_C0834', 'SK_C0835', 'SK_C0836'],
+    passive:['SK_C0837'], learn:[{skill:'SK_C0838', lv:10}, {skill:'SK_C0839', lv:25}, {skill:'SK_C0840', lv:45}], stats:{STAT_BODY:2, STAT_MIND:1, STAT_SENSE:2}, keys:['ABL_A02', 'ABL_A06', 'ABL_A17', 'ABL_A22'], growth:{hp:30, mp:14},
+    hpMul:1, mpMul:0.95, statReq:{STAT_SENSE:13}, ablReq:{ABL_A02:11}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['철탄발사기'], armors:['경갑', '활동복'], fame:'rare', pay:1.05, demand:3,
+    jobs:['엄폐 측면 사격 보조', '협회 등록 현장 보조'], habits:['사격 전 벽의 파손을 확인한다.', '반사각 안의 동료에게 먼저 알린다.', '회수한 탄의 찌그러짐을 본다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 반사수 항목을 다시 읽는다.', '{u}은(는) 벽탄의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 철탄발사기의 반응이 달라진 지점을 확인한다.', '{u}은(는) 반사수 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 철탄발사기의 마모와 고정부를 살핀다.', '{u}은(는) 다음 엄폐 측면 사격 보조의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C085', name:'재술사', alias:['재가루조'], en:'Ash Channeler', cat:'CC_MAGIC',
+    tier:1, rarity:1, desc:'남아 있는 재의 흐름과 잔열을 다루는 술사.', lore:'소각 잔류물 처리에서 일감을 구한다. 재가 없으면 새로 만들지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_MAGE',
+    roles:['ROLE_MAGE'], range:'far', resource:'mp', pick:2, pool:['SK_C0841', 'SK_C0842', 'SK_C0843', 'SK_C0844', 'SK_C0845', 'SK_C0846'],
+    passive:['SK_C0847'], learn:[{skill:'SK_C0848', lv:10}, {skill:'SK_C0849', lv:25}, {skill:'SK_C0850', lv:45}], stats:{STAT_MANA:3, STAT_MIND:1, STAT_SENSE:1}, keys:['ABL_A07', 'ABL_A08', 'ABL_A09', 'ABL_A10'], growth:{hp:22, mp:28},
+    hpMul:0.85, mpMul:1.3, statReq:{STAT_MANA:12}, ablReq:{ABL_A07:9}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['밀폐재통'], armors:['절연복', '마력 방호복'], fame:'common', pay:1, demand:3,
+    jobs:['소각 잔류물 처리', '협회 등록 현장 보조'], habits:['재통 뚜껑을 닫고 밀봉을 확인한다.', '마스크를 벗기 전에 작업복을 턴다.', '재의 온도가 내려간 뒤 정리한다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 재술사 항목을 다시 읽는다.', '{u}은(는) 재가루조의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 밀폐재통의 반응이 달라진 지점을 확인한다.', '{u}은(는) 재술사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 밀폐재통의 마모와 고정부를 살핀다.', '{u}은(는) 다음 소각 잔류물 처리의 작업 범위를 읽는다.']}, src:'codex', el:'EL_C01',
+    affinity:['EL_C01']
+  },
+  {
+    id:'CLS_C086', name:'유리술사', alias:['유리편조'], en:'Glass Channeler', cat:'CC_MAGIC',
+    tier:1, rarity:2, desc:'존재하는 유리 조각의 각도와 이동을 다루는 술사.', lore:'파손 유리 회수에서 일감을 구한다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_MAGE',
+    roles:['ROLE_MAGE'], range:'far', resource:'mp', pick:2, pool:['SK_C0851', 'SK_C0852', 'SK_C0853', 'SK_C0854', 'SK_C0855', 'SK_C0856'],
+    passive:['SK_C0857'], learn:[{skill:'SK_C0858', lv:10}, {skill:'SK_C0859', lv:25}, {skill:'SK_C0860', lv:45}], stats:{STAT_MANA:3, STAT_MIND:1, STAT_SENSE:1}, keys:['ABL_A07', 'ABL_A08', 'ABL_A09', 'ABL_A10'], growth:{hp:23, mp:29},
+    hpMul:0.85, mpMul:1.3, statReq:{STAT_MANA:13}, ablReq:{ABL_A07:10}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['유리편용기'], armors:['절연복', '마력 방호복'], fame:'common', pay:1.05, demand:3,
+    jobs:['파손 유리 회수', '협회 등록 현장 보조'], habits:['파편은 단단한 용기에 따로 모은다.', '장갑의 작은 찢김을 빛에 비춘다.', '작업 뒤 바닥 반사광을 살핀다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 유리술사 항목을 다시 읽는다.', '{u}은(는) 유리편조의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 유리편용기의 반응이 달라진 지점을 확인한다.', '{u}은(는) 유리술사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 유리편용기의 마모와 고정부를 살핀다.', '{u}은(는) 다음 파손 유리 회수의 작업 범위를 읽는다.']}, src:'codex', el:'EL_C10',
+    affinity:['EL_C10']
+  },
+  {
+    id:'CLS_C087', name:'염결사', alias:['소금결'], en:'Salt Crystal Channeler', cat:'CC_MAGIC',
+    tier:1, rarity:1, desc:'준비한 소금 결정의 응집과 흩어짐을 다루는 술사.', lore:'염분 잔류물 회수에서 일감을 구한다. 소금이 없으면 결정을 만들지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_MAGE',
+    roles:['ROLE_MAGE'], range:'far', resource:'mp', pick:2, pool:['SK_C0861', 'SK_C0862', 'SK_C0863', 'SK_C0864', 'SK_C0865', 'SK_C0866'],
+    passive:['SK_C0867'], learn:[{skill:'SK_C0868', lv:10}, {skill:'SK_C0869', lv:25}, {skill:'SK_C0870', lv:45}], stats:{STAT_MANA:3, STAT_MIND:1, STAT_SENSE:1}, keys:['ABL_A07', 'ABL_A08', 'ABL_A09', 'ABL_A10'], growth:{hp:24, mp:28},
+    hpMul:0.85, mpMul:1.3, statReq:{STAT_MANA:14}, ablReq:{ABL_A07:11}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['밀폐염통'], armors:['절연복', '마력 방호복'], fame:'common', pay:1.1, demand:3,
+    jobs:['염분 잔류물 회수', '협회 등록 현장 보조'], habits:['염통은 습기 없는 칸에 넣는다.', '장비에 묻은 소금을 작업 뒤 닦는다.', '젖은 결정은 따로 표시한다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 염결사 항목을 다시 읽는다.', '{u}은(는) 소금결의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 밀폐염통의 반응이 달라진 지점을 확인한다.', '{u}은(는) 염결사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 밀폐염통의 마모와 고정부를 살핀다.', '{u}은(는) 다음 염분 잔류물 회수의 작업 범위를 읽는다.']}, src:'codex', el:'EL_C10',
+    affinity:['EL_C10']
+  },
+  {
+    id:'CLS_C088', name:'모래술사', alias:['사립조'], en:'Sand Channeler', cat:'CC_MAGIC',
+    tier:1, rarity:2, desc:'마른 모래의 흐름과 마찰을 다루는 술사.', lore:'모래 유입 구역 정리에서 일감을 구한다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_MAGE',
+    roles:['ROLE_MAGE'], range:'far', resource:'mp', pick:2, pool:['SK_C0871', 'SK_C0872', 'SK_C0873', 'SK_C0874', 'SK_C0875', 'SK_C0876'],
+    passive:['SK_C0877'], learn:[{skill:'SK_C0878', lv:10}, {skill:'SK_C0879', lv:25}, {skill:'SK_C0880', lv:45}], stats:{STAT_MANA:3, STAT_MIND:1, STAT_SENSE:1}, keys:['ABL_A07', 'ABL_A08', 'ABL_A09', 'ABL_A10'], growth:{hp:22, mp:29},
+    hpMul:0.85, mpMul:1.3, statReq:{STAT_MANA:15}, ablReq:{ABL_A07:9}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['모래통'], armors:['절연복', '마력 방호복'], fame:'common', pay:1.15, demand:3,
+    jobs:['모래 유입 구역 정리', '협회 등록 현장 보조'], habits:['모래통의 밀봉 고무를 확인한다.', '장비 이음에 낀 모래를 턴다.', '바람이 불면 동료의 눈 방향을 본다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 모래술사 항목을 다시 읽는다.', '{u}은(는) 사립조의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 모래통의 반응이 달라진 지점을 확인한다.', '{u}은(는) 모래술사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 모래통의 마모와 고정부를 살핀다.', '{u}은(는) 다음 모래 유입 구역 정리의 작업 범위를 읽는다.']}, src:'codex', el:'EL_C05',
+    affinity:['EL_C05']
+  },
+  {
+    id:'CLS_C089', name:'증기술사', alias:['김작업자'], en:'Steam Channeler', cat:'CC_MAGIC',
+    tier:1, rarity:3, desc:'가열된 수분의 압력과 흐름을 다루는 술사.', lore:'고온 누출 현장 보조에서 일감을 구한다. 물과 열원이 없으면 증기를 만들지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_MAGE',
+    roles:['ROLE_MAGE'], range:'far', resource:'mp', pick:2, pool:['SK_C0881', 'SK_C0882', 'SK_C0883', 'SK_C0884', 'SK_C0885', 'SK_C0886'],
+    passive:['SK_C0887'], learn:[{skill:'SK_C0888', lv:10}, {skill:'SK_C0889', lv:25}, {skill:'SK_C0890', lv:45}], stats:{STAT_MANA:3, STAT_MIND:1, STAT_SENSE:1}, keys:['ABL_A07', 'ABL_A08', 'ABL_A09', 'ABL_A10'], growth:{hp:23, mp:28},
+    hpMul:0.85, mpMul:1.3, statReq:{STAT_MANA:12}, ablReq:{ABL_A07:10}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['내열수통'], armors:['절연복', '마력 방호복'], fame:'common', pay:1, demand:3,
+    jobs:['고온 누출 현장 보조', '협회 등록 현장 보조'], habits:['밸브를 열기 전에 압력을 읽는다.', '젖은 내열 장갑을 따로 말린다.', '응축수가 고인 바닥을 표시한다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 증기술사 항목을 다시 읽는다.', '{u}은(는) 김작업자의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 내열수통의 반응이 달라진 지점을 확인한다.', '{u}은(는) 증기술사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 내열수통의 마모와 고정부를 살핀다.', '{u}은(는) 다음 고온 누출 현장 보조의 작업 범위를 읽는다.']}, src:'codex', el:'EL_C06',
+    affinity:['EL_C06']
+  },
+  {
+    id:'CLS_C090', name:'안개술사', alias:['물안개조'], en:'Mist Channeler', cat:'CC_MAGIC',
+    tier:1, rarity:4, desc:'작은 물방울의 밀도와 시야를 다루는 술사.', lore:'시야 확보 및 노출 차단에서 일감을 구한다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_MAGE',
+    roles:['ROLE_MAGE'], range:'far', resource:'mp', pick:2, pool:['SK_C0891', 'SK_C0892', 'SK_C0893', 'SK_C0894', 'SK_C0895', 'SK_C0896'],
+    passive:['SK_C0897'], learn:[{skill:'SK_C0898', lv:10}, {skill:'SK_C0899', lv:25}, {skill:'SK_C0900', lv:45}], stats:{STAT_MANA:3, STAT_MIND:1, STAT_SENSE:1}, keys:['ABL_A07', 'ABL_A08', 'ABL_A09', 'ABL_A10'], growth:{hp:24, mp:29},
+    hpMul:0.85, mpMul:1.3, statReq:{STAT_MANA:13}, ablReq:{ABL_A07:11}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['분무수통'], armors:['절연복', '마력 방호복'], fame:'rare', pay:1.05, demand:3,
+    jobs:['시야 확보 및 노출 차단', '협회 등록 현장 보조'], habits:['분무구의 막힘을 확인한다.', '물통을 닫은 뒤 기울여 본다.', '젖은 바닥에 남긴 표식을 회수한다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 안개술사 항목을 다시 읽는다.', '{u}은(는) 물안개조의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 분무수통의 반응이 달라진 지점을 확인한다.', '{u}은(는) 안개술사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 분무수통의 마모와 고정부를 살핀다.', '{u}은(는) 다음 시야 확보 및 노출 차단의 작업 범위를 읽는다.']}, src:'codex', el:'EL_C06',
+    affinity:['EL_C06']
+  },
+  {
+    id:'CLS_C091', name:'위생사', alias:['청결관리조'], en:'Hygiene Aide', cat:'CC_SUPPORT',
+    tier:1, rarity:1, desc:'청결 구역과 접촉 순서를 나누는 위생 지원.', lore:'야전 처치 구역 위생 관리에서 일감을 구한다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C0901', 'SK_C0902', 'SK_C0903', 'SK_C0904', 'SK_C0905', 'SK_C0906'],
+    passive:['SK_C0907'], learn:[{skill:'SK_C0908', lv:10}, {skill:'SK_C0909', lv:25}, {skill:'SK_C0910', lv:45}], stats:{STAT_MANA:2, STAT_MIND:2, STAT_SENSE:1}, keys:['ABL_A27', 'ABL_B15', 'ABL_B24', 'ABL_A07'], growth:{hp:27, mp:23},
+    hpMul:1, mpMul:1.15, statReq:{STAT_MIND:12}, ablReq:{ABL_A27:9}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['세정분사기'], armors:['구조복', '경량 방호복'], fame:'common', pay:1, demand:4,
+    jobs:['야전 처치 구역 위생 관리', '협회 등록 현장 보조'], habits:['깨끗한 장갑과 사용한 장갑을 나눈다.', '용기 개봉 시각을 적는다.', '청결 구역에 들어가기 전 소매를 확인한다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 위생사 항목을 다시 읽는다.', '{u}은(는) 청결관리조의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 세정분사기의 반응이 달라진 지점을 확인한다.', '{u}은(는) 위생사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 세정분사기의 마모와 고정부를 살핀다.', '{u}은(는) 다음 야전 처치 구역 위생 관리의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C092', name:'보급사', alias:['보급손'], en:'Supply Aide', cat:'CC_SUPPORT',
+    tier:1, rarity:2, desc:'남은 물자와 전달 동선을 관리하는 현장 지원.', lore:'장거리 공략 물자 전달에서 일감을 구한다. 없는 물품을 만들거나 보급량을 늘리지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C0911', 'SK_C0912', 'SK_C0913', 'SK_C0914', 'SK_C0915', 'SK_C0916'],
+    passive:['SK_C0917'], learn:[{skill:'SK_C0918', lv:10}, {skill:'SK_C0919', lv:25}, {skill:'SK_C0920', lv:45}], stats:{STAT_MANA:2, STAT_MIND:2, STAT_SENSE:1}, keys:['ABL_A27', 'ABL_B15', 'ABL_B24', 'ABL_A07'], growth:{hp:28, mp:24},
+    hpMul:1, mpMul:1.15, statReq:{STAT_MIND:13}, ablReq:{ABL_A27:10}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['구획배낭'], armors:['구조복', '경량 방호복'], fame:'common', pay:1.05, demand:4,
+    jobs:['장거리 공략 물자 전달', '협회 등록 현장 보조'], habits:['빈 주머니를 밖으로 표시한다.', '전달한 수량을 바로 적는다.', '남은 물병을 무게별로 나눈다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 보급사 항목을 다시 읽는다.', '{u}은(는) 보급손의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 구획배낭의 반응이 달라진 지점을 확인한다.', '{u}은(는) 보급사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 구획배낭의 마모와 고정부를 살핀다.', '{u}은(는) 다음 장거리 공략 물자 전달의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C093', name:'항법사', alias:['길잡이손'], en:'Route Coordinator', cat:'CC_SUPPORT',
+    tier:1, rarity:1, desc:'방향과 기준물을 맞춰 대열의 길을 잇는 지원.', lore:'복잡한 게이트 경로 안내에서 일감을 구한다. 확인하지 않은 길의 안전을 보장하지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C0921', 'SK_C0922', 'SK_C0923', 'SK_C0924', 'SK_C0925', 'SK_C0926'],
+    passive:['SK_C0927'], learn:[{skill:'SK_C0928', lv:10}, {skill:'SK_C0929', lv:25}, {skill:'SK_C0930', lv:45}], stats:{STAT_MANA:2, STAT_MIND:2, STAT_SENSE:1}, keys:['ABL_A27', 'ABL_B15', 'ABL_B24', 'ABL_A07'], growth:{hp:29, mp:23},
+    hpMul:1, mpMul:1.15, statReq:{STAT_MIND:14}, ablReq:{ABL_A27:11}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['경로판'], armors:['구조복', '경량 방호복'], fame:'common', pay:1.1, demand:4,
+    jobs:['복잡한 게이트 경로 안내', '협회 등록 현장 보조'], habits:['갈림길에 도착하면 기준물을 적는다.', '진행 방향과 지도 방향을 맞춘다.', '되돌아갈 때 표식 수를 센다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 항법사 항목을 다시 읽는다.', '{u}은(는) 길잡이손의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 경로판의 반응이 달라진 지점을 확인한다.', '{u}은(는) 항법사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 경로판의 마모와 고정부를 살핀다.', '{u}은(는) 다음 복잡한 게이트 경로 안내의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C094', name:'통역사', alias:['말잇는손'], en:'Field Interpreter', cat:'CC_SUPPORT',
+    tier:1, rarity:2, desc:'이미 아는 언어와 신호를 명료하게 잇는 지원.', lore:'혼성 공략조 현장 통역에서 일감을 구한다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C0931', 'SK_C0932', 'SK_C0933', 'SK_C0934', 'SK_C0935', 'SK_C0936'],
+    passive:['SK_C0937'], learn:[{skill:'SK_C0938', lv:10}, {skill:'SK_C0939', lv:25}, {skill:'SK_C0940', lv:45}], stats:{STAT_MANA:2, STAT_MIND:2, STAT_SENSE:1}, keys:['ABL_B15', 'ABL_B03', 'ABL_B34', 'ABL_A27'], growth:{hp:27, mp:24},
+    hpMul:1, mpMul:1.15, statReq:{STAT_MIND:15}, ablReq:{ABL_B15:10}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['통역기록판'], armors:['구조복', '경량 방호복'], fame:'common', pay:1.15, demand:4,
+    jobs:['혼성 공략조 현장 통역', '협회 등록 현장 보조'], habits:['처음 들은 용어를 따로 적는다.', '숫자와 단위를 한 번 더 확인한다.', '상대가 답할 때까지 말을 멈춘다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 통역사 항목을 다시 읽는다.', '{u}은(는) 말잇는손의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 통역기록판의 반응이 달라진 지점을 확인한다.', '{u}은(는) 통역사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 통역기록판의 마모와 고정부를 살핀다.', '{u}은(는) 다음 혼성 공략조 현장 통역의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C095', name:'배분사', alias:['분배환'], en:'Mana Distributor', cat:'CC_SUPPORT',
+    tier:1, rarity:3, desc:'자기 마력의 전달 손실과 연결을 관리하는 지원.', lore:'공략조 마력 전달 보조에서 일감을 구한다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C0941', 'SK_C0942', 'SK_C0943', 'SK_C0944', 'SK_C0945', 'SK_C0946'],
+    passive:['SK_C0947'], learn:[{skill:'SK_C0948', lv:10}, {skill:'SK_C0949', lv:25}, {skill:'SK_C0950', lv:45}], stats:{STAT_MANA:2, STAT_MIND:2, STAT_SENSE:1}, keys:['ABL_A27', 'ABL_B15', 'ABL_B24', 'ABL_A07'], growth:{hp:28, mp:23},
+    hpMul:1, mpMul:1.15, statReq:{STAT_MIND:12}, ablReq:{ABL_A27:10}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['분배도선'], armors:['구조복', '경량 방호복'], fame:'common', pay:1, demand:4,
+    jobs:['공략조 마력 전달 보조', '협회 등록 현장 보조'], habits:['연결 전 동료의 동의를 구한다.', '전달 전후 자기 상태를 적는다.', '도선의 절연 피복을 확인한다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 배분사 항목을 다시 읽는다.', '{u}은(는) 분배환의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 분배도선의 반응이 달라진 지점을 확인한다.', '{u}은(는) 배분사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 분배도선의 마모와 고정부를 살핀다.', '{u}은(는) 다음 공략조 마력 전달 보조의 작업 범위를 읽는다.']}, src:'codex', el:'EL_C10',
+    affinity:['EL_C10']
+  },
+  {
+    id:'CLS_C096', name:'경보사', alias:['경고등조'], en:'Alarm Coordinator', cat:'CC_SUPPORT',
+    tier:1, rarity:4, desc:'확인한 위험을 구별 가능한 신호로 전하는 지원.', lore:'시야 불량 현장 위험 경보에서 일감을 구한다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C0951', 'SK_C0952', 'SK_C0953', 'SK_C0954', 'SK_C0955', 'SK_C0956'],
+    passive:['SK_C0957'], learn:[{skill:'SK_C0958', lv:10}, {skill:'SK_C0959', lv:25}, {skill:'SK_C0960', lv:45}], stats:{STAT_MANA:2, STAT_MIND:2, STAT_SENSE:1}, keys:['ABL_A27', 'ABL_B15', 'ABL_B24', 'ABL_A07'], growth:{hp:29, mp:24},
+    hpMul:1, mpMul:1.15, statReq:{STAT_MIND:13}, ablReq:{ABL_A27:11}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['경보등'], armors:['구조복', '경량 방호복'], fame:'rare', pay:1.05, demand:4,
+    jobs:['시야 불량 현장 위험 경보', '협회 등록 현장 보조'], habits:['경보음을 출발 전에 동료와 맞춘다.', '오작동한 신호를 기록한다.', '경보등의 잔량을 먼저 본다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 경보사 항목을 다시 읽는다.', '{u}은(는) 경고등조의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 경보등의 반응이 달라진 지점을 확인한다.', '{u}은(는) 경보사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 경보등의 마모와 고정부를 살핀다.', '{u}은(는) 다음 시야 불량 현장 위험 경보의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C097', name:'결속사', alias:['묶음손'], en:'Binding Worker', cat:'CC_SPECIAL',
+    tier:1, rarity:1, desc:'존재하는 끈의 매듭과 하중을 다루는 특수 담당.', lore:'장비 고정과 임시 제압에서 일감을 구한다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SCOUT',
+    roles:['ROLE_SCOUT'], range:'near', resource:'mp', pick:2, pool:['SK_C0961', 'SK_C0962', 'SK_C0963', 'SK_C0964', 'SK_C0965', 'SK_C0966'],
+    passive:['SK_C0967'], learn:[{skill:'SK_C0968', lv:10}, {skill:'SK_C0969', lv:25}, {skill:'SK_C0970', lv:45}], stats:{STAT_SENSE:3, STAT_MIND:1, STAT_BODY:1}, keys:['ABL_A19', 'ABL_A18', 'ABL_A22', 'ABL_A27'], growth:{hp:28, mp:19},
+    hpMul:1, mpMul:1.05, statReq:{STAT_SENSE:12}, ablReq:{ABL_A19:9}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['결속끈'], armors:['탐사복', '경량 방호복'], fame:'common', pay:1, demand:3,
+    jobs:['장비 고정과 임시 제압', '협회 등록 현장 보조'], habits:['매듭 끝을 같은 길이로 남긴다.', '끈이 닳은 곳을 표시한다.', '인계 전에 당김 방향을 알린다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 결속사 항목을 다시 읽는다.', '{u}은(는) 묶음손의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 결속끈의 반응이 달라진 지점을 확인한다.', '{u}은(는) 결속사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 결속끈의 마모와 고정부를 살핀다.', '{u}은(는) 다음 장비 고정과 임시 제압의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C098', name:'하중사', alias:['짐축'], en:'Load Balancer', cat:'CC_SPECIAL',
+    tier:1, rarity:2, desc:'지지점 사이로 하중을 나누는 특수 담당.', lore:'불안정 짐 운반 보조에서 일감을 구한다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C0971', 'SK_C0972', 'SK_C0973', 'SK_C0974', 'SK_C0975', 'SK_C0976'],
+    passive:['SK_C0977'], learn:[{skill:'SK_C0978', lv:10}, {skill:'SK_C0979', lv:25}, {skill:'SK_C0980', lv:45}], stats:{STAT_SENSE:3, STAT_MIND:1, STAT_BODY:1}, keys:['ABL_A27', 'ABL_A05', 'ABL_B36', 'ABL_B38'], growth:{hp:29, mp:20},
+    hpMul:1, mpMul:1.05, statReq:{STAT_SENSE:13}, ablReq:{ABL_A19:10}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['하중띠'], armors:['탐사복', '경량 방호복'], fame:'common', pay:1.05, demand:3,
+    jobs:['불안정 짐 운반 보조', '협회 등록 현장 보조'], habits:['짐을 들기 전에 지지점을 본다.', '하중띠의 박음질을 확인한다.', '바닥이 눌린 곳에 표식을 둔다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 하중사 항목을 다시 읽는다.', '{u}은(는) 짐축의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 하중띠의 반응이 달라진 지점을 확인한다.', '{u}은(는) 하중사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 하중띠의 마모와 고정부를 살핀다.', '{u}은(는) 다음 불안정 짐 운반 보조의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C099', name:'굴절사', alias:['꺾빛'], en:'Refraction Worker', cat:'CC_SPECIAL',
+    tier:1, rarity:1, desc:'존재하는 빛의 진행 각도를 바꾸는 특수 담당.', lore:'반사광 노출 조절에서 일감을 구한다. 없는 빛을 만들거나 실제 물체를 지우지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SCOUT',
+    roles:['ROLE_SCOUT'], range:'near', resource:'mp', pick:2, pool:['SK_C0981', 'SK_C0982', 'SK_C0983', 'SK_C0984', 'SK_C0985', 'SK_C0986'],
+    passive:['SK_C0987'], learn:[{skill:'SK_C0988', lv:10}, {skill:'SK_C0989', lv:25}, {skill:'SK_C0990', lv:45}], stats:{STAT_SENSE:3, STAT_MIND:1, STAT_BODY:1}, keys:['ABL_A19', 'ABL_A18', 'ABL_A22', 'ABL_A27'], growth:{hp:30, mp:19},
+    hpMul:1, mpMul:1.05, statReq:{STAT_SENSE:14}, ablReq:{ABL_A19:11}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['굴절렌즈'], armors:['탐사복', '경량 방호복'], fame:'common', pay:1.1, demand:3,
+    jobs:['반사광 노출 조절', '협회 등록 현장 보조'], habits:['렌즈 가장자리의 금을 확인한다.', '밝은 면을 사람 눈에서 돌린다.', '작업 뒤 광로 표식을 걷는다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 굴절사 항목을 다시 읽는다.', '{u}은(는) 꺾빛의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 굴절렌즈의 반응이 달라진 지점을 확인한다.', '{u}은(는) 굴절사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 굴절렌즈의 마모와 고정부를 살핀다.', '{u}은(는) 다음 반사광 노출 조절의 작업 범위를 읽는다.']}, src:'codex', el:'EL_C07',
+    affinity:['EL_C07']
+  },
+  {
+    id:'CLS_C100', name:'박리사', alias:['겉층손'], en:'Layer Separation Worker', cat:'CC_SPECIAL',
+    tier:1, rarity:2, desc:'이미 나뉜 층 사이의 접착과 경계를 다루는 특수 담당.', lore:'오염막 및 들뜬 외피 분리에서 일감을 구한다. 멀쩡한 재료에 새로운 층을 만들지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SCOUT',
+    roles:['ROLE_SCOUT'], range:'near', resource:'mp', pick:2, pool:['SK_C0991', 'SK_C0992', 'SK_C0993', 'SK_C0994', 'SK_C0995', 'SK_C0996'],
+    passive:['SK_C0997'], learn:[{skill:'SK_C0998', lv:10}, {skill:'SK_C0999', lv:25}, {skill:'SK_C1000', lv:45}], stats:{STAT_SENSE:3, STAT_MIND:1, STAT_BODY:1}, keys:['ABL_A19', 'ABL_A18', 'ABL_A22', 'ABL_A27'], growth:{hp:28, mp:20},
+    hpMul:1, mpMul:1.05, statReq:{STAT_SENSE:15}, ablReq:{ABL_A19:9}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['박리주걱'], armors:['탐사복', '경량 방호복'], fame:'common', pay:1.15, demand:3,
+    jobs:['오염막 및 들뜬 외피 분리', '협회 등록 현장 보조'], habits:['들뜬 가장자리를 먼저 찾는다.', '얇은 주걱 끝을 덮어 둔다.', '분리한 층은 다른 봉투에 넣는다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 박리사 항목을 다시 읽는다.', '{u}은(는) 겉층손의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 박리주걱의 반응이 달라진 지점을 확인한다.', '{u}은(는) 박리사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 박리주걱의 마모와 고정부를 살핀다.', '{u}은(는) 다음 오염막 및 들뜬 외피 분리의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C101', name:'문양사', alias:['표문조'], en:'Pattern Surveyor', cat:'CC_SPECIAL',
+    tier:1, rarity:3, desc:'확인한 문양의 반복과 배치를 읽는 특수 조사자.', lore:'유적형 게이트 문양 조사에서 일감을 구한다. 배우지 않은 의미를 자동으로 해독하지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SCOUT',
+    roles:['ROLE_SCOUT'], range:'near', resource:'mp', pick:2, pool:['SK_C1001', 'SK_C1002', 'SK_C1003', 'SK_C1004', 'SK_C1005', 'SK_C1006'],
+    passive:['SK_C1007'], learn:[{skill:'SK_C1008', lv:10}, {skill:'SK_C1009', lv:25}, {skill:'SK_C1010', lv:45}], stats:{STAT_SENSE:3, STAT_MIND:1, STAT_BODY:1}, keys:['ABL_A19', 'ABL_B03', 'ABL_B32', 'ABL_B34'], growth:{hp:29, mp:19},
+    hpMul:1, mpMul:1.05, statReq:{STAT_SENSE:12}, ablReq:{ABL_A19:10}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['문양기록판'], armors:['탐사복', '경량 방호복'], fame:'common', pay:1, demand:3,
+    jobs:['유적형 게이트 문양 조사', '협회 등록 현장 보조'], habits:['모르는 문양은 그대로 옮겨 적는다.', '비슷한 획의 방향을 나눠 본다.', '추정과 확인한 사실을 구분해 기록한다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 문양사 항목을 다시 읽는다.', '{u}은(는) 표문조의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 문양기록판의 반응이 달라진 지점을 확인한다.', '{u}은(는) 문양사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 문양기록판의 마모와 고정부를 살핀다.', '{u}은(는) 다음 유적형 게이트 문양 조사의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C102', name:'경계사', alias:['선표조'], en:'Boundary Marker', cat:'CC_SPECIAL',
+    tier:1, rarity:4, desc:'확인한 경계선의 접촉과 통과를 살피는 특수 담당.', lore:'작업 구역 출입 감시에서 일감을 구한다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SCOUT',
+    roles:['ROLE_SCOUT'], range:'near', resource:'mp', pick:2, pool:['SK_C1011', 'SK_C1012', 'SK_C1013', 'SK_C1014', 'SK_C1015', 'SK_C1016'],
+    passive:['SK_C1017'], learn:[{skill:'SK_C1018', lv:10}, {skill:'SK_C1019', lv:25}, {skill:'SK_C1020', lv:45}], stats:{STAT_SENSE:3, STAT_MIND:1, STAT_BODY:1}, keys:['ABL_A19', 'ABL_A18', 'ABL_A22', 'ABL_A27'], growth:{hp:30, mp:20},
+    hpMul:1, mpMul:1.05, statReq:{STAT_SENSE:13}, ablReq:{ABL_A19:11}, gear:['ITC_WEAPON', 'ITC_ARMOR', 'ITC_GEAR'],
+    weapons:['경계말뚝'], armors:['탐사복', '경량 방호복'], fame:'rare', pay:1.05, demand:3,
+    jobs:['작업 구역 출입 감시', '협회 등록 현장 보조'], habits:['말뚝 번호를 구역도와 맞춘다.', '철수 전에 남은 선표를 센다.', '동료에게 통과 지점을 알려 둔다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 경계사 항목을 다시 읽는다.', '{u}은(는) 선표조의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 경계말뚝의 반응이 달라진 지점을 확인한다.', '{u}은(는) 경계사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 경계말뚝의 마모와 고정부를 살핀다.', '{u}은(는) 다음 작업 구역 출입 감시의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C103', name:'연마사', alias:['날고름공'], en:'Edge Grinder', cat:'CC_CRAFT',
+    tier:1, rarity:1, desc:'남아 있는 날의 각도와 표면을 다듬는 가공자.', lore:'회수 장비 날 복구에서 일감을 구한다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C1021', 'SK_C1022', 'SK_C1023', 'SK_C1024', 'SK_C1025', 'SK_C1026'],
+    passive:['SK_C1027'], learn:[{skill:'SK_C1028', lv:10}, {skill:'SK_C1029', lv:25}, {skill:'SK_C1030', lv:45}], stats:{STAT_MANA:2, STAT_MIND:1, STAT_SENSE:2}, keys:['ABL_A26', 'ABL_A10', 'ABL_B31', 'ABL_B38'], growth:{hp:26, mp:20},
+    hpMul:1, mpMul:1.1, statReq:{STAT_SENSE:12}, ablReq:{ABL_A26:9}, gear:['ITC_GEAR', 'ITC_ARMOR'],
+    weapons:['연마석'], armors:['작업복', '방진 작업복'], fame:'common', pay:1, demand:3,
+    jobs:['회수 장비 날 복구', '현장 공방 단기 작업'], habits:['연마석의 평면을 확인한다.', '작업 뒤 금속 가루를 따로 모은다.', '날을 손가락으로 직접 훑지 않는다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 연마사 항목을 다시 읽는다.', '{u}은(는) 날고름공의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 연마석의 반응이 달라진 지점을 확인한다.', '{u}은(는) 연마사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 연마석의 마모와 고정부를 살핀다.', '{u}은(는) 다음 회수 장비 날 복구의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C104', name:'직조사', alias:['날실공'], en:'Protective Weaver', cat:'CC_CRAFT',
+    tier:1, rarity:2, desc:'준비한 섬유를 엮어 방호 원단을 만드는 가공자.', lore:'방호 원단 직조에서 일감을 구한다. 실과 섬유가 없으면 원단을 만들지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C1031', 'SK_C1032', 'SK_C1033', 'SK_C1034', 'SK_C1035', 'SK_C1036'],
+    passive:['SK_C1037'], learn:[{skill:'SK_C1038', lv:10}, {skill:'SK_C1039', lv:25}, {skill:'SK_C1040', lv:45}], stats:{STAT_MANA:2, STAT_MIND:1, STAT_SENSE:2}, keys:['ABL_A26', 'ABL_A10', 'ABL_B31', 'ABL_B38'], growth:{hp:27, mp:21},
+    hpMul:1, mpMul:1.1, statReq:{STAT_SENSE:13}, ablReq:{ABL_A26:10}, gear:['ITC_GEAR', 'ITC_ARMOR'],
+    weapons:['직조틀'], armors:['작업복', '방진 작업복'], fame:'common', pay:1.05, demand:3,
+    jobs:['방호 원단 직조', '현장 공방 단기 작업'], habits:['날실의 남은 길이를 적는다.', '젖은 섬유는 따로 말린다.', '직조틀에 손을 넣기 전에 멈춘다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 직조사 항목을 다시 읽는다.', '{u}은(는) 날실공의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 직조틀의 반응이 달라진 지점을 확인한다.', '{u}은(는) 직조사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 직조틀의 마모와 고정부를 살핀다.', '{u}은(는) 다음 방호 원단 직조의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C105', name:'인쇄사', alias:['표찰공'], en:'Field Printer', cat:'CC_CRAFT',
+    tier:1, rarity:1, desc:'확인한 정보를 표찰과 작업지에 옮기는 제작자.', lore:'현장 표찰 및 인계표 제작에서 일감을 구한다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C1041', 'SK_C1042', 'SK_C1043', 'SK_C1044', 'SK_C1045', 'SK_C1046'],
+    passive:['SK_C1047'], learn:[{skill:'SK_C1048', lv:10}, {skill:'SK_C1049', lv:25}, {skill:'SK_C1050', lv:45}], stats:{STAT_MANA:2, STAT_MIND:1, STAT_SENSE:2}, keys:['ABL_A26', 'ABL_A10', 'ABL_B31', 'ABL_B38'], growth:{hp:28, mp:20},
+    hpMul:1, mpMul:1.1, statReq:{STAT_SENSE:14}, ablReq:{ABL_A26:11}, gear:['ITC_GEAR', 'ITC_ARMOR'],
+    weapons:['휴대인쇄판'], armors:['작업복', '방진 작업복'], fame:'common', pay:1.1, demand:3,
+    jobs:['현장 표찰 및 인계표 제작', '현장 공방 단기 작업'], habits:['원본과 인쇄본의 번호를 맞춘다.', '번진 표찰을 따로 뺀다.', '작업표의 갱신 시각을 적는다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 인쇄사 항목을 다시 읽는다.', '{u}은(는) 표찰공의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 휴대인쇄판의 반응이 달라진 지점을 확인한다.', '{u}은(는) 인쇄사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 휴대인쇄판의 마모와 고정부를 살핀다.', '{u}은(는) 다음 현장 표찰 및 인계표 제작의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C106', name:'성형사', alias:['틀잡이'], en:'Mold Shaper', cat:'CC_CRAFT',
+    tier:1, rarity:2, desc:'가공 가능한 재료를 틀에 맞춰 누르는 제작자.', lore:'비금속 부품 성형에서 일감을 구한다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C1051', 'SK_C1052', 'SK_C1053', 'SK_C1054', 'SK_C1055', 'SK_C1056'],
+    passive:['SK_C1057'], learn:[{skill:'SK_C1058', lv:10}, {skill:'SK_C1059', lv:25}, {skill:'SK_C1060', lv:45}], stats:{STAT_MANA:2, STAT_MIND:1, STAT_SENSE:2}, keys:['ABL_A26', 'ABL_A10', 'ABL_B31', 'ABL_B38'], growth:{hp:26, mp:21},
+    hpMul:1, mpMul:1.1, statReq:{STAT_SENSE:15}, ablReq:{ABL_A26:9}, gear:['ITC_GEAR', 'ITC_ARMOR'],
+    weapons:['성형틀'], armors:['작업복', '방진 작업복'], fame:'common', pay:1.15, demand:3,
+    jobs:['비금속 부품 성형', '현장 공방 단기 작업'], habits:['틀을 열기 전에 굳는 시간을 확인한다.', '빠진 작은 조각을 따로 모은다.', '성형틀의 뒤틀림을 본다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 성형사 항목을 다시 읽는다.', '{u}은(는) 틀잡이의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 성형틀의 반응이 달라진 지점을 확인한다.', '{u}은(는) 성형사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 성형틀의 마모와 고정부를 살핀다.', '{u}은(는) 다음 비금속 부품 성형의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C107', name:'여과사', alias:['거름공'], en:'Filter Worker', cat:'CC_CRAFT',
+    tier:1, rarity:3, desc:'필터와 유로로 입자성 오염을 나누는 작업자.', lore:'회수액 및 작업수 여과에서 일감을 구한다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C1061', 'SK_C1062', 'SK_C1063', 'SK_C1064', 'SK_C1065', 'SK_C1066'],
+    passive:['SK_C1067'], learn:[{skill:'SK_C1068', lv:10}, {skill:'SK_C1069', lv:25}, {skill:'SK_C1070', lv:45}], stats:{STAT_MANA:2, STAT_MIND:1, STAT_SENSE:2}, keys:['ABL_A26', 'ABL_A10', 'ABL_B31', 'ABL_B38'], growth:{hp:27, mp:20},
+    hpMul:1, mpMul:1.1, statReq:{STAT_SENSE:12}, ablReq:{ABL_A26:10}, gear:['ITC_GEAR', 'ITC_ARMOR'],
+    weapons:['여과통'], armors:['작업복', '방진 작업복'], fame:'common', pay:1, demand:3,
+    jobs:['회수액 및 작업수 여과', '현장 공방 단기 작업'], habits:['사용한 필터를 새것과 나눈다.', '여과 전후 용기 번호를 맞춘다.', '유로를 바꾸기 전에 밸브를 잠근다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 여과사 항목을 다시 읽는다.', '{u}은(는) 거름공의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 여과통의 반응이 달라진 지점을 확인한다.', '{u}은(는) 여과사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 여과통의 마모와 고정부를 살핀다.', '{u}은(는) 다음 회수액 및 작업수 여과의 작업 범위를 읽는다.']}, src:'codex'
+  },
+  {
+    id:'CLS_C108', name:'포장사', alias:['짐감싸개'], en:'Cargo Packer', cat:'CC_CRAFT',
+    tier:1, rarity:4, desc:'완충재와 고정점으로 화물의 손상을 줄이는 작업자.', lore:'회수품 운송 포장에서 일감을 구한다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다. 작업 시작 전에 동료와 적용 범위를 맞춘다.', role:'ROLE_SUP',
+    roles:['ROLE_SUP'], range:'near', resource:'mp', pick:2, pool:['SK_C1071', 'SK_C1072', 'SK_C1073', 'SK_C1074', 'SK_C1075', 'SK_C1076'],
+    passive:['SK_C1077'], learn:[{skill:'SK_C1078', lv:10}, {skill:'SK_C1079', lv:25}, {skill:'SK_C1080', lv:45}], stats:{STAT_MANA:2, STAT_MIND:1, STAT_SENSE:2}, keys:['ABL_A26', 'ABL_A10', 'ABL_B31', 'ABL_B38'], growth:{hp:28, mp:21},
+    hpMul:1, mpMul:1.1, statReq:{STAT_SENSE:13}, ablReq:{ABL_A26:11}, gear:['ITC_GEAR', 'ITC_ARMOR'],
+    weapons:['포장클램프'], armors:['작업복', '방진 작업복'], fame:'rare', pay:1.05, demand:3,
+    jobs:['회수품 운송 포장', '현장 공방 단기 작업'], habits:['화물의 위아래 표시를 확인한다.', '묶은 끈 아래 여유를 손으로 본다.', '손상된 완충재를 따로 뺀다.'], lines:{awaken:['{u}은(는) 상태창에 뜬 포장사 항목을 다시 읽는다.', '{u}은(는) 짐감싸개의 현장 등록 절차를 확인한다.'], levelUp:['{u}은(는) 포장클램프의 반응이 달라진 지점을 확인한다.', '{u}은(는) 포장사 훈련 기록에 오늘의 변화를 적는다.'], idle:['{u}은(는) 포장클램프의 마모와 고정부를 살핀다.', '{u}은(는) 다음 회수품 운송 포장의 작업 범위를 읽는다.']}, src:'codex'
   }
 ]);

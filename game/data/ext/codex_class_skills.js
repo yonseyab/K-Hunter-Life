@@ -1,4 +1,4 @@
-/* Codex 01 · 클래스 스킬 720개. 기본 패시브와 레벨 습득은 엔진 연결이 별도로 필요하다. */
+/* Codex 01 · 클래스 스킬 1080개. 기본 패시브와 레벨 습득은 엔진 연결이 별도로 필요하다. */
 
 def('skills', [
   {
@@ -6544,5 +6544,3261 @@ def('skills', [
     scale:'STAT_SENSE', scale2:'ABL_A26', reaction:'타격 또는 지원이 끝난 뒤 다음 동작을 준비할 때', buff:{sense:1.06}, daily:true,
     maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A26:12}}, risk:1,
     combo:['SK_C0711'], lines:{use:['{u}의 {s}이(가) 발동한다. 에너지원과 장비의 출력차이 틀어지기 시작하는 징후를 작업 뒤 확인한다.', '{u}은(는) {s}에 익숙한 순서로 작은 변화를 확인한다.'], hit:['{u}의 {s}이(가) 확인한 조건 안에서 작용한다.', '{u}은(는) {s}의 징후를 읽고 자세를 고른다.'], miss:['{u}의 출력흔들림감이 필요한 위치에 닿지 않는다.', '{u}은(는) 출력흔들림감을 멈추고 절연충전선의 위치를 다시 잡는다.'], crit:['{u}은(는) 출력흔들림감의 범위와 출력을 정확히 맞춘다.', '{u}의 출력흔들림감이 적은 낭비로 필요한 지점에 작용한다.'], fail:['{u}은(는) 절연충전선의 상태가 맞지 않아 출력흔들림감을 중단한다.', '{u}의 출력흔들림감이 끊긴다. {u}은(는) 남은 힘을 확인한다.']}, src:'codex'
+  },
+  // 2026-10-24 추가분: 기존 ID와 행을 보존한다.
+  {
+    id:'SK_C0721', name:'넓날내림', en:'Heavy Blade Guard Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C073', grade:2, rarity:1, tier:1, desc:'대검의 넓은 날을 세워 전방 한 지점을 내려친다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.',
+    lore:'잔해 통로 개방에서 사용하는 대검병의 현장 기술이다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.', target:'enemy', range:'melee', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_BODY', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '대검병'],
+    risk:2, src:'codex', cost:{stamina:10, cd:3}, ai:{opener:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_MELEE', combo:['SK_C0722'], lines:{use:['{u}은(는) 대검의 넓은 날을 세워 전방 한 지점을 내려친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0722', name:'검면받침', en:'Heavy Blade Guard Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C073', grade:1, rarity:1, tier:1, desc:'대검의 넓은 면을 기울여 날아오는 파편을 받는다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.',
+    lore:'잔해 통로 개방에서 사용하는 대검병의 현장 기술이다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '대검병'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    shield:0.65, se:[{se:'SE_C018', chance:1, turns:3}], combo:['SK_C0723'], lines:{use:['{u}은(는) 대검의 넓은 면을 기울여 날아오는 파편을 받는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0723', name:'칼폭벌림', en:'Heavy Blade Guard Set', scope:'class', kind:'액티브',
+    cls:'CLS_C073', grade:1, rarity:1, tier:1, desc:'날의 폭으로 적의 무기를 바깥으로 밀어낸다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.',
+    lore:'잔해 통로 개방에서 사용하는 대검병의 현장 기술이다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '대검병'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    se:[{se:'SE_C012', chance:0.75, turns:2}], combo:['SK_C0724'], lines:{use:['{u}은(는) 날의 폭으로 적의 무기를 바깥으로 밀어낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0724', name:'등날물림', en:'Heavy Blade Guard Step', scope:'class', kind:'액티브',
+    cls:'CLS_C073', grade:1, rarity:1, tier:1, desc:'검을 몸 가까이 회수하며 한 걸음 물러난다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.',
+    lore:'잔해 통로 개방에서 사용하는 대검병의 현장 기술이다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '대검병'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, ai:{hpBelow:0.4}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'retreat', combo:['SK_C0725'], lines:{use:['{u}은(는) 검을 몸 가까이 회수하며 한 걸음 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0725', name:'회수반경눈', en:'Heavy Blade Guard Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C073', grade:1, rarity:1, tier:1, desc:'대검이 돌아올 자리에 생긴 장애물을 알아챈다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.',
+    lore:'잔해 통로 개방에서 사용하는 대검병의 현장 기술이다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '대검병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0726'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 대검이 돌아올 자리에 생긴 장애물을 알아챈다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0726', name:'긴손잡이감', en:'Heavy Blade Guard Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C073', grade:1, rarity:1, tier:1, desc:'손잡이 양끝의 힘을 나눠 무게를 받는다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.',
+    lore:'잔해 통로 개방에서 사용하는 대검병의 현장 기술이다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '대검병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0727'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 손잡이 양끝의 힘을 나눠 무게를 받는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0727', name:'검중심유지', en:'Heavy Blade Guard Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C073', grade:1, rarity:1, tier:1, desc:'검면이 기울 때 몸의 축을 함께 고른다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.',
+    lore:'잔해 통로 개방에서 사용하는 대검병의 현장 기술이다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '대검병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0728'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 검면이 기울 때 몸의 축을 함께 고른다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0728', name:'비스듬절단', en:'Heavy Blade Guard Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C073', grade:2, rarity:3, tier:2, desc:'비껴 세운 날로 단단한 이음새를 가른다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.',
+    lore:'잔해 통로 개방에서 사용하는 대검병의 현장 기술이다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.', target:'enemy', range:'melee', area:1, hits:1,
+    count:1, power:1.65, scale:'STAT_BODY', scale2:'ABL_A02', acc:-1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '대검병'],
+    risk:2, src:'codex', cost:{stamina:24, cd:5, cast:1}, ai:{opener:false}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_MELEE', se:[{se:'SE_C012', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_BODY:12}, abl:{ABL_A02:8}}, combo:['SK_C0729'], lines:{use:['{u}은(는) 비껴 세운 날로 단단한 이음새를 가른다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0729', name:'대검엄호면', en:'Heavy Blade Guard Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C073', grade:3, rarity:3, tier:3, desc:'동료 앞에 넓은 검면을 세워 파편을 가린다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.',
+    lore:'잔해 통로 개방에서 사용하는 대검병의 현장 기술이다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '대검병'],
+    risk:1, src:'codex', cost:{stamina:18, cd:4}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C013', chance:1, turns:2}], req:{lv:25, stat:{STAT_BODY:15}, abl:{ABL_A02:10}}, combo:['SK_C0730'], lines:{use:['{u}은(는) 동료 앞에 넓은 검면을 세워 파편을 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0730', name:'회수끝경계', en:'Heavy Blade Guard Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C073', grade:4, rarity:3, tier:4, desc:'휘두름이 끝난 뒤 빈 옆구리를 먼저 살핀다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.',
+    lore:'잔해 통로 개방에서 사용하는 대검병의 현장 기술이다. 천장과 아군의 간격이 좁으면 휘두르지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '대검병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_BODY:18}, abl:{ABL_A02:12}},
+    combo:['SK_C0721'], lines:{use:['{u}의 {s}이(가) 발동한다. 휘두름이 끝난 뒤 빈 옆구리를 먼저 살핀다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0731', name:'고리끝찍기', en:'Hook Guard Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C074', grade:2, rarity:1, tier:1, desc:'갈고리 끝으로 외피의 이음을 짧게 찍는다. 갈고리를 걸 틈이 없으면 당기기 어렵다.',
+    lore:'갑각 개체 제압에서 사용하는 갈고리병의 현장 기술이다. 갈고리를 걸 틈이 없으면 당기기 어렵다.', target:'enemy', range:'melee', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_BODY', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '갈고리병'],
+    risk:2, src:'codex', cost:{stamina:10, cd:3}, ai:{opener:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_MELEE', combo:['SK_C0732'], lines:{use:['{u}은(는) 갈고리 끝으로 외피의 이음을 짧게 찍는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0732', name:'갈고리받음', en:'Hook Guard Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C074', grade:1, rarity:1, tier:1, desc:'창대와 갈고리를 비껴 세워 접근을 막는다. 갈고리를 걸 틈이 없으면 당기기 어렵다.',
+    lore:'갑각 개체 제압에서 사용하는 갈고리병의 현장 기술이다. 갈고리를 걸 틈이 없으면 당기기 어렵다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '갈고리병'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    shield:0.65, se:[{se:'SE_C014', chance:1, turns:3}], combo:['SK_C0733'], lines:{use:['{u}은(는) 창대와 갈고리를 비껴 세워 접근을 막는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0733', name:'고리당김', en:'Hook Guard Set', scope:'class', kind:'액티브',
+    cls:'CLS_C074', grade:1, rarity:1, tier:1, desc:'걸린 고리를 당겨 적의 몸을 가까이 끌어온다. 갈고리를 걸 틈이 없으면 당기기 어렵다.',
+    lore:'갑각 개체 제압에서 사용하는 갈고리병의 현장 기술이다. 갈고리를 걸 틈이 없으면 당기기 어렵다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '갈고리병'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'pull', se:[{se:'SE_C007', chance:0.75, turns:2}], combo:['SK_C0734'], lines:{use:['{u}은(는) 걸린 고리를 당겨 적의 몸을 가까이 끌어온다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0734', name:'걸쇠풀어물림', en:'Hook Guard Step', scope:'class', kind:'액티브',
+    cls:'CLS_C074', grade:1, rarity:1, tier:1, desc:'갈고리의 하중을 풀면서 뒤로 한 걸음 빠진다. 갈고리를 걸 틈이 없으면 당기기 어렵다.',
+    lore:'갑각 개체 제압에서 사용하는 갈고리병의 현장 기술이다. 갈고리를 걸 틈이 없으면 당기기 어렵다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '갈고리병'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, ai:{hpBelow:0.4}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'retreat', combo:['SK_C0735'], lines:{use:['{u}은(는) 갈고리의 하중을 풀면서 뒤로 한 걸음 빠진다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0735', name:'걸림깊이눈', en:'Hook Guard Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C074', grade:1, rarity:1, tier:1, desc:'갈고리가 걸린 깊이와 미끄러짐을 읽는다. 갈고리를 걸 틈이 없으면 당기기 어렵다.',
+    lore:'갑각 개체 제압에서 사용하는 갈고리병의 현장 기술이다. 갈고리를 걸 틈이 없으면 당기기 어렵다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '갈고리병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0736'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 갈고리가 걸린 깊이와 미끄러짐을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0736', name:'엇손장력', en:'Hook Guard Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C074', grade:1, rarity:1, tier:1, desc:'양손의 당기는 힘을 나눠 팔이 꺾이지 않게 한다. 갈고리를 걸 틈이 없으면 당기기 어렵다.',
+    lore:'갑각 개체 제압에서 사용하는 갈고리병의 현장 기술이다. 갈고리를 걸 틈이 없으면 당기기 어렵다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '갈고리병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0737'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 양손의 당기는 힘을 나눠 팔이 꺾이지 않게 한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0737', name:'고리몸축', en:'Hook Guard Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C074', grade:1, rarity:1, tier:1, desc:'걸린 대상의 무게를 허리와 발로 나눠 받는다. 갈고리를 걸 틈이 없으면 당기기 어렵다.',
+    lore:'갑각 개체 제압에서 사용하는 갈고리병의 현장 기술이다. 갈고리를 걸 틈이 없으면 당기기 어렵다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '갈고리병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0738'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 걸린 대상의 무게를 허리와 발로 나눠 받는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0738', name:'되감아타격', en:'Hook Guard Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C074', grade:2, rarity:3, tier:2, desc:'갈고리를 회수한 반동으로 자루 끝을 친다. 갈고리를 걸 틈이 없으면 당기기 어렵다.',
+    lore:'갑각 개체 제압에서 사용하는 갈고리병의 현장 기술이다. 갈고리를 걸 틈이 없으면 당기기 어렵다.', target:'enemy', range:'melee', area:1, hits:1,
+    count:1, power:1.35, scale:'STAT_BODY', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '갈고리병'],
+    risk:2, src:'codex', cost:{stamina:18, cd:4}, ai:{opener:false}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_MELEE', se:[{se:'SE_C007', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_BODY:12}, abl:{ABL_A02:8}}, combo:['SK_C0739'], lines:{use:['{u}은(는) 갈고리를 회수한 반동으로 자루 끝을 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0739', name:'동료고리풀기', en:'Hook Guard Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C074', grade:3, rarity:3, tier:3, desc:'동료 장비에 걸린 고리를 풀 간격을 만든다. 갈고리를 걸 틈이 없으면 당기기 어렵다.',
+    lore:'갑각 개체 제압에서 사용하는 갈고리병의 현장 기술이다. 갈고리를 걸 틈이 없으면 당기기 어렵다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '갈고리병'],
+    risk:1, src:'codex', cost:{stamina:18, cd:4}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C015', chance:1, turns:2}], req:{lv:25, stat:{STAT_BODY:15}, abl:{ABL_A02:10}}, combo:['SK_C0740'], lines:{use:['{u}은(는) 동료 장비에 걸린 고리를 풀 간격을 만든다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0740', name:'풀린하중감', en:'Hook Guard Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C074', grade:4, rarity:3, tier:4, desc:'당기던 하중이 갑자기 사라지는 변화를 읽는다. 갈고리를 걸 틈이 없으면 당기기 어렵다.',
+    lore:'갑각 개체 제압에서 사용하는 갈고리병의 현장 기술이다. 갈고리를 걸 틈이 없으면 당기기 어렵다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '갈고리병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_BODY:18}, abl:{ABL_A02:12}},
+    combo:['SK_C0731'], lines:{use:['{u}의 {s}이(가) 발동한다. 당기던 하중이 갑자기 사라지는 변화를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0741', name:'방진모서리', en:'Formation Guard Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C075', grade:2, rarity:1, tier:1, desc:'방패의 모서리로 접근한 적을 짧게 친다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.',
+    lore:'대규모 후송로 방호에서 사용하는 방진병의 현장 기술이다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.', target:'enemy', range:'melee', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_BODY', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '방진병', '동료 응답'],
+    risk:2, src:'codex', cost:{stamina:10, cd:3}, ai:{opener:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_MELEE', combo:['SK_C0742'], lines:{use:['{u}은(는) 방패의 모서리로 접근한 적을 짧게 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0742', name:'맞물림방호', en:'Formation Guard Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C075', grade:1, rarity:1, tier:1, desc:'옆 동료의 방패와 겹치는 면을 세운다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.',
+    lore:'대규모 후송로 방호에서 사용하는 방진병의 현장 기술이다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '방진병', '동료 응답'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    shield:0.65, se:[{se:'SE_C014', chance:1, turns:3}], combo:['SK_C0743'], lines:{use:['{u}은(는) 옆 동료의 방패와 겹치는 면을 세운다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0743', name:'진형틈고정', en:'Formation Guard Set', scope:'class', kind:'액티브',
+    cls:'CLS_C075', grade:1, rarity:1, tier:1, desc:'동료와 합의한 틈을 유지해 한 사람의 통과를 돕는다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.',
+    lore:'대규모 후송로 방호에서 사용하는 방진병의 현장 기술이다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '방진병', '동료 응답'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C013', chance:1, turns:2}], combo:['SK_C0744'], lines:{use:['{u}은(는) 동료와 합의한 틈을 유지해 한 사람의 통과를 돕는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0744', name:'대열반보', en:'Formation Guard Step', scope:'class', kind:'액티브',
+    cls:'CLS_C075', grade:1, rarity:1, tier:1, desc:'옆 동료와 신호를 맞추고 반걸음 물러난다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.',
+    lore:'대규모 후송로 방호에서 사용하는 방진병의 현장 기술이다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '방진병', '동료 응답'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, ai:{hpBelow:0.4}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'retreat', combo:['SK_C0745'], lines:{use:['{u}은(는) 옆 동료와 신호를 맞추고 반걸음 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0745', name:'진형틈눈', en:'Formation Guard Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C075', grade:1, rarity:1, tier:1, desc:'방패 사이로 새는 빛과 움직임을 읽는다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.',
+    lore:'대규모 후송로 방호에서 사용하는 방진병의 현장 기술이다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '방진병', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0746'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 방패 사이로 새는 빛과 움직임을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0746', name:'옆팔간격', en:'Formation Guard Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C075', grade:1, rarity:1, tier:1, desc:'방패를 든 팔이 동료와 부딪치지 않게 고른다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.',
+    lore:'대규모 후송로 방호에서 사용하는 방진병의 현장 기술이다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '방진병', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0747'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 방패를 든 팔이 동료와 부딪치지 않게 고른다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0747', name:'대열기준발', en:'Formation Guard Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C075', grade:1, rarity:1, tier:1, desc:'옆사람의 보폭을 기준으로 자기 발을 정렬한다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.',
+    lore:'대규모 후송로 방호에서 사용하는 방진병의 현장 기술이다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '방진병', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0748'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 옆사람의 보폭을 기준으로 자기 발을 정렬한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0748', name:'동시밀어냄', en:'Formation Guard Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C075', grade:2, rarity:3, tier:2, desc:'동료의 신호에 맞춰 전방의 적을 밀어 친다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.',
+    lore:'대규모 후송로 방호에서 사용하는 방진병의 현장 기술이다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.', target:'enemy', range:'melee', area:1, hits:1,
+    count:1, power:1.35, scale:'STAT_BODY', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '방진병', '동료 응답'],
+    risk:2, src:'codex', cost:{stamina:18, cd:4}, ai:{opener:false}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_MELEE', se:[{se:'SE_C007', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_BODY:12}, abl:{ABL_A02:8}}, combo:['SK_C0749'], lines:{use:['{u}은(는) 동료의 신호에 맞춰 전방의 적을 밀어 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']},
+    move:'push', counter:'동료가 합의한 전진 신호에 응답했을 때'
+  },
+  {
+    id:'SK_C0749', name:'퇴각방진', en:'Formation Guard Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C075', grade:3, rarity:3, tier:3, desc:'동료 둘의 후퇴 순서에 맞춰 방호면을 교대한다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.',
+    lore:'대규모 후송로 방호에서 사용하는 방진병의 현장 기술이다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '방진병', '동료 응답'],
+    risk:1, src:'codex', cost:{stamina:18, cd:4}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C013', chance:1, turns:2}], req:{lv:25, stat:{STAT_BODY:15}, abl:{ABL_A02:10}}, combo:['SK_C0750'], lines:{use:['{u}은(는) 동료 둘의 후퇴 순서에 맞춰 방호면을 교대한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0750', name:'벌어진진형감', en:'Formation Guard Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C075', grade:4, rarity:3, tier:4, desc:'동료의 방패가 멀어질 때 옆구리 노출을 읽는다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.',
+    lore:'대규모 후송로 방호에서 사용하는 방진병의 현장 기술이다. 동료가 합의한 대열을 벗어나면 방호가 벌어진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '방진병', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_BODY:18}, abl:{ABL_A02:12}},
+    combo:['SK_C0741'], lines:{use:['{u}의 {s}이(가) 발동한다. 동료의 방패가 멀어질 때 옆구리 노출을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0751', name:'완갑짧은격', en:'Armguard Defender Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C076', grade:2, rarity:1, tier:1, desc:'팔의 단단한 방호면으로 가까운 적을 친다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.',
+    lore:'협소 통로 선두 방호에서 사용하는 완갑병의 현장 기술이다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.', target:'enemy', range:'melee', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_BODY', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '완갑병'],
+    risk:2, src:'codex', cost:{stamina:10, cd:3}, ai:{opener:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_MELEE', combo:['SK_C0752'], lines:{use:['{u}은(는) 팔의 단단한 방호면으로 가까운 적을 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0752', name:'겹팔방호', en:'Armguard Defender Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C076', grade:1, rarity:1, tier:1, desc:'양팔의 완갑을 겹쳐 목과 가슴을 가린다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.',
+    lore:'협소 통로 선두 방호에서 사용하는 완갑병의 현장 기술이다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '완갑병'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    shield:0.65, se:[{se:'SE_C014', chance:1, turns:3}], combo:['SK_C0753'], lines:{use:['{u}은(는) 양팔의 완갑을 겹쳐 목과 가슴을 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0753', name:'완갑틈받기', en:'Armguard Defender Set', scope:'class', kind:'액티브',
+    cls:'CLS_C076', grade:1, rarity:1, tier:1, desc:'동료가 빠져나갈 때 가까운 공격선을 팔로 받는다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.',
+    lore:'협소 통로 선두 방호에서 사용하는 완갑병의 현장 기술이다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '완갑병'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C018', chance:1, turns:2}], combo:['SK_C0754'], lines:{use:['{u}은(는) 동료가 빠져나갈 때 가까운 공격선을 팔로 받는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0754', name:'팔꿈치물림', en:'Armguard Defender Step', scope:'class', kind:'액티브',
+    cls:'CLS_C076', grade:1, rarity:1, tier:1, desc:'팔을 몸에 붙이며 접촉 범위 밖으로 물러난다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.',
+    lore:'협소 통로 선두 방호에서 사용하는 완갑병의 현장 기술이다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '완갑병'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, ai:{hpBelow:0.4}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'retreat', combo:['SK_C0755'], lines:{use:['{u}은(는) 팔을 몸에 붙이며 접촉 범위 밖으로 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0755', name:'팔면충격눈', en:'Armguard Defender Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C076', grade:1, rarity:1, tier:1, desc:'완갑의 어느 면에 하중이 몰리는지 읽는다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.',
+    lore:'협소 통로 선두 방호에서 사용하는 완갑병의 현장 기술이다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '완갑병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0756'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 완갑의 어느 면에 하중이 몰리는지 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0756', name:'경첩손감', en:'Armguard Defender Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C076', grade:1, rarity:1, tier:1, desc:'팔을 굽힐 때 장비 경첩의 걸림을 구별한다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.',
+    lore:'협소 통로 선두 방호에서 사용하는 완갑병의 현장 기술이다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '완갑병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0757'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 팔을 굽힐 때 장비 경첩의 걸림을 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0757', name:'전완몸지지', en:'Armguard Defender Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C076', grade:1, rarity:1, tier:1, desc:'팔에 실린 힘을 몸통과 발로 나눠 받는다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.',
+    lore:'협소 통로 선두 방호에서 사용하는 완갑병의 현장 기술이다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '완갑병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0758'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 팔에 실린 힘을 몸통과 발로 나눠 받는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0758', name:'완갑밀어격', en:'Armguard Defender Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C076', grade:2, rarity:3, tier:2, desc:'완갑으로 적의 팔을 밀고 어깨로 한 번 친다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.',
+    lore:'협소 통로 선두 방호에서 사용하는 완갑병의 현장 기술이다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.', target:'enemy', range:'melee', area:1, hits:1,
+    count:1, power:1.35, scale:'STAT_BODY', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '완갑병'],
+    risk:2, src:'codex', cost:{stamina:18, cd:4}, ai:{opener:false}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_MELEE', se:[{se:'SE_C007', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_BODY:12}, abl:{ABL_A02:8}}, combo:['SK_C0759'], lines:{use:['{u}은(는) 완갑으로 적의 팔을 밀고 어깨로 한 번 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0759', name:'머리위완갑', en:'Armguard Defender Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C076', grade:3, rarity:3, tier:3, desc:'동료 둘이 지날 동안 머리 위의 낙하 방향을 가린다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.',
+    lore:'협소 통로 선두 방호에서 사용하는 완갑병의 현장 기술이다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '완갑병'],
+    risk:1, src:'codex', cost:{stamina:18, cd:4}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C018', chance:1, turns:2}], req:{lv:25, stat:{STAT_BODY:15}, abl:{ABL_A02:10}}, combo:['SK_C0760'], lines:{use:['{u}은(는) 동료 둘이 지날 동안 머리 위의 낙하 방향을 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0760', name:'완갑금속울림', en:'Armguard Defender Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C076', grade:4, rarity:3, tier:4, desc:'방호면의 금이나 느슨한 고정부를 소리로 읽는다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.',
+    lore:'협소 통로 선두 방호에서 사용하는 완갑병의 현장 기술이다. 팔로 받은 하중은 몸과 발이 지탱해야 한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '완갑병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_BODY:18}, abl:{ABL_A02:12}},
+    combo:['SK_C0751'], lines:{use:['{u}의 {s}이(가) 발동한다. 방호면의 금이나 느슨한 고정부를 소리로 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0761', name:'뒤꿈치찌름', en:'Pursuit Skirmisher Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C077', grade:2, rarity:1, tier:1, desc:'달아나는 적의 발뒤쪽을 짧게 찌른다. 확인하지 못한 길까지 무작정 따라가지 않는다.',
+    lore:'이탈 개체 추격 보조에서 사용하는 추격병의 현장 기술이다. 확인하지 못한 길까지 무작정 따라가지 않는다.', target:'enemy', range:'melee', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_BODY', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '추격병'],
+    risk:2, src:'codex', cost:{stamina:10, cd:3}, ai:{opener:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_MELEE', se:[{se:'SE_C007', chance:0.4, turns:2}], combo:['SK_C0762'], lines:{use:['{u}은(는) 달아나는 적의 발뒤쪽을 짧게 찌른다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0762', name:'추격팔가림', en:'Pursuit Skirmisher Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C077', grade:1, rarity:1, tier:1, desc:'달리는 자세에서 팔과 목을 얕은 막으로 가린다. 확인하지 못한 길까지 무작정 따라가지 않는다.',
+    lore:'이탈 개체 추격 보조에서 사용하는 추격병의 현장 기술이다. 확인하지 못한 길까지 무작정 따라가지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '추격병'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    shield:0.65, se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0763'], lines:{use:['{u}은(는) 달리는 자세에서 팔과 목을 얕은 막으로 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0763', name:'도주선견제', en:'Pursuit Skirmisher Set', scope:'class', kind:'액티브',
+    cls:'CLS_C077', grade:1, rarity:1, tier:1, desc:'빠져나갈 방향으로 창끝을 내밀어 보폭을 줄인다. 확인하지 못한 길까지 무작정 따라가지 않는다.',
+    lore:'이탈 개체 추격 보조에서 사용하는 추격병의 현장 기술이다. 확인하지 못한 길까지 무작정 따라가지 않는다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '추격병'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    se:[{se:'SE_C006', chance:0.75, turns:2}], combo:['SK_C0764'], lines:{use:['{u}은(는) 빠져나갈 방향으로 창끝을 내밀어 보폭을 줄인다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0764', name:'간격이어딛기', en:'Pursuit Skirmisher Step', scope:'class', kind:'액티브',
+    cls:'CLS_C077', grade:1, rarity:1, tier:1, desc:'확인한 발판 사이의 거리를 짧게 좁힌다. 확인하지 못한 길까지 무작정 따라가지 않는다.',
+    lore:'이탈 개체 추격 보조에서 사용하는 추격병의 현장 기술이다. 확인하지 못한 길까지 무작정 따라가지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '추격병'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, ai:{hpBelow:0.4}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'dash', combo:['SK_C0765'], lines:{use:['{u}은(는) 확인한 발판 사이의 거리를 짧게 좁힌다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0765', name:'꺾인길눈', en:'Pursuit Skirmisher Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C077', grade:1, rarity:1, tier:1, desc:'도주자가 방향을 바꾼 흔적을 가까이서 읽는다. 확인하지 못한 길까지 무작정 따라가지 않는다.',
+    lore:'이탈 개체 추격 보조에서 사용하는 추격병의 현장 기술이다. 확인하지 못한 길까지 무작정 따라가지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '추격병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0766'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 도주자가 방향을 바꾼 흔적을 가까이서 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0766', name:'추격호흡박자', en:'Pursuit Skirmisher Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C077', grade:1, rarity:1, tier:1, desc:'짧은 질주 사이에 호흡을 나눠 쓴다. 확인하지 못한 길까지 무작정 따라가지 않는다.',
+    lore:'이탈 개체 추격 보조에서 사용하는 추격병의 현장 기술이다. 확인하지 못한 길까지 무작정 따라가지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '추격병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0767'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 짧은 질주 사이에 호흡을 나눠 쓴다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0767', name:'마지막발판감', en:'Pursuit Skirmisher Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C077', grade:1, rarity:1, tier:1, desc:'발을 떼기 전에 다음 지지점을 고른다. 확인하지 못한 길까지 무작정 따라가지 않는다.',
+    lore:'이탈 개체 추격 보조에서 사용하는 추격병의 현장 기술이다. 확인하지 못한 길까지 무작정 따라가지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '추격병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0768'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 발을 떼기 전에 다음 지지점을 고른다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0768', name:'길목선점격', en:'Pursuit Skirmisher Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C077', grade:2, rarity:3, tier:2, desc:'확인한 짧은 우회로에서 적의 앞을 한 번 친다. 확인하지 못한 길까지 무작정 따라가지 않는다.',
+    lore:'이탈 개체 추격 보조에서 사용하는 추격병의 현장 기술이다. 확인하지 못한 길까지 무작정 따라가지 않는다.', target:'enemy', range:'melee', area:1, hits:1,
+    count:1, power:1.35, scale:'STAT_BODY', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '추격병'],
+    risk:2, src:'codex', cost:{stamina:18, cd:4}, ai:{opener:false}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_MELEE', move:'dash', se:[{se:'SE_C007', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_BODY:12}, abl:{ABL_A02:8}}, combo:['SK_C0769'],
+    lines:{use:['{u}은(는) 확인한 짧은 우회로에서 적의 앞을 한 번 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0769', name:'뒤따름신호', en:'Pursuit Skirmisher Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C077', grade:3, rarity:3, tier:3, desc:'추격하는 동료 둘에게 정지와 진행 신호를 맞춘다. 확인하지 못한 길까지 무작정 따라가지 않는다.',
+    lore:'이탈 개체 추격 보조에서 사용하는 추격병의 현장 기술이다. 확인하지 못한 길까지 무작정 따라가지 않는다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '추격병'],
+    risk:1, src:'codex', cost:{stamina:18, cd:4}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_BODY:15}, abl:{ABL_A02:10}}, combo:['SK_C0770'], lines:{use:['{u}은(는) 추격하는 동료 둘에게 정지와 진행 신호를 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0770', name:'끊긴발소리눈', en:'Pursuit Skirmisher Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C077', grade:4, rarity:3, tier:4, desc:'계속 나던 발소리가 사라지는 순간을 읽는다. 확인하지 못한 길까지 무작정 따라가지 않는다.',
+    lore:'이탈 개체 추격 보조에서 사용하는 추격병의 현장 기술이다. 확인하지 못한 길까지 무작정 따라가지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '추격병'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_BODY:18}, abl:{ABL_A02:12}},
+    combo:['SK_C0761'], lines:{use:['{u}의 {s}이(가) 발동한다. 계속 나던 발소리가 사라지는 순간을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0771', name:'줄날접촉', en:'Cutting Line Worker Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C078', grade:2, rarity:2, tier:1, desc:'팽팽한 절단선을 노출된 이음에 짧게 댄다. 줄이 끊어지면 장력이 주변으로 튄다.',
+    lore:'마수 부속지 절단 보조에서 사용하는 절단사의 현장 기술이다. 줄이 끊어지면 장력이 주변으로 튄다.', target:'enemy', range:'melee', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_BODY', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '절단사'],
+    risk:2, src:'codex', cost:{stamina:10, cd:3}, ai:{opener:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_MELEE', se:[{se:'SE_C001', chance:0.4, turns:2}], combo:['SK_C0772'], lines:{use:['{u}은(는) 팽팽한 절단선을 노출된 이음에 짧게 댄다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0772', name:'줄손가림', en:'Cutting Line Worker Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C078', grade:1, rarity:2, tier:1, desc:'절단선을 잡은 손 앞에 얇은 방호층을 둔다. 줄이 끊어지면 장력이 주변으로 튄다.',
+    lore:'마수 부속지 절단 보조에서 사용하는 절단사의 현장 기술이다. 줄이 끊어지면 장력이 주변으로 튄다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '절단사'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    shield:0.65, se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0773'], lines:{use:['{u}은(는) 절단선을 잡은 손 앞에 얇은 방호층을 둔다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0773', name:'이음조이기', en:'Cutting Line Worker Set', scope:'class', kind:'액티브',
+    cls:'CLS_C078', grade:1, rarity:2, tier:1, desc:'갈라진 외피의 이음에 줄을 걸어 움직임을 늦춘다. 줄이 끊어지면 장력이 주변으로 튄다.',
+    lore:'마수 부속지 절단 보조에서 사용하는 절단사의 현장 기술이다. 줄이 끊어지면 장력이 주변으로 튄다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '절단사'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    se:[{se:'SE_C006', chance:0.75, turns:2}], combo:['SK_C0774'], lines:{use:['{u}은(는) 갈라진 외피의 이음에 줄을 걸어 움직임을 늦춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0774', name:'장력풀어물림', en:'Cutting Line Worker Step', scope:'class', kind:'액티브',
+    cls:'CLS_C078', grade:1, rarity:2, tier:1, desc:'절단선의 힘을 푼 뒤 뒤로 빠진다. 줄이 끊어지면 장력이 주변으로 튄다.',
+    lore:'마수 부속지 절단 보조에서 사용하는 절단사의 현장 기술이다. 줄이 끊어지면 장력이 주변으로 튄다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '절단사'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, ai:{hpBelow:0.4}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'retreat', combo:['SK_C0775'], lines:{use:['{u}은(는) 절단선의 힘을 푼 뒤 뒤로 빠진다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0775', name:'선늘어남눈', en:'Cutting Line Worker Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C078', grade:1, rarity:2, tier:1, desc:'절단선이 늘어나거나 가늘어지는 지점을 읽는다. 줄이 끊어지면 장력이 주변으로 튄다.',
+    lore:'마수 부속지 절단 보조에서 사용하는 절단사의 현장 기술이다. 줄이 끊어지면 장력이 주변으로 튄다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '절단사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0776'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 절단선이 늘어나거나 가늘어지는 지점을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0776', name:'두손장력배분', en:'Cutting Line Worker Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C078', grade:1, rarity:2, tier:1, desc:'양손의 힘을 번갈아 나눠 줄의 비틀림을 줄인다. 줄이 끊어지면 장력이 주변으로 튄다.',
+    lore:'마수 부속지 절단 보조에서 사용하는 절단사의 현장 기술이다. 줄이 끊어지면 장력이 주변으로 튄다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '절단사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0777'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 양손의 힘을 번갈아 나눠 줄의 비틀림을 줄인다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0777', name:'선날촉감', en:'Cutting Line Worker Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C078', grade:1, rarity:2, tier:1, desc:'줄날이 재료에 닿을 때 저항의 차이를 구별한다. 줄이 끊어지면 장력이 주변으로 튄다.',
+    lore:'마수 부속지 절단 보조에서 사용하는 절단사의 현장 기술이다. 줄이 끊어지면 장력이 주변으로 튄다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '절단사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0778'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 줄날이 재료에 닿을 때 저항의 차이를 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0778', name:'엇방향절선', en:'Cutting Line Worker Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C078', grade:2, rarity:3, tier:2, desc:'반대 방향으로 줄을 당겨 이미 벌어진 이음을 가른다. 줄이 끊어지면 장력이 주변으로 튄다.',
+    lore:'마수 부속지 절단 보조에서 사용하는 절단사의 현장 기술이다. 줄이 끊어지면 장력이 주변으로 튄다.', target:'enemy', range:'melee', area:1, hits:1,
+    count:1, power:1.35, scale:'STAT_BODY', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '절단사'],
+    risk:2, src:'codex', cost:{stamina:18, cd:4}, ai:{opener:false}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_MELEE', se:[{se:'SE_C012', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_BODY:12}, abl:{ABL_A02:8}}, combo:['SK_C0779'], lines:{use:['{u}은(는) 반대 방향으로 줄을 당겨 이미 벌어진 이음을 가른다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0779', name:'줄반경확보', en:'Cutting Line Worker Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C078', grade:3, rarity:3, tier:3, desc:'동료 둘에게 절단선의 위험 반경을 짧게 알린다. 줄이 끊어지면 장력이 주변으로 튄다.',
+    lore:'마수 부속지 절단 보조에서 사용하는 절단사의 현장 기술이다. 줄이 끊어지면 장력이 주변으로 튄다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '절단사'],
+    risk:1, src:'codex', cost:{stamina:18, cd:4}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_BODY:15}, abl:{ABL_A02:10}}, combo:['SK_C0780'], lines:{use:['{u}은(는) 동료 둘에게 절단선의 위험 반경을 짧게 알린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0780', name:'절단선풀림감', en:'Cutting Line Worker Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C078', grade:4, rarity:3, tier:4, desc:'절단 직후 갑자기 풀리는 장력을 먼저 읽는다. 줄이 끊어지면 장력이 주변으로 튄다.',
+    lore:'마수 부속지 절단 보조에서 사용하는 절단사의 현장 기술이다. 줄이 끊어지면 장력이 주변으로 튄다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_BODY', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '절단사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_BODY:18}, abl:{ABL_A02:12}},
+    combo:['SK_C0771'], lines:{use:['{u}의 {s}이(가) 발동한다. 절단 직후 갑자기 풀리는 장력을 먼저 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0781', name:'투륜날림', en:'Returning Ring Thrower Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C079', grade:2, rarity:1, tier:1, desc:'회수투륜을 비스듬히 던져 적의 옆면을 친다. 귀환 궤도에 동료가 있으면 던지지 않는다.',
+    lore:'개방 구역 순환 견제에서 사용하는 투륜수의 현장 기술이다. 귀환 궤도에 동료가 있으면 던지지 않는다.', target:'enemy', range:'far', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_SENSE', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '투륜수', '발사체 필요'],
+    risk:2, src:'codex', cost:{stamina:12, cd:4, charges:1}, ai:{opener:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_RANGED', combo:['SK_C0782'], lines:{use:['{u}은(는) 회수투륜을 비스듬히 던져 적의 옆면을 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0782', name:'귀환면가림', en:'Returning Ring Thrower Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C079', grade:1, rarity:1, tier:1, desc:'돌아오는 투륜의 바깥에 얕은 방호면을 둔다. 귀환 궤도에 동료가 있으면 던지지 않는다.',
+    lore:'개방 구역 순환 견제에서 사용하는 투륜수의 현장 기술이다. 귀환 궤도에 동료가 있으면 던지지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '투륜수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    shield:0.65, se:[{se:'SE_C018', chance:1, turns:3}], combo:['SK_C0783'], lines:{use:['{u}은(는) 돌아오는 투륜의 바깥에 얕은 방호면을 둔다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0783', name:'바깥원견제', en:'Returning Ring Thrower Set', scope:'class', kind:'액티브',
+    cls:'CLS_C079', grade:1, rarity:1, tier:1, desc:'투륜을 적의 이동 방향 바깥으로 돌려 보폭을 묶는다. 귀환 궤도에 동료가 있으면 던지지 않는다.',
+    lore:'개방 구역 순환 견제에서 사용하는 투륜수의 현장 기술이다. 귀환 궤도에 동료가 있으면 던지지 않는다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '투륜수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    se:[{se:'SE_C006', chance:0.75, turns:2}], combo:['SK_C0784'], lines:{use:['{u}은(는) 투륜을 적의 이동 방향 바깥으로 돌려 보폭을 묶는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0784', name:'회수선비킴', en:'Returning Ring Thrower Step', scope:'class', kind:'액티브',
+    cls:'CLS_C079', grade:1, rarity:1, tier:1, desc:'투륜이 돌아올 선을 비우며 한 걸음 빠진다. 귀환 궤도에 동료가 있으면 던지지 않는다.',
+    lore:'개방 구역 순환 견제에서 사용하는 투륜수의 현장 기술이다. 귀환 궤도에 동료가 있으면 던지지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '투륜수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, ai:{hpBelow:0.4}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'retreat', combo:['SK_C0785'], lines:{use:['{u}은(는) 투륜이 돌아올 선을 비우며 한 걸음 빠진다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0785', name:'귀환각눈', en:'Returning Ring Thrower Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C079', grade:1, rarity:1, tier:1, desc:'돌아오는 날의 각도와 높이를 읽는다. 귀환 궤도에 동료가 있으면 던지지 않는다.',
+    lore:'개방 구역 순환 견제에서 사용하는 투륜수의 현장 기술이다. 귀환 궤도에 동료가 있으면 던지지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '투륜수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0786'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 돌아오는 날의 각도와 높이를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0786', name:'회수손배열', en:'Returning Ring Thrower Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C079', grade:1, rarity:1, tier:1, desc:'회수 장갑의 손가락 간격을 일정하게 편다. 귀환 궤도에 동료가 있으면 던지지 않는다.',
+    lore:'개방 구역 순환 견제에서 사용하는 투륜수의 현장 기술이다. 귀환 궤도에 동료가 있으면 던지지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '투륜수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0787'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 회수 장갑의 손가락 간격을 일정하게 편다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0787', name:'투륜회전감', en:'Returning Ring Thrower Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C079', grade:1, rarity:1, tier:1, desc:'날의 회전과 손에 남은 떨림을 연결해 읽는다. 귀환 궤도에 동료가 있으면 던지지 않는다.',
+    lore:'개방 구역 순환 견제에서 사용하는 투륜수의 현장 기술이다. 귀환 궤도에 동료가 있으면 던지지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '투륜수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0788'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 날의 회전과 손에 남은 떨림을 연결해 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0788', name:'겹귀환투척', en:'Returning Ring Thrower Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C079', grade:2, rarity:3, tier:2, desc:'투륜 둘의 귀환 시차를 벌려 다른 표적을 견제한다. 귀환 궤도에 동료가 있으면 던지지 않는다.',
+    lore:'개방 구역 순환 견제에서 사용하는 투륜수의 현장 기술이다. 귀환 궤도에 동료가 있으면 던지지 않는다.', target:'enemies', range:'far', area:2, hits:1,
+    count:2, power:0.7, scale:'STAT_SENSE', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '투륜수', '발사체 필요'],
+    risk:2, src:'codex', cost:{stamina:20, cd:5, charges:2}, ai:{opener:false, enemies:2}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_RANGED', req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A02:8}}, combo:['SK_C0789'], lines:{use:['{u}은(는) 투륜 둘의 귀환 시차를 벌려 다른 표적을 견제한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0789', name:'귀환위험신호', en:'Returning Ring Thrower Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C079', grade:3, rarity:3, tier:3, desc:'돌아올 궤도를 동료 둘에게 짧게 알린다. 귀환 궤도에 동료가 있으면 던지지 않는다.',
+    lore:'개방 구역 순환 견제에서 사용하는 투륜수의 현장 기술이다. 귀환 궤도에 동료가 있으면 던지지 않는다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '투륜수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:18, cd:4}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A02:10}}, combo:['SK_C0790'], lines:{use:['{u}은(는) 돌아올 궤도를 동료 둘에게 짧게 알린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0790', name:'빗귀환경계', en:'Returning Ring Thrower Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C079', grade:4, rarity:3, tier:4, desc:'장애물에 닿아 바뀐 귀환 방향을 알아챈다. 귀환 궤도에 동료가 있으면 던지지 않는다.',
+    lore:'개방 구역 순환 견제에서 사용하는 투륜수의 현장 기술이다. 귀환 궤도에 동료가 있으면 던지지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '투륜수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A02:12}},
+    combo:['SK_C0781'], lines:{use:['{u}의 {s}이(가) 발동한다. 장애물에 닿아 바뀐 귀환 방향을 알아챈다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0791', name:'긴시위발사', en:'Longbow Worker Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C080', grade:2, rarity:1, tier:1, desc:'장궁을 끝까지 당겨 먼 노출 부위를 노린다. 긴 활대가 펴질 공간이 필요하다.',
+    lore:'개방 게이트 원거리 엄호에서 사용하는 장궁수의 현장 기술이다. 긴 활대가 펴질 공간이 필요하다.', target:'enemy', range:'far', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_SENSE', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '장궁수', '발사체 필요'],
+    risk:2, src:'codex', cost:{stamina:10, cd:3}, ai:{opener:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_RANGED', combo:['SK_C0792'], lines:{use:['{u}은(는) 장궁을 끝까지 당겨 먼 노출 부위를 노린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0792', name:'활대받침막', en:'Longbow Worker Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C080', grade:1, rarity:1, tier:1, desc:'긴 활대 옆으로 작은 파편을 가리는 막을 둔다. 긴 활대가 펴질 공간이 필요하다.',
+    lore:'개방 게이트 원거리 엄호에서 사용하는 장궁수의 현장 기술이다. 긴 활대가 펴질 공간이 필요하다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '장궁수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    shield:0.65, se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0793'], lines:{use:['{u}은(는) 긴 활대 옆으로 작은 파편을 가리는 막을 둔다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0793', name:'직선길견제', en:'Longbow Worker Set', scope:'class', kind:'액티브',
+    cls:'CLS_C080', grade:1, rarity:1, tier:1, desc:'지나갈 길목 앞에 화살을 보내 진입을 늦춘다. 긴 활대가 펴질 공간이 필요하다.',
+    lore:'개방 게이트 원거리 엄호에서 사용하는 장궁수의 현장 기술이다. 긴 활대가 펴질 공간이 필요하다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '장궁수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    se:[{se:'SE_C006', chance:0.75, turns:2}], combo:['SK_C0794'], lines:{use:['{u}은(는) 지나갈 길목 앞에 화살을 보내 진입을 늦춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0794', name:'장궁뒤물림', en:'Longbow Worker Step', scope:'class', kind:'액티브',
+    cls:'CLS_C080', grade:1, rarity:1, tier:1, desc:'활끝이 걸리지 않게 몸을 돌려 물러난다. 긴 활대가 펴질 공간이 필요하다.',
+    lore:'개방 게이트 원거리 엄호에서 사용하는 장궁수의 현장 기술이다. 긴 활대가 펴질 공간이 필요하다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '장궁수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, ai:{hpBelow:0.4}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'retreat', combo:['SK_C0795'], lines:{use:['{u}은(는) 활끝이 걸리지 않게 몸을 돌려 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0795', name:'긴사선수평', en:'Longbow Worker Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C080', grade:1, rarity:1, tier:1, desc:'멀리 떨어진 기준물로 활의 수평을 읽는다. 긴 활대가 펴질 공간이 필요하다.',
+    lore:'개방 게이트 원거리 엄호에서 사용하는 장궁수의 현장 기술이다. 긴 활대가 펴질 공간이 필요하다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '장궁수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0796'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 멀리 떨어진 기준물로 활의 수평을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0796', name:'당김어깨축', en:'Longbow Worker Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C080', grade:1, rarity:1, tier:1, desc:'활을 당기는 어깨와 등의 힘을 나눠 쓴다. 긴 활대가 펴질 공간이 필요하다.',
+    lore:'개방 게이트 원거리 엄호에서 사용하는 장궁수의 현장 기술이다. 긴 활대가 펴질 공간이 필요하다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '장궁수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0797'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 활을 당기는 어깨와 등의 힘을 나눠 쓴다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0797', name:'활대끝기억', en:'Longbow Worker Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C080', grade:1, rarity:1, tier:1, desc:'활대가 휘는 범위와 장비의 길이를 몸에 익힌다. 긴 활대가 펴질 공간이 필요하다.',
+    lore:'개방 게이트 원거리 엄호에서 사용하는 장궁수의 현장 기술이다. 긴 활대가 펴질 공간이 필요하다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '장궁수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0798'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 활대가 휘는 범위와 장비의 길이를 몸에 익힌다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0798', name:'겹노출관통', en:'Longbow Worker Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C080', grade:2, rarity:3, tier:2, desc:'일직선으로 겹친 노출 부위를 향해 무거운 화살을 보낸다. 긴 활대가 펴질 공간이 필요하다.',
+    lore:'개방 게이트 원거리 엄호에서 사용하는 장궁수의 현장 기술이다. 긴 활대가 펴질 공간이 필요하다.', target:'enemies', range:'far', area:1, hits:1,
+    count:2, power:1.1, scale:'STAT_SENSE', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '장궁수', '발사체 필요'],
+    risk:2, src:'codex', cost:{stamina:20, cd:4, cast:1}, ai:{opener:false}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_RANGED', se:[{se:'SE_C012', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A02:8}}, combo:['SK_C0799'], lines:{use:['{u}은(는) 일직선으로 겹친 노출 부위를 향해 무거운 화살을 보낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0799', name:'먼거리엄호선', en:'Longbow Worker Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C080', grade:3, rarity:3, tier:3, desc:'동료 둘의 이동과 겹치지 않는 사선을 유지한다. 긴 활대가 펴질 공간이 필요하다.',
+    lore:'개방 게이트 원거리 엄호에서 사용하는 장궁수의 현장 기술이다. 긴 활대가 펴질 공간이 필요하다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '장궁수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:18, cd:4}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A02:10}}, combo:['SK_C0800'], lines:{use:['{u}은(는) 동료 둘의 이동과 겹치지 않는 사선을 유지한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0800', name:'시위처짐눈', en:'Longbow Worker Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C080', grade:4, rarity:3, tier:4, desc:'당김 뒤 시위가 늘어진 지점을 살핀다. 긴 활대가 펴질 공간이 필요하다.',
+    lore:'개방 게이트 원거리 엄호에서 사용하는 장궁수의 현장 기술이다. 긴 활대가 펴질 공간이 필요하다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '장궁수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A02:12}},
+    combo:['SK_C0791'], lines:{use:['{u}의 {s}이(가) 발동한다. 당김 뒤 시위가 늘어진 지점을 살핀다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0801', name:'짧시위탄', en:'Shortbow Repeater Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C081', grade:2, rarity:1, tier:1, desc:'단궁을 짧게 당겨 가까운 표적을 쏜다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.',
+    lore:'좁은 구역 연속 견제에서 사용하는 속궁수의 현장 기술이다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.', target:'enemy', range:'far', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_SENSE', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '속궁수', '발사체 필요'],
+    risk:2, src:'codex', cost:{stamina:10, cd:3}, ai:{opener:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_RANGED', combo:['SK_C0802'], lines:{use:['{u}은(는) 단궁을 짧게 당겨 가까운 표적을 쏜다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0802', name:'화살통가림', en:'Shortbow Repeater Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C081', grade:1, rarity:1, tier:1, desc:'옆구리의 화살통을 얕은 막으로 가린다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.',
+    lore:'좁은 구역 연속 견제에서 사용하는 속궁수의 현장 기술이다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '속궁수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    shield:0.65, se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0803'], lines:{use:['{u}은(는) 옆구리의 화살통을 얕은 막으로 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0803', name:'발치빠른살', en:'Shortbow Repeater Set', scope:'class', kind:'액티브',
+    cls:'CLS_C081', grade:1, rarity:1, tier:1, desc:'적의 발치에 짧은 간격으로 화살을 보내 머뭇거리게 한다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.',
+    lore:'좁은 구역 연속 견제에서 사용하는 속궁수의 현장 기술이다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '속궁수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    se:[{se:'SE_C007', chance:0.75, turns:2}], combo:['SK_C0804'], lines:{use:['{u}은(는) 적의 발치에 짧은 간격으로 화살을 보내 머뭇거리게 한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0804', name:'단궁옆물림', en:'Shortbow Repeater Step', scope:'class', kind:'액티브',
+    cls:'CLS_C081', grade:1, rarity:1, tier:1, desc:'단궁을 낮추고 옆의 엄폐물로 물러난다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.',
+    lore:'좁은 구역 연속 견제에서 사용하는 속궁수의 현장 기술이다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '속궁수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, ai:{hpBelow:0.4}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'retreat', combo:['SK_C0805'], lines:{use:['{u}은(는) 단궁을 낮추고 옆의 엄폐물로 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0805', name:'남은살순서', en:'Shortbow Repeater Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C081', grade:1, rarity:1, tier:1, desc:'화살통 안의 빈 칸과 남은 깃을 읽는다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.',
+    lore:'좁은 구역 연속 견제에서 사용하는 속궁수의 현장 기술이다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '속궁수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0806'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 화살통 안의 빈 칸과 남은 깃을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0806', name:'손끝장전박자', en:'Shortbow Repeater Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C081', grade:1, rarity:1, tier:1, desc:'화살을 꺼내 거는 손동작을 일정하게 잇는다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.',
+    lore:'좁은 구역 연속 견제에서 사용하는 속궁수의 현장 기술이다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '속궁수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0807'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 화살을 꺼내 거는 손동작을 일정하게 잇는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0807', name:'짧활견착감', en:'Shortbow Repeater Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C081', grade:1, rarity:1, tier:1, desc:'가벼운 활대가 흔들리는 범위를 손에 익힌다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.',
+    lore:'좁은 구역 연속 견제에서 사용하는 속궁수의 현장 기술이다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '속궁수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0808'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 가벼운 활대가 흔들리는 범위를 손에 익힌다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0808', name:'네박자속사', en:'Shortbow Repeater Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C081', grade:2, rarity:3, tier:2, desc:'짧은 사선 안에서 같은 표적을 연속으로 견제한다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.',
+    lore:'좁은 구역 연속 견제에서 사용하는 속궁수의 현장 기술이다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.', target:'enemy', range:'far', area:1, hits:4,
+    count:1, power:0.35, scale:'STAT_SENSE', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '속궁수', '발사체 필요'],
+    risk:2, src:'codex', cost:{stamina:22, cd:4}, ai:{opener:false}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_RANGED', req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A02:8}}, combo:['SK_C0809'], lines:{use:['{u}은(는) 짧은 사선 안에서 같은 표적을 연속으로 견제한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0809', name:'교대사격신호', en:'Shortbow Repeater Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C081', grade:3, rarity:3, tier:3, desc:'동료 둘과 화살을 보내는 시점을 나눈다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.',
+    lore:'좁은 구역 연속 견제에서 사용하는 속궁수의 현장 기술이다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '속궁수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:18, cd:4}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A02:10}}, combo:['SK_C0810'], lines:{use:['{u}은(는) 동료 둘과 화살을 보내는 시점을 나눈다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0810', name:'급사후손감', en:'Shortbow Repeater Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C081', grade:4, rarity:3, tier:4, desc:'연속 사격 뒤 손가락의 떨림을 읽는다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.',
+    lore:'좁은 구역 연속 견제에서 사용하는 속궁수의 현장 기술이다. 빠르게 쏠수록 화살 소모와 조준 오차가 커진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '속궁수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A02:12}},
+    combo:['SK_C0801'], lines:{use:['{u}의 {s}이(가) 발동한다. 연속 사격 뒤 손가락의 떨림을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0811', name:'작살박기', en:'Harpoon Worker Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C082', grade:2, rarity:1, tier:1, desc:'줄작살을 외피의 빈틈에 보내 건다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.',
+    lore:'수변 개체 회수 보조에서 사용하는 작살수의 현장 기술이다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.', target:'enemy', range:'far', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_SENSE', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '작살수', '발사체 필요'],
+    risk:2, src:'codex', cost:{stamina:12, cd:3, charges:2}, ai:{opener:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_RANGED', se:[{se:'SE_C001', chance:0.4, turns:2}], combo:['SK_C0812'], lines:{use:['{u}은(는) 줄작살을 외피의 빈틈에 보내 건다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0812', name:'회수손방호', en:'Harpoon Worker Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C082', grade:1, rarity:1, tier:1, desc:'당김줄을 잡는 손에 얇은 완충층을 둔다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.',
+    lore:'수변 개체 회수 보조에서 사용하는 작살수의 현장 기술이다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '작살수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    shield:0.65, se:[{se:'SE_C018', chance:1, turns:3}], combo:['SK_C0813'], lines:{use:['{u}은(는) 당김줄을 잡는 손에 얇은 완충층을 둔다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0813', name:'닻줄견인', en:'Harpoon Worker Set', scope:'class', kind:'액티브',
+    cls:'CLS_C082', grade:1, rarity:1, tier:1, desc:'걸린 작살줄을 당겨 대상의 이탈 방향을 좁힌다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.',
+    lore:'수변 개체 회수 보조에서 사용하는 작살수의 현장 기술이다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '작살수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'pull', se:[{se:'SE_C006', chance:0.75, turns:2}], combo:['SK_C0814'], lines:{use:['{u}은(는) 걸린 작살줄을 당겨 대상의 이탈 방향을 좁힌다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0814', name:'줄길이물림', en:'Harpoon Worker Step', scope:'class', kind:'액티브',
+    cls:'CLS_C082', grade:1, rarity:1, tier:1, desc:'줄이 발에 걸리지 않도록 풀며 물러난다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.',
+    lore:'수변 개체 회수 보조에서 사용하는 작살수의 현장 기술이다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '작살수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, ai:{hpBelow:0.4}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'retreat', combo:['SK_C0815'], lines:{use:['{u}은(는) 줄이 발에 걸리지 않도록 풀며 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0815', name:'고정닻눈', en:'Harpoon Worker Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C082', grade:1, rarity:1, tier:1, desc:'고정점이 흔들리거나 들리는 움직임을 읽는다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.',
+    lore:'수변 개체 회수 보조에서 사용하는 작살수의 현장 기술이다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '작살수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0816'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 고정점이 흔들리거나 들리는 움직임을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0816', name:'작살줄분리', en:'Harpoon Worker Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C082', grade:1, rarity:1, tier:1, desc:'발과 손으로 이어지는 줄을 겹치지 않게 나눈다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.',
+    lore:'수변 개체 회수 보조에서 사용하는 작살수의 현장 기술이다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '작살수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0817'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 발과 손으로 이어지는 줄을 겹치지 않게 나눈다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0817', name:'견인낚임감', en:'Harpoon Worker Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C082', grade:1, rarity:1, tier:1, desc:'작살촉에 걸리는 하중과 움직임을 구별한다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.',
+    lore:'수변 개체 회수 보조에서 사용하는 작살수의 현장 기술이다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '작살수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0818'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 작살촉에 걸리는 하중과 움직임을 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0818', name:'쌍닻작살', en:'Harpoon Worker Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C082', grade:2, rarity:3, tier:2, desc:'두 방향으로 작살을 보내 대상 둘의 이동을 견제한다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.',
+    lore:'수변 개체 회수 보조에서 사용하는 작살수의 현장 기술이다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.', target:'enemies', range:'far', area:2, hits:1,
+    count:2, power:0.7, scale:'STAT_SENSE', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '작살수', '발사체 필요'],
+    risk:2, src:'codex', cost:{stamina:22, cd:5, charges:2}, ai:{opener:false, enemies:2}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_RANGED', se:[{se:'SE_C006', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A02:8}}, combo:['SK_C0819'], lines:{use:['{u}은(는) 두 방향으로 작살을 보내 대상 둘의 이동을 견제한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0819', name:'줄회수엄호', en:'Harpoon Worker Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C082', grade:3, rarity:3, tier:3, desc:'동료 둘의 회수줄이 겹치지 않게 간격을 알린다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.',
+    lore:'수변 개체 회수 보조에서 사용하는 작살수의 현장 기술이다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '작살수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:18, cd:4}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A02:10}}, combo:['SK_C0820'], lines:{use:['{u}은(는) 동료 둘의 회수줄이 겹치지 않게 간격을 알린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0820', name:'작살이탈감', en:'Harpoon Worker Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C082', grade:4, rarity:3, tier:4, desc:'박힌 촉이 빠져나오는 순간의 느슨함을 읽는다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.',
+    lore:'수변 개체 회수 보조에서 사용하는 작살수의 현장 기술이다. 줄의 고정점보다 무거운 대상을 억지로 당기지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '작살수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A02:12}},
+    combo:['SK_C0811'], lines:{use:['{u}의 {s}이(가) 발동한다. 박힌 촉이 빠져나오는 순간의 느슨함을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0821', name:'색점탄', en:'Marker Shot Worker Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C083', grade:2, rarity:1, tier:1, desc:'표식탄 한 발로 적의 노출 부위를 친다. 표식은 닦이거나 가려지면 사라진다.',
+    lore:'시야 불량 구역 표적 표시에서 사용하는 색탄수의 현장 기술이다. 표식은 닦이거나 가려지면 사라진다.', target:'enemy', range:'far', area:1, hits:1,
+    count:1, power:0.45, scale:'STAT_SENSE', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '색탄수', '발사체 필요'],
+    risk:2, src:'codex', cost:{stamina:10, cd:3}, ai:{opener:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_RANGED', se:[{se:'SE_C009', chance:0.4, turns:2}], combo:['SK_C0822'], lines:{use:['{u}은(는) 표식탄 한 발로 적의 노출 부위를 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0822', name:'안료비말막', en:'Marker Shot Worker Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C083', grade:1, rarity:1, tier:1, desc:'표식탄의 비말이 얼굴에 닿지 않게 가린다. 표식은 닦이거나 가려지면 사라진다.',
+    lore:'시야 불량 구역 표적 표시에서 사용하는 색탄수의 현장 기술이다. 표식은 닦이거나 가려지면 사라진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '색탄수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    shield:0.65, se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0823'], lines:{use:['{u}은(는) 표식탄의 비말이 얼굴에 닿지 않게 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0823', name:'표식발자국', en:'Marker Shot Worker Set', scope:'class', kind:'액티브',
+    cls:'CLS_C083', grade:1, rarity:1, tier:1, desc:'움직이는 적의 발치에 색점을 남긴다. 표식은 닦이거나 가려지면 사라진다.',
+    lore:'시야 불량 구역 표적 표시에서 사용하는 색탄수의 현장 기술이다. 표식은 닦이거나 가려지면 사라진다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '색탄수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    se:[{se:'SE_C009', chance:0.75, turns:2}], combo:['SK_C0824'], lines:{use:['{u}은(는) 움직이는 적의 발치에 색점을 남긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0824', name:'표식뒤물림', en:'Marker Shot Worker Step', scope:'class', kind:'액티브',
+    cls:'CLS_C083', grade:1, rarity:1, tier:1, desc:'자기가 남긴 안전 표식 쪽으로 물러난다. 표식은 닦이거나 가려지면 사라진다.',
+    lore:'시야 불량 구역 표적 표시에서 사용하는 색탄수의 현장 기술이다. 표식은 닦이거나 가려지면 사라진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '색탄수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, ai:{hpBelow:0.4}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'retreat', combo:['SK_C0825'], lines:{use:['{u}은(는) 자기가 남긴 안전 표식 쪽으로 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0825', name:'색점번짐눈', en:'Marker Shot Worker Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C083', grade:1, rarity:1, tier:1, desc:'안료가 번져 위치가 흐려지는 것을 읽는다. 표식은 닦이거나 가려지면 사라진다.',
+    lore:'시야 불량 구역 표적 표시에서 사용하는 색탄수의 현장 기술이다. 표식은 닦이거나 가려지면 사라진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '색탄수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0826'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 안료가 번져 위치가 흐려지는 것을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0826', name:'표식색구별', en:'Marker Shot Worker Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C083', grade:1, rarity:1, tier:1, desc:'합의한 색 표식의 용도를 구별해 유지한다. 표식은 닦이거나 가려지면 사라진다.',
+    lore:'시야 불량 구역 표적 표시에서 사용하는 색탄수의 현장 기술이다. 표식은 닦이거나 가려지면 사라진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '색탄수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0827'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 합의한 색 표식의 용도를 구별해 유지한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0827', name:'안료탄도감', en:'Marker Shot Worker Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C083', grade:1, rarity:1, tier:1, desc:'표식탄이 퍼지는 폭과 닿는 각도를 익힌다. 표식은 닦이거나 가려지면 사라진다.',
+    lore:'시야 불량 구역 표적 표시에서 사용하는 색탄수의 현장 기술이다. 표식은 닦이거나 가려지면 사라진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '색탄수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0828'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 표식탄이 퍼지는 폭과 닿는 각도를 익힌다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0828', name:'갈래색탄', en:'Marker Shot Worker Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C083', grade:2, rarity:3, tier:2, desc:'적 둘에게 다른 색 표식을 나눠 보낸다. 표식은 닦이거나 가려지면 사라진다.',
+    lore:'시야 불량 구역 표적 표시에서 사용하는 색탄수의 현장 기술이다. 표식은 닦이거나 가려지면 사라진다.', target:'enemies', range:'far', area:2, hits:1,
+    count:2, power:0.35, scale:'STAT_SENSE', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '색탄수', '발사체 필요'],
+    risk:2, src:'codex', cost:{stamina:18, cd:4}, ai:{opener:false, enemies:2}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_RANGED', se:[{se:'SE_C009', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A02:8}}, combo:['SK_C0829'], lines:{use:['{u}은(는) 적 둘에게 다른 색 표식을 나눠 보낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0829', name:'대열색신호', en:'Marker Shot Worker Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C083', grade:3, rarity:3, tier:3, desc:'동료 둘에게 진행과 멈춤 색점을 보낸다. 표식은 닦이거나 가려지면 사라진다.',
+    lore:'시야 불량 구역 표적 표시에서 사용하는 색탄수의 현장 기술이다. 표식은 닦이거나 가려지면 사라진다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '색탄수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:18, cd:4}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A02:10}}, combo:['SK_C0830'], lines:{use:['{u}은(는) 동료 둘에게 진행과 멈춤 색점을 보낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0830', name:'표식소거눈', en:'Marker Shot Worker Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C083', grade:4, rarity:3, tier:4, desc:'표식이 가려지거나 지워지는 변화를 읽는다. 표식은 닦이거나 가려지면 사라진다.',
+    lore:'시야 불량 구역 표적 표시에서 사용하는 색탄수의 현장 기술이다. 표식은 닦이거나 가려지면 사라진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '색탄수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A02:12}},
+    combo:['SK_C0821'], lines:{use:['{u}의 {s}이(가) 발동한다. 표식이 가려지거나 지워지는 변화를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0831', name:'빗벽탄', en:'Ricochet Operator Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C084', grade:2, rarity:2, tier:1, desc:'확인한 단단한 벽을 한 번 거쳐 표적을 친다. 반사면의 재질이 다르면 탄도가 달라진다.',
+    lore:'엄폐 측면 사격 보조에서 사용하는 반사수의 현장 기술이다. 반사면의 재질이 다르면 탄도가 달라진다.', target:'enemy', range:'far', area:1, hits:1,
+    count:1, power:0.95, scale:'STAT_SENSE', scale2:'ABL_A02', acc:-1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '반사수', '발사체 필요'],
+    risk:2, src:'codex', cost:{stamina:12, cd:3, cast:1}, ai:{opener:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_RANGED', combo:['SK_C0832'], lines:{use:['{u}은(는) 확인한 단단한 벽을 한 번 거쳐 표적을 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0832', name:'튀는탄가림', en:'Ricochet Operator Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C084', grade:1, rarity:2, tier:1, desc:'자기 쪽으로 튀는 작은 파편을 가린다. 반사면의 재질이 다르면 탄도가 달라진다.',
+    lore:'엄폐 측면 사격 보조에서 사용하는 반사수의 현장 기술이다. 반사면의 재질이 다르면 탄도가 달라진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '반사수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    shield:0.65, se:[{se:'SE_C018', chance:1, turns:3}], combo:['SK_C0833'], lines:{use:['{u}은(는) 자기 쪽으로 튀는 작은 파편을 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0833', name:'바닥튕김탄', en:'Ricochet Operator Set', scope:'class', kind:'액티브',
+    cls:'CLS_C084', grade:1, rarity:2, tier:1, desc:'적의 발치 앞 바닥으로 탄을 보내 중심을 흔든다. 반사면의 재질이 다르면 탄도가 달라진다.',
+    lore:'엄폐 측면 사격 보조에서 사용하는 반사수의 현장 기술이다. 반사면의 재질이 다르면 탄도가 달라진다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '반사수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:10, cd:3}, ai:{enemies:1}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    se:[{se:'SE_C007', chance:0.75, turns:2}], combo:['SK_C0834'], lines:{use:['{u}은(는) 적의 발치 앞 바닥으로 탄을 보내 중심을 흔든다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0834', name:'반사선물림', en:'Ricochet Operator Step', scope:'class', kind:'액티브',
+    cls:'CLS_C084', grade:1, rarity:2, tier:1, desc:'바뀐 탄의 경로 밖으로 한 걸음 물러난다. 반사면의 재질이 다르면 탄도가 달라진다.',
+    lore:'엄폐 측면 사격 보조에서 사용하는 반사수의 현장 기술이다. 반사면의 재질이 다르면 탄도가 달라진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '반사수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:7, cd:2}, ai:{hpBelow:0.4}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    move:'retreat', combo:['SK_C0835'], lines:{use:['{u}은(는) 바뀐 탄의 경로 밖으로 한 걸음 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0835', name:'벽면각도눈', en:'Ricochet Operator Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C084', grade:1, rarity:2, tier:1, desc:'사격 전 표면의 기울기와 갈라짐을 읽는다. 반사면의 재질이 다르면 탄도가 달라진다.',
+    lore:'엄폐 측면 사격 보조에서 사용하는 반사수의 현장 기술이다. 반사면의 재질이 다르면 탄도가 달라진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '반사수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0836'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 사격 전 표면의 기울기와 갈라짐을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0836', name:'탄흔각기억', en:'Ricochet Operator Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C084', grade:1, rarity:2, tier:1, desc:'앞서 남은 탄흔과 입사각을 대조한다. 반사면의 재질이 다르면 탄도가 달라진다.',
+    lore:'엄폐 측면 사격 보조에서 사용하는 반사수의 현장 기술이다. 반사면의 재질이 다르면 탄도가 달라진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '반사수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0837'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 앞서 남은 탄흔과 입사각을 대조한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0837', name:'벽반동감', en:'Ricochet Operator Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C084', grade:1, rarity:2, tier:1, desc:'반사면의 울림으로 탄의 손실을 가늠한다. 반사면의 재질이 다르면 탄도가 달라진다.',
+    lore:'엄폐 측면 사격 보조에서 사용하는 반사수의 현장 기술이다. 반사면의 재질이 다르면 탄도가 달라진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '반사수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0838'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 반사면의 울림으로 탄의 손실을 가늠한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0838', name:'엇벽분산탄', en:'Ricochet Operator Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C084', grade:2, rarity:3, tier:2, desc:'서로 다른 벽면을 써 적 둘의 측면을 노린다. 반사면의 재질이 다르면 탄도가 달라진다.',
+    lore:'엄폐 측면 사격 보조에서 사용하는 반사수의 현장 기술이다. 반사면의 재질이 다르면 탄도가 달라진다.', target:'enemies', range:'far', area:2, hits:1,
+    count:2, power:0.7, scale:'STAT_SENSE', scale2:'ABL_A02', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '반사수', '발사체 필요'],
+    risk:2, src:'codex', cost:{stamina:18, cd:4}, ai:{opener:false, enemies:2}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    kind2:'AK_RANGED', req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A02:8}}, combo:['SK_C0839'], lines:{use:['{u}은(는) 서로 다른 벽면을 써 적 둘의 측면을 노린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0839', name:'반사금지신호', en:'Ricochet Operator Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C084', grade:3, rarity:3, tier:3, desc:'동료 둘에게 탄이 지나갈 위험 각도를 알린다. 반사면의 재질이 다르면 탄도가 달라진다.',
+    lore:'엄폐 측면 사격 보조에서 사용하는 반사수의 현장 기술이다. 반사면의 재질이 다르면 탄도가 달라진다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '반사수', '발사체 필요'],
+    risk:1, src:'codex', cost:{stamina:18, cd:4}, ai:{allyHurt:true}, side:['연속 동작 뒤 호흡이 거칠어진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A02:10}}, combo:['SK_C0840'], lines:{use:['{u}은(는) 동료 둘에게 탄이 지나갈 위험 각도를 알린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0840', name:'빗벽소리눈', en:'Ricochet Operator Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C084', grade:4, rarity:3, tier:4, desc:'예상과 다른 반사음이 날 때 사격을 멈출 단서를 읽는다. 반사면의 재질이 다르면 탄도가 달라진다.',
+    lore:'엄폐 측면 사격 보조에서 사용하는 반사수의 현장 기술이다. 반사면의 재질이 다르면 탄도가 달라진다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A02', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '반사수', '발사체 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A02:12}},
+    combo:['SK_C0831'], lines:{use:['{u}의 {s}이(가) 발동한다. 예상과 다른 반사음이 날 때 사격을 멈출 단서를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0841', name:'잔열재쏘기', en:'Ash Channeler Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C085', grade:2, rarity:1, tier:1, desc:'잔열이 남은 재를 모아 좁은 점에 보낸다. 재가 없으면 새로 만들지 못한다.',
+    lore:'소각 잔류물 처리에서 사용하는 재술사의 현장 기술이다. 재가 없으면 새로 만들지 못한다.', target:'enemy', range:'far', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_MANA', scale2:'ABL_A07', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '재술사', '주변 재료 필요'],
+    risk:2, src:'codex', el:'EL_C01', cost:{mp:10, cd:3}, ai:{opener:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_MAGIC', se:[{se:'SE_C002', chance:0.4, turns:2}], combo:['SK_C0842'], lines:{use:['{u}은(는) 잔열이 남은 재를 모아 좁은 점에 보낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0842', name:'재방호겹', en:'Ash Channeler Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C085', grade:1, rarity:1, tier:1, desc:'가까운 재를 얇게 겹쳐 작은 파편을 받는다. 재가 없으면 새로 만들지 못한다.',
+    lore:'소각 잔류물 처리에서 사용하는 재술사의 현장 기술이다. 재가 없으면 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '재술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C01', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65, se:[{se:'SE_C018', chance:1, turns:3}], combo:['SK_C0843'], lines:{use:['{u}은(는) 가까운 재를 얇게 겹쳐 작은 파편을 받는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0843', name:'발치재흩음', en:'Ash Channeler Set', scope:'class', kind:'액티브',
+    cls:'CLS_C085', grade:1, rarity:1, tier:1, desc:'적의 발치에 재를 흩어 바닥의 윤곽을 흐린다. 재가 없으면 새로 만들지 못한다.',
+    lore:'소각 잔류물 처리에서 사용하는 재술사의 현장 기술이다. 재가 없으면 새로 만들지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '재술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C01', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], se:[{se:'SE_C008', chance:0.75, turns:2}], combo:['SK_C0844'], lines:{use:['{u}은(는) 적의 발치에 재를 흩어 바닥의 윤곽을 흐린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0844', name:'재흐름비킴', en:'Ash Channeler Step', scope:'class', kind:'액티브',
+    cls:'CLS_C085', grade:1, rarity:1, tier:1, desc:'확인한 재 흐름의 바깥으로 몸을 옮긴다. 재가 없으면 새로 만들지 못한다.',
+    lore:'소각 잔류물 처리에서 사용하는 재술사의 현장 기술이다. 재가 없으면 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '재술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C01', cost:{mp:7, cd:2}, ai:{hpBelow:0.4},
+    side:['연달아 쓰면 집중이 흐려진다.'], move:'retreat', combo:['SK_C0845'], lines:{use:['{u}은(는) 확인한 재 흐름의 바깥으로 몸을 옮긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0845', name:'식은재눈', en:'Ash Channeler Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C085', grade:1, rarity:1, tier:1, desc:'재 더미 속 남은 열점을 읽는다. 재가 없으면 새로 만들지 못한다.',
+    lore:'소각 잔류물 처리에서 사용하는 재술사의 현장 기술이다. 재가 없으면 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '재술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C01', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    combo:['SK_C0846'], lines:{use:['{u}의 {s}이(가) 발동한다. 재 더미 속 남은 열점을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0846', name:'재비산경계', en:'Ash Channeler Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C085', grade:1, rarity:1, tier:1, desc:'재가 동료 쪽으로 날리는 방향을 구별한다. 재가 없으면 새로 만들지 못한다.',
+    lore:'소각 잔류물 처리에서 사용하는 재술사의 현장 기술이다. 재가 없으면 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '재술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C01', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06},
+    combo:['SK_C0847'], lines:{use:['{u}의 {s}이(가) 발동한다. 재가 동료 쪽으로 날리는 방향을 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0847', name:'재입자분담', en:'Ash Channeler Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C085', grade:1, rarity:1, tier:1, desc:'큰 재 조각과 미세 분진에 힘을 나눠 준다. 재가 없으면 새로 만들지 못한다.',
+    lore:'소각 잔류물 처리에서 사용하는 재술사의 현장 기술이다. 재가 없으면 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '재술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C01', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06},
+    combo:['SK_C0848'], lines:{use:['{u}의 {s}이(가) 발동한다. 큰 재 조각과 미세 분진에 힘을 나눠 준다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0848', name:'갈래잔열재', en:'Ash Channeler Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C085', grade:2, rarity:3, tier:2, desc:'잔열재를 두 흐름으로 나눠 적 둘을 견제한다. 재가 없으면 새로 만들지 못한다.',
+    lore:'소각 잔류물 처리에서 사용하는 재술사의 현장 기술이다. 재가 없으면 새로 만들지 못한다.', target:'enemies', range:'far', area:2, hits:1,
+    count:2, power:0.7, scale:'STAT_MANA', scale2:'ABL_A07', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '재술사', '주변 재료 필요'],
+    risk:2, src:'codex', el:'EL_C01', cost:{mp:18, cd:4}, ai:{opener:false, enemies:2},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_MAGIC', se:[{se:'SE_C002', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_MANA:12}, abl:{ABL_A07:8}}, combo:['SK_C0849'],
+    lines:{use:['{u}은(는) 잔열재를 두 흐름으로 나눠 적 둘을 견제한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0849', name:'재먼지우회', en:'Ash Channeler Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C085', grade:3, rarity:3, tier:3, desc:'동료 둘에게 분진이 향하지 않게 흐름을 비킨다. 재가 없으면 새로 만들지 못한다.',
+    lore:'소각 잔류물 처리에서 사용하는 재술사의 현장 기술이다. 재가 없으면 새로 만들지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '재술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C01', cost:{mp:18, cd:4}, ai:{allyHurt:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3}, se:[{se:'SE_C013', chance:1, turns:2}], req:{lv:25, stat:{STAT_MANA:15}, abl:{ABL_A07:10}}, combo:['SK_C0850'],
+    lines:{use:['{u}은(는) 동료 둘에게 분진이 향하지 않게 흐름을 비킨다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0850', name:'재낙하관찰', en:'Ash Channeler Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C085', grade:4, rarity:3, tier:4, desc:'띄웠던 재가 내려앉는 위치의 변화를 읽는다. 재가 없으면 새로 만들지 못한다.',
+    lore:'소각 잔류물 처리에서 사용하는 재술사의 현장 기술이다. 재가 없으면 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '재술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C01', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    req:{lv:45, stat:{STAT_MANA:18}, abl:{ABL_A07:12}}, combo:['SK_C0841'], lines:{use:['{u}의 {s}이(가) 발동한다. 띄웠던 재가 내려앉는 위치의 변화를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0851', name:'유리편점사', en:'Glass Channeler Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C086', grade:2, rarity:1, tier:1, desc:'확보한 유리 조각을 얇은 각도로 보낸다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.',
+    lore:'파손 유리 회수에서 사용하는 유리술사의 현장 기술이다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.', target:'enemy', range:'far', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_MANA', scale2:'ABL_A07', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '유리술사', '주변 재료 필요'],
+    risk:2, src:'codex', el:'EL_C10', cost:{mp:10, cd:3}, ai:{opener:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_MAGIC', se:[{se:'SE_C001', chance:0.4, turns:2}], combo:['SK_C0852'], lines:{use:['{u}은(는) 확보한 유리 조각을 얇은 각도로 보낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0852', name:'유리겹가림', en:'Glass Channeler Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C086', grade:1, rarity:1, tier:1, desc:'유리 조각의 면을 겹쳐 작은 비말을 가린다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.',
+    lore:'파손 유리 회수에서 사용하는 유리술사의 현장 기술이다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '유리술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65, se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0853'], lines:{use:['{u}은(는) 유리 조각의 면을 겹쳐 작은 비말을 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0853', name:'발치유리띠', en:'Glass Channeler Set', scope:'class', kind:'액티브',
+    cls:'CLS_C086', grade:1, rarity:1, tier:1, desc:'적의 발치에 유리편을 낮게 세워 보폭을 제한한다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.',
+    lore:'파손 유리 회수에서 사용하는 유리술사의 현장 기술이다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '유리술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], se:[{se:'SE_C006', chance:0.75, turns:2}], combo:['SK_C0854'], lines:{use:['{u}은(는) 적의 발치에 유리편을 낮게 세워 보폭을 제한한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0854', name:'유리띠비킴', en:'Glass Channeler Step', scope:'class', kind:'액티브',
+    cls:'CLS_C086', grade:1, rarity:1, tier:1, desc:'놓아 둔 유리편의 바깥으로 발을 옮긴다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.',
+    lore:'파손 유리 회수에서 사용하는 유리술사의 현장 기술이다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '유리술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:7, cd:2}, ai:{hpBelow:0.4},
+    side:['연달아 쓰면 집중이 흐려진다.'], move:'retreat', combo:['SK_C0855'], lines:{use:['{u}은(는) 놓아 둔 유리편의 바깥으로 발을 옮긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0855', name:'유리금눈', en:'Glass Channeler Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C086', grade:1, rarity:1, tier:1, desc:'유리편의 작은 금과 빛의 어긋남을 읽는다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.',
+    lore:'파손 유리 회수에서 사용하는 유리술사의 현장 기술이다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '유리술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    combo:['SK_C0856'], lines:{use:['{u}의 {s}이(가) 발동한다. 유리편의 작은 금과 빛의 어긋남을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0856', name:'유리날방향', en:'Glass Channeler Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C086', grade:1, rarity:1, tier:1, desc:'깨진 면의 날 방향을 구별하며 손을 둔다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.',
+    lore:'파손 유리 회수에서 사용하는 유리술사의 현장 기술이다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '유리술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06},
+    combo:['SK_C0857'], lines:{use:['{u}의 {s}이(가) 발동한다. 깨진 면의 날 방향을 구별하며 손을 둔다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0857', name:'유리편분리감', en:'Glass Channeler Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C086', grade:1, rarity:1, tier:1, desc:'겹친 유리 조각의 접촉과 마찰을 읽는다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.',
+    lore:'파손 유리 회수에서 사용하는 유리술사의 현장 기술이다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '유리술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06},
+    combo:['SK_C0858'], lines:{use:['{u}의 {s}이(가) 발동한다. 겹친 유리 조각의 접촉과 마찰을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0858', name:'엇각유리편', en:'Glass Channeler Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C086', grade:2, rarity:3, tier:2, desc:'다른 각도로 나눈 유리편을 적 둘에게 보낸다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.',
+    lore:'파손 유리 회수에서 사용하는 유리술사의 현장 기술이다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.', target:'enemies', range:'far', area:2, hits:1,
+    count:2, power:0.7, scale:'STAT_MANA', scale2:'ABL_A07', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '유리술사', '주변 재료 필요'],
+    risk:2, src:'codex', el:'EL_C10', cost:{mp:18, cd:4}, ai:{opener:false, enemies:2},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_MAGIC', se:[{se:'SE_C001', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_MANA:12}, abl:{ABL_A07:8}}, combo:['SK_C0859'],
+    lines:{use:['{u}은(는) 다른 각도로 나눈 유리편을 적 둘에게 보낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0859', name:'파편안전면', en:'Glass Channeler Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C086', grade:3, rarity:3, tier:3, desc:'동료 둘이 지나갈 면에서 작은 유리편을 걷는다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.',
+    lore:'파손 유리 회수에서 사용하는 유리술사의 현장 기술이다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '유리술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:18, cd:4}, ai:{allyHurt:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3}, se:[{se:'SE_C015', chance:1, turns:2}], req:{lv:25, stat:{STAT_MANA:15}, abl:{ABL_A07:10}}, combo:['SK_C0860'],
+    lines:{use:['{u}은(는) 동료 둘이 지나갈 면에서 작은 유리편을 걷는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0860', name:'유리파손관찰', en:'Glass Channeler Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C086', grade:4, rarity:3, tier:4, desc:'회수하던 유리편이 더 잘게 깨지는 변화를 읽는다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.',
+    lore:'파손 유리 회수에서 사용하는 유리술사의 현장 기술이다. 유리가 없는 곳에서 유리편을 만들어 내지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '유리술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    req:{lv:45, stat:{STAT_MANA:18}, abl:{ABL_A07:12}}, combo:['SK_C0851'], lines:{use:['{u}의 {s}이(가) 발동한다. 회수하던 유리편이 더 잘게 깨지는 변화를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0861', name:'염결쐐기', en:'Salt Crystal Channeler Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C087', grade:2, rarity:1, tier:1, desc:'소금 결정을 모아 작은 쐐기로 보낸다. 소금이 없으면 결정을 만들지 못한다.',
+    lore:'염분 잔류물 회수에서 사용하는 염결사의 현장 기술이다. 소금이 없으면 결정을 만들지 못한다.', target:'enemy', range:'far', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_MANA', scale2:'ABL_A07', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '염결사', '주변 재료 필요'],
+    risk:2, src:'codex', el:'EL_C10', cost:{mp:10, cd:3}, ai:{opener:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_MAGIC', combo:['SK_C0862'], lines:{use:['{u}은(는) 소금 결정을 모아 작은 쐐기로 보낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0862', name:'염입자가림', en:'Salt Crystal Channeler Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C087', grade:1, rarity:1, tier:1, desc:'소금 입자를 얇게 겹쳐 비말을 받는다. 소금이 없으면 결정을 만들지 못한다.',
+    lore:'염분 잔류물 회수에서 사용하는 염결사의 현장 기술이다. 소금이 없으면 결정을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '염결사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65, se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0863'], lines:{use:['{u}은(는) 소금 입자를 얇게 겹쳐 비말을 받는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0863', name:'염결바닥띠', en:'Salt Crystal Channeler Set', scope:'class', kind:'액티브',
+    cls:'CLS_C087', grade:1, rarity:1, tier:1, desc:'바닥에 결정 띠를 펼쳐 적의 발판을 흐트러뜨린다. 소금이 없으면 결정을 만들지 못한다.',
+    lore:'염분 잔류물 회수에서 사용하는 염결사의 현장 기술이다. 소금이 없으면 결정을 만들지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '염결사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], se:[{se:'SE_C007', chance:0.75, turns:2}], combo:['SK_C0864'], lines:{use:['{u}은(는) 바닥에 결정 띠를 펼쳐 적의 발판을 흐트러뜨린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0864', name:'결정띠물림', en:'Salt Crystal Channeler Step', scope:'class', kind:'액티브',
+    cls:'CLS_C087', grade:1, rarity:1, tier:1, desc:'자기가 펼친 결정 띠를 피해 물러난다. 소금이 없으면 결정을 만들지 못한다.',
+    lore:'염분 잔류물 회수에서 사용하는 염결사의 현장 기술이다. 소금이 없으면 결정을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '염결사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:7, cd:2}, ai:{hpBelow:0.4},
+    side:['연달아 쓰면 집중이 흐려진다.'], move:'retreat', combo:['SK_C0865'], lines:{use:['{u}은(는) 자기가 펼친 결정 띠를 피해 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0865', name:'흡습결눈', en:'Salt Crystal Channeler Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C087', grade:1, rarity:1, tier:1, desc:'결정이 젖어 뭉치는 변화를 읽는다. 소금이 없으면 결정을 만들지 못한다.',
+    lore:'염분 잔류물 회수에서 사용하는 염결사의 현장 기술이다. 소금이 없으면 결정을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '염결사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    combo:['SK_C0866'], lines:{use:['{u}의 {s}이(가) 발동한다. 결정이 젖어 뭉치는 변화를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0866', name:'염분비산감', en:'Salt Crystal Channeler Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C087', grade:1, rarity:1, tier:1, desc:'소금 가루가 장비 접점에 닿는 방향을 살핀다. 소금이 없으면 결정을 만들지 못한다.',
+    lore:'염분 잔류물 회수에서 사용하는 염결사의 현장 기술이다. 소금이 없으면 결정을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '염결사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06},
+    combo:['SK_C0867'], lines:{use:['{u}의 {s}이(가) 발동한다. 소금 가루가 장비 접점에 닿는 방향을 살핀다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0867', name:'결정응집감', en:'Salt Crystal Channeler Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C087', grade:1, rarity:1, tier:1, desc:'입자가 붙고 떨어지는 힘을 일정하게 나눈다. 소금이 없으면 결정을 만들지 못한다.',
+    lore:'염분 잔류물 회수에서 사용하는 염결사의 현장 기술이다. 소금이 없으면 결정을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '염결사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06},
+    combo:['SK_C0868'], lines:{use:['{u}의 {s}이(가) 발동한다. 입자가 붙고 떨어지는 힘을 일정하게 나눈다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0868', name:'염편분산', en:'Salt Crystal Channeler Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C087', grade:2, rarity:3, tier:2, desc:'결정을 두 덩이로 나눠 떨어진 적을 견제한다. 소금이 없으면 결정을 만들지 못한다.',
+    lore:'염분 잔류물 회수에서 사용하는 염결사의 현장 기술이다. 소금이 없으면 결정을 만들지 못한다.', target:'enemies', range:'far', area:2, hits:1,
+    count:2, power:0.7, scale:'STAT_MANA', scale2:'ABL_A07', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '염결사', '주변 재료 필요'],
+    risk:2, src:'codex', el:'EL_C10', cost:{mp:18, cd:4}, ai:{opener:false, enemies:2},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_MAGIC', req:{lv:10, stat:{STAT_MANA:12}, abl:{ABL_A07:8}}, combo:['SK_C0869'], lines:{use:['{u}은(는) 결정을 두 덩이로 나눠 떨어진 적을 견제한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0869', name:'염결통과면', en:'Salt Crystal Channeler Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C087', grade:3, rarity:3, tier:3, desc:'동료 둘이 지날 면에서 결정을 걷어 낸다. 소금이 없으면 결정을 만들지 못한다.',
+    lore:'염분 잔류물 회수에서 사용하는 염결사의 현장 기술이다. 소금이 없으면 결정을 만들지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '염결사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:18, cd:4}, ai:{allyHurt:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3}, se:[{se:'SE_C015', chance:1, turns:2}], req:{lv:25, stat:{STAT_MANA:15}, abl:{ABL_A07:10}}, combo:['SK_C0870'],
+    lines:{use:['{u}은(는) 동료 둘이 지날 면에서 결정을 걷어 낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0870', name:'염결회수눈', en:'Salt Crystal Channeler Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C087', grade:4, rarity:3, tier:4, desc:'회수 뒤 남은 결정과 녹은 자리를 구별한다. 소금이 없으면 결정을 만들지 못한다.',
+    lore:'염분 잔류물 회수에서 사용하는 염결사의 현장 기술이다. 소금이 없으면 결정을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '염결사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C10', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    req:{lv:45, stat:{STAT_MANA:18}, abl:{ABL_A07:12}}, combo:['SK_C0861'], lines:{use:['{u}의 {s}이(가) 발동한다. 회수 뒤 남은 결정과 녹은 자리를 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0871', name:'사립집중탄', en:'Sand Channeler Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C088', grade:2, rarity:1, tier:1, desc:'마른 모래를 좁게 모아 적의 노출면을 친다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.',
+    lore:'모래 유입 구역 정리에서 사용하는 모래술사의 현장 기술이다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.', target:'enemy', range:'far', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_MANA', scale2:'ABL_A07', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '모래술사', '주변 재료 필요'],
+    risk:2, src:'codex', el:'EL_C05', cost:{mp:10, cd:3}, ai:{opener:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_MAGIC', combo:['SK_C0872'], lines:{use:['{u}은(는) 마른 모래를 좁게 모아 적의 노출면을 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0872', name:'모래받침겹', en:'Sand Channeler Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C088', grade:1, rarity:1, tier:1, desc:'가까운 모래를 두텁게 모아 작은 충격을 받는다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.',
+    lore:'모래 유입 구역 정리에서 사용하는 모래술사의 현장 기술이다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '모래술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C05', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65, se:[{se:'SE_C018', chance:1, turns:3}], combo:['SK_C0873'], lines:{use:['{u}은(는) 가까운 모래를 두텁게 모아 작은 충격을 받는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0873', name:'모래발목띠', en:'Sand Channeler Set', scope:'class', kind:'액티브',
+    cls:'CLS_C088', grade:1, rarity:1, tier:1, desc:'발치의 모래를 모아 보폭을 줄인다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.',
+    lore:'모래 유입 구역 정리에서 사용하는 모래술사의 현장 기술이다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '모래술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C05', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], se:[{se:'SE_C006', chance:0.75, turns:2}], combo:['SK_C0874'], lines:{use:['{u}은(는) 발치의 모래를 모아 보폭을 줄인다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0874', name:'모래밀어딛기', en:'Sand Channeler Step', scope:'class', kind:'액티브',
+    cls:'CLS_C088', grade:1, rarity:1, tier:1, desc:'모래의 힘을 발밑으로 나눠 옆으로 빠진다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.',
+    lore:'모래 유입 구역 정리에서 사용하는 모래술사의 현장 기술이다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '모래술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C05', cost:{mp:7, cd:2}, ai:{hpBelow:0.4},
+    side:['연달아 쓰면 집중이 흐려진다.'], move:'retreat', combo:['SK_C0875'], lines:{use:['{u}은(는) 모래의 힘을 발밑으로 나눠 옆으로 빠진다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0875', name:'모래흐름눈', en:'Sand Channeler Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C088', grade:1, rarity:1, tier:1, desc:'얕은 층 아래에서 움직이는 모래의 방향을 읽는다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.',
+    lore:'모래 유입 구역 정리에서 사용하는 모래술사의 현장 기술이다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '모래술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C05', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    combo:['SK_C0876'], lines:{use:['{u}의 {s}이(가) 발동한다. 얕은 층 아래에서 움직이는 모래의 방향을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0876', name:'사립마찰감', en:'Sand Channeler Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C088', grade:1, rarity:1, tier:1, desc:'모래 크기와 습기에 따른 마찰 차이를 익힌다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.',
+    lore:'모래 유입 구역 정리에서 사용하는 모래술사의 현장 기술이다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '모래술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C05', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06},
+    combo:['SK_C0877'], lines:{use:['{u}의 {s}이(가) 발동한다. 모래 크기와 습기에 따른 마찰 차이를 익힌다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0877', name:'모래층분담', en:'Sand Channeler Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C088', grade:1, rarity:1, tier:1, desc:'얇은 층에 힘을 고르게 나눠 붕괴를 줄인다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.',
+    lore:'모래 유입 구역 정리에서 사용하는 모래술사의 현장 기술이다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '모래술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C05', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06},
+    combo:['SK_C0878'], lines:{use:['{u}의 {s}이(가) 발동한다. 얇은 층에 힘을 고르게 나눠 붕괴를 줄인다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0878', name:'갈래사립류', en:'Sand Channeler Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C088', grade:2, rarity:3, tier:2, desc:'두 모래 흐름을 나눠 적 둘을 견제한다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.',
+    lore:'모래 유입 구역 정리에서 사용하는 모래술사의 현장 기술이다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.', target:'enemies', range:'far', area:2, hits:1,
+    count:2, power:0.7, scale:'STAT_MANA', scale2:'ABL_A07', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '모래술사', '주변 재료 필요'],
+    risk:2, src:'codex', el:'EL_C05', cost:{mp:18, cd:4}, ai:{opener:false, enemies:2},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_MAGIC', se:[{se:'SE_C008', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_MANA:12}, abl:{ABL_A07:8}}, combo:['SK_C0879'],
+    lines:{use:['{u}은(는) 두 모래 흐름을 나눠 적 둘을 견제한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0879', name:'눈앞사립우회', en:'Sand Channeler Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C088', grade:3, rarity:3, tier:3, desc:'동료 둘의 눈 쪽으로 향하는 모래를 옆으로 비킨다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.',
+    lore:'모래 유입 구역 정리에서 사용하는 모래술사의 현장 기술이다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '모래술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C05', cost:{mp:18, cd:4}, ai:{allyHurt:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3}, se:[{se:'SE_C013', chance:1, turns:2}], req:{lv:25, stat:{STAT_MANA:15}, abl:{ABL_A07:10}}, combo:['SK_C0880'],
+    lines:{use:['{u}은(는) 동료 둘의 눈 쪽으로 향하는 모래를 옆으로 비킨다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0880', name:'가라앉은모래눈', en:'Sand Channeler Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C088', grade:4, rarity:3, tier:4, desc:'띄운 모래가 쌓여 달라진 발판을 읽는다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.',
+    lore:'모래 유입 구역 정리에서 사용하는 모래술사의 현장 기술이다. 젖어 굳은 모래는 같은 방식으로 흐르지 않는다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '모래술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C05', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    req:{lv:45, stat:{STAT_MANA:18}, abl:{ABL_A07:12}}, combo:['SK_C0871'], lines:{use:['{u}의 {s}이(가) 발동한다. 띄운 모래가 쌓여 달라진 발판을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0881', name:'증기점분사', en:'Steam Channeler Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C089', grade:2, rarity:1, tier:1, desc:'좁힌 증기를 적의 노출면으로 보낸다. 물과 열원이 없으면 증기를 만들지 못한다.',
+    lore:'고온 누출 현장 보조에서 사용하는 증기술사의 현장 기술이다. 물과 열원이 없으면 증기를 만들지 못한다.', target:'enemy', range:'far', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_MANA', scale2:'ABL_A07', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '증기술사', '주변 재료 필요'],
+    risk:2, src:'codex', el:'EL_C06', cost:{mp:10, cd:3}, ai:{opener:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_MAGIC', se:[{se:'SE_C002', chance:0.4, turns:2}], combo:['SK_C0882'], lines:{use:['{u}은(는) 좁힌 증기를 적의 노출면으로 보낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0882', name:'응축받침막', en:'Steam Channeler Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C089', grade:1, rarity:1, tier:1, desc:'식은 응축수를 얇게 모아 작은 파편을 받는다. 물과 열원이 없으면 증기를 만들지 못한다.',
+    lore:'고온 누출 현장 보조에서 사용하는 증기술사의 현장 기술이다. 물과 열원이 없으면 증기를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '증기술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65, se:[{se:'SE_C018', chance:1, turns:3}], combo:['SK_C0883'], lines:{use:['{u}은(는) 식은 응축수를 얇게 모아 작은 파편을 받는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0883', name:'김장막띠', en:'Steam Channeler Set', scope:'class', kind:'액티브',
+    cls:'CLS_C089', grade:1, rarity:1, tier:1, desc:'적의 시야 앞에 얕은 증기 띠를 펼친다. 물과 열원이 없으면 증기를 만들지 못한다.',
+    lore:'고온 누출 현장 보조에서 사용하는 증기술사의 현장 기술이다. 물과 열원이 없으면 증기를 만들지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '증기술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], se:[{se:'SE_C008', chance:0.75, turns:2}], combo:['SK_C0884'], lines:{use:['{u}은(는) 적의 시야 앞에 얕은 증기 띠를 펼친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0884', name:'압력흐름물림', en:'Steam Channeler Step', scope:'class', kind:'액티브',
+    cls:'CLS_C089', grade:1, rarity:1, tier:1, desc:'확인한 분사 흐름의 옆으로 빠진다. 물과 열원이 없으면 증기를 만들지 못한다.',
+    lore:'고온 누출 현장 보조에서 사용하는 증기술사의 현장 기술이다. 물과 열원이 없으면 증기를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '증기술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', cost:{mp:7, cd:2}, ai:{hpBelow:0.4},
+    side:['연달아 쓰면 집중이 흐려진다.'], move:'retreat', combo:['SK_C0885'], lines:{use:['{u}은(는) 확인한 분사 흐름의 옆으로 빠진다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0885', name:'응축온도눈', en:'Steam Channeler Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C089', grade:1, rarity:1, tier:1, desc:'표면에 맺히는 물방울로 냉각 지점을 읽는다. 물과 열원이 없으면 증기를 만들지 못한다.',
+    lore:'고온 누출 현장 보조에서 사용하는 증기술사의 현장 기술이다. 물과 열원이 없으면 증기를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '증기술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    combo:['SK_C0886'], lines:{use:['{u}의 {s}이(가) 발동한다. 표면에 맺히는 물방울로 냉각 지점을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0886', name:'밸브역압감', en:'Steam Channeler Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C089', grade:1, rarity:1, tier:1, desc:'증기 흐름이 거꾸로 미는 힘을 구별한다. 물과 열원이 없으면 증기를 만들지 못한다.',
+    lore:'고온 누출 현장 보조에서 사용하는 증기술사의 현장 기술이다. 물과 열원이 없으면 증기를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '증기술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06},
+    combo:['SK_C0887'], lines:{use:['{u}의 {s}이(가) 발동한다. 증기 흐름이 거꾸로 미는 힘을 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0887', name:'증기층분배', en:'Steam Channeler Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C089', grade:1, rarity:1, tier:1, desc:'뜨거운 층과 식는 층에 힘을 나눠 준다. 물과 열원이 없으면 증기를 만들지 못한다.',
+    lore:'고온 누출 현장 보조에서 사용하는 증기술사의 현장 기술이다. 물과 열원이 없으면 증기를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '증기술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06},
+    combo:['SK_C0888'], lines:{use:['{u}의 {s}이(가) 발동한다. 뜨거운 층과 식는 층에 힘을 나눠 준다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0888', name:'엇김분사', en:'Steam Channeler Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C089', grade:2, rarity:3, tier:2, desc:'두 방향으로 짧은 증기를 나눠 보낸다. 물과 열원이 없으면 증기를 만들지 못한다.',
+    lore:'고온 누출 현장 보조에서 사용하는 증기술사의 현장 기술이다. 물과 열원이 없으면 증기를 만들지 못한다.', target:'enemies', range:'far', area:2, hits:1,
+    count:2, power:0.7, scale:'STAT_MANA', scale2:'ABL_A07', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '증기술사', '주변 재료 필요'],
+    risk:2, src:'codex', el:'EL_C06', cost:{mp:18, cd:4}, ai:{opener:false, enemies:2},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_MAGIC', se:[{se:'SE_C002', chance:0.4, turns:2}], req:{lv:10, stat:{STAT_MANA:12}, abl:{ABL_A07:8}}, combo:['SK_C0889'],
+    lines:{use:['{u}은(는) 두 방향으로 짧은 증기를 나눠 보낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0889', name:'뜨거운김우회', en:'Steam Channeler Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C089', grade:3, rarity:3, tier:3, desc:'동료 둘 쪽으로 향하는 뜨거운 흐름을 비킨다. 물과 열원이 없으면 증기를 만들지 못한다.',
+    lore:'고온 누출 현장 보조에서 사용하는 증기술사의 현장 기술이다. 물과 열원이 없으면 증기를 만들지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '증기술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', cost:{mp:18, cd:4}, ai:{allyHurt:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3}, se:[{se:'SE_C021', chance:1, turns:2}], req:{lv:25, stat:{STAT_MANA:15}, abl:{ABL_A07:10}}, combo:['SK_C0890'],
+    lines:{use:['{u}은(는) 동료 둘 쪽으로 향하는 뜨거운 흐름을 비킨다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0890', name:'남은압력눈', en:'Steam Channeler Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C089', grade:4, rarity:3, tier:4, desc:'분사를 멈춘 뒤 관에 남은 압력을 읽는다. 물과 열원이 없으면 증기를 만들지 못한다.',
+    lore:'고온 누출 현장 보조에서 사용하는 증기술사의 현장 기술이다. 물과 열원이 없으면 증기를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '증기술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    req:{lv:45, stat:{STAT_MANA:18}, abl:{ABL_A07:12}}, combo:['SK_C0881'], lines:{use:['{u}의 {s}이(가) 발동한다. 분사를 멈춘 뒤 관에 남은 압력을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0891', name:'응집물방울', en:'Mist Channeler Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C090', grade:2, rarity:2, tier:1, desc:'작은 물방울을 모아 한 점에 짧게 보낸다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.',
+    lore:'시야 확보 및 노출 차단에서 사용하는 안개술사의 현장 기술이다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.', target:'enemy', range:'far', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_MANA', scale2:'ABL_A07', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '안개술사', '주변 재료 필요'],
+    risk:2, src:'codex', el:'EL_C06', cost:{mp:10, cd:3}, ai:{opener:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_MAGIC', combo:['SK_C0892'], lines:{use:['{u}은(는) 작은 물방울을 모아 한 점에 짧게 보낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0892', name:'물안개받침', en:'Mist Channeler Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C090', grade:1, rarity:2, tier:1, desc:'가까운 물방울을 겹쳐 큰 비말을 받는다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.',
+    lore:'시야 확보 및 노출 차단에서 사용하는 안개술사의 현장 기술이다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '안개술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65, se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0893'], lines:{use:['{u}은(는) 가까운 물방울을 겹쳐 큰 비말을 받는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0893', name:'짙은안개띠', en:'Mist Channeler Set', scope:'class', kind:'액티브',
+    cls:'CLS_C090', grade:1, rarity:2, tier:1, desc:'적의 눈앞에 안개를 짙게 모아 윤곽을 흐린다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.',
+    lore:'시야 확보 및 노출 차단에서 사용하는 안개술사의 현장 기술이다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '안개술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], se:[{se:'SE_C008', chance:0.75, turns:2}], combo:['SK_C0894'], lines:{use:['{u}은(는) 적의 눈앞에 안개를 짙게 모아 윤곽을 흐린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0894', name:'안개가장물림', en:'Mist Channeler Step', scope:'class', kind:'액티브',
+    cls:'CLS_C090', grade:1, rarity:2, tier:1, desc:'확인한 안개 가장자리를 따라 뒤로 빠진다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.',
+    lore:'시야 확보 및 노출 차단에서 사용하는 안개술사의 현장 기술이다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '안개술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', cost:{mp:7, cd:2}, ai:{hpBelow:0.4},
+    side:['연달아 쓰면 집중이 흐려진다.'], move:'retreat', combo:['SK_C0895'], lines:{use:['{u}은(는) 확인한 안개 가장자리를 따라 뒤로 빠진다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0895', name:'물방울밀도눈', en:'Mist Channeler Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C090', grade:1, rarity:2, tier:1, desc:'공기 중 물방울의 밀도 차이를 읽는다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.',
+    lore:'시야 확보 및 노출 차단에서 사용하는 안개술사의 현장 기술이다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '안개술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    combo:['SK_C0896'], lines:{use:['{u}의 {s}이(가) 발동한다. 공기 중 물방울의 밀도 차이를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0896', name:'안개틈유지', en:'Mist Channeler Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C090', grade:1, rarity:2, tier:1, desc:'동료의 시야에 필요한 좁은 틈을 남긴다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.',
+    lore:'시야 확보 및 노출 차단에서 사용하는 안개술사의 현장 기술이다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '안개술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06},
+    combo:['SK_C0897'], lines:{use:['{u}의 {s}이(가) 발동한다. 동료의 시야에 필요한 좁은 틈을 남긴다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0897', name:'분무입자감', en:'Mist Channeler Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C090', grade:1, rarity:2, tier:1, desc:'큰 방울과 작은 안개 입자를 구별해 나눈다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.',
+    lore:'시야 확보 및 노출 차단에서 사용하는 안개술사의 현장 기술이다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '안개술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06},
+    combo:['SK_C0898'], lines:{use:['{u}의 {s}이(가) 발동한다. 큰 방울과 작은 안개 입자를 구별해 나눈다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0898', name:'겹안개점격', en:'Mist Channeler Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C090', grade:2, rarity:3, tier:2, desc:'응집한 물방울을 적 둘에게 나눠 보낸다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.',
+    lore:'시야 확보 및 노출 차단에서 사용하는 안개술사의 현장 기술이다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.', target:'enemies', range:'far', area:2, hits:1,
+    count:2, power:0.7, scale:'STAT_MANA', scale2:'ABL_A07', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '안개술사', '주변 재료 필요'],
+    risk:2, src:'codex', el:'EL_C06', cost:{mp:18, cd:4}, ai:{opener:false, enemies:2},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_MAGIC', req:{lv:10, stat:{STAT_MANA:12}, abl:{ABL_A07:8}}, combo:['SK_C0899'], lines:{use:['{u}은(는) 응집한 물방울을 적 둘에게 나눠 보낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0899', name:'대열맑은틈', en:'Mist Channeler Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C090', grade:3, rarity:3, tier:3, desc:'동료 둘의 시야 앞에서 물방울을 옆으로 걷는다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.',
+    lore:'시야 확보 및 노출 차단에서 사용하는 안개술사의 현장 기술이다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '안개술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', cost:{mp:18, cd:4}, ai:{allyHurt:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3}, se:[{se:'SE_C016', chance:1, turns:2}], req:{lv:25, stat:{STAT_MANA:15}, abl:{ABL_A07:10}}, combo:['SK_C0900'],
+    lines:{use:['{u}은(는) 동료 둘의 시야 앞에서 물방울을 옆으로 걷는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0900', name:'안개흩어짐눈', en:'Mist Channeler Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C090', grade:4, rarity:3, tier:4, desc:'바람에 밀려 사라지는 안개의 경계를 읽는다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.',
+    lore:'시야 확보 및 노출 차단에서 사용하는 안개술사의 현장 기술이다. 주변 수분과 준비한 물 이상으로 안개를 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MANA', scale2:'ABL_A07', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '안개술사', '주변 재료 필요'],
+    risk:1, src:'codex', el:'EL_C06', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    req:{lv:45, stat:{STAT_MANA:18}, abl:{ABL_A07:12}}, combo:['SK_C0891'], lines:{use:['{u}의 {s}이(가) 발동한다. 바람에 밀려 사라지는 안개의 경계를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0901', name:'청결손정렬', en:'Hygiene Aide Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C091', grade:2, rarity:1, tier:1, desc:'동료의 손과 도구가 닿을 순서를 정리한다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.',
+    lore:'야전 처치 구역 위생 관리에서 사용하는 위생사의 현장 기술이다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '위생사'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], combo:['SK_C0902'], lines:{use:['{u}은(는) 동료의 손과 도구가 닿을 순서를 정리한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0902', name:'청결비말가림', en:'Hygiene Aide Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C091', grade:1, rarity:1, tier:1, desc:'처치 면에 큰 비말이 튀지 않도록 가린다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.',
+    lore:'야전 처치 구역 위생 관리에서 사용하는 위생사의 현장 기술이다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '위생사'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65,
+    se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0903'], lines:{use:['{u}은(는) 처치 면에 큰 비말이 튀지 않도록 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0903', name:'접촉순서신호', en:'Hygiene Aide Set', scope:'class', kind:'액티브',
+    cls:'CLS_C091', grade:1, rarity:1, tier:1, desc:'동료에게 오염면과 청결면의 접촉 순서를 알린다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.',
+    lore:'야전 처치 구역 위생 관리에서 사용하는 위생사의 현장 기술이다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '위생사'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], combo:['SK_C0904'], lines:{use:['{u}은(는) 동료에게 오염면과 청결면의 접촉 순서를 알린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0904', name:'청결선비킴', en:'Hygiene Aide Step', scope:'class', kind:'액티브',
+    cls:'CLS_C091', grade:1, rarity:1, tier:1, desc:'정해 둔 청결 경계를 밟지 않고 물러난다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.',
+    lore:'야전 처치 구역 위생 관리에서 사용하는 위생사의 현장 기술이다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '위생사'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, side:['연달아 쓰면 집중이 흐려진다.'], move:'retreat',
+    combo:['SK_C0905'], lines:{use:['{u}은(는) 정해 둔 청결 경계를 밟지 않고 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0905', name:'교차오염눈', en:'Hygiene Aide Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C091', grade:1, rarity:1, tier:1, desc:'같은 손과 도구가 오간 면을 순서대로 기억한다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.',
+    lore:'야전 처치 구역 위생 관리에서 사용하는 위생사의 현장 기술이다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '위생사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0906'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 같은 손과 도구가 오간 면을 순서대로 기억한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0906', name:'용기분리습관', en:'Hygiene Aide Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C091', grade:1, rarity:1, tier:1, desc:'개봉한 용기와 미개봉 용기를 구별해 둔다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.',
+    lore:'야전 처치 구역 위생 관리에서 사용하는 위생사의 현장 기술이다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '위생사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0907'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 개봉한 용기와 미개봉 용기를 구별해 둔다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0907', name:'청결동선감', en:'Hygiene Aide Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C091', grade:1, rarity:1, tier:1, desc:'청결면에 닿기 전 손과 장비의 위치를 고른다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.',
+    lore:'야전 처치 구역 위생 관리에서 사용하는 위생사의 현장 기술이다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '위생사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{mind:1.08}, combo:['SK_C0908'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 청결면에 닿기 전 손과 장비의 위치를 고른다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0908', name:'다중접촉정렬', en:'Hygiene Aide Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C091', grade:2, rarity:3, tier:2, desc:'여러 도구의 접촉 순서를 맞춰 오염면의 재접촉을 줄인다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.',
+    lore:'야전 처치 구역 위생 관리에서 사용하는 위생사의 현장 기술이다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '위생사'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:10, stat:{STAT_MIND:12}, abl:{ABL_A27:8}}, combo:['SK_C0909'], lines:{use:['{u}은(는) 여러 도구의 접촉 순서를 맞춰 오염면의 재접촉을 줄인다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0909', name:'대열청결교대', en:'Hygiene Aide Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C091', grade:3, rarity:3, tier:3, desc:'동료 둘이 장갑과 도구를 교대하는 순서를 맞춘다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.',
+    lore:'야전 처치 구역 위생 관리에서 사용하는 위생사의 현장 기술이다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '위생사'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C017', chance:1, turns:2}], req:{lv:25, stat:{STAT_MIND:15}, abl:{ABL_A27:10}}, combo:['SK_C0910'], lines:{use:['{u}은(는) 동료 둘이 장갑과 도구를 교대하는 순서를 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0910', name:'재접촉관찰', en:'Hygiene Aide Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C091', grade:4, rarity:3, tier:4, desc:'정리한 면에 오염된 물체가 닿는 순간을 읽는다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.',
+    lore:'야전 처치 구역 위생 관리에서 사용하는 위생사의 현장 기술이다. 눈에 보이지 않는 모든 병원체를 판별하거나 없애지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '위생사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_MIND:18}, abl:{ABL_A27:12}},
+    combo:['SK_C0901'], lines:{use:['{u}의 {s}이(가) 발동한다. 정리한 면에 오염된 물체가 닿는 순간을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0911', name:'물자손맞춤', en:'Supply Aide Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C092', grade:2, rarity:1, tier:1, desc:'받는 동료의 손에 맞춰 보급품 전달 자세를 고른다. 없는 물품을 만들거나 보급량을 늘리지 못한다.',
+    lore:'장거리 공략 물자 전달에서 사용하는 보급사의 현장 기술이다. 없는 물품을 만들거나 보급량을 늘리지 못한다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '보급사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C017', chance:1, turns:2}], combo:['SK_C0912'], lines:{use:['{u}은(는) 받는 동료의 손에 맞춰 보급품 전달 자세를 고른다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0912', name:'보급품완충', en:'Supply Aide Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C092', grade:1, rarity:1, tier:1, desc:'들고 있는 보급품 주위에 작은 충격을 받는 층을 둔다. 없는 물품을 만들거나 보급량을 늘리지 못한다.',
+    lore:'장거리 공략 물자 전달에서 사용하는 보급사의 현장 기술이다. 없는 물품을 만들거나 보급량을 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '보급사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65,
+    se:[{se:'SE_C018', chance:1, turns:3}], combo:['SK_C0913'], lines:{use:['{u}은(는) 들고 있는 보급품 주위에 작은 충격을 받는 층을 둔다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0913', name:'분배순서표', en:'Supply Aide Set', scope:'class', kind:'액티브',
+    cls:'CLS_C092', grade:1, rarity:1, tier:1, desc:'합의한 우선순위에 따라 물자 전달 순서를 알린다. 없는 물품을 만들거나 보급량을 늘리지 못한다.',
+    lore:'장거리 공략 물자 전달에서 사용하는 보급사의 현장 기술이다. 없는 물품을 만들거나 보급량을 늘리지 못한다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '보급사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], combo:['SK_C0914'], lines:{use:['{u}은(는) 합의한 우선순위에 따라 물자 전달 순서를 알린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0914', name:'보급동선물림', en:'Supply Aide Step', scope:'class', kind:'액티브',
+    cls:'CLS_C092', grade:1, rarity:1, tier:1, desc:'가방이 걸리지 않는 확인한 통로로 물러난다. 없는 물품을 만들거나 보급량을 늘리지 못한다.',
+    lore:'장거리 공략 물자 전달에서 사용하는 보급사의 현장 기술이다. 없는 물품을 만들거나 보급량을 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '보급사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, side:['연달아 쓰면 집중이 흐려진다.'], move:'retreat',
+    combo:['SK_C0915'], lines:{use:['{u}은(는) 가방이 걸리지 않는 확인한 통로로 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0915', name:'잔량구획눈', en:'Supply Aide Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C092', grade:1, rarity:1, tier:1, desc:'구획별 남은 수량과 빈 칸을 읽는다. 없는 물품을 만들거나 보급량을 늘리지 못한다.',
+    lore:'장거리 공략 물자 전달에서 사용하는 보급사의 현장 기술이다. 없는 물품을 만들거나 보급량을 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '보급사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0916'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 구획별 남은 수량과 빈 칸을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0916', name:'가방칸기억', en:'Supply Aide Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C092', grade:1, rarity:1, tier:1, desc:'자주 전달하는 물건의 위치를 같은 칸에 둔다. 없는 물품을 만들거나 보급량을 늘리지 못한다.',
+    lore:'장거리 공략 물자 전달에서 사용하는 보급사의 현장 기술이다. 없는 물품을 만들거나 보급량을 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '보급사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0917'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 자주 전달하는 물건의 위치를 같은 칸에 둔다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0917', name:'보급하중분담', en:'Supply Aide Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C092', grade:1, rarity:1, tier:1, desc:'가방 안의 하중을 등과 끈으로 고르게 받는다. 없는 물품을 만들거나 보급량을 늘리지 못한다.',
+    lore:'장거리 공략 물자 전달에서 사용하는 보급사의 현장 기술이다. 없는 물품을 만들거나 보급량을 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '보급사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{mind:1.08}, combo:['SK_C0918'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 가방 안의 하중을 등과 끈으로 고르게 받는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0918', name:'긴급물자교대', en:'Supply Aide Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C092', grade:2, rarity:3, tier:2, desc:'한 손으로 꺼낼 물자를 순서대로 앞칸에 옮긴다. 없는 물품을 만들거나 보급량을 늘리지 못한다.',
+    lore:'장거리 공략 물자 전달에서 사용하는 보급사의 현장 기술이다. 없는 물품을 만들거나 보급량을 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '보급사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:10, stat:{STAT_MIND:12}, abl:{ABL_A27:8}}, combo:['SK_C0919'], lines:{use:['{u}은(는) 한 손으로 꺼낼 물자를 순서대로 앞칸에 옮긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0919', name:'두사람보급', en:'Supply Aide Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C092', grade:3, rarity:3, tier:3, desc:'동료 둘이 필요한 물품을 차례로 받을 간격을 맞춘다. 없는 물품을 만들거나 보급량을 늘리지 못한다.',
+    lore:'장거리 공략 물자 전달에서 사용하는 보급사의 현장 기술이다. 없는 물품을 만들거나 보급량을 늘리지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '보급사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_MIND:15}, abl:{ABL_A27:10}}, combo:['SK_C0920'], lines:{use:['{u}은(는) 동료 둘이 필요한 물품을 차례로 받을 간격을 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0920', name:'전달누락눈', en:'Supply Aide Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C092', grade:4, rarity:3, tier:4, desc:'기록한 수량과 실제 남은 칸의 차이를 읽는다. 없는 물품을 만들거나 보급량을 늘리지 못한다.',
+    lore:'장거리 공략 물자 전달에서 사용하는 보급사의 현장 기술이다. 없는 물품을 만들거나 보급량을 늘리지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '보급사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_MIND:18}, abl:{ABL_A27:12}},
+    combo:['SK_C0911'], lines:{use:['{u}의 {s}이(가) 발동한다. 기록한 수량과 실제 남은 칸의 차이를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0921', name:'방향맞춤', en:'Route Coordinator Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C093', grade:2, rarity:1, tier:1, desc:'동료와 현재 기준물 및 진행 방향을 맞춘다. 확인하지 않은 길의 안전을 보장하지 못한다.',
+    lore:'복잡한 게이트 경로 안내에서 사용하는 항법사의 현장 기술이다. 확인하지 않은 길의 안전을 보장하지 못한다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '항법사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], combo:['SK_C0922'], lines:{use:['{u}은(는) 동료와 현재 기준물 및 진행 방향을 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0922', name:'지도손가림', en:'Route Coordinator Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C093', grade:1, rarity:1, tier:1, desc:'경로판과 이를 든 손을 작은 파편에서 가린다. 확인하지 않은 길의 안전을 보장하지 못한다.',
+    lore:'복잡한 게이트 경로 안내에서 사용하는 항법사의 현장 기술이다. 확인하지 않은 길의 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '항법사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65,
+    se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0923'], lines:{use:['{u}은(는) 경로판과 이를 든 손을 작은 파편에서 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0923', name:'갈림길신호', en:'Route Coordinator Set', scope:'class', kind:'액티브',
+    cls:'CLS_C093', grade:1, rarity:1, tier:1, desc:'확인한 갈림길의 진행 순서를 동료에게 알린다. 확인하지 않은 길의 안전을 보장하지 못한다.',
+    lore:'복잡한 게이트 경로 안내에서 사용하는 항법사의 현장 기술이다. 확인하지 않은 길의 안전을 보장하지 못한다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '항법사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], combo:['SK_C0924'], lines:{use:['{u}은(는) 확인한 갈림길의 진행 순서를 동료에게 알린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0924', name:'기준물따라감', en:'Route Coordinator Step', scope:'class', kind:'액티브',
+    cls:'CLS_C093', grade:1, rarity:1, tier:1, desc:'기억한 가까운 기준물 옆으로 짧게 물러난다. 확인하지 않은 길의 안전을 보장하지 못한다.',
+    lore:'복잡한 게이트 경로 안내에서 사용하는 항법사의 현장 기술이다. 확인하지 않은 길의 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '항법사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, side:['연달아 쓰면 집중이 흐려진다.'], move:'retreat',
+    combo:['SK_C0925'], lines:{use:['{u}은(는) 기억한 가까운 기준물 옆으로 짧게 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0925', name:'방향뒤틀림눈', en:'Route Coordinator Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C093', grade:1, rarity:1, tier:1, desc:'기준물의 상대 위치가 달라지는 변화를 읽는다. 확인하지 않은 길의 안전을 보장하지 못한다.',
+    lore:'복잡한 게이트 경로 안내에서 사용하는 항법사의 현장 기술이다. 확인하지 않은 길의 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '항법사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0926'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 기준물의 상대 위치가 달라지는 변화를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0926', name:'갈림길순서감', en:'Route Coordinator Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C093', grade:1, rarity:1, tier:1, desc:'지나온 길의 순서를 표식과 연결해 기억한다. 확인하지 않은 길의 안전을 보장하지 못한다.',
+    lore:'복잡한 게이트 경로 안내에서 사용하는 항법사의 현장 기술이다. 확인하지 않은 길의 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '항법사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0927'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 지나온 길의 순서를 표식과 연결해 기억한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0927', name:'대열방향축', en:'Route Coordinator Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C093', grade:1, rarity:1, tier:1, desc:'동료의 진행 방향과 자기 몸의 방향을 맞춘다. 확인하지 않은 길의 안전을 보장하지 못한다.',
+    lore:'복잡한 게이트 경로 안내에서 사용하는 항법사의 현장 기술이다. 확인하지 않은 길의 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '항법사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{mind:1.08}, combo:['SK_C0928'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 동료의 진행 방향과 자기 몸의 방향을 맞춘다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0928', name:'우회경로정렬', en:'Route Coordinator Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C093', grade:2, rarity:3, tier:2, desc:'이미 확인한 우회로와 원래 경로의 접점을 대조한다. 확인하지 않은 길의 안전을 보장하지 못한다.',
+    lore:'복잡한 게이트 경로 안내에서 사용하는 항법사의 현장 기술이다. 확인하지 않은 길의 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '항법사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:10, stat:{STAT_MIND:12}, abl:{ABL_A27:8}}, combo:['SK_C0929'], lines:{use:['{u}은(는) 이미 확인한 우회로와 원래 경로의 접점을 대조한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0929', name:'대열경로공유', en:'Route Coordinator Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C093', grade:3, rarity:3, tier:3, desc:'동료 둘에게 다음 기준물과 정지 지점을 맞춰 알린다. 확인하지 않은 길의 안전을 보장하지 못한다.',
+    lore:'복잡한 게이트 경로 안내에서 사용하는 항법사의 현장 기술이다. 확인하지 않은 길의 안전을 보장하지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '항법사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_MIND:15}, abl:{ABL_A27:10}}, combo:['SK_C0930'], lines:{use:['{u}은(는) 동료 둘에게 다음 기준물과 정지 지점을 맞춰 알린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0930', name:'기준물소실눈', en:'Route Coordinator Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C093', grade:4, rarity:3, tier:4, desc:'예전에 보이던 기준물이 가려지거나 사라진 것을 읽는다. 확인하지 않은 길의 안전을 보장하지 못한다.',
+    lore:'복잡한 게이트 경로 안내에서 사용하는 항법사의 현장 기술이다. 확인하지 않은 길의 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '항법사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_MIND:18}, abl:{ABL_A27:12}},
+    combo:['SK_C0921'], lines:{use:['{u}의 {s}이(가) 발동한다. 예전에 보이던 기준물이 가려지거나 사라진 것을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0931', name:'핵심어전달', en:'Field Interpreter Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C094', grade:2, rarity:1, tier:1, desc:'이미 이해한 지시의 핵심어를 동료에게 짧게 옮긴다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.',
+    lore:'혼성 공략조 현장 통역에서 사용하는 통역사의 현장 기술이다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '통역사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], combo:['SK_C0932'], lines:{use:['{u}은(는) 이미 이해한 지시의 핵심어를 동료에게 짧게 옮긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0932', name:'발화비말막', en:'Field Interpreter Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C094', grade:1, rarity:1, tier:1, desc:'가까이 대화할 때 얼굴 앞의 큰 비말을 가린다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.',
+    lore:'혼성 공략조 현장 통역에서 사용하는 통역사의 현장 기술이다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '통역사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65,
+    se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0933'], lines:{use:['{u}은(는) 가까이 대화할 때 얼굴 앞의 큰 비말을 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0933', name:'단위되확인', en:'Field Interpreter Set', scope:'class', kind:'액티브',
+    cls:'CLS_C094', grade:1, rarity:1, tier:1, desc:'전달할 수치와 단위를 상대와 다시 맞춘다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.',
+    lore:'혼성 공략조 현장 통역에서 사용하는 통역사의 현장 기술이다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '통역사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C017', chance:1, turns:2}], combo:['SK_C0934'], lines:{use:['{u}은(는) 전달할 수치와 단위를 상대와 다시 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0934', name:'통역자리교대', en:'Field Interpreter Step', scope:'class', kind:'액티브',
+    cls:'CLS_C094', grade:1, rarity:1, tier:1, desc:'서로의 입과 손이 보이는 위치로 옮긴다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.',
+    lore:'혼성 공략조 현장 통역에서 사용하는 통역사의 현장 기술이다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '통역사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, side:['연달아 쓰면 집중이 흐려진다.'], move:'retreat',
+    combo:['SK_C0935'], lines:{use:['{u}은(는) 서로의 입과 손이 보이는 위치로 옮긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0935', name:'용어어긋남눈', en:'Field Interpreter Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C094', grade:1, rarity:1, tier:1, desc:'같은 단어를 다르게 쓰는 맥락을 구별한다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.',
+    lore:'혼성 공략조 현장 통역에서 사용하는 통역사의 현장 기술이다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '통역사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0936'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 같은 단어를 다르게 쓰는 맥락을 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0936', name:'말끝기다림', en:'Field Interpreter Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C094', grade:1, rarity:1, tier:1, desc:'상대의 발화가 끝난 뒤 전달 순서를 고른다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.',
+    lore:'혼성 공략조 현장 통역에서 사용하는 통역사의 현장 기술이다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '통역사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0937'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 상대의 발화가 끝난 뒤 전달 순서를 고른다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0937', name:'신호대응기억', en:'Field Interpreter Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C094', grade:1, rarity:1, tier:1, desc:'합의한 말과 손신호의 대응을 익힌다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.',
+    lore:'혼성 공략조 현장 통역에서 사용하는 통역사의 현장 기술이다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '통역사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{mind:1.08}, combo:['SK_C0938'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 합의한 말과 손신호의 대응을 익힌다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0938', name:'긴급지시압축', en:'Field Interpreter Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C094', grade:2, rarity:3, tier:2, desc:'이미 이해한 긴 지시를 필요한 순서로 나눠 전달한다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.',
+    lore:'혼성 공략조 현장 통역에서 사용하는 통역사의 현장 기술이다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '통역사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:10, stat:{STAT_MIND:12}, abl:{ABL_A27:8}}, combo:['SK_C0939'], lines:{use:['{u}은(는) 이미 이해한 긴 지시를 필요한 순서로 나눠 전달한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0939', name:'교차전달순서', en:'Field Interpreter Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C094', grade:3, rarity:3, tier:3, desc:'동료 둘의 말을 섞지 않고 한 사람씩 전달한다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.',
+    lore:'혼성 공략조 현장 통역에서 사용하는 통역사의 현장 기술이다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '통역사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_MIND:15}, abl:{ABL_A27:10}}, combo:['SK_C0940'], lines:{use:['{u}은(는) 동료 둘의 말을 섞지 않고 한 사람씩 전달한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0940', name:'이해차관찰', en:'Field Interpreter Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C094', grade:4, rarity:3, tier:4, desc:'전달 뒤 상대의 되풀이와 원래 뜻의 차이를 확인한다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.',
+    lore:'혼성 공략조 현장 통역에서 사용하는 통역사의 현장 기술이다. 배우지 않은 언어를 자동으로 이해하거나 상대의 마음을 읽지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_B15', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '통역사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_MIND:18}, abl:{ABL_A27:12}},
+    combo:['SK_C0931'], lines:{use:['{u}의 {s}이(가) 발동한다. 전달 뒤 상대의 되풀이와 원래 뜻의 차이를 확인한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0941', name:'소량분배', en:'Mana Distributor Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C095', grade:2, rarity:1, tier:1, desc:'동의한 동료에게 자기 마력의 작은 부분을 나눈다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.',
+    lore:'공략조 마력 전달 보조에서 사용하는 배분사의 현장 기술이다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '배분사', '동료 응답'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:12, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'],
+    buff:{power:1.08, turns:2}, se:[{se:'SE_C017', chance:1, turns:2}], combo:['SK_C0942'], lines:{use:['{u}은(는) 동의한 동료에게 자기 마력의 작은 부분을 나눈다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0942', name:'전달선절연', en:'Mana Distributor Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C095', grade:1, rarity:1, tier:1, desc:'연결한 도선 바깥으로 마력이 새지 않게 받친다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.',
+    lore:'공략조 마력 전달 보조에서 사용하는 배분사의 현장 기술이다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '배분사', '동료 응답'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'],
+    shield:0.65, se:[{se:'SE_C020', chance:1, turns:3}], combo:['SK_C0943'], lines:{use:['{u}은(는) 연결한 도선 바깥으로 마력이 새지 않게 받친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0943', name:'출력분배표', en:'Mana Distributor Set', scope:'class', kind:'액티브',
+    cls:'CLS_C095', grade:1, rarity:1, tier:1, desc:'받는 동료의 출력에 맞춰 전달 간격을 고른다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.',
+    lore:'공략조 마력 전달 보조에서 사용하는 배분사의 현장 기술이다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '배분사', '동료 응답'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:12, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'],
+    buff:{power:1.08, turns:2}, se:[{se:'SE_C017', chance:1, turns:2}], combo:['SK_C0944'], lines:{use:['{u}은(는) 받는 동료의 출력에 맞춰 전달 간격을 고른다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0944', name:'연결풀어물림', en:'Mana Distributor Step', scope:'class', kind:'액티브',
+    cls:'CLS_C095', grade:1, rarity:1, tier:1, desc:'전달선을 끊고 안전하게 물러난다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.',
+    lore:'공략조 마력 전달 보조에서 사용하는 배분사의 현장 기술이다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '배분사', '동료 응답'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:7, cd:2}, side:['연달아 쓰면 집중이 흐려진다.'],
+    move:'retreat', combo:['SK_C0945'], lines:{use:['{u}은(는) 전달선을 끊고 안전하게 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0945', name:'전달손실눈', en:'Mana Distributor Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C095', grade:1, rarity:1, tier:1, desc:'나간 마력과 동료에게 닿는 흐름의 차이를 읽는다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.',
+    lore:'공략조 마력 전달 보조에서 사용하는 배분사의 현장 기술이다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '배분사', '동료 응답'],
+    risk:1, src:'codex', el:'EL_C10', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    combo:['SK_C0946'], lines:{use:['{u}의 {s}이(가) 발동한다. 나간 마력과 동료에게 닿는 흐름의 차이를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0946', name:'분배정지선', en:'Mana Distributor Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C095', grade:1, rarity:1, tier:1, desc:'자기 소모가 커질 때 전달을 멈출 기준을 익힌다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.',
+    lore:'공략조 마력 전달 보조에서 사용하는 배분사의 현장 기술이다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '배분사', '동료 응답'],
+    risk:1, src:'codex', el:'EL_C10', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06},
+    combo:['SK_C0947'], lines:{use:['{u}의 {s}이(가) 발동한다. 자기 소모가 커질 때 전달을 멈출 기준을 익힌다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0947', name:'분배파장감', en:'Mana Distributor Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C095', grade:1, rarity:1, tier:1, desc:'자기 마력이 도선에 걸리는 저항을 구별한다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.',
+    lore:'공략조 마력 전달 보조에서 사용하는 배분사의 현장 기술이다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '배분사', '동료 응답'],
+    risk:1, src:'codex', el:'EL_C10', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{mind:1.08},
+    combo:['SK_C0948'], lines:{use:['{u}의 {s}이(가) 발동한다. 자기 마력이 도선에 걸리는 저항을 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0948', name:'단계적분배', en:'Mana Distributor Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C095', grade:2, rarity:3, tier:2, desc:'작은 출력부터 여러 단계로 나눠 동료에게 전달한다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.',
+    lore:'공략조 마력 전달 보조에서 사용하는 배분사의 현장 기술이다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '배분사', '동료 응답'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:24, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'],
+    buff:{power:1.08, turns:2}, se:[{se:'SE_C017', chance:1, turns:2}], req:{lv:10, stat:{STAT_MIND:12}, abl:{ABL_A27:8}}, combo:['SK_C0949'], lines:{use:['{u}은(는) 작은 출력부터 여러 단계로 나눠 동료에게 전달한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']},
+    daily:true
+  },
+  {
+    id:'SK_C0949', name:'분배순번연결', en:'Mana Distributor Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C095', grade:3, rarity:3, tier:3, desc:'동료 둘에게 동시에 보내지 않고 순서대로 흐름을 잇는다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.',
+    lore:'공략조 마력 전달 보조에서 사용하는 배분사의 현장 기술이다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '배분사', '동료 응답'],
+    risk:1, src:'codex', el:'EL_C10', cost:{mp:20, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'],
+    buff:{power:1.08, turns:2}, se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_MIND:15}, abl:{ABL_A27:10}}, combo:['SK_C0950'], lines:{use:['{u}은(는) 동료 둘에게 동시에 보내지 않고 순서대로 흐름을 잇는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']},
+    daily:true
+  },
+  {
+    id:'SK_C0950', name:'전달역류눈', en:'Mana Distributor Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C095', grade:4, rarity:3, tier:4, desc:'동료 쪽 출력이 거꾸로 오는 징후를 읽는다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.',
+    lore:'공략조 마력 전달 보조에서 사용하는 배분사의 현장 기술이다. 자기 마력 이상으로 나누지 못하며 손실이 생긴다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '배분사', '동료 응답'],
+    risk:1, src:'codex', el:'EL_C10', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    req:{lv:45, stat:{STAT_MIND:18}, abl:{ABL_A27:12}}, combo:['SK_C0941'], lines:{use:['{u}의 {s}이(가) 발동한다. 동료 쪽 출력이 거꾸로 오는 징후를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0951', name:'짧은위험등', en:'Alarm Coordinator Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C096', grade:2, rarity:2, tier:1, desc:'확인한 가까운 위험을 짧은 빛으로 동료에게 알린다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.',
+    lore:'시야 불량 현장 위험 경보에서 사용하는 경보사의 현장 기술이다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '경보사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], combo:['SK_C0952'], lines:{use:['{u}은(는) 확인한 가까운 위험을 짧은 빛으로 동료에게 알린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0952', name:'경보면가림', en:'Alarm Coordinator Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C096', grade:1, rarity:2, tier:1, desc:'경보등이 작은 파편에 손상되지 않게 가린다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.',
+    lore:'시야 불량 현장 위험 경보에서 사용하는 경보사의 현장 기술이다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '경보사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65,
+    se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0953'], lines:{use:['{u}은(는) 경보등이 작은 파편에 손상되지 않게 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0953', name:'위험종류표', en:'Alarm Coordinator Set', scope:'class', kind:'액티브',
+    cls:'CLS_C096', grade:1, rarity:2, tier:1, desc:'합의한 색과 박자로 위험 종류를 나눠 보낸다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.',
+    lore:'시야 불량 현장 위험 경보에서 사용하는 경보사의 현장 기술이다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.', target:'ally', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '경보사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], combo:['SK_C0954'], lines:{use:['{u}은(는) 합의한 색과 박자로 위험 종류를 나눠 보낸다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0954', name:'안전등쪽물림', en:'Alarm Coordinator Step', scope:'class', kind:'액티브',
+    cls:'CLS_C096', grade:1, rarity:2, tier:1, desc:'자기가 확인해 둔 안전 신호 쪽으로 물러난다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.',
+    lore:'시야 불량 현장 위험 경보에서 사용하는 경보사의 현장 기술이다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '경보사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, side:['연달아 쓰면 집중이 흐려진다.'], move:'retreat',
+    combo:['SK_C0955'], lines:{use:['{u}은(는) 자기가 확인해 둔 안전 신호 쪽으로 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0955', name:'경보응답눈', en:'Alarm Coordinator Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C096', grade:1, rarity:2, tier:1, desc:'동료가 보낸 확인 신호의 누락을 읽는다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.',
+    lore:'시야 불량 현장 위험 경보에서 사용하는 경보사의 현장 기술이다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '경보사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0956'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 동료가 보낸 확인 신호의 누락을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0956', name:'혼선박자분리', en:'Alarm Coordinator Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C096', grade:1, rarity:2, tier:1, desc:'비슷한 신호가 겹칠 때 합의한 박자를 구별한다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.',
+    lore:'시야 불량 현장 위험 경보에서 사용하는 경보사의 현장 기술이다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '경보사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0957'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 비슷한 신호가 겹칠 때 합의한 박자를 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0957', name:'경고우선순위', en:'Alarm Coordinator Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C096', grade:1, rarity:2, tier:1, desc:'확인한 위험 중 먼저 알려야 할 순서를 고른다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.',
+    lore:'시야 불량 현장 위험 경보에서 사용하는 경보사의 현장 기술이다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '경보사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{mind:1.08}, combo:['SK_C0958'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 확인한 위험 중 먼저 알려야 할 순서를 고른다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0958', name:'긴급경보중첩', en:'Alarm Coordinator Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C096', grade:2, rarity:3, tier:2, desc:'소리와 빛을 나눠 보내 한 신호가 가려져도 알기 쉽게 한다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.',
+    lore:'시야 불량 현장 위험 경보에서 사용하는 경보사의 현장 기술이다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '경보사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:10, stat:{STAT_MIND:12}, abl:{ABL_A27:8}}, combo:['SK_C0959'], lines:{use:['{u}은(는) 소리와 빛을 나눠 보내 한 신호가 가려져도 알기 쉽게 한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0959', name:'대열정지등', en:'Alarm Coordinator Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C096', grade:3, rarity:3, tier:3, desc:'동료 둘에게 진행 중단과 대기 위치를 맞춰 알린다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.',
+    lore:'시야 불량 현장 위험 경보에서 사용하는 경보사의 현장 기술이다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '경보사', '동료 응답'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_MIND:15}, abl:{ABL_A27:10}}, combo:['SK_C0960'], lines:{use:['{u}은(는) 동료 둘에게 진행 중단과 대기 위치를 맞춰 알린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}, daily:true
+  },
+  {
+    id:'SK_C0960', name:'꺼진경보눈', en:'Alarm Coordinator Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C096', grade:4, rarity:3, tier:4, desc:'작동하던 경보가 예정보다 빨리 꺼지는 것을 읽는다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.',
+    lore:'시야 불량 현장 위험 경보에서 사용하는 경보사의 현장 기술이다. 확인하지 못한 위험을 미리 안다고 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_MIND', scale2:'ABL_A27', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '경보사', '동료 응답'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_MIND:18}, abl:{ABL_A27:12}},
+    combo:['SK_C0951'], lines:{use:['{u}의 {s}이(가) 발동한다. 작동하던 경보가 예정보다 빨리 꺼지는 것을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0961', name:'매듭추격', en:'Binding Worker Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C097', grade:2, rarity:1, tier:1, desc:'결속끈 끝의 작은 추로 가까운 적을 친다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.',
+    lore:'장비 고정과 임시 제압에서 사용하는 결속사의 현장 기술이다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_SENSE', scale2:'ABL_A19', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '결속사'],
+    risk:2, src:'codex', cost:{mp:10, cd:3}, ai:{opener:true}, side:['연달아 쓰면 집중이 흐려진다.'],
+    kind2:'AK_SPECIAL', combo:['SK_C0962'], lines:{use:['{u}은(는) 결속끈 끝의 작은 추로 가까운 적을 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0962', name:'매듭손막', en:'Binding Worker Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C097', grade:1, rarity:1, tier:1, desc:'끈을 잡은 손을 작은 마찰 충격에서 가린다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.',
+    lore:'장비 고정과 임시 제압에서 사용하는 결속사의 현장 기술이다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '결속사'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    shield:0.65, se:[{se:'SE_C018', chance:1, turns:3}], combo:['SK_C0963'], lines:{use:['{u}은(는) 끈을 잡은 손을 작은 마찰 충격에서 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0963', name:'발고리묶음', en:'Binding Worker Set', scope:'class', kind:'액티브',
+    cls:'CLS_C097', grade:1, rarity:1, tier:1, desc:'확보한 끈으로 적의 발이 지날 고리를 조인다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.',
+    lore:'장비 고정과 임시 제압에서 사용하는 결속사의 현장 기술이다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '결속사'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    se:[{se:'SE_C006', chance:0.75, turns:2}], combo:['SK_C0964'], lines:{use:['{u}은(는) 확보한 끈으로 적의 발이 지날 고리를 조인다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0964', name:'결속선건넘', en:'Binding Worker Step', scope:'class', kind:'액티브',
+    cls:'CLS_C097', grade:1, rarity:1, tier:1, desc:'확인한 결속선의 바깥으로 발을 옮긴다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.',
+    lore:'장비 고정과 임시 제압에서 사용하는 결속사의 현장 기술이다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '결속사'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, ai:{hpBelow:0.4}, side:['연달아 쓰면 집중이 흐려진다.'],
+    move:'retreat', combo:['SK_C0965'], lines:{use:['{u}은(는) 확인한 결속선의 바깥으로 발을 옮긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0965', name:'매듭미끄럼눈', en:'Binding Worker Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C097', grade:1, rarity:1, tier:1, desc:'당긴 매듭이 조금씩 풀리는 움직임을 읽는다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.',
+    lore:'장비 고정과 임시 제압에서 사용하는 결속사의 현장 기술이다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '결속사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0966'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 당긴 매듭이 조금씩 풀리는 움직임을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0966', name:'끈끝구분', en:'Binding Worker Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C097', grade:1, rarity:1, tier:1, desc:'여러 끈의 고정 끝과 당김 끝을 나눠 기억한다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.',
+    lore:'장비 고정과 임시 제압에서 사용하는 결속사의 현장 기술이다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '결속사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0967'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 여러 끈의 고정 끝과 당김 끝을 나눠 기억한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0967', name:'결속하중감', en:'Binding Worker Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C097', grade:1, rarity:1, tier:1, desc:'매듭과 고정점에 나뉘는 힘을 구별한다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.',
+    lore:'장비 고정과 임시 제압에서 사용하는 결속사의 현장 기술이다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '결속사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0968'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 매듭과 고정점에 나뉘는 힘을 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0968', name:'엇고리결속', en:'Binding Worker Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C097', grade:2, rarity:3, tier:2, desc:'두 고리를 다른 방향으로 걸어 대상의 자세를 묶는다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.',
+    lore:'장비 고정과 임시 제압에서 사용하는 결속사의 현장 기술이다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '결속사'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    se:[{se:'SE_C006', chance:0.75, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A19:8}}, combo:['SK_C0969'], lines:{use:['{u}은(는) 두 고리를 다른 방향으로 걸어 대상의 자세를 묶는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0969', name:'동료장비묶음', en:'Binding Worker Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C097', grade:3, rarity:3, tier:3, desc:'동료 둘의 흔들리는 장비끈을 맞춰 고정한다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.',
+    lore:'장비 고정과 임시 제압에서 사용하는 결속사의 현장 기술이다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '결속사'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, ai:{allyHurt:true}, side:['연달아 쓰면 집중이 흐려진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C028', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A19:10}}, combo:['SK_C0970'], lines:{use:['{u}은(는) 동료 둘의 흔들리는 장비끈을 맞춰 고정한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0970', name:'결속끊김눈', en:'Binding Worker Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C097', grade:4, rarity:3, tier:4, desc:'끈에서 일부 섬유가 끊어지는 변화를 읽는다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.',
+    lore:'장비 고정과 임시 제압에서 사용하는 결속사의 현장 기술이다. 끈의 강도보다 큰 하중을 묶어 둘 수 없다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '결속사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A19:12}},
+    combo:['SK_C0961'], lines:{use:['{u}의 {s}이(가) 발동한다. 끈에서 일부 섬유가 끊어지는 변화를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0971', name:'하중짧은격', en:'Load Balancer Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C098', grade:2, rarity:1, tier:1, desc:'받침의 무게를 짧게 실어 가까운 적을 친다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.',
+    lore:'불안정 짐 운반 보조에서 사용하는 하중사의 현장 기술이다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_SENSE', scale2:'ABL_A19', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '하중사'],
+    risk:2, src:'codex', cost:{mp:10, cd:3}, ai:{opener:true}, side:['연달아 쓰면 집중이 흐려진다.'],
+    kind2:'AK_SPECIAL', combo:['SK_C0972'], lines:{use:['{u}은(는) 받침의 무게를 짧게 실어 가까운 적을 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0972', name:'하중분산막', en:'Load Balancer Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C098', grade:1, rarity:1, tier:1, desc:'접촉 충격을 여러 지지점으로 나눈다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.',
+    lore:'불안정 짐 운반 보조에서 사용하는 하중사의 현장 기술이다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '하중사'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    shield:0.65, se:[{se:'SE_C018', chance:1, turns:3}], combo:['SK_C0973'], lines:{use:['{u}은(는) 접촉 충격을 여러 지지점으로 나눈다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0973', name:'무게쏠림유도', en:'Load Balancer Set', scope:'class', kind:'액티브',
+    cls:'CLS_C098', grade:1, rarity:1, tier:1, desc:'적이 디딘 지지점의 하중을 한쪽으로 나눠 중심을 흐트러뜨린다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.',
+    lore:'불안정 짐 운반 보조에서 사용하는 하중사의 현장 기술이다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '하중사'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    se:[{se:'SE_C007', chance:0.75, turns:2}], combo:['SK_C0974'], lines:{use:['{u}은(는) 적이 디딘 지지점의 하중을 한쪽으로 나눠 중심을 흐트러뜨린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0974', name:'받침옆물림', en:'Load Balancer Step', scope:'class', kind:'액티브',
+    cls:'CLS_C098', grade:1, rarity:1, tier:1, desc:'하중이 걸리지 않은 확인한 발판으로 물러난다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.',
+    lore:'불안정 짐 운반 보조에서 사용하는 하중사의 현장 기술이다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '하중사'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, ai:{hpBelow:0.4}, side:['연달아 쓰면 집중이 흐려진다.'],
+    move:'retreat', combo:['SK_C0975'], lines:{use:['{u}은(는) 하중이 걸리지 않은 확인한 발판으로 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0975', name:'지지눌림눈', en:'Load Balancer Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C098', grade:1, rarity:1, tier:1, desc:'바닥과 받침이 눌리는 깊이의 변화를 읽는다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.',
+    lore:'불안정 짐 운반 보조에서 사용하는 하중사의 현장 기술이다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '하중사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0976'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 바닥과 받침이 눌리는 깊이의 변화를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0976', name:'짐축기억', en:'Load Balancer Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C098', grade:1, rarity:1, tier:1, desc:'움직이던 짐의 무게중심과 손 위치를 맞춘다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.',
+    lore:'불안정 짐 운반 보조에서 사용하는 하중사의 현장 기술이다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '하중사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0977'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 움직이던 짐의 무게중심과 손 위치를 맞춘다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0977', name:'하중연결감', en:'Load Balancer Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C098', grade:1, rarity:1, tier:1, desc:'손과 띠 및 바닥으로 이어지는 힘을 나눠 읽는다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.',
+    lore:'불안정 짐 운반 보조에서 사용하는 하중사의 현장 기술이다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '하중사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0978'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 손과 띠 및 바닥으로 이어지는 힘을 나눠 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0978', name:'다점하중분담', en:'Load Balancer Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C098', grade:2, rarity:3, tier:2, desc:'여러 받침에 같은 짐의 하중을 고르게 나눈다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.',
+    lore:'불안정 짐 운반 보조에서 사용하는 하중사의 현장 기술이다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '하중사'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C028', chance:1, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A19:8}}, combo:['SK_C0979'], lines:{use:['{u}은(는) 여러 받침에 같은 짐의 하중을 고르게 나눈다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0979', name:'둘이드는축', en:'Load Balancer Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C098', grade:3, rarity:3, tier:3, desc:'동료 둘이 받는 짐의 기울기를 함께 맞춘다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.',
+    lore:'불안정 짐 운반 보조에서 사용하는 하중사의 현장 기술이다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '하중사'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, ai:{allyHurt:true}, side:['연달아 쓰면 집중이 흐려진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C028', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A19:10}}, combo:['SK_C0980'], lines:{use:['{u}은(는) 동료 둘이 받는 짐의 기울기를 함께 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0980', name:'지지점들림눈', en:'Load Balancer Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C098', grade:4, rarity:3, tier:4, desc:'하중을 받던 지지점이 바닥에서 뜨는 것을 읽는다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.',
+    lore:'불안정 짐 운반 보조에서 사용하는 하중사의 현장 기술이다. 질량을 없애거나 지지점 없이 물체를 띄우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '하중사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A19:12}},
+    combo:['SK_C0971'], lines:{use:['{u}의 {s}이(가) 발동한다. 하중을 받던 지지점이 바닥에서 뜨는 것을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0981', name:'굴절광점', en:'Refraction Worker Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C099', grade:2, rarity:1, tier:1, desc:'주변 빛을 좁혀 가까운 표면 한 점에 모은다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.',
+    lore:'반사광 노출 조절에서 사용하는 굴절사의 현장 기술이다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0.7, scale:'STAT_SENSE', scale2:'ABL_A19', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '굴절사'],
+    risk:2, src:'codex', el:'EL_C07', cost:{mp:10, cd:3}, ai:{opener:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_SPECIAL', combo:['SK_C0982'], lines:{use:['{u}은(는) 주변 빛을 좁혀 가까운 표면 한 점에 모은다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0982', name:'빗광가림', en:'Refraction Worker Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C099', grade:1, rarity:1, tier:1, desc:'동료 쪽으로 오는 빛을 비껴 꺾는다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.',
+    lore:'반사광 노출 조절에서 사용하는 굴절사의 현장 기술이다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '굴절사'],
+    risk:1, src:'codex', el:'EL_C07', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65, se:[{se:'SE_C022', chance:1, turns:3}], combo:['SK_C0983'], lines:{use:['{u}은(는) 동료 쪽으로 오는 빛을 비껴 꺾는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0983', name:'윤곽어긋남', en:'Refraction Worker Set', scope:'class', kind:'액티브',
+    cls:'CLS_C099', grade:1, rarity:1, tier:1, desc:'적의 눈앞에 닿는 빛을 조금 꺾어 윤곽을 흐린다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.',
+    lore:'반사광 노출 조절에서 사용하는 굴절사의 현장 기술이다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '굴절사'],
+    risk:1, src:'codex', el:'EL_C07', cost:{mp:10, cd:3}, ai:{enemies:1},
+    side:['연달아 쓰면 집중이 흐려진다.'], se:[{se:'SE_C008', chance:0.75, turns:2}], combo:['SK_C0984'], lines:{use:['{u}은(는) 적의 눈앞에 닿는 빛을 조금 꺾어 윤곽을 흐린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0984', name:'광로옆물림', en:'Refraction Worker Step', scope:'class', kind:'액티브',
+    cls:'CLS_C099', grade:1, rarity:1, tier:1, desc:'밝은 광로의 바깥으로 한 걸음 빠진다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.',
+    lore:'반사광 노출 조절에서 사용하는 굴절사의 현장 기술이다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '굴절사'],
+    risk:1, src:'codex', el:'EL_C07', cost:{mp:7, cd:2}, ai:{hpBelow:0.4},
+    side:['연달아 쓰면 집중이 흐려진다.'], move:'retreat', combo:['SK_C0985'], lines:{use:['{u}은(는) 밝은 광로의 바깥으로 한 걸음 빠진다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0985', name:'굴절각눈', en:'Refraction Worker Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C099', grade:1, rarity:1, tier:1, desc:'렌즈를 지난 빛의 각도 차이를 읽는다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.',
+    lore:'반사광 노출 조절에서 사용하는 굴절사의 현장 기술이다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '굴절사'],
+    risk:1, src:'codex', el:'EL_C07', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    combo:['SK_C0986'], lines:{use:['{u}의 {s}이(가) 발동한다. 렌즈를 지난 빛의 각도 차이를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0986', name:'겹빛구별', en:'Refraction Worker Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C099', grade:1, rarity:1, tier:1, desc:'직접 닿는 빛과 한 번 꺾인 빛을 나눠 읽는다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.',
+    lore:'반사광 노출 조절에서 사용하는 굴절사의 현장 기술이다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '굴절사'],
+    risk:1, src:'codex', el:'EL_C07', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06},
+    combo:['SK_C0987'], lines:{use:['{u}의 {s}이(가) 발동한다. 직접 닿는 빛과 한 번 꺾인 빛을 나눠 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0987', name:'렌즈광로감', en:'Refraction Worker Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C099', grade:1, rarity:1, tier:1, desc:'손의 각도와 바뀌는 광로를 연결해 익힌다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.',
+    lore:'반사광 노출 조절에서 사용하는 굴절사의 현장 기술이다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '굴절사'],
+    risk:1, src:'codex', el:'EL_C07', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06},
+    combo:['SK_C0988'], lines:{use:['{u}의 {s}이(가) 발동한다. 손의 각도와 바뀌는 광로를 연결해 익힌다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0988', name:'분리굴절광', en:'Refraction Worker Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C099', grade:2, rarity:3, tier:2, desc:'주변 빛을 다른 두 각도로 나눠 적을 견제한다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.',
+    lore:'반사광 노출 조절에서 사용하는 굴절사의 현장 기술이다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.', target:'enemies', range:'near', area:2, hits:1,
+    count:2, power:0.7, scale:'STAT_SENSE', scale2:'ABL_A19', acc:1,
+    crit:1, maxLv:15, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '굴절사'],
+    risk:2, src:'codex', el:'EL_C07', cost:{mp:18, cd:4}, ai:{opener:false, enemies:2},
+    side:['연달아 쓰면 집중이 흐려진다.'], kind2:'AK_SPECIAL', req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A19:8}}, combo:['SK_C0989'], lines:{use:['{u}은(는) 주변 빛을 다른 두 각도로 나눠 적을 견제한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0989', name:'동료눈광로', en:'Refraction Worker Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C099', grade:3, rarity:3, tier:3, desc:'동료 둘의 눈을 향하는 빛을 옆으로 비킨다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.',
+    lore:'반사광 노출 조절에서 사용하는 굴절사의 현장 기술이다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '굴절사'],
+    risk:1, src:'codex', el:'EL_C07', cost:{mp:18, cd:4}, ai:{allyHurt:true},
+    side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3}, se:[{se:'SE_C022', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A19:10}}, combo:['SK_C0990'],
+    lines:{use:['{u}은(는) 동료 둘의 눈을 향하는 빛을 옆으로 비킨다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0990', name:'굴절면오염눈', en:'Refraction Worker Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C099', grade:4, rarity:3, tier:4, desc:'렌즈에 묻은 오염 때문에 퍼지는 빛을 읽는다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.',
+    lore:'반사광 노출 조절에서 사용하는 굴절사의 현장 기술이다. 없는 빛을 만들거나 실제 물체를 지우지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '굴절사'],
+    risk:1, src:'codex', el:'EL_C07', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07},
+    req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A19:12}}, combo:['SK_C0981'], lines:{use:['{u}의 {s}이(가) 발동한다. 렌즈에 묻은 오염 때문에 퍼지는 빛을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0991', name:'들뜬층타격', en:'Layer Separation Worker Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C100', grade:2, rarity:1, tier:1, desc:'들뜬 외피 가장자리에 힘을 걸어 짧게 친다. 멀쩡한 재료에 새로운 층을 만들지 못한다.',
+    lore:'오염막 및 들뜬 외피 분리에서 사용하는 박리사의 현장 기술이다. 멀쩡한 재료에 새로운 층을 만들지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_SENSE', scale2:'ABL_A19', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '박리사', '기존 층 필요'],
+    risk:2, src:'codex', cost:{mp:10, cd:3}, ai:{opener:true}, side:['연달아 쓰면 집중이 흐려진다.'],
+    kind2:'AK_SPECIAL', se:[{se:'SE_C012', chance:0.4, turns:2}], combo:['SK_C0992'], lines:{use:['{u}은(는) 들뜬 외피 가장자리에 힘을 걸어 짧게 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0992', name:'겉층받침', en:'Layer Separation Worker Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C100', grade:1, rarity:1, tier:1, desc:'분리 중인 얇은 층이 얼굴에 튀지 않게 받친다. 멀쩡한 재료에 새로운 층을 만들지 못한다.',
+    lore:'오염막 및 들뜬 외피 분리에서 사용하는 박리사의 현장 기술이다. 멀쩡한 재료에 새로운 층을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '박리사'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    shield:0.65, se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C0993'], lines:{use:['{u}은(는) 분리 중인 얇은 층이 얼굴에 튀지 않게 받친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0993', name:'겉막들어냄', en:'Layer Separation Worker Set', scope:'class', kind:'액티브',
+    cls:'CLS_C100', grade:1, rarity:1, tier:1, desc:'기존 경계에 힘을 걸어 적의 방호 겉층을 벌린다. 멀쩡한 재료에 새로운 층을 만들지 못한다.',
+    lore:'오염막 및 들뜬 외피 분리에서 사용하는 박리사의 현장 기술이다. 멀쩡한 재료에 새로운 층을 만들지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '박리사', '기존 층 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    se:[{se:'SE_C012', chance:0.75, turns:2}], combo:['SK_C0994'], lines:{use:['{u}은(는) 기존 경계에 힘을 걸어 적의 방호 겉층을 벌린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0994', name:'박리면비킴', en:'Layer Separation Worker Step', scope:'class', kind:'액티브',
+    cls:'CLS_C100', grade:1, rarity:1, tier:1, desc:'들리는 층이 향하는 쪽을 피해 물러난다. 멀쩡한 재료에 새로운 층을 만들지 못한다.',
+    lore:'오염막 및 들뜬 외피 분리에서 사용하는 박리사의 현장 기술이다. 멀쩡한 재료에 새로운 층을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '박리사'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, ai:{hpBelow:0.4}, side:['연달아 쓰면 집중이 흐려진다.'],
+    move:'retreat', combo:['SK_C0995'], lines:{use:['{u}은(는) 들리는 층이 향하는 쪽을 피해 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0995', name:'층경계눈', en:'Layer Separation Worker Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C100', grade:1, rarity:1, tier:1, desc:'기존 틈과 접착이 약해진 자리를 읽는다. 멀쩡한 재료에 새로운 층을 만들지 못한다.',
+    lore:'오염막 및 들뜬 외피 분리에서 사용하는 박리사의 현장 기술이다. 멀쩡한 재료에 새로운 층을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '박리사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C0996'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 기존 틈과 접착이 약해진 자리를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0996', name:'주걱각유지', en:'Layer Separation Worker Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C100', grade:1, rarity:1, tier:1, desc:'얇은 도구의 각도를 일정하게 유지한다. 멀쩡한 재료에 새로운 층을 만들지 못한다.',
+    lore:'오염막 및 들뜬 외피 분리에서 사용하는 박리사의 현장 기술이다. 멀쩡한 재료에 새로운 층을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '박리사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C0997'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 얇은 도구의 각도를 일정하게 유지한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0997', name:'겉층저항감', en:'Layer Separation Worker Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C100', grade:1, rarity:1, tier:1, desc:'층 사이의 마찰과 접착 저항을 구별한다. 멀쩡한 재료에 새로운 층을 만들지 못한다.',
+    lore:'오염막 및 들뜬 외피 분리에서 사용하는 박리사의 현장 기술이다. 멀쩡한 재료에 새로운 층을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '박리사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C0998'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 층 사이의 마찰과 접착 저항을 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0998', name:'겹들뜸분리', en:'Layer Separation Worker Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C100', grade:2, rarity:3, tier:2, desc:'이미 들뜬 여러 층을 다른 방향으로 나눠 벌린다. 멀쩡한 재료에 새로운 층을 만들지 못한다.',
+    lore:'오염막 및 들뜬 외피 분리에서 사용하는 박리사의 현장 기술이다. 멀쩡한 재료에 새로운 층을 만들지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '박리사', '기존 층 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    se:[{se:'SE_C012', chance:0.75, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A19:8}}, combo:['SK_C0999'], lines:{use:['{u}은(는) 이미 들뜬 여러 층을 다른 방향으로 나눠 벌린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C0999', name:'동료표면정리', en:'Layer Separation Worker Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C100', grade:3, rarity:3, tier:3, desc:'동료 둘의 장비에 느슨하게 붙은 오염막을 걷는다. 멀쩡한 재료에 새로운 층을 만들지 못한다.',
+    lore:'오염막 및 들뜬 외피 분리에서 사용하는 박리사의 현장 기술이다. 멀쩡한 재료에 새로운 층을 만들지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '박리사'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, ai:{allyHurt:true}, side:['연달아 쓰면 집중이 흐려진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C026', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A19:10}}, combo:['SK_C1000'], lines:{use:['{u}은(는) 동료 둘의 장비에 느슨하게 붙은 오염막을 걷는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1000', name:'층파열전조', en:'Layer Separation Worker Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C100', grade:4, rarity:3, tier:4, desc:'분리하던 층이 원재료와 함께 찢어지는 변화를 읽는다. 멀쩡한 재료에 새로운 층을 만들지 못한다.',
+    lore:'오염막 및 들뜬 외피 분리에서 사용하는 박리사의 현장 기술이다. 멀쩡한 재료에 새로운 층을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '박리사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A19:12}},
+    combo:['SK_C0991'], lines:{use:['{u}의 {s}이(가) 발동한다. 분리하던 층이 원재료와 함께 찢어지는 변화를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1001', name:'획점견제', en:'Pattern Surveyor Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C101', grade:2, rarity:1, tier:1, desc:'기록판의 마력을 좁은 점으로 모아 가까운 적을 친다. 배우지 않은 의미를 자동으로 해독하지 못한다.',
+    lore:'유적형 게이트 문양 조사에서 사용하는 문양사의 현장 기술이다. 배우지 않은 의미를 자동으로 해독하지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_SENSE', scale2:'ABL_A19', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '문양사'],
+    risk:2, src:'codex', cost:{mp:10, cd:3}, ai:{opener:true}, side:['연달아 쓰면 집중이 흐려진다.'],
+    kind2:'AK_SPECIAL', combo:['SK_C1002'], lines:{use:['{u}은(는) 기록판의 마력을 좁은 점으로 모아 가까운 적을 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1002', name:'기록면가림', en:'Pattern Surveyor Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C101', grade:1, rarity:1, tier:1, desc:'문양기록판 앞에 작은 파편막을 둔다. 배우지 않은 의미를 자동으로 해독하지 못한다.',
+    lore:'유적형 게이트 문양 조사에서 사용하는 문양사의 현장 기술이다. 배우지 않은 의미를 자동으로 해독하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '문양사'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    shield:0.65, se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C1003'], lines:{use:['{u}은(는) 문양기록판 앞에 작은 파편막을 둔다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1003', name:'문양기준표', en:'Pattern Surveyor Set', scope:'class', kind:'액티브',
+    cls:'CLS_C101', grade:1, rarity:1, tier:1, desc:'확인한 문양 옆에 비교할 기준점을 남긴다. 배우지 않은 의미를 자동으로 해독하지 못한다.',
+    lore:'유적형 게이트 문양 조사에서 사용하는 문양사의 현장 기술이다. 배우지 않은 의미를 자동으로 해독하지 못한다.', target:'area', range:'near', area:2, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '문양사'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    se:[{se:'SE_C024', chance:1, turns:3}], combo:['SK_C1004'], lines:{use:['{u}은(는) 확인한 문양 옆에 비교할 기준점을 남긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1004', name:'표문선비킴', en:'Pattern Surveyor Step', scope:'class', kind:'액티브',
+    cls:'CLS_C101', grade:1, rarity:1, tier:1, desc:'기록한 경계선 밖으로 한 걸음 물러난다. 배우지 않은 의미를 자동으로 해독하지 못한다.',
+    lore:'유적형 게이트 문양 조사에서 사용하는 문양사의 현장 기술이다. 배우지 않은 의미를 자동으로 해독하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '문양사'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, ai:{hpBelow:0.4}, side:['연달아 쓰면 집중이 흐려진다.'],
+    move:'retreat', combo:['SK_C1005'], lines:{use:['{u}은(는) 기록한 경계선 밖으로 한 걸음 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1005', name:'반복획눈', en:'Pattern Surveyor Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C101', grade:1, rarity:1, tier:1, desc:'같아 보이는 문양의 획 수와 방향 차이를 읽는다. 배우지 않은 의미를 자동으로 해독하지 못한다.',
+    lore:'유적형 게이트 문양 조사에서 사용하는 문양사의 현장 기술이다. 배우지 않은 의미를 자동으로 해독하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '문양사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C1006'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 같아 보이는 문양의 획 수와 방향 차이를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1006', name:'표문대조습관', en:'Pattern Surveyor Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C101', grade:1, rarity:1, tier:1, desc:'이미 기록한 문양과 새로 본 문양을 나눠 대조한다. 배우지 않은 의미를 자동으로 해독하지 못한다.',
+    lore:'유적형 게이트 문양 조사에서 사용하는 문양사의 현장 기술이다. 배우지 않은 의미를 자동으로 해독하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '문양사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C1007'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 이미 기록한 문양과 새로 본 문양을 나눠 대조한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1007', name:'문양배열감', en:'Pattern Surveyor Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C101', grade:1, rarity:1, tier:1, desc:'문양의 간격과 반복 순서를 익힌다. 배우지 않은 의미를 자동으로 해독하지 못한다.',
+    lore:'유적형 게이트 문양 조사에서 사용하는 문양사의 현장 기술이다. 배우지 않은 의미를 자동으로 해독하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '문양사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C1008'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 문양의 간격과 반복 순서를 익힌다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1008', name:'다층문양대조', en:'Pattern Surveyor Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C101', grade:2, rarity:3, tier:2, desc:'겹친 문양을 층별로 나눠 기록과 비교한다. 배우지 않은 의미를 자동으로 해독하지 못한다.',
+    lore:'유적형 게이트 문양 조사에서 사용하는 문양사의 현장 기술이다. 배우지 않은 의미를 자동으로 해독하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '문양사'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A19:8}}, combo:['SK_C1009'], lines:{use:['{u}은(는) 겹친 문양을 층별로 나눠 기록과 비교한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1009', name:'동료기준공유', en:'Pattern Surveyor Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C101', grade:3, rarity:3, tier:3, desc:'동료 둘이 같은 문양을 기준으로 위치를 말하게 돕는다. 배우지 않은 의미를 자동으로 해독하지 못한다.',
+    lore:'유적형 게이트 문양 조사에서 사용하는 문양사의 현장 기술이다. 배우지 않은 의미를 자동으로 해독하지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '문양사'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, ai:{allyHurt:true}, side:['연달아 쓰면 집중이 흐려진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A19:10}}, combo:['SK_C1010'], lines:{use:['{u}은(는) 동료 둘이 같은 문양을 기준으로 위치를 말하게 돕는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1010', name:'덧획변화눈', en:'Pattern Surveyor Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C101', grade:4, rarity:3, tier:4, desc:'처음 기록한 뒤 추가되거나 지워진 획을 읽는다. 배우지 않은 의미를 자동으로 해독하지 못한다.',
+    lore:'유적형 게이트 문양 조사에서 사용하는 문양사의 현장 기술이다. 배우지 않은 의미를 자동으로 해독하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '문양사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A19:12}},
+    combo:['SK_C1001'], lines:{use:['{u}의 {s}이(가) 발동한다. 처음 기록한 뒤 추가되거나 지워진 획을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1011', name:'선표짧은격', en:'Boundary Marker Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C102', grade:2, rarity:2, tier:1, desc:'경계말뚝에 모은 마력으로 가까운 접근을 친다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.',
+    lore:'작업 구역 출입 감시에서 사용하는 경계사의 현장 기술이다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.', target:'enemy', range:'near', area:1, hits:1,
+    count:1, power:1.05, scale:'STAT_SENSE', scale2:'ABL_A19', acc:1,
+    crit:1, maxLv:10, growth:{power:0.04, cost:-0.1}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '경계사'],
+    risk:2, src:'codex', cost:{mp:10, cd:3}, ai:{opener:true}, side:['연달아 쓰면 집중이 흐려진다.'],
+    kind2:'AK_SPECIAL', combo:['SK_C1012'], lines:{use:['{u}은(는) 경계말뚝에 모은 마력으로 가까운 접근을 친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) {t}의 노출된 부위에 닿는다.', '{t}의 자세가 {s}의 작용 방향으로 흔들린다.'], miss:['{t}이(가) {s}의 경로에서 벗어난다.', '{u}의 {s}이(가) {t}에게 닿지 않는다.'], crit:['{u}의 {s}이(가) {t}의 방호 틈에 정확히 닿는다.', '{t}은(는) {s}의 충격을 받고 지지하던 발을 옮긴다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1012', name:'경계받침막', en:'Boundary Marker Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C102', grade:1, rarity:2, tier:1, desc:'확인한 짧은 경계에 얇은 방호면을 세운다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.',
+    lore:'작업 구역 출입 감시에서 사용하는 경계사의 현장 기술이다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '경계사'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    shield:0.65, se:[{se:'SE_C013', chance:1, turns:3}], combo:['SK_C1013'], lines:{use:['{u}은(는) 확인한 짧은 경계에 얇은 방호면을 세운다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1013', name:'통과선표시', en:'Boundary Marker Set', scope:'class', kind:'액티브',
+    cls:'CLS_C102', grade:1, rarity:2, tier:1, desc:'미리 확인한 바닥에 통과 여부를 읽을 선표를 둔다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.',
+    lore:'작업 구역 출입 감시에서 사용하는 경계사의 현장 기술이다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.', target:'area', range:'near', area:2, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '경계사'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    se:[{se:'SE_C024', chance:1, turns:3}], combo:['SK_C1014'], lines:{use:['{u}은(는) 미리 확인한 바닥에 통과 여부를 읽을 선표를 둔다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1014', name:'선표밖물림', en:'Boundary Marker Step', scope:'class', kind:'액티브',
+    cls:'CLS_C102', grade:1, rarity:2, tier:1, desc:'자기가 확인한 경계의 바깥으로 물러난다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.',
+    lore:'작업 구역 출입 감시에서 사용하는 경계사의 현장 기술이다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '경계사'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, ai:{hpBelow:0.4}, side:['연달아 쓰면 집중이 흐려진다.'],
+    move:'retreat', combo:['SK_C1015'], lines:{use:['{u}은(는) 자기가 확인한 경계의 바깥으로 물러난다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1015', name:'선표접촉눈', en:'Boundary Marker Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C102', grade:1, rarity:2, tier:1, desc:'연결한 선표가 접촉으로 흔들리는 것을 읽는다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.',
+    lore:'작업 구역 출입 감시에서 사용하는 경계사의 현장 기술이다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '경계사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, combo:['SK_C1016'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 연결한 선표가 접촉으로 흔들리는 것을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1016', name:'통과순서기억', en:'Boundary Marker Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C102', grade:1, rarity:2, tier:1, desc:'동료가 합의한 출입 순서를 기억한다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.',
+    lore:'작업 구역 출입 감시에서 사용하는 경계사의 현장 기술이다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '경계사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, combo:['SK_C1017'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 동료가 합의한 출입 순서를 기억한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1017', name:'경계연결감', en:'Boundary Marker Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C102', grade:1, rarity:2, tier:1, desc:'말뚝 사이의 짧은 마력 연결을 일정하게 유지한다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.',
+    lore:'작업 구역 출입 감시에서 사용하는 경계사의 현장 기술이다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '경계사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{def:1.06}, combo:['SK_C1018'],
+    lines:{use:['{u}의 {s}이(가) 발동한다. 말뚝 사이의 짧은 마력 연결을 일정하게 유지한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1018', name:'겹경계표시', en:'Boundary Marker Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C102', grade:2, rarity:3, tier:2, desc:'서로 다른 두 경계선을 겹치지 않게 남긴다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.',
+    lore:'작업 구역 출입 감시에서 사용하는 경계사의 현장 기술이다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.', target:'area', range:'near', area:2, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '경계사'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, ai:{enemies:1}, side:['연달아 쓰면 집중이 흐려진다.'],
+    se:[{se:'SE_C024', chance:1, turns:3}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A19:8}}, combo:['SK_C1019'], lines:{use:['{u}은(는) 서로 다른 두 경계선을 겹치지 않게 남긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1019', name:'대열통과신호', en:'Boundary Marker Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C102', grade:3, rarity:3, tier:3, desc:'동료 둘에게 확인한 통과 지점을 알린다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.',
+    lore:'작업 구역 출입 감시에서 사용하는 경계사의 현장 기술이다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '경계사'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, ai:{allyHurt:true}, side:['연달아 쓰면 집중이 흐려진다.'],
+    buff:{acc:1.1, turns:3}, se:[{se:'SE_C024', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A19:10}}, combo:['SK_C1020'], lines:{use:['{u}은(는) 동료 둘에게 확인한 통과 지점을 알린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1020', name:'지워진선표눈', en:'Boundary Marker Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C102', grade:4, rarity:3, tier:4, desc:'연결했던 경계의 일부가 끊긴 변화를 읽는다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.',
+    lore:'작업 구역 출입 감시에서 사용하는 경계사의 현장 기술이다. 선을 넘은 대상의 정체나 의도를 자동으로 알지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A19', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '경계사'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A19:12}},
+    combo:['SK_C1011'], lines:{use:['{u}의 {s}이(가) 발동한다. 연결했던 경계의 일부가 끊긴 변화를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1021', name:'날각맞춤', en:'Edge Grinder Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C103', grade:2, rarity:1, tier:1, desc:'연마석과 남은 날의 각도를 맞춰 얕게 다듬는다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.',
+    lore:'회수 장비 날 복구에서 사용하는 연마사의 현장 기술이다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '연마사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], daily:true, combo:['SK_C1022'], lines:{use:['{u}은(는) 연마석과 남은 날의 각도를 맞춰 얕게 다듬는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1022', name:'연마분진막', en:'Edge Grinder Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C103', grade:1, rarity:1, tier:1, desc:'튀는 금속 가루가 얼굴에 닿지 않게 가린다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.',
+    lore:'회수 장비 날 복구에서 사용하는 연마사의 현장 기술이다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '연마사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65,
+    se:[{se:'SE_C013', chance:1, turns:3}], daily:true, combo:['SK_C1023'], lines:{use:['{u}은(는) 튀는 금속 가루가 얼굴에 닿지 않게 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1023', name:'연마면고정', en:'Edge Grinder Set', scope:'class', kind:'액티브',
+    cls:'CLS_C103', grade:1, rarity:1, tier:1, desc:'다듬을 날이 흔들리지 않게 받침에 고정한다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.',
+    lore:'회수 장비 날 복구에서 사용하는 연마사의 현장 기술이다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '연마사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], daily:true, combo:['SK_C1024'], lines:{use:['{u}은(는) 다듬을 날이 흔들리지 않게 받침에 고정한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1024', name:'연마대교대', en:'Edge Grinder Step', scope:'class', kind:'액티브',
+    cls:'CLS_C103', grade:1, rarity:1, tier:1, desc:'마찰을 멈추고 작업물을 안전한 받침으로 옮긴다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.',
+    lore:'회수 장비 날 복구에서 사용하는 연마사의 현장 기술이다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '연마사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], daily:true, combo:['SK_C1025'], lines:{use:['{u}은(는) 마찰을 멈추고 작업물을 안전한 받침으로 옮긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1025', name:'날반사각눈', en:'Edge Grinder Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C103', grade:1, rarity:1, tier:1, desc:'날끝 반사광으로 각도의 차이를 읽는다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.',
+    lore:'회수 장비 날 복구에서 사용하는 연마사의 현장 기술이다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '연마사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, daily:true,
+    combo:['SK_C1026'], lines:{use:['{u}의 {s}이(가) 발동한다. 날끝 반사광으로 각도의 차이를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1026', name:'연마압박박자', en:'Edge Grinder Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C103', grade:1, rarity:1, tier:1, desc:'누르는 힘과 움직이는 속도를 일정하게 잇는다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.',
+    lore:'회수 장비 날 복구에서 사용하는 연마사의 현장 기술이다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '연마사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, daily:true,
+    combo:['SK_C1027'], lines:{use:['{u}의 {s}이(가) 발동한다. 누르는 힘과 움직이는 속도를 일정하게 잇는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1027', name:'마찰결구별', en:'Edge Grinder Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C103', grade:1, rarity:1, tier:1, desc:'거친 면과 고운 면의 저항을 구별한다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.',
+    lore:'회수 장비 날 복구에서 사용하는 연마사의 현장 기술이다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '연마사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.08}, daily:true,
+    combo:['SK_C1028'], lines:{use:['{u}의 {s}이(가) 발동한다. 거친 면과 고운 면의 저항을 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1028', name:'겹각연마', en:'Edge Grinder Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C103', grade:2, rarity:3, tier:2, desc:'날의 여러 경사면을 다른 각도로 나눠 다듬는다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.',
+    lore:'회수 장비 날 복구에서 사용하는 연마사의 현장 기술이다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '연마사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A26:8}}, daily:true, combo:['SK_C1029'], lines:{use:['{u}은(는) 날의 여러 경사면을 다른 각도로 나눠 다듬는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1029', name:'공동날기준', en:'Edge Grinder Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C103', grade:3, rarity:3, tier:3, desc:'동료 둘이 쓰는 공구의 날각 기준을 맞춘다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.',
+    lore:'회수 장비 날 복구에서 사용하는 연마사의 현장 기술이다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '연마사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.12, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A26:10}}, daily:true, combo:['SK_C1030'], lines:{use:['{u}은(는) 동료 둘이 쓰는 공구의 날각 기준을 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1030', name:'연마과열눈', en:'Edge Grinder Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C103', grade:4, rarity:3, tier:4, desc:'마찰로 날의 색이 바뀌는 열변화를 읽는다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.',
+    lore:'회수 장비 날 복구에서 사용하는 연마사의 현장 기술이다. 깎인 재료를 되돌리거나 깨진 날을 새로 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '연마사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A26:12}},
+    daily:true, combo:['SK_C1021'], lines:{use:['{u}의 {s}이(가) 발동한다. 마찰로 날의 색이 바뀌는 열변화를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1031', name:'날실정렬', en:'Protective Weaver Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C104', grade:2, rarity:1, tier:1, desc:'직조틀의 날실을 같은 방향으로 고른다. 실과 섬유가 없으면 원단을 만들지 못한다.',
+    lore:'방호 원단 직조에서 사용하는 직조사의 현장 기술이다. 실과 섬유가 없으면 원단을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '직조사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], daily:true, combo:['SK_C1032'], lines:{use:['{u}은(는) 직조틀의 날실을 같은 방향으로 고른다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1032', name:'직조손가림', en:'Protective Weaver Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C104', grade:1, rarity:1, tier:1, desc:'움직이는 실과 작은 파편에서 손을 가린다. 실과 섬유가 없으면 원단을 만들지 못한다.',
+    lore:'방호 원단 직조에서 사용하는 직조사의 현장 기술이다. 실과 섬유가 없으면 원단을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '직조사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65,
+    se:[{se:'SE_C013', chance:1, turns:3}], daily:true, combo:['SK_C1033'], lines:{use:['{u}은(는) 움직이는 실과 작은 파편에서 손을 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1033', name:'실장력고정', en:'Protective Weaver Set', scope:'class', kind:'액티브',
+    cls:'CLS_C104', grade:1, rarity:1, tier:1, desc:'실의 장력이 지나치게 몰리지 않게 고정한다. 실과 섬유가 없으면 원단을 만들지 못한다.',
+    lore:'방호 원단 직조에서 사용하는 직조사의 현장 기술이다. 실과 섬유가 없으면 원단을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '직조사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], daily:true, combo:['SK_C1034'], lines:{use:['{u}은(는) 실의 장력이 지나치게 몰리지 않게 고정한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1034', name:'직조묶음이동', en:'Protective Weaver Step', scope:'class', kind:'액티브',
+    cls:'CLS_C104', grade:1, rarity:1, tier:1, desc:'엮는 동작을 멈추고 원단 묶음을 안전하게 옮긴다. 실과 섬유가 없으면 원단을 만들지 못한다.',
+    lore:'방호 원단 직조에서 사용하는 직조사의 현장 기술이다. 실과 섬유가 없으면 원단을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '직조사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], daily:true, combo:['SK_C1035'], lines:{use:['{u}은(는) 엮는 동작을 멈추고 원단 묶음을 안전하게 옮긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1035', name:'실굵기눈', en:'Protective Weaver Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C104', grade:1, rarity:1, tier:1, desc:'섞인 섬유의 굵기와 꼬임 차이를 읽는다. 실과 섬유가 없으면 원단을 만들지 못한다.',
+    lore:'방호 원단 직조에서 사용하는 직조사의 현장 기술이다. 실과 섬유가 없으면 원단을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '직조사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, daily:true,
+    combo:['SK_C1036'], lines:{use:['{u}의 {s}이(가) 발동한다. 섞인 섬유의 굵기와 꼬임 차이를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1036', name:'씨실박자유지', en:'Protective Weaver Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C104', grade:1, rarity:1, tier:1, desc:'씨실을 넣는 간격을 일정하게 유지한다. 실과 섬유가 없으면 원단을 만들지 못한다.',
+    lore:'방호 원단 직조에서 사용하는 직조사의 현장 기술이다. 실과 섬유가 없으면 원단을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '직조사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, daily:true,
+    combo:['SK_C1037'], lines:{use:['{u}의 {s}이(가) 발동한다. 씨실을 넣는 간격을 일정하게 유지한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1037', name:'섬유엮임감', en:'Protective Weaver Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C104', grade:1, rarity:1, tier:1, desc:'엮인 실이 잡아당기는 힘을 손에 익힌다. 실과 섬유가 없으면 원단을 만들지 못한다.',
+    lore:'방호 원단 직조에서 사용하는 직조사의 현장 기술이다. 실과 섬유가 없으면 원단을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '직조사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.08}, daily:true,
+    combo:['SK_C1038'], lines:{use:['{u}의 {s}이(가) 발동한다. 엮인 실이 잡아당기는 힘을 손에 익힌다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1038', name:'겹원단직조', en:'Protective Weaver Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C104', grade:2, rarity:3, tier:2, desc:'서로 다른 층의 실을 나눠 엮는다. 실과 섬유가 없으면 원단을 만들지 못한다.',
+    lore:'방호 원단 직조에서 사용하는 직조사의 현장 기술이다. 실과 섬유가 없으면 원단을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '직조사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A26:8}}, daily:true, combo:['SK_C1039'], lines:{use:['{u}은(는) 서로 다른 층의 실을 나눠 엮는다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1039', name:'공동장력표', en:'Protective Weaver Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C104', grade:3, rarity:3, tier:3, desc:'동료 둘의 직조틀 장력 기준을 맞춘다. 실과 섬유가 없으면 원단을 만들지 못한다.',
+    lore:'방호 원단 직조에서 사용하는 직조사의 현장 기술이다. 실과 섬유가 없으면 원단을 만들지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '직조사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.12, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A26:10}}, daily:true, combo:['SK_C1040'], lines:{use:['{u}은(는) 동료 둘의 직조틀 장력 기준을 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1040', name:'원단늘어짐눈', en:'Protective Weaver Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C104', grade:4, rarity:3, tier:4, desc:'엮은 뒤 부분적으로 늘어나는 면을 읽는다. 실과 섬유가 없으면 원단을 만들지 못한다.',
+    lore:'방호 원단 직조에서 사용하는 직조사의 현장 기술이다. 실과 섬유가 없으면 원단을 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '직조사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A26:12}},
+    daily:true, combo:['SK_C1031'], lines:{use:['{u}의 {s}이(가) 발동한다. 엮은 뒤 부분적으로 늘어나는 면을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1041', name:'표찰획맞춤', en:'Field Printer Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C105', grade:2, rarity:1, tier:1, desc:'기록된 글자와 도형을 표찰 면에 고르게 옮긴다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.',
+    lore:'현장 표찰 및 인계표 제작에서 사용하는 인쇄사의 현장 기술이다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '인쇄사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], daily:true, combo:['SK_C1042'], lines:{use:['{u}은(는) 기록된 글자와 도형을 표찰 면에 고르게 옮긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1042', name:'인쇄비말가림', en:'Field Printer Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C105', grade:1, rarity:1, tier:1, desc:'인쇄 면에 큰 비말이 닿지 않도록 가린다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.',
+    lore:'현장 표찰 및 인계표 제작에서 사용하는 인쇄사의 현장 기술이다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '인쇄사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65,
+    se:[{se:'SE_C013', chance:1, turns:3}], daily:true, combo:['SK_C1043'], lines:{use:['{u}은(는) 인쇄 면에 큰 비말이 닿지 않도록 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1043', name:'판면임시고정', en:'Field Printer Set', scope:'class', kind:'액티브',
+    cls:'CLS_C105', grade:1, rarity:1, tier:1, desc:'인쇄판과 표찰의 위치를 움직이지 않게 받친다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.',
+    lore:'현장 표찰 및 인계표 제작에서 사용하는 인쇄사의 현장 기술이다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '인쇄사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], daily:true, combo:['SK_C1044'], lines:{use:['{u}은(는) 인쇄판과 표찰의 위치를 움직이지 않게 받친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1044', name:'잉크판옮김', en:'Field Printer Step', scope:'class', kind:'액티브',
+    cls:'CLS_C105', grade:1, rarity:1, tier:1, desc:'열린 잉크판을 수평으로 유지해 안전한 곳으로 옮긴다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.',
+    lore:'현장 표찰 및 인계표 제작에서 사용하는 인쇄사의 현장 기술이다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '인쇄사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], daily:true, combo:['SK_C1045'], lines:{use:['{u}은(는) 열린 잉크판을 수평으로 유지해 안전한 곳으로 옮긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1045', name:'인쇄번짐눈', en:'Field Printer Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C105', grade:1, rarity:1, tier:1, desc:'획이 번지거나 비는 지점을 읽는다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.',
+    lore:'현장 표찰 및 인계표 제작에서 사용하는 인쇄사의 현장 기술이다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '인쇄사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, daily:true,
+    combo:['SK_C1046'], lines:{use:['{u}의 {s}이(가) 발동한다. 획이 번지거나 비는 지점을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1046', name:'표찰번호대조', en:'Field Printer Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C105', grade:1, rarity:1, tier:1, desc:'같은 묶음의 번호와 순서를 구별해 유지한다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.',
+    lore:'현장 표찰 및 인계표 제작에서 사용하는 인쇄사의 현장 기술이다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '인쇄사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, daily:true,
+    combo:['SK_C1047'], lines:{use:['{u}의 {s}이(가) 발동한다. 같은 묶음의 번호와 순서를 구별해 유지한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1047', name:'전사면감각', en:'Field Printer Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C105', grade:1, rarity:1, tier:1, desc:'원본과 인쇄 면의 접촉 압력을 익힌다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.',
+    lore:'현장 표찰 및 인계표 제작에서 사용하는 인쇄사의 현장 기술이다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '인쇄사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.08}, daily:true,
+    combo:['SK_C1048'], lines:{use:['{u}의 {s}이(가) 발동한다. 원본과 인쇄 면의 접촉 압력을 익힌다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1048', name:'다색표찰전사', en:'Field Printer Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C105', grade:2, rarity:3, tier:2, desc:'색별 판의 위치를 나눠 겹친 표찰을 만든다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.',
+    lore:'현장 표찰 및 인계표 제작에서 사용하는 인쇄사의 현장 기술이다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '인쇄사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A26:8}}, daily:true, combo:['SK_C1049'], lines:{use:['{u}은(는) 색별 판의 위치를 나눠 겹친 표찰을 만든다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1049', name:'공동판면정렬', en:'Field Printer Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C105', grade:3, rarity:3, tier:3, desc:'동료 둘이 쓰는 원본과 인쇄 위치를 맞춘다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.',
+    lore:'현장 표찰 및 인계표 제작에서 사용하는 인쇄사의 현장 기술이다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '인쇄사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.12, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A26:10}}, daily:true, combo:['SK_C1050'], lines:{use:['{u}은(는) 동료 둘이 쓰는 원본과 인쇄 위치를 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1050', name:'마른잉크관찰', en:'Field Printer Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C105', grade:4, rarity:3, tier:4, desc:'건조 뒤 갈라지거나 떨어지는 획을 읽는다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.',
+    lore:'현장 표찰 및 인계표 제작에서 사용하는 인쇄사의 현장 기술이다. 기록하지 않은 사실이나 마력 효과를 새로 넣지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '인쇄사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A26:12}},
+    daily:true, combo:['SK_C1041'], lines:{use:['{u}의 {s}이(가) 발동한다. 건조 뒤 갈라지거나 떨어지는 획을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1051', name:'틀면채움', en:'Mold Shaper Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C106', grade:2, rarity:1, tier:1, desc:'준비한 재료를 성형틀의 모서리에 맞춰 채운다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.',
+    lore:'비금속 부품 성형에서 사용하는 성형사의 현장 기술이다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '성형사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], daily:true, combo:['SK_C1052'], lines:{use:['{u}은(는) 준비한 재료를 성형틀의 모서리에 맞춰 채운다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1052', name:'성형비산막', en:'Mold Shaper Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C106', grade:1, rarity:1, tier:1, desc:'작은 재료 조각이 얼굴로 튀지 않게 가린다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.',
+    lore:'비금속 부품 성형에서 사용하는 성형사의 현장 기술이다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '성형사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65,
+    se:[{se:'SE_C013', chance:1, turns:3}], daily:true, combo:['SK_C1053'], lines:{use:['{u}은(는) 작은 재료 조각이 얼굴로 튀지 않게 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1053', name:'틀위치잠금', en:'Mold Shaper Set', scope:'class', kind:'액티브',
+    cls:'CLS_C106', grade:1, rarity:1, tier:1, desc:'굳는 동안 성형틀의 위치를 임시로 고정한다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.',
+    lore:'비금속 부품 성형에서 사용하는 성형사의 현장 기술이다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '성형사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], daily:true, combo:['SK_C1054'], lines:{use:['{u}은(는) 굳는 동안 성형틀의 위치를 임시로 고정한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1054', name:'성형받침이동', en:'Mold Shaper Step', scope:'class', kind:'액티브',
+    cls:'CLS_C106', grade:1, rarity:1, tier:1, desc:'틀의 수평을 유지하며 받침을 옮긴다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.',
+    lore:'비금속 부품 성형에서 사용하는 성형사의 현장 기술이다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '성형사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], daily:true, combo:['SK_C1055'], lines:{use:['{u}은(는) 틀의 수평을 유지하며 받침을 옮긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1055', name:'기포빈틈눈', en:'Mold Shaper Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C106', grade:1, rarity:1, tier:1, desc:'표면과 얕은 층에 남은 기포와 빈틈을 읽는다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.',
+    lore:'비금속 부품 성형에서 사용하는 성형사의 현장 기술이다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '성형사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, daily:true,
+    combo:['SK_C1056'], lines:{use:['{u}의 {s}이(가) 발동한다. 표면과 얕은 층에 남은 기포와 빈틈을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1056', name:'누름순서감', en:'Mold Shaper Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C106', grade:1, rarity:1, tier:1, desc:'재료를 누르는 순서와 흘러가는 방향을 익힌다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.',
+    lore:'비금속 부품 성형에서 사용하는 성형사의 현장 기술이다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '성형사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, daily:true,
+    combo:['SK_C1057'], lines:{use:['{u}의 {s}이(가) 발동한다. 재료를 누르는 순서와 흘러가는 방향을 익힌다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1057', name:'굳힘촉감', en:'Mold Shaper Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C106', grade:1, rarity:1, tier:1, desc:'재료가 굳으며 달라지는 저항을 손으로 구별한다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.',
+    lore:'비금속 부품 성형에서 사용하는 성형사의 현장 기술이다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '성형사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.08}, daily:true,
+    combo:['SK_C1058'], lines:{use:['{u}의 {s}이(가) 발동한다. 재료가 굳으며 달라지는 저항을 손으로 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1058', name:'분할틀성형', en:'Mold Shaper Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C106', grade:2, rarity:3, tier:2, desc:'여러 틀의 접점을 맞춰 재료를 나눠 성형한다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.',
+    lore:'비금속 부품 성형에서 사용하는 성형사의 현장 기술이다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '성형사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A26:8}}, daily:true, combo:['SK_C1059'], lines:{use:['{u}은(는) 여러 틀의 접점을 맞춰 재료를 나눠 성형한다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1059', name:'공동치수기준', en:'Mold Shaper Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C106', grade:3, rarity:3, tier:3, desc:'동료 둘이 만드는 부품의 기준 치수를 맞춘다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.',
+    lore:'비금속 부품 성형에서 사용하는 성형사의 현장 기술이다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '성형사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.12, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A26:10}}, daily:true, combo:['SK_C1060'], lines:{use:['{u}은(는) 동료 둘이 만드는 부품의 기준 치수를 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1060', name:'탈형뒤틀림눈', en:'Mold Shaper Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C106', grade:4, rarity:3, tier:4, desc:'틀에서 꺼낸 재료가 뒤틀리는 방향을 읽는다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.',
+    lore:'비금속 부품 성형에서 사용하는 성형사의 현장 기술이다. 재료의 양과 굳는 조건을 넘겨 형태를 만들지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '성형사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A26:12}},
+    daily:true, combo:['SK_C1051'], lines:{use:['{u}의 {s}이(가) 발동한다. 틀에서 꺼낸 재료가 뒤틀리는 방향을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1061', name:'거름층정렬', en:'Filter Worker Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C107', grade:2, rarity:1, tier:1, desc:'준비한 필터층을 통 안에 고르게 맞춘다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.',
+    lore:'회수액 및 작업수 여과에서 사용하는 여과사의 현장 기술이다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '여과사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], daily:true, combo:['SK_C1062'], lines:{use:['{u}은(는) 준비한 필터층을 통 안에 고르게 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1062', name:'여과비말막', en:'Filter Worker Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C107', grade:1, rarity:1, tier:1, desc:'오염액의 큰 비말이 작업자에게 튀지 않게 가린다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.',
+    lore:'회수액 및 작업수 여과에서 사용하는 여과사의 현장 기술이다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '여과사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65,
+    se:[{se:'SE_C013', chance:1, turns:3}], daily:true, combo:['SK_C1063'], lines:{use:['{u}은(는) 오염액의 큰 비말이 작업자에게 튀지 않게 가린다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1063', name:'유로임시고정', en:'Filter Worker Set', scope:'class', kind:'액티브',
+    cls:'CLS_C107', grade:1, rarity:1, tier:1, desc:'액체가 필터 바깥으로 새지 않게 유로를 받친다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.',
+    lore:'회수액 및 작업수 여과에서 사용하는 여과사의 현장 기술이다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '여과사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], daily:true, combo:['SK_C1064'], lines:{use:['{u}은(는) 액체가 필터 바깥으로 새지 않게 유로를 받친다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1064', name:'여과용기교대', en:'Filter Worker Step', scope:'class', kind:'액티브',
+    cls:'CLS_C107', grade:1, rarity:1, tier:1, desc:'흐름을 멈추고 받는 용기를 안전하게 바꾼다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.',
+    lore:'회수액 및 작업수 여과에서 사용하는 여과사의 현장 기술이다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '여과사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], daily:true, combo:['SK_C1065'], lines:{use:['{u}은(는) 흐름을 멈추고 받는 용기를 안전하게 바꾼다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1065', name:'필터막힘눈', en:'Filter Worker Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C107', grade:1, rarity:1, tier:1, desc:'압력과 흐름 차이로 막힌 지점을 읽는다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.',
+    lore:'회수액 및 작업수 여과에서 사용하는 여과사의 현장 기술이다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '여과사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, daily:true,
+    combo:['SK_C1066'], lines:{use:['{u}의 {s}이(가) 발동한다. 압력과 흐름 차이로 막힌 지점을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1066', name:'필터층구별', en:'Filter Worker Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C107', grade:1, rarity:1, tier:1, desc:'굵은 입자와 가는 입자용 층을 나눠 기억한다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.',
+    lore:'회수액 및 작업수 여과에서 사용하는 여과사의 현장 기술이다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '여과사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, daily:true,
+    combo:['SK_C1067'], lines:{use:['{u}의 {s}이(가) 발동한다. 굵은 입자와 가는 입자용 층을 나눠 기억한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1067', name:'유량저항감', en:'Filter Worker Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C107', grade:1, rarity:1, tier:1, desc:'액체가 필터를 지날 때 저항 차이를 구별한다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.',
+    lore:'회수액 및 작업수 여과에서 사용하는 여과사의 현장 기술이다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '여과사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.08}, daily:true,
+    combo:['SK_C1068'], lines:{use:['{u}의 {s}이(가) 발동한다. 액체가 필터를 지날 때 저항 차이를 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1068', name:'다단거름정렬', en:'Filter Worker Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C107', grade:2, rarity:3, tier:2, desc:'여러 필터를 순서대로 배치해 입자를 나눈다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.',
+    lore:'회수액 및 작업수 여과에서 사용하는 여과사의 현장 기술이다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '여과사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A26:8}}, daily:true, combo:['SK_C1069'], lines:{use:['{u}은(는) 여러 필터를 순서대로 배치해 입자를 나눈다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1069', name:'공동여과기준', en:'Filter Worker Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C107', grade:3, rarity:3, tier:3, desc:'동료 둘의 필터 교체 시점과 용기 순서를 맞춘다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.',
+    lore:'회수액 및 작업수 여과에서 사용하는 여과사의 현장 기술이다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '여과사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.12, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A26:10}}, daily:true, combo:['SK_C1070'], lines:{use:['{u}은(는) 동료 둘의 필터 교체 시점과 용기 순서를 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1070', name:'우회누출눈', en:'Filter Worker Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C107', grade:4, rarity:3, tier:4, desc:'필터를 거치지 않고 새는 흐름을 읽는다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.',
+    lore:'회수액 및 작업수 여과에서 사용하는 여과사의 현장 기술이다. 걸러지지 않는 용해 성분과 미생물 안전을 보장하지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '여과사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A26:12}},
+    daily:true, combo:['SK_C1061'], lines:{use:['{u}의 {s}이(가) 발동한다. 필터를 거치지 않고 새는 흐름을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1071', name:'완충재맞춤', en:'Cargo Packer Contact', scope:'class', kind:'액티브',
+    cls:'CLS_C108', grade:2, rarity:2, tier:1, desc:'화물의 빈 공간에 준비한 완충재를 맞춘다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.',
+    lore:'회수품 운송 포장에서 사용하는 포장사의 현장 기술이다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['직접 작용', '포장사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], daily:true, combo:['SK_C1072'], lines:{use:['{u}은(는) 화물의 빈 공간에 준비한 완충재를 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1072', name:'포장손막', en:'Cargo Packer Guard', scope:'class', kind:'액티브',
+    cls:'CLS_C108', grade:1, rarity:2, tier:1, desc:'클램프와 화물 사이에서 손을 가리는 막을 둔다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.',
+    lore:'회수품 운송 포장에서 사용하는 포장사의 현장 기술이다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['방호', '포장사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], shield:0.65,
+    se:[{se:'SE_C013', chance:1, turns:3}], daily:true, combo:['SK_C1073'], lines:{use:['{u}은(는) 클램프와 화물 사이에서 손을 가리는 막을 둔다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1073', name:'포장끈잠금', en:'Cargo Packer Set', scope:'class', kind:'액티브',
+    cls:'CLS_C108', grade:1, rarity:2, tier:1, desc:'흔들리는 화물의 고정끈을 임시로 잡아 준다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.',
+    lore:'회수품 운송 포장에서 사용하는 포장사의 현장 기술이다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['작업 보조', '포장사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:10, cd:3}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], daily:true, combo:['SK_C1074'], lines:{use:['{u}은(는) 흔들리는 화물의 고정끈을 임시로 잡아 준다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1074', name:'포장물옮김', en:'Cargo Packer Step', scope:'class', kind:'액티브',
+    cls:'CLS_C108', grade:1, rarity:2, tier:1, desc:'고정점을 확인하고 포장물을 받침으로 옮긴다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.',
+    lore:'회수품 운송 포장에서 사용하는 포장사의 현장 기술이다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['위치 조절', '포장사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:7, cd:2}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], daily:true, combo:['SK_C1075'], lines:{use:['{u}은(는) 고정점을 확인하고 포장물을 받침으로 옮긴다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1075', name:'포장빈틈눈', en:'Cargo Packer Reading', scope:'class', kind:'패시브',
+    cls:'CLS_C108', grade:1, rarity:2, tier:1, desc:'화물과 포장재 사이의 흔들릴 틈을 읽는다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.',
+    lore:'회수품 운송 포장에서 사용하는 포장사의 현장 기술이다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['감지', '포장사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, daily:true,
+    combo:['SK_C1076'], lines:{use:['{u}의 {s}이(가) 발동한다. 화물과 포장재 사이의 흔들릴 틈을 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1076', name:'상하표식기억', en:'Cargo Packer Discipline', scope:'class', kind:'패시브',
+    cls:'CLS_C108', grade:1, rarity:2, tier:1, desc:'화물의 방향과 고정점 표시를 나눠 기억한다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.',
+    lore:'회수품 운송 포장에서 사용하는 포장사의 현장 기술이다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['운용 습관', '포장사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.06}, daily:true,
+    combo:['SK_C1077'], lines:{use:['{u}의 {s}이(가) 발동한다. 화물의 방향과 고정점 표시를 나눠 기억한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1077', name:'포장눌림감', en:'Cargo Packer Foundation', scope:'class', kind:'패시브',
+    cls:'CLS_C108', grade:1, rarity:2, tier:1, desc:'완충재가 눌리며 받는 힘을 구별한다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.',
+    lore:'회수품 운송 포장에서 사용하는 포장사의 현장 기술이다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:10, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['기본 적응', '포장사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{acc:1.08}, daily:true,
+    combo:['SK_C1078'], lines:{use:['{u}의 {s}이(가) 발동한다. 완충재가 눌리며 받는 힘을 구별한다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1078', name:'겹완충포장', en:'Cargo Packer Sequence', scope:'class', kind:'액티브',
+    cls:'CLS_C108', grade:2, rarity:3, tier:2, desc:'충격 방향에 따라 완충층을 여러 겹으로 나눈다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.',
+    lore:'회수품 운송 포장에서 사용하는 포장사의 현장 기술이다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['심화 작용', '포장사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.1, turns:3},
+    se:[{se:'SE_C025', chance:1, turns:2}], req:{lv:10, stat:{STAT_SENSE:12}, abl:{ABL_A26:8}}, daily:true, combo:['SK_C1079'], lines:{use:['{u}은(는) 충격 방향에 따라 완충층을 여러 겹으로 나눈다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1079', name:'공동운송묶음', en:'Cargo Packer Coverage', scope:'class', kind:'액티브',
+    cls:'CLS_C108', grade:3, rarity:3, tier:3, desc:'동료 둘이 들 화물의 고정점과 순서를 맞춘다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.',
+    lore:'회수품 운송 포장에서 사용하는 포장사의 현장 기술이다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.', target:'allies', range:'near', area:2, hits:1,
+    count:2, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{cost:-0.1, cd:-0.05}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['동료 지원', '포장사', '재료·도구 필요'],
+    risk:1, src:'codex', cost:{mp:18, cd:4}, side:['연달아 쓰면 집중이 흐려진다.'], buff:{acc:1.12, turns:3},
+    se:[{se:'SE_C028', chance:1, turns:2}], req:{lv:25, stat:{STAT_SENSE:15}, abl:{ABL_A26:10}}, daily:true, combo:['SK_C1080'], lines:{use:['{u}은(는) 동료 둘이 들 화물의 고정점과 순서를 맞춘다.', '{u}은(는) 필요한 간격을 확인하고 {s}을(를) 시작한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
+  },
+  {
+    id:'SK_C1080', name:'포장꺼짐눈', en:'Cargo Packer Feedback', scope:'class', kind:'패시브',
+    cls:'CLS_C108', grade:4, rarity:3, tier:4, desc:'운송 중 완충층이 꺼지는 변화를 읽는다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.',
+    lore:'회수품 운송 포장에서 사용하는 포장사의 현장 기술이다. 완충재 없이 충격을 없애거나 무게를 줄이지 못한다.', target:'self', range:'near', area:1, hits:1,
+    count:1, power:0, scale:'STAT_SENSE', scale2:'ABL_A26', acc:0,
+    crit:0, maxLv:15, growth:{power:0}, mastery:['초입', '익숙함', '숙련', '정밀'], tags:['경과 관찰', '포장사', '재료·도구 필요'],
+    risk:1, src:'codex', reaction:'해당 기술의 감각과 기억으로 관련 조건을 확인할 때', buff:{sense:1.07}, req:{lv:45, stat:{STAT_SENSE:18}, abl:{ABL_A26:12}},
+    daily:true, combo:['SK_C1071'], lines:{use:['{u}의 {s}이(가) 발동한다. 운송 중 완충층이 꺼지는 변화를 읽는다.', '{u}은(는) {s}에 익숙한 순서로 변화한 조건을 확인한다.'], hit:['{u}의 {s}이(가) 확인한 범위에서 작용한다.', '{u}은(는) {s}의 결과를 살피며 힘을 줄인다.'], miss:['{u}의 {s}이(가) 필요한 지점을 놓친다.', '{u}은(는) {s}의 위치를 다시 잡는다.'], crit:['{u}은(는) {s}의 범위와 순서를 정확히 맞춘다.', '{u}의 {s}이(가) 적은 낭비로 마무리된다.'], fail:['{u}은(는) 조건이 맞지 않아 {s}을(를) 중단한다.', '{u}의 {s}이(가) 끊긴다. {u}은(는) 장비와 남은 힘을 확인한다.']}
   }
 ]);
