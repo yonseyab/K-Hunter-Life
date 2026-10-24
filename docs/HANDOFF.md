@@ -6,7 +6,7 @@
 한국 헌터물 + 성좌물 **관찰형** 인생 시뮬레이션. 커마한 헌터의 인생이 하루 30초로 흘러가고, 플레이어는 그 헌터의 **성좌**로서 지켜보며 코인으로 선물한다. 직접 행동 · 공략 · 장비 착용 · 스탯 분배는 하지 않는다 (헌터가 성향대로 정한다). `game/index.html` 을 브라우저로 열면 동작한다 (빌드 없음).
 
 - 게임 페이지(아티팩트): https://claude.ai/artifact/1KVipZo2SnDCQkUgtbLpri (옛 Hunter Life 페이지는 건드리지 않음)
-- PC 폴더: `C:\Users\YON\Desktop\K-Hunter-Life` (로컬 폴더에는 `.git` 없음 — GitHub 와는 Claude 가 파일을 옮겨 맞춘다)
+- PC 기준 폴더: `C:\Users\YON\Desktop\K-Hunter-Life` (`main`, `.git` 연결). GitHub `main`이 최신 기준이며 Claude · Codex는 별도 브랜치와 작업 폴더를 사용한다. Codex 폴더는 `.worktrees\codex`다. 반영은 브랜치 push → PR → 병합 뒤 기준 폴더 갱신 순서다. [Git 협업 규칙](GIT_WORKFLOW.md)을 따른다.
 - 옛 버전: [yonseyab/Hunter-Life](https://github.com/yonseyab/Hunter-Life) — 보관본. 옛 저장과 호환하지 않는다.
 - 2026-10-24 정리: 옛 직접 조작 화면 · 옛 외주 문서/데이터 · 끝난 계획 문서 · 한 번 쓴 도구를 지웠다 (GitHub 기록에 남아 있음).
 

@@ -149,7 +149,7 @@ def('skills', [
 1. 위 파일들을 만들고 `_list.js` 에 등록한다.
 2. `node tools/validate_data.js` → '문제 없음'.
 3. (가능하면) UI 테스트.
-4. 커밋 · push, PC 폴더 맞추기.
+4. 작업 브랜치에 커밋 · push → `main` 대상 PR. 병합 뒤 PC 기준 폴더를 Git으로 갱신한다 (`README.md` · `docs/GIT_WORKFLOW.md` 참고).
 5. 아래 완료 보고를 채운다.
 
 ## 확인할 것
