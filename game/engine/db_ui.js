@@ -218,7 +218,7 @@ const DB_UI = (() => {
       const sk = id => DB.skills[id] ? go('skills', id, DB.skills[id].name) : '', C = DB.balance.BAL_COMBAT, rs = C.roleStat[c.role] || {}, rn = nm('roles', c.role);
       const w = v => v >= 1.15 ? `<b class="good">×${v}</b>` : v <= 0.85 ? `<span class="bad">×${v}</span>` : `×${v}`;
       const mvIds = [...new Set([...(c.pool || []), ...(c.passive || []), ...(c.learn || []).map(l => l.skill)].map(id => DB.skills[id]?.move).filter(Boolean))];
-      return head(c.name, c.id, stars(c.rarity)) + `<p class="dbx-sum">${esc(rn)} 클래스. ${esc(c.desc || '')}</p>`
+      return head(c.name, c.id, stars(c.rarity)) + `<p class="dbx-sum">${esc(c.summary || rn + ' 클래스. ' + (c.desc || ''))}</p>`
         + sec(`전투에서 — 역할 '${esc(rn)}' 기준 (보통 = ×1)`, kv([['체력', w(rs.hp)], ['물리 공격', w(rs.atk)], ['마법 공격', w(rs.mag)], ['방어', w(rs.def)], ['마법 저항', w(rs.res)], ['공격 간격', `${rs.spd}초마다 (세부 능력 '시전 속도'로 조금 빨라짐)`], ['기본 공격', rs.magic ? '마법 (마공으로 계산)' : '물리 (공격으로 계산)']])
           + `<div class="dbx-st" style="margin-top:6px">역할 기본 기술</div><ul class="dbx-ul">${(C.roleMoves[c.role] || []).map(id => `<li>${esc(COMBAT.describeMove(id))}</li>`).join('')}</ul>`
           + (mvIds.length ? `<div class="dbx-st" style="margin-top:6px">이 클래스 스킬이 주는 기술</div><ul class="dbx-ul">${mvIds.map(id => `<li>${esc(COMBAT.describeMove(id))}</li>`).join('')}</ul>` : '<div class="dbx-note">이 클래스 스킬에는 아직 전투 기술이 붙어 있지 않다 (역할 기본 기술만 쓴다).</div>'))

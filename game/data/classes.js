@@ -36,7 +36,7 @@
    [비용]   cost {mp, hp, stamina, item(items), cd(재사용 턴), cast(시전 턴), charges(충전 수), daily(하루 횟수)}
    [효과]   power 위력 배율 · kind2 공격 갈래(attackKinds) · el 속성(elements) · scale · scale2 기대는 능력(STAT_ · ABL_) · acc · crit 보정
             heal 회복 배율 · shield 보호막 배율 · se [{se(statusEffects), chance, turns}] · cleanse [statusEffects 풀어 주는 것] · buff {stat: 배율, turns}
-            summon [{mon, count, turns}] · move(dash 돌진 · retreat 물러남 · teleport 순간이동 · pull 끌어당김 · push 밀침) · stance 자세 · toggle 켜고 끄는 스킬
+            summon [{mon, count, turns}] · move 전투 기술(combatMoves) · stance 자세 · toggle 켜고 끄는 스킬
             combo [skills 이어 쓰기 좋은 스킬] · counter 반격 조건(글) · reaction 발동 조건(글 — 패시브)
    [성장]   maxLv 스킬 레벨 상한 · growth {power, cost, cd} 레벨당 변화 · evolve [{to(skills), cond}] 변형 · mastery [글] 숙련 단계 이름
             req {lv, stat:{}, abl:{}, skill(skills), cls(classes)} 배우는 조건 · book 스킬북 아이템(items)

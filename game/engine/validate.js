@@ -161,7 +161,7 @@ const RULES = [
       ['classes', (c, DB) => [...chk(DB, c, [['roles', 'roles'], ['passive', 'skills'], ['from', 'classes'], ['affinity', 'elements'], ['weakEl', 'elements'], ['el', 'elements'], ['guildPref', 'guilds']]), ...(c.learn || []).flatMap(x => miss(DB, x.skill, 'skills').map(v => `learn ${v} 없음`)),
         ...Object.keys(c.statReq || {}).filter(k => !DB.baseStats[k]).map(k => `statReq ${k} 없음`), ...Object.keys(c.ablReq || {}).filter(k => !DB.abilities?.[k]).map(k => `ablReq ${k} 없음`)]],
       ['skills', (k, DB) => [...chk(DB, k, [['classes', 'classes'], ['cleanse', 'statusEffects'], ['combo', 'skills'], ['acts', 'actions'], ['book', 'items']]), ...(k.evolve || []).flatMap(x => miss(DB, x.to, 'skills').map(v => `evolve ${v} 없음`)),
-        ...(k.summon || []).flatMap(x => miss(DB, x.mon, 'monsters').map(v => `summon ${v} 없음`)), ...one(k.range, ['melee', 'near', 'far'], 'range'), ...one(k.move, ['dash', 'retreat', 'teleport', 'pull', 'push'], 'move'),
+        ...(k.summon || []).flatMap(x => miss(DB, x.mon, 'monsters').map(v => `summon ${v} 없음`)), ...one(k.range, ['melee', 'near', 'far'], 'range'),
         ...(k.req ? [...miss(DB, k.req.skill, 'skills'), ...miss(DB, k.req.cls, 'classes')].map(v => `req ${v} 없음`) : [])]],
       ['placeTypes', (t, DB) => [...chk(DB, t, [['acts', 'actions'], ['tags', 'placeTags']])]],
       ['places', (t, DB) => [...chk(DB, t, [['type', 'placeTypes'], ['region', 'regions'], ['near', 'places'], ['parent', 'places'], ['guild', 'guilds'], ['items', 'items'], ['events', 'events'], ['tags', 'placeTags']]), ...one(t.status, ['open', 'closed', 'ruined', 'gate', 'moved'], 'status')]],
