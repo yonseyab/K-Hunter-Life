@@ -178,9 +178,13 @@ function SIM_FACTORY() {
 
   /* ---------- 공략 (NPC 파티) ---------- */
   const gpOf = lv => { const P = DB.balance.BAL_GATE.power; return P.gateBase + (21 - lv) * P.perRank; };
-  function pWin(pp, lv) { const Q = BA().quick, P = DB.balance.BAL_GATE.power, r = cl(pp / gpOf(lv), P.rClamp[0], P.rClamp[1]); return cl((r - Q.r0) / Q.span, 0, Q.max); }
+  /* 배경 인구 파티 성공률: 전력 pp 를 '실력 등급'으로 바꿔 게이트와의 등급 차로 본다. 표(quick.byGap)는 전투 시뮬(COMBAT) 결과에 맞춘 값
+     pp ≈ ablBase + (ablPer + perLevel) × 레벨  →  레벨  →  등급 (BAL_COMBAT.rankLevel) */
+  function rankOfPp(pp) { const T = DB.balance.BAL_COMBAT, P = DB.balance.BAL_GATE.power, L = Math.max(1, (pp - T.typical.ablBase) / (T.typical.ablPer + P.perLevel)); return 20 - (L - T.rankLevel[0]) / T.rankLevel[1]; }
+  function pByGap(gap) { const t = BA().quick.byGap; if (gap <= 0) return Math.min(BA().quick.max, t[0] + (t[0] < 1 ? Math.min(-gap, 2) * 0.015 : 0)); const i = Math.floor(gap), f = gap - i; return i + 1 >= t.length ? t[t.length - 1] : t[i] + (t[i + 1] - t[i]) * f; }
+  function pWin(pp, lv) { return pByGap(rankOfPp(pp) - lv); }
   /* 이 전력으로 성공률 acc 이상 기대할 수 있는 가장 높은 게이트 등급 숫자 */
-  function bestLv(pp, acc) { const Q = BA().quick, P = DB.balance.BAL_GATE.power, rn = Q.r0 + acc * Q.span, lv = Math.ceil(21 - (pp / rn - P.gateBase) / P.perRank); return lv < 1 ? 1 : lv > 20 ? 20 : lv; }
+  function bestLv(pp, acc) { const r = rankOfPp(pp); let lv = 20; for (let x = 20; x >= 1; x--) if (pByGap(r - x) >= acc) lv = x; else break; return lv; }
   /* NPC 공략 수입: 플레이어와 같은 경제 기준 (BAL_ECON) — 게이트 총수익 ÷ 기준 파티 인원 × (실패면 failRate). 마정석 몫만 */
   const raidPay = (lv, ok) => { const E = DB.balance.BAL_ECON; if (E) return Math.round(E.gateBase * Math.pow(E.perRank, 20 - lv) / E.partyRef * (1 - E.matShare) * (ok ? 1 : E.failRate * 0.5)); const R = BA().raidPay; return Math.round(R.base * Math.pow(R.mul, 20 - lv) * (ok ? 1 : R.failPay)); };
   const raidExp = (lv, floors, ok) => Math.round(DB.balance.BAL_GATE.expBase * Math.pow(21 - lv, 2) * (floors / 5) * (ok ? 1 : 0.4));
@@ -324,12 +328,12 @@ function SIM_FACTORY() {
       cand.sort((a, b) => (b.det - a.det) || (b.pp - a.pp));
       const n = Math.min(g.partyMax || 4, B.partySize[0] + Math.floor(Math.random() * (B.partySize[1] - B.partySize[0] + 1)));
       const party = cand.slice(0, n); party.forEach(x => used.add(x));
-      const pp = party.reduce((a, x) => a + x.pp, 0) / party.length, p = pWin(pp, lv), ok = Math.random() < p, bi = party[0].bi, blk = B.blocks[bi];
+      const pp = party.reduce((a, x) => a + x.pp, 0) / party.length, sim = simRaid(party, g), p = sim ? (sim.ok ? 1 : 0) : pWin(pp, lv), ok = sim ? sim.ok : Math.random() < p, bi = party[0].bi, blk = B.blocks[bi];
       let t = d * 1440 + blk[0] + B.raidMinutes[0] + Math.round((B.raidMinutes[1] - B.raidMinutes[0]) * Math.min(1, (g.floors || 5) / 8));
       if (t >= st.breakAt - 30) t = Math.max(nowAbs() + 30, st.breakAt - 60); if (t >= st.breakAt) { party.forEach(x => used.delete(x)); continue; }
       const lead = party[0], by = grp ? guildName(grp) : `${nameAt(lead)} 외 ${party.length - 1}명 파티`;
       (G.simQ = G.simQ || []).push({ s: Math.max(nowAbs(), d * 1440 + blk[0]), t, gid: g.id, ok, by, n: party.length, p: Math.round(p * 100) });  /* s: 들어간 시각 (게이트 목록 '공략 중') */
-      resolveParty(party, lv, g.floors || 5, ok, g.name); W.tracked++;
+      resolveParty(party, lv, g.floors || 5, ok, g.name, sim); W.tracked++;
     }
     /* 나머지: 다른 곳 게이트 (지역 · 길드별로 파티를 묶는다) */
     const rest = intents.filter(x => !used.has(x)), groups = new Map();
@@ -341,22 +345,34 @@ function SIM_FACTORY() {
         if (Math.random() >= B.bgGate) { party.forEach(fallback); continue; }
         const pp = party.reduce((s, x) => s + x.pp, 0) / party.length, acc = Math.max(...party.map(x => x.acc));
         const lv = Math.max(bestLv(pp, acc), Math.min(20, Math.round(party.reduce((s, x) => s + x.lv, 0) / party.length) + 1));
-        const ok = Math.random() < pWin(pp, lv); resolveParty(party, lv, 3 + Math.floor(Math.random() * 5), ok, null); W.bgRaids++;
+        const floors = 3 + Math.floor(Math.random() * 5), sim = party.some(x => x.det) ? simRaid(party, virtualGate(lv, floors)) : null, ok = sim ? sim.ok : Math.random() < pWin(pp, lv);
+        resolveParty(party, lv, floors, ok, null, sim); W.bgRaids++;
       }
     }
   }
+  /* 상세 인물이 낀 파티는 전투 시뮬로 (engine/combat.js). 배경 인구끼리는 표(pWin) */
+  const unitOf = x => x.det ? COMBAT.fromHunter({ ...x.p, ...(DB.hunters[x.p.id] ? {} : progOf(x.p)), id: x.p.id, name: x.p.name, roleMain: x.p.roleMain })
+    : COMBAT.fromLevel({ id: 'POP' + x.i, name: nameAt ? nameAt(x) : '헌터', role: G.pop.roles[POP.role[x.i]] || 'ROLE_MDPS', level: POP.level[x.i] || 1, rankLv: x.lv });
+  function simRaid(party, g) {
+    if (typeof COMBAT === 'undefined' || !party.some(x => x.det)) return null;
+    const plv = Math.round(party.reduce((a, x) => a + x.lv, 0) / party.length);
+    try { return COMBAT.npcRaid(party.map(unitOf), g, plv); } catch (e) { console.warn('전투 시뮬 실패', e); return null; }
+  }
+  function virtualGate(lv, floors) { const gi = vals('gateInteriors'), r = Math.random, c = typeof MONSTER !== 'undefined' ? MONSTER.compose(r, lv, gi.length ? gi[Math.floor(r() * gi.length)].id : null) : {}; return { rank: 'RANK_' + pad(lv, 2), floors, ...c }; }
+  const uidOf = x => x.det ? x.p.id : 'POP' + x.i;
   function fallback(x) {
     const A = ACTS[x.alt]; if (!A) return; const min = x.blk[1] - x.blk[0];
     if (x.det) { apply(x.st, A, min, (g, m, gain) => npcTrain(x.p, g, m, gain)); const td = x.st.today.find(t => t.s === x.blk[0]); if (td) td.act = A.a.id; }
     else popApply(x.i, A, min);
   }
-  function resolveParty(party, lv, floors, ok, gname) {
+  function resolveParty(party, lv, floors, ok, gname, sim) {
     const Q = BA().quick, exp = raidExp(lv, floors, ok), pay = raidPay(lv, ok);
     W.raids++; let gDone = false;
     const det = party.filter(x => x.det && DB.hunters[x.p.id]); for (let i = 0; i < det.length; i++) for (let j = i + 1; j < det.length; j++) (G.npcBond = G.npcBond || []).push([det[i].p.id, det[j].p.id, ok]);
     for (const x of party) {
       const label = gname ? `${gname} 공략 중 전사` : `${DB.ranks['RANK_' + pad(lv, 2)].name}급 게이트 공략 중 전사`;
-      const dth = ok ? Q.winDeath : Q.failDeath * (1 + Math.max(0, x.lv - lv) * 0), inj = ok ? Q.winInjury : Q.failInjury;
+      const CD = DB.balance.BAL_COMBAT.down, dn = sim && sim.down.includes(uidOf(x)), hr = sim && sim.hurt.includes(uidOf(x));
+      const dth = sim ? (dn ? CD.npcDeath : 0) : ok ? Q.winDeath : Q.failDeath, inj = sim ? (dn ? CD.injury : hr ? CD.hitInjury : 0) : ok ? Q.winInjury : Q.failInjury;
       if (x.det) {
         const ag = x.st, A = ACTS.find(a => a.fRaid); let mine = pay; ag.cd = 0; ag.raids++; apply(ag, A, x.blk[1] - x.blk[0]);
         const mg = G.myGuild, gm = mg && x.p.guild === mg.id ? (mg.mem = mg.mem || {})[x.p.id] : null;

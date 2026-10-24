@@ -37,18 +37,21 @@ def('sysShop', [
 
 /* ---------- 몬스터 (분류마다 몇 종 — 게이트 생성에 필요) ---------- */
 def('monsters', [
-  {id:'MON_B001', name:'고블린',       cat:'MC_HUMANOID', rank:'RANK_19', drops:[{item:'IT_B0030',chance:0.3,qty:1}], desc:'무리를 짓는 작은 인간형. 신입이 가장 먼저 만나는 몬스터.'},
-  {id:'MON_B002', name:'오크 전사',    cat:'MC_HUMANOID', rank:'RANK_13', drops:[], desc:'덩치 큰 인간형. 조잡한 도끼를 휘두른다.'},
-  {id:'MON_B003', name:'늑대형 마수',  cat:'MC_BEAST',    rank:'RANK_16', drops:[{item:'IT_B0030',chance:0.8,qty:2}], desc:'측면을 노리는 무리 사냥꾼.'},
-  {id:'MON_B004', name:'철갑 멧돼지',  cat:'MC_BEAST',    rank:'RANK_11', drops:[{item:'IT_B0030',chance:0.6,qty:3}], desc:'돌진 한 번에 방패가 휜다.'},
-  {id:'MON_B005', name:'슬라임',       cat:'MC_AMORPH',   rank:'RANK_20', drops:[{item:'IT_B0031',chance:0.7,qty:2}], desc:'느리지만 산성 체액이 장비를 상하게 한다.'},
-  {id:'MON_B006', name:'그림자 점액',  cat:'MC_AMORPH',   rank:'RANK_15', drops:[{item:'IT_B0031',chance:0.5,qty:3}], desc:'빛이 없는 곳에서만 움직인다.'},
-  {id:'MON_B007', name:'스켈레톤 병사', cat:'MC_UNDEAD',  rank:'RANK_17', drops:[], desc:'부서져도 다시 맞춰진다. 머리를 깨야 끝난다.'},
-  {id:'MON_B008', name:'구울',         cat:'MC_UNDEAD',   rank:'RANK_12', drops:[], desc:'썩은 손톱에 마비 독.'},
-  {id:'MON_B009', name:'거대 개미',    cat:'MC_INSECT',   rank:'RANK_18', drops:[], desc:'개미산 분사. 굴을 판다.'},
-  {id:'MON_B010', name:'칼날 사마귀',  cat:'MC_INSECT',   rank:'RANK_10', drops:[], desc:'앞다리 날이 방검 조끼를 가른다.'},
-  {id:'MON_B011', name:'미확인 개체',  cat:'MC_UNKNOWN',  rank:'RANK_07', drops:[], desc:'협회 분류 대기 중. 교전 기록 부족.'},
-  {id:'MON_B012', name:'석상 수호자',  cat:'MC_UNKNOWN',  rank:'RANK_04', drops:[], desc:'상위 게이트 보스로 보고된 개체.'},
+  {id:'MON_B001', ranks:['RANK_20','RANK_17'], mrole:'MR_SWARM', size:'MSZ_S', habitats:['GI_CAVE'], lines:{appear:['고블린 {n}마리가 낄낄거리며 몰려온다.']}, name:'고블린',       cat:'MC_HUMANOID', rank:'RANK_19', drops:[{item:'IT_B0030',chance:0.3,qty:1}], desc:'무리를 짓는 작은 인간형. 신입이 가장 먼저 만나는 몬스터.'},
+  {id:'MON_B002', ranks:['RANK_15','RANK_11'], mrole:'MR_BRUTE', size:'MSZ_L', moves:['CM_M_SLAM'], weak:['EL_FIRE'], name:'오크 전사',    cat:'MC_HUMANOID', rank:'RANK_13', drops:[], desc:'덩치 큰 인간형. 조잡한 도끼를 휘두른다.'},
+  {id:'MON_B003', ranks:['RANK_18','RANK_14'], mrole:'MR_ASSASSIN', size:'MSZ_M', moves:['CM_M_CLAW'], pack:[3,5], weak:['EL_FIRE'], name:'늑대형 마수',  cat:'MC_BEAST',    rank:'RANK_16', drops:[{item:'IT_B0030',chance:0.8,qty:2}], desc:'측면을 노리는 무리 사냥꾼.'},
+  {id:'MON_B004', ranks:['RANK_13','RANK_09'], mrole:'MR_TANK', size:'MSZ_L', moves:['CM_M_CHARGE'], stat:{def:1.2}, name:'철갑 멧돼지',  cat:'MC_BEAST',    rank:'RANK_11', drops:[{item:'IT_B0030',chance:0.6,qty:3}], desc:'돌진 한 번에 방패가 휜다.'},
+  {id:'MON_B005', ranks:['RANK_20','RANK_18'], mrole:'MR_SWARM', size:'MSZ_S', el:'EL_POISON', moves:['CM_M_ACID'], weak:['EL_FIRE','EL_ICE'], resist:['EL_POISON'], stat:{spd:1.3}, name:'슬라임',       cat:'MC_AMORPH',   rank:'RANK_20', drops:[{item:'IT_B0031',chance:0.7,qty:2}], desc:'느리지만 산성 체액이 장비를 상하게 한다.'},
+  {id:'MON_B006', ranks:['RANK_17','RANK_13'], mrole:'MR_CASTER', size:'MSZ_M', el:'EL_DARK', moves:['CM_M_SHADOW'], weak:['EL_LIGHT'], resist:['EL_DARK'], name:'그림자 점액',  cat:'MC_AMORPH',   rank:'RANK_15', drops:[{item:'IT_B0031',chance:0.5,qty:3}], desc:'빛이 없는 곳에서만 움직인다.'},
+  {id:'MON_B007', ranks:['RANK_19','RANK_15'], mrole:'MR_BRUTE', size:'MSZ_M', weak:['EL_LIGHT'], resist:['EL_DARK','EL_POISON'], immune:['SE_POISON','SE_BLEED'], name:'스켈레톤 병사', cat:'MC_UNDEAD',  rank:'RANK_17', drops:[], desc:'부서져도 다시 맞춰진다. 머리를 깨야 끝난다.'},
+  {id:'MON_B008', ranks:['RANK_14','RANK_10'], mrole:'MR_ASSASSIN', size:'MSZ_M', moves:['CM_M_CLAW','CM_M_DRAIN'], weak:['EL_LIGHT','EL_FIRE'], immune:['SE_POISON'], name:'구울',         cat:'MC_UNDEAD',   rank:'RANK_12', drops:[], desc:'썩은 손톱에 마비 독.'},
+  {id:'MON_B009', ranks:['RANK_20','RANK_16'], mrole:'MR_SWARM', size:'MSZ_S', moves:['CM_M_ACID'], pack:[4,8], name:'거대 개미',    cat:'MC_INSECT',   rank:'RANK_18', drops:[], desc:'개미산 분사. 굴을 판다.'},
+  {id:'MON_B010', ranks:['RANK_12','RANK_08'], mrole:'MR_ASSASSIN', size:'MSZ_M', moves:['CM_M_SHRED'], stat:{crit:10}, name:'칼날 사마귀',  cat:'MC_INSECT',   rank:'RANK_10', drops:[], desc:'앞다리 날이 방검 조끼를 가른다.'},
+  {id:'MON_B011', ranks:['RANK_09','RANK_01'], boss:true, mrole:'MR_CASTER', size:'MSZ_L', moves:['CM_M_SHADOW','CM_M_DRAIN','CM_M_ROAR'], minions:['MON_B006'], name:'미확인 개체',  cat:'MC_UNKNOWN',  rank:'RANK_07', drops:[], desc:'협회 분류 대기 중. 교전 기록 부족.'},
+  {id:'MON_B012', ranks:['RANK_08','RANK_01'], boss:true, mrole:'MR_TANK', size:'MSZ_H', moves:['CM_M_SLAM','CM_M_ROAR'], resist:['EL_EARTH'], weak:['EL_BOLT'], minions:['MON_B007'], name:'석상 수호자',  cat:'MC_UNKNOWN',  rank:'RANK_04', drops:[], desc:'상위 게이트 보스로 보고된 개체.'},
+  {id:'MON_B013', name:'고블린 족장', cat:'MC_HUMANOID', ranks:['RANK_20','RANK_15'], boss:true, mrole:'MR_BRUTE', size:'MSZ_M', moves:['CM_M_ROAR','CM_M_CHARGE'], minions:['MON_B001'], drops:[{item:'IT_B0030',chance:0.8,qty:2}], desc:'고블린 무리를 이끄는 덩치. 부하를 방패로 쓴다.'},
+  {id:'MON_B014', name:'늑대 우두머리', cat:'MC_BEAST', ranks:['RANK_16','RANK_11'], boss:true, mrole:'MR_ASSASSIN', size:'MSZ_L', moves:['CM_M_CLAW','CM_M_ROAR','CM_M_MEND'], minions:['MON_B003'], drops:[{item:'IT_B0030',chance:1,qty:3}], desc:'무리의 우두머리. 울음 한 번에 무리가 다시 일어선다.'},
+  {id:'MON_B015', name:'여왕 개미', cat:'MC_INSECT', ranks:['RANK_14','RANK_09'], boss:true, mrole:'MR_SUPPORT', size:'MSZ_H', moves:['CM_M_ACID','CM_M_MEND'], minions:['MON_B009'], desc:'알을 지키는 거대한 개미. 일개미를 끝없이 부른다.'},
 ]);
 
 /* ---------- 클래스 · 스킬 (역할마다 하나) ---------- */

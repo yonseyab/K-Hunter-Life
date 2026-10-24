@@ -64,3 +64,7 @@
 }
 .dbx-star {color:#e0a43c;letter-spacing:-1px;font-size:11px;}
 .dbx-star i {font-style:normal;color:var(--line2);}
+.dbx-sum {margin:0;color:var(--fg);line-height:1.6;font-weight:500;}
+.dbx-flavor {border-top:1px dashed var(--line2);padding-top:8px;display:grid;gap:6px;opacity:.85;}
+.dbx-old summary {cursor:pointer;color:var(--dim);font-size:11px;}
+.dbx-old[open] summary {margin-bottom:6px;}

@@ -121,8 +121,7 @@ const STORY = (() => {
       else if (c === 'e' && /보스룸/.test(s)) { l = pickLine('raid:boss'); add('raid', fill(l ? l.text : '보스룸.', ctx), 1); }
       else if (c === 'c') add('raid', s, 2, { crisis: true });
       else if (c === 'w') add('raid', s, 2);
-      else if (c === 'k' && / — /.test(s)) add('raid', s.replace(/\[([^\]]+)\]/, '[$1]'), 2);
-      else if (c === 'h' && / — /.test(s)) add('raid', s, 2);
+      else if ((c === 'k' || c === 'h') && / — /.test(s)) add('raid', s.replace(/\s*\[[^\]]*\]/g, '').replace(/\s*\([^)]*[0-9+−][^)]*\)\s*$/, ''), 2);  /* 판정 · 숫자 꼬리는 이야기 창에서 뺀다 */
       else if (c === 'h' && /부상:/.test(s)) add('raid', s, 2);
       else if (c === 'h') { const m = s.match(/−(\d+)/); l = pickLine('raid:hurt'); add('raid', l ? fill(l.text, { ...ctx, b: (s.match(/(\S+)이\(가\) 피해|(\S+)의 방어/) || [])[1] || nm(), n: m ? m[1] : '?' }) : s, 3); }
       else if (c === 'k') { l = pickLine('raid:fight'); add('raid', l ? fill(l.text, { ...ctx, a: nm() }) : s, 3); }

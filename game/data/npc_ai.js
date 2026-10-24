@@ -54,7 +54,7 @@ def('balance', [
    raidCooldown:2,            /* 공략 뒤 며칠은 공략 효용이 줄어든다 (회복) */
    raidMinutes:[120,300],     /* 공략에 걸리는 시간 (게이트 구역 수에 비례) */
    /* 빠른 공략 결과 (NPC 파티): 성공률 = (전력 비율 r − r0)/span, 최대 max. 플레이어 공략 시뮬의 결과 분포에 맞춘 값 */
-   quick:{r0:0.6, span:0.38, max:0.97, failInjury:0.45, failDeath:0.01, winInjury:0.06, winDeath:0.0005},
+   quick:{byGap:[0.95, 0.72, 0.38, 0.15, 0.03, 0.01], max:0.97,  /* 배경 인구 공략 성공률 — 파티 실력 등급과 게이트 등급 차 0 · 1 · 2 · 3 · 4 · 5+ (전투 시뮬 결과에 맞춤, engine/combat.js) */ failInjury:0.45, failDeath:0.01, winInjury:0.06, winDeath:0.0005},
    /* 공략 수입 (1인): base × mul^(20 − 등급 숫자). 실패하면 failPay 비율. 경제 기준은 사용자가 '나중에' 로 둔 임시값 */
    raidPay:{base:80000, mul:1.32, failPay:0.3},
    /* 지켜보는 게이트를 오늘 누군가 맡을 확률 (협회 개방 · 길드 소유 · 낙찰). 브레이크까지 urgentHours 미만이면 urgentBonus 더함.
