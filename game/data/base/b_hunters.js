@@ -1,5 +1,5 @@
 /* data/base/b_hunters.js — 처음 자동 생성한 기본 헌터 (생성 도구는 2026-10-24 정리 때 삭제).
-   Claude 최소 재료: 길드 · 파티 · 데모에 필요한 이름 있는 헌터 몇 명 (배치 코드 B). 정식 인물은 Codex 외주로 채운다. */
+   Claude 최소 재료: 길드 · 파티 · 데모에 필요한 이름 있는 헌터 몇 명 (배치 코드 B). 정식 인물은 나중에 Claude가 채운다. */
 /* ════ NPC 헌터 (hunters) '최대한 많이' 선택 필드 (2026-10-24) — 전부 선택. 안 쓰면 그만, 필요할 때 넣어 쓴다. 공통 [작업] notes 메모 · src 작성자 · ver 버전 ════
    지금 필드(id · name · sex · birth · age · height · weight · region · nation · birthplace · langs · voice · speech · rank · level · exp · roleMain · roleSub · guild · cls …) +
    alias 별명 · title 칭호 · fame 1~5 · personality {ccPersonality: 1~10} · traits · look {ccLook} · skills · gear [items] · money · home(housing)

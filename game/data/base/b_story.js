@@ -1,6 +1,6 @@
 /* =========================================================
    data/base/b_story.js — 이야기 창 문장 재료 · 위기 · 이벤트 · 데모 시나리오 (Claude 기본분, 배치 B)
-   스타일: docs/STYLE_CHECKLIST.md — 3인칭 · 현재형 · 짧게 · 건조한 기록체. 정식 분량(행동마다 5~10변형)은 Codex 외주.
+   스타일: docs/STYLE_CHECKLIST.md — 3인칭 · 현재형 · 짧게 · 건조한 기록체. 정식 분량(행동마다 5~10변형)은 나중에 Claude가.
 
    storyLines: 이야기 창에 흐르는 문장
      on   : 언제 쓰나 — act:<행동 ID> · cat:<행동 분류> · move · small:<장소 종류|any> · meet · react:<looksHi|looksLo|jealous> ·

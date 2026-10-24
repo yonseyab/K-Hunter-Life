@@ -143,8 +143,25 @@ def('abilities', [
   {id:'ABL_C20', set:'ABS_C', g:'ABG_C4', name:'전투 협응'},
 ]);
 
+/* 스탯을 나눈 이유 문장 (이야기 창 한 줄). why: cls(클래스) · role(역할) · adven(모험 성격) · calm(안정 성격) · focus(몰아주기) · even(고르게) · lag(처진 스탯 메우기)
+   {id, why, text} — {stats} = '신체 +3 · 마력 +2', {top} = 가장 많이 올린 스탯 이름. 같은 why 가 여럿이면 무작위 */
+def('statAllocWhy', [
+  {id:'SAW_01', why:'cls',   text:'클래스에 맞게 {top}부터 다듬었다 — {stats}.'},
+  {id:'SAW_02', why:'role',  text:'파티에서 맡는 자리를 생각해 포인트를 나눴다 — {stats}.'},
+  {id:'SAW_03', why:'adven', text:'더 깊이 들어가려면 몸이 먼저라고 생각했다 — {stats}.'},
+  {id:'SAW_04', why:'calm',  text:'흔들리지 않는 게 먼저라고 생각했다 — {stats}.'},
+  {id:'SAW_05', why:'focus', text:'잘하는 쪽을 더 밀어붙이기로 했다 — {stats}.'},
+  {id:'SAW_06', why:'even',  text:'어느 한쪽에 치우치지 않게 고르게 나눴다 — {stats}.'},
+  {id:'SAW_07', why:'lag',   text:'처져 있던 {top}을(를) 메우는 데 썼다 — {stats}.'},
+]);
+
 /* 밸런스 값 — 모두 [prototype_default] 임시값. 코드에 상수로 박지 않고 여기서 바꾼다. */
 def('balance', [
+  /* 스탯 포인트 나누기 (2026-10-24 정식 규칙, index.html autoStatAlloc). 성좌는 나누지 않는다 — 헌터가 스스로.
+     비중 = 1 + 클래스 성향(classes.stats × cls) + 역할 핵심 능력(roles.keys × role) + 성격(모험 → 신체 · 안정 → 정신, adven)
+     실리 중시면 가장 큰 쪽으로 몰고(prag 지수), 원칙 중시면 고르게. 평균의 lag 배 아래로 처진 스탯은 lagBoost 배 (메우기)
+     나누는 법: 비중대로 몫을 정하고(내림) 남은 포인트는 비중 무작위. 이야기 한 줄 = 가장 큰 이유 (statAllocWhy) */
+  {id:'BAL_STATALLOC', proto:true, cls:1, role:0.5, adven:0.5, prag:0.6, lag:0.7, lagBoost:1.6},
   {id:'BAL_GROWTH', proto:true, levelMax:100, wallEvery:10, statPerLevel:5, ablMin:1, ablMax:20,  /* statPerLevel: 레벨업마다 플레이어가 직접 나눠 주는 스탯 포인트 (NPC는 자동 분배) */
    expNext:{base:100, pow:1.8},    /* 레벨 L → L+1 필요 경험치 = base × L^pow */
    wallTrainHour:0.01, wallGate:0.15, wallCrisis:0.1},  /* 성장의 벽 돌파 확률: 벽에 막힌 상태에서 훈련 1시간 · 게이트 클리어 · 위기 판정 성공마다. 정해진 방법은 없다 (설정집 3.3) */

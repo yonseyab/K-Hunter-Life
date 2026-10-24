@@ -50,7 +50,7 @@ def('styleTags', [
   {id:'team',    tags:['TAG_TEAM','TAG_KIND']},
   {id:'escape',  tags:['TAG_ESCAPE','TAG_AVOID']},
 ]);
-/* 이유 문장 조각 — "{why} {p}은(는) 결국 ~했다"처럼 붙는다. 더 많은 변형은 외주로 */
+/* 이유 문장 조각 — "{why} {p}은(는) 결국 ~했다"처럼 붙는다. 더 많은 변형은 나중에 Claude가 */
 def('mindWhy', [
   {id:'MW_0001', key:'px:PX_ADVEN',  sign:1,  text:'모험을 마다하지 않는'},
   {id:'MW_0002', key:'px:PX_ADVEN',  sign:-1, text:'익숙한 길이 편한'},

@@ -17,12 +17,41 @@ const STAR = (() => {
     G.starGifts = G.starGifts || []; G.uniqueHeld = G.uniqueHeld || {};
     if (G.auction && !G.auction.coin) G.auction = { lots: [], seq: G.auction.seq || 0, coin: true };  /* 옛 원화 경매는 비운다 */
   }
-  /* 성좌 메시지 (자리만). on 에 맞는 starMessages 가 있으면 이야기 창에 한 줄 */
+  /* 성좌 메시지: on(starMsgEvents) 에 맞는 starMessages 한 줄을 이야기 창에 "[성좌] …".
+     거르는 칸: trait(정해진 성좌는 자기 성향만 · 나만의 성좌는 성향 없는 것 + 자기 성향) · known(헌터가 알 때만) · lv(헌터 레벨 이상) · chance(0~1, 기본 1) · once(성좌 계정 안에서 한 번) */
   function say(on, vars) {
-    const st = me(), L = vals('starMessages').filter(m => m.on === on && (st?.preset ? m.trait === st.trait : (!m.trait || m.trait === st?.trait)));  /* 정해진 성좌는 자기 성향에 맞는 것만 */ if (!L.length) return false;
-    const m = L[Math.floor(Math.random() * L.length)], t = String(m.text || '').replace(/\{(\w+)\}/g, (_, k) => vars?.[k] ?? '');
+    const st = me(); if (!G) return false; G.saidOnce = G.saidOnce || {};
+    const L = vals('starMessages').filter(m => m.on === on && (st?.preset ? m.trait === st.trait : (!m.trait || m.trait === st?.trait))
+      && (!m.known || G.starKnown) && (!m.lv || (G.player?.level || 1) >= m.lv) && !(m.once && G.saidOnce[m.id]) && Math.random() < (m.chance ?? 1));
+    if (!L.length) return false;
+    const m = L[Math.floor(Math.random() * L.length)], t = String(m.text || '').replace(/\{(\w+)\}/g, (_, k) => k === 'name' ? (G.player?.name || '') : vars?.[k] ?? '');
+    if (m.once) G.saidOnce[m.id] = true;
     STORY.add('event', `[${starName() || '성좌'}] ${t}`, 1); return true;
   }
+
+  /* ---------- 축복 (starBlessings): 코인으로 거는 일시 효과 ----------
+     G.blessings = [{id, until(분)}] · G.blessCd = {id: 다시 걸 수 있는 시각}. 효과: fx.check {능력/스탯 ID: 판정 보정} · fx.cstat {전투 배율 · acc/eva/crit 더하기}
+     헌터가 성좌를 모르면 문장은 lines.unknown (없으면 기본 '이유 모를 컨디션') */
+  const blessOk = b => { const st = me(); return (!b.trait || b.trait === st?.trait) && (!b.cls || b.cls === G.player?.cls); };
+  const blessList = () => vals('starBlessings').filter(blessOk);
+  const blessActive = () => (G?.blessings || []).filter(x => x.until > nowAbs() && DB.starBlessings?.[x.id]);
+  function bless(id) {
+    const b = DB.starBlessings?.[id]; if (!b || !blessOk(b)) return false; const now = nowAbs(); G.blessCd = G.blessCd || {};
+    if ((G.blessCd[id] || 0) > now) { toast('아직 다시 걸 수 없다.'); return false; } if ((G.coin || 0) < (b.coin || 0)) { toast('코인이 부족하다.'); return false; }
+    G.coin -= b.coin || 0; G.blessings = blessActive().filter(x => x.id !== id); G.blessings.push({ id, until: now + Math.round((b.days ?? 1) * 1440) });
+    if (b.cd) G.blessCd[id] = now + Math.round(b.cd * 1440);
+    STORY.add('event', G.starKnown ? (b.lines?.give || `성좌의 축복 「${b.name}」${josa(b.name, '이', '가')} 내린다.`) : (b.lines?.unknown || '이유는 모르겠지만 오늘따라 몸과 마음이 유난히 가볍다.'), 1);
+    say('bless', { bless: b.name }); if (typeof STARACC !== 'undefined') STARACC.sync(); return true;
+  }
+  function blessTick() {
+    if (!G?.blessings?.length) return; const now = nowAbs(), end = G.blessings.filter(x => x.until <= now);
+    end.forEach(x => { const b = DB.starBlessings?.[x.id]; if (b?.lines?.end && G.starKnown) STORY.add('event', b.lines.end, 1); });
+    G.blessings = G.blessings.filter(x => x.until > now);
+  }
+  /* 판정 보정 · 전투 보정 (index.html checkMods · combat.js fromHunter 가 부른다) */
+  const blessCheck = attr => blessActive().map(x => DB.starBlessings[x.id]).filter(b => b.fx?.check?.[attr]).map(b => [b.name, b.fx.check[attr]]);
+  const blessCstat = () => blessActive().map(x => DB.starBlessings[x.id].fx?.cstat).filter(Boolean);
+
   /* 성좌를 모를 때: 헌터가 운이나 노력으로 얻은 것처럼 (data/stars.js giftCovers) */
   function cover(it, what) {
     const where = G.inGate ? 'gate' : 'town', J = { 을: ['을', '를'], 이: ['이', '가'], 은: ['은', '는'], 과: ['과', '와'], 으로: ['으로', '로'], 이었다: ['이었다', '였다'] };
@@ -152,7 +181,7 @@ const STAR = (() => {
       return `<tr><td><b data-item="${it.id}" style="cursor:pointer;text-decoration:underline dotted">${esc(it.name)}</b> <span class="dim">${DB.itemCats[it.cat]?.name || ''}</span></td><td>${it.rank ? rkBadge(it.rank) : '<span class="dim">—</span>'}</td><td class="r num">${l.qty}</td><td class="muted">${esc(l.seller)}</td><td class="r num">${coinTxt(l.bid || l.start)}</td><td>${l.bidder === 'ME' ? '<span class="chip a">나</span>' : l.bidder ? esc(l.bidder) : '<span class="dim">없음</span>'}</td><td class="r num">${l.buyout ? coinTxt(l.buyout) : '—'}</td><td class="num">${left(l)}</td>
       <td class="r">${live ? `<span class="row" style="gap:4px;justify-content:flex-end;flex-wrap:nowrap"><button class="btn sm" data-aucbid="${l.id}" ${l.bidder === 'ME' || (G.coin || 0) < nx ? 'disabled' : ''}>${l.bidder === 'ME' ? '최고가' : '◈' + nx + ' 입찰'}</button>${l.buyout ? `<button class="btn sm pri" data-aucbuy="${l.id}" ${(G.coin || 0) < l.buyout ? 'disabled' : ''}>즉시 구매</button>` : ''}</span>` : ''}</td></tr>`; }).join('') || `<tr><td colspan="9" class="muted">${tab === '경매 목록' ? '올라온 물건이 없습니다.' : '없습니다.'}</td></tr>`}</tbody></table></div></div>`;
   }
-  return { ensure, say, gift, shopList, shopBuy, rollShop, isUnique, holderOf, grantClass, readBook, ofHunter, aucNew, aucBid, aucClose, aucTick, aucDay, aucNext, auctionView, A };
+  return { ensure, say, gift, bless, blessList, blessActive, blessTick, blessCheck, blessCstat, shopList, shopBuy, rollShop, isUnique, holderOf, grantClass, readBook, ofHunter, aucNew, aucBid, aucClose, aucTick, aucDay, aucNext, auctionView, A };
 })();
 /* 옛 이름으로 부르는 곳 (index.html · 테스트) */
 const AUC = () => STAR.A();

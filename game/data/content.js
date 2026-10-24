@@ -42,10 +42,10 @@ def('monsterSizes', [
   {id:'MSZ_L', name:'대형', n:3},
   {id:'MSZ_H', name:'거대', n:4},
 ]);
-/* 행동 꼬리표 · 약점/저항 종류 · 소재 부위 (형식만, 목록은 외주). {id, name, desc} */
+/* 행동 꼬리표 · 약점/저항 종류 · 소재 부위 (형식만, 목록은 나중에 Claude가). {id, name, desc} */
 def('monsterTags', []);   /* MTAG_… */
 def('matParts', []);      /* MP_…  가죽 · 뼈 · 송곳니 · 핵 같은 것. 소재 아이템 = matCat(monsterCats) × matPart */
-/* ---------- 전투 공통 (2026-10-24 — 몬스터 · 스킬 · 장소가 함께 쓴다. 목록은 외주) ----------
+/* ---------- 전투 공통 (2026-10-24 — 몬스터 · 스킬 · 장소가 함께 쓴다. 목록은 나중에 Claude가) ----------
    attackKinds  : 공격 갈래 {id:'AK_…', name}. 회피 · 방어 판정의 재료 (근접은 회피 기술, 원거리는 감지, 마법은 마력 방어 같은 식 — 규칙은 전투 개편 때)
    statusEffects: 상태 이상 · 강화 {id:'SE_…', name, kind:'debuff'|'buff', turns(기본 지속 턴), stack(겹치는지), desc, text(걸릴 때 문장 {t})}
    terrains     : 싸우는 곳의 지형 {id:'TRN_…', name, desc, mods:{ranged, melee, hide, move}(배율)} — gateInteriors.terrain · placeTypes.terrain · places.terrain 이 가리킨다 */

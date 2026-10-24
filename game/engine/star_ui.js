@@ -65,7 +65,16 @@ const STAR_UI = (() => {
 
   /* ---------- 상점 ---------- */
   const CATS = [['ALL', '전체'], ['W', '무기', ['ITC_WEAPON']], ['A', '방어구', ['ITC_ARMOR']], ['X', '악세사리', ['ITC_ACCESSORY']], ['C', '소모품 · 도구', ['ITC_CONSUME', 'ITC_GEAR']], ['S', '마정석 · 소재', ['ITC_STONE', 'ITC_MAT']], ['B', '책', ['ITC_BOOK']]];
+  /* 축복 (starBlessings 가 있을 때만 '축복' 갈래가 보인다) */
+  function blessHTML() {
+    const L = STAR.blessList(), act = STAR.blessActive(), now = nowAbs();
+    return `<div class="su-bless">${L.map(b => { const on = act.find(x => x.id === b.id), cd = (G.blessCd?.[b.id] || 0) > now;
+      return `<div class="su-ach ${on ? 'on' : ''}"><div class="su-ach-t"><b>${esc(b.name)}</b><span class="su-ach-c">${b.days ?? 1}일${b.cd ? ` · 재사용 ${b.cd}일` : ''}</span></div><span class="muted">${esc(b.desc || '')}</span>
+        ${on ? `<span class="good" style="font-size:11px">걸려 있음 · ${durTxt(on.until - now).replace(/ \d+분$/, '')} 남음</span>` : ''}
+        <span class="su-ach-r">${coinTxt(b.coin || 0)}<button class="btn sm pri" data-subless="${b.id}" ${cd || (G.coin || 0) < (b.coin || 0) ? 'disabled' : ''}>${cd ? '기다리는 중' : '축복 걸기'}</button></span></div>`; }).join('')}</div>`;
+  }
   function shop() {
+    if (UI.suCat === 'BL' && STAR.blessList().length) return head('상점', '성좌의 축복 — 코인으로 헌터에게 잠시 힘을 보탠다') + `<div class="su-chips">${CATS.map(c => `<button class="chip" data-sucat="${c[0]}">${c[1]}</button>`).join('')}<button class="chip a" data-sucat="BL">축복</button></div>${blessHTML()}`;
     const L = STAR.shopList(), cat = CATS.find(c => c[0] === UI.suCat) || CATS[0], list = cat[2] ? L.filter(e => cat[2].includes(DB.items[e.item].cat)) : L;
     const sel = L.find(e => e.id === UI.suSel) || list[0], it = sel && DB.items[sel.item], qty = Math.max(1, Math.min(UI.suQty || 1, sel?.left ?? 99));
     const card = e => { const i = DB.items[e.item], g = GEAR.gradeOf(i);
@@ -79,7 +88,7 @@ const STAR_UI = (() => {
         <button class="btn sm" data-item="${it.id}">자세히 보기</button>
         <div class="dim su-note">${G.starKnown ? '헌터는 선물이 성좌에게서 왔다는 걸 안다.' : '헌터는 아직 성좌를 모른다 — 선물은 헌터가 운이나 노력으로 얻은 것처럼 들어간다.'} 입을지 · 쓸지는 헌터가 정한다.</div></div>` : '<div class="pb dim">고른 상품이 없다.</div>';
     return head('상점', '성좌가 코인으로 사서 헌터에게 선물한다 · 진열은 매일 바뀐다 (헌터 등급에 맞는 물건이 많이 나온다)') + `<div class="su-split">
-      <div><div class="su-chips">${CATS.map(c => `<button class="chip ${c[0] === cat[0] ? 'a' : ''}" data-sucat="${c[0]}">${c[1]} <span class="dim">${c[2] ? L.filter(e => c[2].includes(DB.items[e.item].cat)).length : L.length}</span></button>`).join('')}</div>
+      <div><div class="su-chips">${CATS.map(c => `<button class="chip ${c[0] === cat[0] ? 'a' : ''}" data-sucat="${c[0]}">${c[1]} <span class="dim">${c[2] ? L.filter(e => c[2].includes(DB.items[e.item].cat)).length : L.length}</span></button>`).join('')}${STAR.blessList().length ? '<button class="chip" data-sucat="BL">축복</button>' : ''}</div>
         <div class="su-grid">${list.map(card).join('') || '<div class="dim">이 갈래는 오늘 진열이 없다.</div>'}</div>
         <div class="dim" style="font-size:11px">다음 진열까지 ${durTxt(1440 - nowAbs() % 1440).replace(/ \d+분$/, '')}</div></div>
       <aside class="panel su-side">${side}</aside></div>`;
@@ -105,11 +114,12 @@ const STAR_UI = (() => {
 
   /* ---------- 클릭 ---------- */
   document.addEventListener('click', e => {
-    const t = e.target.closest('[data-sushop],[data-sucat],[data-subuy],[data-speek],[data-suach]'); if (!t) return; const d = t.dataset;
+    const t = e.target.closest('[data-sushop],[data-sucat],[data-subuy],[data-speek],[data-suach],[data-subless]'); if (!t) return; const d = t.dataset;
     if (d.sushop) { UI.suSel = d.sushop; UI.suQty = 1; render(); return; }
     if (d.sucat) { UI.suCat = d.sucat; UI.suSel = null; render(); return; }
     if (d.subuy) { if (STAR.shopBuy(d.subuy, UI.suQty || 1)) UI.suQty = 1; render(); return; }
     if (d.speek) { const n = +d.speek; if (STARACC.peek(n)) toast(n === 2 ? '헌터의 그릇이 또렷이 보인다.' : '헌터의 그릇이 어렴풋이 보인다.'); else toast('코인이 부족하다.'); render(); return; }
+    if (d.subless) { if (STAR.bless(d.subless)) toast('축복을 걸었다.'); render(); return; }
     if (d.suach) { UI.suAchCat = d.suach; render(); return; }
   });
   document.addEventListener('input', e => { if (!e.target.dataset?.suqty) return; UI.suQty = Math.max(1, parseInt(e.target.value, 10) || 1); });

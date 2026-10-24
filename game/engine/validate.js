@@ -74,7 +74,7 @@ const RULES = [
   ['gates', (g, DB) => [...(!DB.ranks[g.rank] ? [`rank ${g.rank} 없음`] : []), ...(g.mon && !DB.monsters[g.mon] ? [`mon ${g.mon} 없음`] : []), ...(!DB.regions[g.region] ? [`region ${g.region} 없음`] : [])]],
   ['hunters', (h, DB) => [...(!DB.ranks[h.rank] ? [`rank ${h.rank} 없음`] : []), ...(h.level < 1 ? ['level < 1'] : []), ...Object.entries(h.abl || {}).filter(([k, v]) => !DB.abilities[k] || v < 1 || v > 20).map(([k, v]) => `abl ${k}=${v}`)]],
   ['balance', (b) => (b.proto !== true ? ['proto:true 표시 없음 ([prototype_default])'] : [])],
-  /* 외주 데이터용 규칙 */
+  /* 콘텐츠 데이터용 규칙 */
   ['events', (e, DB) => { const o = [], ON = ['npcInjured', 'npcRaidWin', 'npcRankUp', 'npcDied', 'npcAwaken', 'career:promo', 'career:fired', 'career:hired', 'career:grad', 'career:boom', 'career:slump'];
     if (!['alert', 'msg'].includes(e.ch)) o.push('ch 는 alert · msg'); if (e.ch === 'msg' && (!e.to || !(e.lines || []).length)) o.push('msg 는 to · lines 필요'); if (e.ch === 'alert' && (!e.from || !e.body)) o.push('alert 는 from · body 필요');
     if (e.on && !ON.includes(e.on)) o.push('on 값이 잘못됨: ' + e.on); if (e.on === 'npcDied' && e.ch !== 'alert') o.push('npcDied 는 alert 로');
@@ -107,9 +107,12 @@ const RULES = [
     ...(it.traits || []).filter(t => !DB.itemTraits?.[t]).map(t => '개성 ' + t + ' 없음'), ...(it.sources || []).filter(t => !DB.itemSources?.[t]).map(t => '구하는 곳 ' + t + ' 없음'),
     ...(it.classBook && !DB.classes?.[it.classBook] ? ['classBook ' + it.classBook + ' 없음'] : [])]],
   ['itemTraits', (t, DB) => [...(!['stat', 'check', 'resist', 'situ'].includes(t.kind) ? ['kind 는 stat · check · resist · situ'] : []), ...(t.kind === 'stat' && !DB.baseStats[t.stat] ? ['stat 필요'] : [])]],
-  ['constellations', (c, DB) => [...(c.trait && !DB.starTraits?.[c.trait] ? ['성향 ' + c.trait + ' 없음'] : []), ...(c.cls && !DB.classes?.[c.cls]?.unique ? ['cls 는 고유 클래스(unique)여야 함'] : [])]],
+  ['constellations', (c, DB) => [...(!c.name ? ['name 필요'] : []), ...(c.trait && !DB.starTraits?.[c.trait] ? ['성향 ' + c.trait + ' 없음'] : []), ...(c.cls && !DB.classes?.[c.cls]?.unique ? ['cls 는 고유 클래스(unique)여야 함'] : [])]],
   ['classes', (c, DB) => (c.unique && c.star && !DB.constellations?.[c.star] ? ['star ' + c.star + ' 없음'] : [])],
-  ['starMessages', (m) => (!m.on || !m.text ? ['on · text 필요'] : [])],
+  ['starMessages', (m, DB) => [...(!m.on || !m.text ? ['on · text 필요'] : []), ...(m.on && !DB.starMsgEvents?.[m.on] ? ['on ' + m.on + ' 없음 (starMsgEvents)'] : []), ...(m.trait && !DB.starTraits?.[m.trait] ? ['trait 없음'] : []), ...(m.chance != null && !(m.chance > 0 && m.chance <= 1) ? ['chance 는 0~1'] : [])]],
+  ['starPresets', (p, DB) => [...(!p.name || !p.trait || !p.domain ? ['name · trait · domain 필요'] : []), ...(p.trait && !DB.starTraits?.[p.trait] ? ['trait 없음'] : []), ...(p.domain && !DB.starDomains?.[p.domain] ? ['domain 없음'] : []), ...(p.speech && !DB.ccSpeech?.[p.speech] ? ['speech 없음'] : []), ...(p.cls && !DB.classes?.[p.cls] ? ['cls 없음'] : []), ...(p.skills || []).filter(k => !DB.skills?.[k]).map(k => 'skills ' + k + ' 없음'), ...(p.unlock && !DB.achievements?.[p.unlock] ? ['unlock 업적 없음'] : [])]],
+  ['starBlessings', (b, DB) => [...(!b.name || !(b.coin >= 0) ? ['name · coin 필요'] : []), ...Object.keys(b.fx?.check || {}).filter(k => !DB.abilities?.[k] && !DB.baseStats?.[k]).map(k => 'fx.check ' + k + ' 없음'), ...Object.keys(b.fx?.cstat || {}).filter(k => !['atk', 'mag', 'def', 'res', 'hp', 'acc', 'eva', 'crit', 'spd'].includes(k)).map(k => 'fx.cstat ' + k + ' 모름')]],
+  ['statAllocWhy', (x) => [...(!['cls', 'role', 'adven', 'calm', 'focus', 'even', 'lag'].includes(x.why) ? ['why ' + x.why + ' 모름'] : []), ...(!/\{stats\}/.test(x.text || '') ? ['text 에 {stats} 필요'] : [])]],
   ['achievements', (a) => [...(!['raids', 'cleared', 'rank', 'level', 'money', 'days', 'gifts', 'rels', 'skills', 'gearGrade', 'close', 'known', 'followed', 'refused', 'nakedClear'].includes(a.measure) ? ['measure ' + a.measure + ' 모름'] : []), ...(!(a.n > 0) ? ['n 필요'] : []), ...(!a.name || !a.cat ? ['name · cat 필요'] : []), ...(a.unlock && !['pickClass', 'pickStats', 'pickPotential', 'peekPotential'].includes(a.unlock) ? ['unlock 모름'] : [])]],
   ['giftCovers', (c, DB) => [...(!['luck', 'effort'].includes(c.how) ? ['how 는 luck · effort'] : []), ...(!['gate', 'town', 'any'].includes(c.where) ? ['where 는 gate · town · any'] : []), ...(!/\{item\}/.test(c.text || '') ? ['text 에 {item} 필요'] : []), ...(c.cats || []).filter(x => !DB.itemCats[x]).map(x => `cats ${x} 없음`)]],
   ['placeTypes', (t, DB) => [...(t.group && !['life', 'hunter', 'shop', 'public', 'move', 'nature', 'etc'].includes(t.group) ? ['group 값: ' + t.group] : []), ...(t.where && !['all', 'city', 'metro', 'rare'].includes(t.where) ? ['where 값: ' + t.where] : []),

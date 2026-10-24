@@ -41,6 +41,15 @@ const STARACC = (() => {
         (x.past = x.past || []).unshift({ created: G.created, name: h.name, cls: h.cls, rank: best || h.rank, level: h.level, days: G.day - (G.startDay ?? G.day) + 1, kind: G.dead.kind || 'death', cause: G.dead.cause || '', cleared: G.stats?.cleared || 0, end: Date.now() }); } });
   }
   const unlocked = k => !!cur()?.unlocks?.[k];
+  /* 어느 성좌 칸이든 그 업적을 이뤘나 (정해진 성좌의 unlock 조건 — 계정 전체 기준) */
+  const achAny = id => load().slots.some(s => s?.ach?.[id]);
+  /* 정해진 성좌로 새 헌터를 시작할 때: 고유 클래스 · 고유 스킬을 준다 (starPresets.cls · skills) */
+  function applyPreset() {
+    const s = cur(), p = s?.preset && DB.starPresets?.[s.preset]; if (!p || !G?.player) return false;
+    if (p.cls && typeof STAR !== 'undefined') STAR.grantClass(G.player, p.cls, 'preset');
+    (p.skills || []).filter(id => DB.skills[id] && !(G.player.skills || []).some(([x]) => x === id)).forEach(id => (G.player.skills = G.player.skills || []).push([id, 1]));
+    return true;
+  }
 
   /* 업적: 이루면 코인 (성좌마다 한 번). progress(a) = [지금 값, 목표, 이뤘나] — 업적 화면 막대에도 쓴다 */
   function progress(a) {
@@ -104,6 +113,7 @@ const STARACC = (() => {
     if (!G || !G.star || G.starKnown || G.dead) return false; if (Math.random() >= (B().revealPerDay || 0)) return false;
     G.starKnown = true; const s = cur();
     if (typeof STORY !== 'undefined') STORY.add('event', `어느 밤, 잠들기 직전 머릿속에 낯선 기척이 스친다. 누군가 아주 먼 곳에서 지켜보고 있다 — ${s ? `「${s.name}」. 그 이름이 저절로 떠오른다.` : '그런 확신이 든다.'}`, 1);
+    if (typeof STAR !== 'undefined') STAR.say('known', {});
     return true;
   }
 
@@ -133,16 +143,16 @@ const STARACC = (() => {
       <div class="cc-foot"><button class="btn" data-sback="title">◂ 뒤로</button><span></span></div></div>`;
   }
   function presetHTML() {
-    const L = vals('starPresets'), sel = L.find(p => p.id === UI.spSel) || L[0];
+    const L = vals('starPresets'), lock = p => !!p.unlock && !achAny(p.unlock), sel = L.find(p => p.id === UI.spSel) || L[0];
     const info = sel ? `<div class="sp-info"><div class="sp-img"><img src="assets/stars/${esc(sel.img || sel.id)}.webp" alt="" onerror="this.remove()"><span class="sp-img-sig" style="color:${colOf(sel)}">${esc(markOf(sel))}</span></div>
         <div class="sp-text"><h2 style="color:${colOf(sel)}">${esc(sel.name)}</h2><div class="sub">${esc(DB.starTraits[sel.trait]?.name || '')} 성좌 · ${esc(DB.starDomains[sel.domain]?.name || '')}의 영역 · ${esc(DB.ccSpeech?.[sel.speech]?.name || '')}</div>
         <p class="sp-intro">${esc(sel.intro || '')}</p>
         <dl class="kv"><dt>고유 클래스</dt><dd>${esc(DB.classes[sel.cls]?.name || '없음')}</dd><dt>고유 스킬</dt><dd>${(sel.skills || []).map(id => esc(DB.skills[id]?.name || id)).join(' · ') || '없음'}</dd><dt>코인</dt><dd>◈ 0</dd></dl></div></div>`
       : `<div class="sp-empty muted">아직 정해진 성좌가 없어. 곧 채워질 거야.</div>`;
     return `<div class="cc"><div class="cc-top"><span class="t">정해진 성좌</span><span class="sub">성좌 칸 ${UI.starSlot + 1}</span></div>
-      <div class="cc-body sp-body"><nav class="steps sp-list" aria-label="정해진 성좌">${L.map(p => `<button data-spsel="${p.id}" ${sel && sel.id === p.id ? 'aria-current="step"' : ''}><span class="n" style="color:${colOf(p)}">${esc(markOf(p))}</span><span class="sn">${esc(p.name)}</span></button>`).join('') || '<div class="muted" style="padding:14px">비어 있음</div>'}</nav>
+      <div class="cc-body sp-body"><nav class="steps sp-list" aria-label="정해진 성좌">${L.map(p => `<button data-spsel="${p.id}" ${sel && sel.id === p.id ? 'aria-current="step"' : ''}><span class="n" style="color:${colOf(p)}">${esc(markOf(p))}</span><span class="sn">${esc(p.name)}${lock(p) ? ' 🔒' : ''}</span></button>`).join('') || '<div class="muted" style="padding:14px">비어 있음</div>'}</nav>
       <div class="cc-main">${info}</div></div>
-      <div class="cc-foot"><button class="btn" data-sback="pick">◂ 뒤로</button><button class="btn pri" data-spgo="1" ${sel ? '' : 'disabled'}>이 성좌로 깨어나기</button></div>${confirmHTML(sel ? sel.name : '')}</div>`;
+      <div class="cc-foot"><button class="btn" data-sback="pick">◂ 뒤로</button><button class="btn pri" data-spgo="1" ${sel && !lock(sel) ? '' : 'disabled'}>${sel && lock(sel) ? `업적 「${esc(DB.achievements?.[sel.unlock]?.name || sel.unlock)}」을(를) 이루면 열린다` : '이 성좌로 깨어나기'}</button></div>${confirmHTML(sel ? sel.name : '')}</div>`;
   }
   /* 나만의 성좌: '기본 정보' 커마와 같은 왼쪽 항목 · 오른쪽 선택지 */
   const ITEMS = [['name', '이름'], ['trait', '성향'], ['domain', '영역 · 상징'], ['color', '색'], ['sigil', '문양'], ['speech', '말투']];
@@ -230,5 +240,5 @@ const STARACC = (() => {
     const it = document.querySelector(`[data-smitem="${UI.smSel}"] .tx`); if (it) it.innerHTML = valTxt(UI.smSel, UI.sm);
   });
 
-  return { revealRoll, load, at, cur, curSlot, saveKey, create, remove, attach, sync, unlocked, checkAch, peek, progress, slotsHTML, makeHTML, introHTML, pickHTML, presetHTML, cardOf, genName, begin, colOf, markOf };
+  return { revealRoll, applyPreset, achAny, load, at, cur, curSlot, saveKey, create, remove, attach, sync, unlocked, checkAch, peek, progress, slotsHTML, makeHTML, introHTML, pickHTML, presetHTML, cardOf, genName, begin, colOf, markOf };
 })();

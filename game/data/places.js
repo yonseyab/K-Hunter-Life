@@ -4,8 +4,8 @@
                 집은 플레이어가 사는 지역의 집, 길드 사무실은 길드 지역, 게이트 현장은 게이트 지역.
    행동의 place 필드 (actions.js): 장소 종류 ID, 또는 'target'(대상 인물이 있는 지역의 PT_CAFE) · 'gate'(대상 게이트 현장) · 'guild'(대상/내 길드 사무실)
    free       : 이 행동 중인 NPC는 만나자고 하면 시간을 낼 수 있다 (아니면 '바쁨')
-   2026-10-24 (사용자: 장소는 외주, 시 · 군 · 구 단위까지, 이름 있는 개별 장소까지, 디폴트값만)
-   placeTypes 추가 필드 (외주분): group 묶음(life 생활 · hunter 헌터 · shop 가게 · public 공공 · move 교통 · nature 자연 · etc 기타),
+   2026-10-24 (사용자: 장소는 나중에 한꺼번에, 시 · 군 · 구 단위까지, 이름 있는 개별 장소까지, 디폴트값만)
+   placeTypes 추가 필드 (콘텐츠분): group 묶음(life 생활 · hunter 헌터 · shop 가게 · public 공공 · move 교통 · nature 자연 · etc 기타),
                 desc 한 줄, where 있는 곳(all 어느 시 · 군 · 구에나 · city 시 · 구에만 · metro 광역시 · 큰 도시에만 · rare 몇 곳만),
                 sources 아이템을 구할 수 있으면 itemSources ID
    placeTags  : 장소 꼬리표 {id:'PTAG_…', name, desc} — 분위기 · 가격대 · 위험 · 혼잡 같은 사건 조건 재료
@@ -41,7 +41,7 @@ def('placeTypes', [
   {id:'PT_GATE',     name:'게이트 현장', icon:'◎'},
 ]);
 
-/* 장소 꼬리표 · 이름 있는 장소 (외주로 채운다) */
+/* 장소 꼬리표 · 이름 있는 장소 (나중에 Claude가 채운다) */
 def('placeTags', []);
 def('places', []);
 

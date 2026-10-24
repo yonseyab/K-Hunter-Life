@@ -4,7 +4,7 @@
    성좌에게 이 세계는 '부캐 키우기'에 가깝다 (성좌마다 이유는 다르다).
    성좌 = 게임 계정 = 세이브 칸 (기본 3칸, engine/account.js STARACC). 업적 · 코인 · 해금이 성좌에 쌓이고, 성좌 하나는 헌터 한 명만 키운다.
    한 번 만든 성좌는 고칠 수 없다. 코인 = 성좌 포인트 — 상점 · 성좌 경매장에서 사서 헌터에게 선물한다(STAR.gift). 쓸지 · 입을지는 헌터가 정한다.
-   base:true = 화면이 돌아가게 Claude가 넣은 기본값 (나중에 외주로 바꾸거나 늘린다)
+   base:true = 화면이 돌아가게 Claude가 넣은 기본값 (나중에 Claude가 바꾸거나 늘린다)
    ========================================================= */
 
 /* 성좌 성향 (만들 때 고른다). 나중에 메시지 말투 · 축복 성격의 재료 */
@@ -25,6 +25,8 @@ def('starTraits', [
 /* 정해진 성좌 (사용자가 만든다 — 지금은 비어 있음). '정해진 성좌로 깨어나기'에서 고른다. 시작 코인은 늘 0
    {id:'SPR_…', name, sigil(글자), color('#hex'), trait(starTraits), domain(starDomains), speech(ccSpeech),
     intro(배경 이야기 — 살짝 길게, 모티브를 짐작할 수 있게), cls(고유 클래스 ID), skills([고유 스킬 ID]), img(assets/stars/<img>.webp), unlock(업적 ID — 없으면 처음부터)}
+   필수: id · name · trait · domain. 나머지는 없어도 된다. 엔진 연결: 고르기 화면(account.js presetHTML, unlock 은 성좌 칸 아무 데서나 이룬 업적),
+   새 헌터 시작 때 cls · skills 를 준다(STARACC.applyPreset), 성좌 › 내 정보 '고유 클래스 · 고유 스킬'에 보인다.
    정해진 성좌는 자기 성향(trait)에 맞는 지시 · 메시지만 할 수 있다 (STAR.say 가 성향이 같은 것만 고른다). 나만의 성좌는 제한 없음 */
 def('starPresets', []);
 
@@ -69,12 +71,34 @@ def('starNameParts', [
 
 /* NPC 성좌. {id, name, trait(starTraits), why(이 세계를 키우는 이유), cls(묶인 고유 클래스 ID, 없으면 null), hunters(키우는 헌터 수 [최소, 최대])}
    다른 헌터 일부를 후원하고, 성좌 경매장에서 출품 · 입찰로 경쟁한다 */
+/* 형식: {id:'CST_…', name, trait(starTraits), domain?(starDomains), color?('#hex'), sigil?, speech?(ccSpeech), why?, desc?, lore?, cls?(고유 클래스 ID — classes.unique), hunters?[최소, 최대],
+          coin?(씀씀이 1~5 — 경매 입찰), likes?/hates?[mindTags], rivals?[constellations], lines?{} }
+   엔진 연결: NPC 헌터에게 붙는 성좌(STAR.ofHunter) · 경매 출품자/입찰자 이름(sellerName) · 고유 클래스 묶음(classes.star). 비어 있으면 '익명의 성좌'로 돈다 */
 def('constellations', []);
 
 /* 성좌 메시지 · 축복 (자리만 — 나중에 사용자가 넣는다)
    starMessages: {id, on:'gift'|'raidWin'|'raidLose'|'injured'|'rankUp'|'classGrant'|..., trait?(starTraits), text} — 이야기 창에 "[성좌] …" 한 줄 ({item} {cls} 치환)
    starBlessings: {id, name, coin, desc, fx} — 코인으로 거는 축복 · 스킬 (효과 연결은 나중) */
+/* 메시지가 걸리는 때 (STAR.say 를 부르는 곳). vars = text 에서 쓸 수 있는 {치환} — {name}(헌터 이름)은 늘 쓸 수 있다 */
+def('starMsgEvents', [
+  {id:'gift',       name:'선물을 보냈을 때',        vars:['item']},
+  {id:'bless',      name:'축복을 걸었을 때',        vars:['bless']},
+  {id:'classGrant', name:'클래스가 바뀌었을 때',    vars:['cls']},
+  {id:'levelUp',    name:'헌터 레벨이 올랐을 때',   vars:['level']},
+  {id:'rankUp',     name:'헌터 등급이 올랐을 때',   vars:['rank']},
+  {id:'raidWin',    name:'게이트 공략 성공',        vars:['gate']},
+  {id:'raidLose',   name:'게이트 공략 실패 · 후퇴', vars:['gate']},
+  {id:'injured',    name:'헌터가 크게 다쳤을 때',   vars:['part']},
+  {id:'known',      name:'헌터가 성좌를 알아챘을 때', vars:[]},
+  {id:'death',      name:'헌터가 쓰러졌을 때',      vars:['cause']},
+  {id:'retire',     name:'헌터가 은퇴할 때',        vars:[]},
+]);
+/* 성좌 메시지 형식: {id:'SMS_…', on(starMsgEvents), text, trait?(starTraits — 그 성향 성좌만), known?(true = 헌터가 성좌를 알 때만), lv?(헌터 레벨 이상),
+   chance?(0~1, 기본 1), once?(true = 한 게임에 한 번)}. 걸리는 때마다 맞는 줄 중 하나가 이야기 창에 "[성좌 이름] …" */
 def('starMessages', []);
+/* 축복 형식 (STAR.bless — 성좌 › 상점 '축복' 갈래에 보인다): {id:'SBL_…', name, coin, desc, days?(지속 일, 기본 1), cd?(다시 걸 때까지 일),
+   trait?(그 성향 성좌만), cls?(그 클래스 헌터만), fx:{check?{ABL_/STAT_ ID: 판정 보정 ±}, cstat?{atk · mag · def · res · hp: 배율, acc · eva · crit: 더하기}},
+   lines?{give(걸 때 — 헌터가 알 때), unknown(걸 때 — 헌터가 모를 때), end(끝날 때)} } */
 def('starBlessings', []);
 
 /* 성좌를 모를 때의 선물 안배 (2026-10-24 사용자 결정). 헌터가 성좌를 모르면 선물은 헌터가 운이나 노력으로 얻은 것처럼 들어온다.
@@ -158,7 +182,7 @@ def('balance', [
 
 /* 성좌의 조언 (2026-10-24, engine/star_advice.js) — 헌터가 성좌를 알게 된 뒤, 고민되는 순간 성좌에게 묻는다. 따를지는 헌터가 정한다.
    starTrustStages: {id, min(신뢰 −100~100, 이 값 이상), text(성좌 '내 정보'에 보일 문장), story(단계가 바뀔 때 이야기 창 한 줄, {name})}  — 숫자는 화면에 안 보인다
-   starAdviceLines: {id, on:'ask'|'follow'|'refuse'|'agree'|'silent', text} — {name} 헌터 이름 · {star} 성좌 이름 · {pick} 성좌가 고른 것 · {own} 헌터가 고른 것. 외주로 늘린다 */
+   starAdviceLines: {id, on:'ask'|'follow'|'refuse'|'agree'|'silent', text} — {name} 헌터 이름 · {star} 성좌 이름 · {pick} 성좌가 고른 것 · {own} 헌터가 고른 것. 나중에 Claude가 늘린다 */
 def('starTrustStages', [
   {id:'TS_DOUBT', min:-100, text:'그 목소리를 믿지 않는다.', story:'{name}은(는) 이제 그 목소리를 믿지 않는다.'},
   {id:'TS_WARY',  min:-30,  text:'그 목소리가 조금 미덥지 않다.', story:'{name}은(는) 그 목소리가 조금 미덥지 않다.'},

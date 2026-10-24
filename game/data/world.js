@@ -108,7 +108,7 @@ def('balance', [
    colors:[['#2f4a7a','#4a6fb0'],['#5a2a5e','#8a4a90'],['#2e5a3a','#4a8a5c'],['#6a4a1a','#a3772d'],['#5e2a2a','#954444'],['#2a4f5a','#3f7a89']]},
 ]);
 
-/* 흘러가는 뉴스 · 소문 재료 (외주로 늘리는 데이터)
+/* 흘러가는 뉴스 · 소문 재료 (나중에 Claude가 늘리는 데이터)
    newsPool     : 하루에 BAL_WORLD.flavorNews 확률로 하나씩 뉴스에 올라오는 세상 이야기. w 가중치 · months [월] 이면 그 달에만
    rumorPool    : NPC에 대한 근거 없는 소문 문장 ({a} = 소문 대상 이름). BAL_NPCREL.falseRumor 확률로 하루 하나 */
 

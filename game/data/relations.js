@@ -39,7 +39,7 @@ def('lookScores', [
 ]);
 /* 외형 선택 → 외모 점수 (2026-10-24 사용자: 커마 외형 선택이 점수를 조금씩 올리고 내린다. 커마 화면에는 표시하지 않음)
    lookScoreFx: {id, look(ccLook), opt(lookOpts), aps:{lookScores: ±}} — 헌터를 만들 때(buildHunter) 무작위 점수에 더하고 1~20 으로 자른다.
-   지금은 Claude 기본값 (외모 · 몸매 수준 · 피부 · 근육 선명도 · 체지방). 외주로 늘린다 */
+   지금은 Claude 기본값 (외모 · 몸매 수준 · 피부 · 근육 선명도 · 체지방). 나중에 Claude가 늘린다 */
 def('lookScoreFx', [
   {id:'LSF_LV1', look:'LK_LOOKS', opt:'LV_1', aps:{APS_FACE:-4}},
   {id:'LSF_LV2', look:'LK_LOOKS', opt:'LV_2', aps:{APS_FACE:-2}},

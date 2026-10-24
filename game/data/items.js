@@ -82,7 +82,7 @@ def('itemGrades', [
   {id:'IG_6', name:'신화', n:6, bonus:16, traits:[2,3], mag:[3,3], dur:null, wear:0, repair:0,   color:'#e05a5a', hidden:true, sources:['SRC_DROP'], look:'설명하기 어려움', social:'국가 행사급'},
 ]);
 
-/* 개성 (틀만, 목록은 외주). {id, name, kind, v, stat?, on?, desc}
+/* 개성 (틀만, 목록은 나중에 Claude가). {id, name, kind, v, stat?, on?, desc}
    kind: stat(그 기본 스탯 묶음 판정 ±, stat 필요) · check(무기 판정 ±) · resist(저항, on = 부상 종류 등 — 효과 연결은 나중) · situ(상황 보정, on — 나중)
    좋은 개성엔 단점을 같이 붙인다 */
 def('itemTraits', []);
