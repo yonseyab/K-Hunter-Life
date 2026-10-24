@@ -9,5 +9,6 @@ var HL_EXT = [
   'codex_class_skills.js',
   'codex_common_skills.js',
   'codex_classes.js',
+  'codex_weapons.js',
 ];
 HL_EXT.forEach(function (f) { document.write('<script src="data/ext/' + f + '"><\/script>'); });
