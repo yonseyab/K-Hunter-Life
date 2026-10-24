@@ -193,7 +193,7 @@ const LIFEUI = (() => {
   function panelOpen(group) { return `<div id="home-panel-${group}" class="home-category-panel" role="tabpanel" aria-labelledby="home-tab-${group}-${selectedTab(group)}">`; }
   function emptyCategory(group) { return categoryTabsHTML(group) + panelOpen(group) + '</div>'; }
   V.homeHunter = () => categoryTabsHTML('hunter') + panelOpen('hunter') + (selectedTab('hunter') === 'profile' && typeof HUNTER_INFO !== 'undefined' ? HUNTER_INFO.html() : selectedTab('hunter') === 'status' ? HUNTER_STATUS.html() : selectedTab('hunter') === 'relations' && typeof HUNTER_REL !== 'undefined' ? HUNTER_REL.html() : '') + '</div>';
-  V.homeDb = () => emptyCategory('db');
+  V.homeDb = () => categoryTabsHTML('db') + panelOpen('db') + (typeof DB_UI !== 'undefined' ? DB_UI.html() : '') + '</div>';
   V.homeTrade = () => categoryTabsHTML('trade') + panelOpen('trade') + (typeof STAR_UI !== 'undefined' ? STAR_UI.html(selectedTab('trade')) : '') + '</div>';
   /* ---------- 인생 화면 ---------- */
   V.life = () => {

@@ -16,6 +16,7 @@
 - 좌측 메뉴(`renderNav`): **이야기**(인생 · 목표 설정 · 일대기) · **내 헌터**(정보 · 상태창 · 관계 · 소지품) · **성좌**(내 정보 · 상점 · 성좌 경매장 · 업적) · **DB**. 하위 탭은 `UI.homeTabs`. 인생 · 상태창 외 새 탭은 아직 빈 패널.
 - 인생 탭: 원본 로그 + 작은 상태창(`statusWindowHTML(h,true,{fold:true})`, EXP 아래 접기 `UI.swOpen`) + 위젯(`G.prefs.play.homeWidgets`, `WIDGETS` 재사용). 상단에 코인(`#topCoin`) · 각성 경과.
 - 내 헌터 › 상태창: `engine/hunter_status.js` (기본 상태 · 클래스/스킬 · 특성. 스탯 분배 없음).
+- DB: `engine/db_ui.js` DB_UI · `db.css`. 탭 정의 `DB_UI.T[탭]` = rows · F(필드: 이름 · 값 · 정렬 값 · 분류 가능) · cols · detail. 분류 칩 설정 `SETTINGS.dbView[탭] = {g 기준, hide [숨긴 칩], s [정렬 키, 방향]}` (localStorage `khl.settings`). 다른 탭으로 건너가기 `DB_UI.open(탭, id)`. 옛 `V.db`(DB_TABS)는 남아 있지만 화면에서 안 씀.
 - `engine/observe.js`: 직접 조작 링크 · 버튼을 지우고 클릭을 막는다. 사건 · 위기는 `engine/life_ui.js` 의 선택 팝업(d20).
 - 옛 `V.*` 화면 중 아직 남은 것(소지품 · 상점 · 경매장 · 게이트 · 길드 · DB · 관계 · 정보 · 재정 · 뉴스 · 전국 현황 · 기록관 · 설정 · 공략 화면)은 검색 · 버튼 · 알림 링크로 열린다. 새 탭 UI를 만들 때 바꾼다.
 
@@ -82,6 +83,7 @@ tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데�
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
 ## 7. 진행 상황
+- [완료] 2026-10-24 (Claude) 콘텐츠 새로 만듦 · DB 화면: ① `tools/content/build.py`(+ `build_gear.py`) — 원고 `tools/content/src/*.txt`(사람이 쓴 이름 · 설명 · 문장)에서 수치를 규칙으로 채워 `game/data/content/k_classes.js`(60) · `k_skills.js`(600) · `k_common.js`(120) · `k_gear.js`(장비 갈래 `gearTypes` 42 `GTY_K…` · 장비 421 `IT_K…`)를 만든다. **직접 고치지 말고 원고를 고친 뒤 다시 만든다.** `k_combat.js`(원소 11 · 상태 이상 30)는 손으로. ② 옛 B 클래스 · 스킬 삭제, `b_hunters` 를 K ID 로 바꿈. 시작 장비 IT_B0021/22 는 그대로 ③ `classSkillSync`(클래스 바뀌면 패시브 · 레벨 스킬 맞춤), NPC 클래스 = 1차(tier 1)만, 양손 무기 전력 · 한 벌 방어 버그 수정(`gear.js`) ④ DB 화면 8탭 (`engine/db_ui.js`)
 - [완료] 2026-10-24 (Claude) `skillCats` 8개 + 기본 공용 스킬에 cat, 커마 클래스 무작위 = 1차 · 희귀도 가중(`awakeClass`), validate 규칙(공용 cat · tier · rarity · pick)
 - [완료] 2026-10-24 (Claude) 외형 → 외모 점수: `data/relations.js` lookScoreFx (기본 18줄) · `index.html` lookFx (buildHunter 에서만) · validate 규칙
 - [완료] 2026-10-24 (Claude) 나머지 표 선택 필드 '최대한 많이': items · traits · guilds · core · system · world · gate_content · actions · stars · content · base/b_hunters · b_content · b_story 머리 주석, validate 참조 · 값 검사 추가

@@ -675,6 +675,7 @@ input[type=range].unset{opacity:.7;accent-color:var(--line2)}
 <link rel="stylesheet" href="hunter_status.css">
 <link rel="stylesheet" href="history.css">
 <link rel="stylesheet" href="star.css">
+<link rel="stylesheet" href="db.css">
 
 <div id="root"></div>
 <div class="toast" id="toast" hidden></div>
@@ -719,6 +720,7 @@ function def(table, rows){
 <script src="data/content/k_classes.js"></script><!-- 클래스 60 (tools/content/build.py) -->
 <script src="data/content/k_skills.js"></script><!-- 클래스 스킬 600 -->
 <script src="data/content/k_common.js"></script><!-- 공용 스킬 120 -->
+<script src="data/content/k_gear.js"></script><!-- 장비 갈래 · 장비 (tools/content/build_gear.py) -->
 <script src="data/ext/_list.js"></script><!-- 외주 · 추가 데이터 -->
 <script src="data/packs/_manifest.js"></script><!-- 대량 콘텐츠 팩 목록 (뒤에서 불러옴, packsLoad) -->
 
@@ -2284,7 +2286,7 @@ function qsRefresh(){const el=$('#qs');if(!el||!UI.qs)return;const r=qsHTML(),tm
 function qsClose(){UI.qs=null;$('#qs')?.remove()}
 function qsGo(go){qsClose();const [k,id]=[go.slice(0,go.indexOf(':')),go.slice(go.indexOf(':')+1)];
   if(k==='hunter'){UI.profileId=id;UI.profTab='개요';UI.screen='profile'}
-  else if(k==='npc'){const n=P(id);UI.screen='db';UI.dbTab='PEOPLE';UI.dbF='ALL';UI.dbQ=n?.name||id;UI.dbSel=id}
+  else if(k==='npc'){const n=P(id);DB_UI.open('people',id,{q:n?.name||''});return}
   else if(k==='guild'){UI.screen='guild';UI.guildTab='길드 목록';UI.guildSel=id}
   else if(k==='gate'){UI.gateSel=id;UI.screen='gates'}
   else if(k==='item'){showItem(id);return}
@@ -3339,3 +3341,4 @@ applySettings(); render(); packsLoad();  /* 대량 콘텐츠 팩을 뒤에서 �
 <script src="engine/star_ui.js"></script>
 <script src="engine/hunter_rel.js"></script>
 <script src="engine/hunter_info.js"></script>
+<script src="engine/db_ui.js"></script>

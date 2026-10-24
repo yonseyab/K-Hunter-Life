@@ -17,7 +17,9 @@
 효과 토큰: atk1.2 heal0.8 shield0.6 hits3 area3 se:SE_BLEED@0.5:2 el:EL_FIRE buff:def=1.2,atk=1.1 cleanse:SE_POISON,SE_BURN
           move:dash stance toggle daily mp stamina acc+1 crit+2 scale:STAT_MIND sense debuff util def
 """
-import re, json, os, glob
+import re, json, os, glob, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import build_gear
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, '..', '..', 'game', 'data', 'content')
@@ -219,6 +221,21 @@ def main():
             for s in b['skills']:
                 ki += 1; s['cat'] = b['cat']
                 commons.append(skill_row(s, f'SK_K{ki:04d}', None, 'common'))
+    # 장비: 클래스의 무기 · 방어구 이름을 장비 갈래(gearTypes)로 맞춘다
+    gtypes, gitems, galias = build_gear.build()
+    for c in classes:
+        gt = []
+        for key in ('weapons', 'armors'):
+            names = []
+            for w in c[key]:
+                t = galias.get(w)
+                if not t: print('  장비 갈래 없음:', c['name'], w); continue
+                if t['name'] not in names: names.append(t['name'])
+                if t['id'] not in gt: gt.append(t['id'])
+            c[key] = names
+        c['gearTypes'] = gt
+        for t in gtypes:
+            if t['id'] in gt: t.setdefault('classes', []).append(c['id'])
     head = lambda what: f"/* game/data/content/{what} — tools/content/build.py 가 원고(tools/content/src)로 만든다. 직접 고치지 말고 원고를 고친 뒤 다시 만든다. */\n"
     with open(os.path.join(OUT, 'k_classes.js'), 'w', encoding='utf-8') as fp:
         fp.write(head('k_classes.js') + "def('classes', [\n" + '\n'.join(row(c) for c in classes) + "\n]);\n")
@@ -226,6 +243,10 @@ def main():
         fp.write(head('k_skills.js') + "def('skills', [\n" + '\n'.join(row(s) for s in skills) + "\n]);\n")
     with open(os.path.join(OUT, 'k_common.js'), 'w', encoding='utf-8') as fp:
         fp.write(head('k_common.js') + "def('skills', [\n" + '\n'.join(row(s) for s in commons) + "\n]);\n")
+    with open(os.path.join(OUT, 'k_gear.js'), 'w', encoding='utf-8') as fp:
+        fp.write(head('k_gear.js') + "def('gearTypes', [\n" + '\n'.join(row({k: v for k, v in t.items()}) for t in gtypes) + "\n]);\n"
+                 + "def('items', [\n" + '\n'.join(row(i) if i['price'] is not None else row(i)[:-2] + ', price:null},' for i in gitems) + "\n]);\n")
+    print(f'장비 갈래 {len(gtypes)} · 장비 {len(gitems)}')
     print(f'클래스 {len(classes)} · 클래스 스킬 {len(skills)} · 공용 스킬 {len(commons)}')
 
 

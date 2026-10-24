@@ -29,7 +29,7 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
         await p.getByRole('tab',{name,exact:true}).click();
         assert.equal(await p.getByRole('tab',{name,exact:true}).getAttribute('aria-selected'),'true');
         assert.equal(await p.locator('#nav button').count(),13);
-        if(name!=='인생'&&name!=='일대기'&&!(screen==='homeHunter'&&['정보','상태창','관계'].includes(name))&&screen!=='homeTrade')assert.equal(await p.getByRole('tabpanel').innerHTML(),'','unimplemented tabs have no content UI');
+        if(name!=='인생'&&name!=='일대기'&&!(screen==='homeHunter'&&['정보','상태창','관계'].includes(name))&&screen!=='homeTrade'&&screen!=='homeDb')assert.equal(await p.getByRole('tabpanel').innerHTML(),'','unimplemented tabs have no content UI');
       }
     }
     await p.click('#nav [data-go="life"]');await p.getByRole('tab',{name:'인생',exact:true}).click();
