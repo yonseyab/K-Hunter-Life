@@ -83,6 +83,7 @@ tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데�
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
 ## 7. 진행 상황
+- [완료] 2026-10-24 (Claude) 내 헌터 › 정보 탭을 FM 정보창 느낌으로 (`engine/hunter_info.js` · `hunter_status.css` hi-*): 등급 색 이름 띠 + 핵심 칸 8개, 세 줄(신상 · 외모 · 각성 전의 삶(접기) | 전투 능력(실제 전투 계산값, 같은 등급 · 같은 역할 평균과 비교 색) · 성격 · 특성 | 착용 · 가방 · 기록)
 - [완료] 2026-10-24 (Claude) 전투 시스템: `engine/combat.js` COMBAT · `data/combat.js`(속성 9 · 상태 13 · 몬스터 역할 7 · 기술 combatMoves 22 · BAL_COMBAT). 0.5초 단위 실시간 통계 시뮬 — 전투원 능력치는 기본 스탯 · 세부 능력 · 레벨 · 역할 · 장비 등급에서, 몬스터는 '같은 급 헌터' × 역할 × 크기 × 잡몹/보스 배율 + 등급 차 압력(gapPow). 역할 기본 기술 + 스킬의 `move`. 공략 = 구역마다 이동 → 교전 1~2 → 숨 고르기, 마지막 보스(격노). 내 공략은 `raidTick` → `COMBAT.stepRaid`(한 구간씩, 위기는 구간 사이), 상세 인물이 낀 NPC 파티는 `COMBAT.npcRaid`(쓰러짐 → 사망 · 부상), 배경 인구끼리는 `SIM.pWin`(등급 차 표 `quick.byGap`, 시뮬에 맞춤). 몬스터 형식 새로(`data/content.js` 머리 주석: mrole · size · stat · moves · pack · minions · weak/resist/immune · boss · enrage), B 몬스터 15종(보스 5). DB 몬스터 · 클래스 · 스킬 · 장비 상세에 '전투에서' 칸(같은 급 헌터 대비 배율 · 기술 설명). 이야기 창의 위기 판정 숫자 꼬리 뺌. 검사 `tests/ui/t_combat.js` (같은 등급 ~95% · 4등급 위 ~10%)
 - [완료] 2026-10-24 (Claude) DB 화면 8탭 (`engine/db_ui.js`) · `classSkillSync`(클래스 바뀌면 패시브 · 레벨 스킬 맞춤) · NPC 클래스 = 1차만 · 양손 무기 전력 · 한 벌 방어 버그 수정. 같은 날 만든 클래스 60 · 스킬 720 · 장비 421 · 원소/상태 이상 표 · 생성기(tools/content)는 사용자 판단으로 전부 삭제 — 지금 데이터는 엔진 검증용 B 데이터뿐
 - [완료] 2026-10-24 (Claude) `skillCats` 8개 + 기본 공용 스킬에 cat, 커마 클래스 무작위 = 1차 · 희귀도 가중(`awakeClass`), validate 규칙(공용 cat · tier · rarity · pick)
