@@ -24,7 +24,7 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
     assert.match(await favorites.innerText(),/즐겨찾기한 인물/);
     assert.equal(await favorites.locator('[data-home-person]').count(),0);
     assert.match(await p.locator('[data-status-traits]').textContent(),/정의감.*튼튼한 몸/);
-    assert.match(await p.locator('[data-status-skills]').textContent(),/조준 사격.*다리 쏘기/);  /* 인생 탭에서는 접혀 있다 */
+    assert.match(await p.locator('[data-status-skills]').textContent(),/조준.*관통 사격/);  /* 인생 탭에서는 접혀 있다 */
     assert.equal(await p.locator('#lifeSide [data-sttab="스킬"],#lifeSide [data-hstatus-scroll="skills"]').count(),0);
     await p.click('[data-life-widget-edit]');
     for(const id of people.slice(0,10)) {

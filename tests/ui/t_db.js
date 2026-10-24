@@ -21,26 +21,26 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
     }
     /* 장비: 검색 · 칩 · 정렬 */
     await p.getByRole('tab',{name:'장비',exact:true}).click();
-    await p.fill('[data-dbx-q]','서리');await p.waitForTimeout(200);
-    assert.match(await p.locator('#dbx-list').innerText(),/서리송곳/);
+    await p.fill('[data-dbx-q]','단검');await p.waitForTimeout(200);
+    assert.match(await p.locator('#dbx-list').innerText(),/협회 지급 단검/);
     await p.fill('[data-dbx-q]','');await p.waitForTimeout(200);
     await p.click('[data-dbx-chip="방어구"]');
-    assert.ok(!/한빛공방 장검/.test(await p.locator('#dbx-list').innerText()));
+    assert.ok(!/협회 지급 단검/.test(await p.locator('#dbx-list').innerText()));
     await p.click('[data-dbx-sort="price"]');
     assert.deepEqual(await p.evaluate(()=>SETTINGS.dbView.equipment.s),['price',1]);
     /* 분류 기준을 갈래로, 칩 하나 숨기기 → 설정에 저장 */
     await p.click('[data-dbx-edit]');
-    await p.selectOption('[data-dbx-group]','type');
-    await p.locator('[data-dbx-show="한손검"]').uncheck();
-    assert.equal(await p.locator('[data-dbx-chip="한손검"]').count(),0);
-    assert.deepEqual(await p.evaluate(()=>[SETTINGS.dbView.equipment.g,SETTINGS.dbView.equipment.hide]),['type',['한손검']]);
+    await p.selectOption('[data-dbx-group]','slot');
+    await p.locator('[data-dbx-show="무기"]').uncheck();
+    assert.equal(await p.locator('[data-dbx-chip="무기"]').count(),0);
+    assert.deepEqual(await p.evaluate(()=>[SETTINGS.dbView.equipment.g,SETTINGS.dbView.equipment.hide]),['slot',['무기']]);
     assert.ok(/dbView/.test(await p.evaluate(()=>localStorage.getItem('khl.settings'))));
     await p.click('[data-dbx-reset]');
     assert.equal(await p.evaluate(()=>SETTINGS.dbView.equipment?.g||'cat'),'cat');
     /* 클래스 → 스킬로 건너가기 */
     await p.getByRole('tab',{name:'클래스',exact:true}).click();
-    await p.click('#dbx-list tr[data-dbx-sel="CLS_K01"]');
-    await p.click('#dbx-det [data-dbx-go="skills|SK_K0001"]');
+    await p.click('#dbx-list tr[data-dbx-sel="CLS_B01"]');
+    await p.click('#dbx-det [data-dbx-go="skills|SK_B0001"]');
     assert.equal(await p.getByRole('tab',{name:'스킬',exact:true}).getAttribute('aria-selected'),'true');
     assert.match(await p.locator('#dbx-det').innerText(),/방패 밀치기/);
     /* 인물: 나 */

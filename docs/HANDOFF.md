@@ -83,7 +83,7 @@ tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데�
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
 ## 7. 진행 상황
-- [완료] 2026-10-24 (Claude) 콘텐츠 새로 만듦 · DB 화면: ① `tools/content/build.py`(+ `build_gear.py`) — 원고 `tools/content/src/*.txt`(사람이 쓴 이름 · 설명 · 문장)에서 수치를 규칙으로 채워 `game/data/content/k_classes.js`(60) · `k_skills.js`(600) · `k_common.js`(120) · `k_gear.js`(장비 갈래 `gearTypes` 42 `GTY_K…` · 장비 421 `IT_K…`)를 만든다. **직접 고치지 말고 원고를 고친 뒤 다시 만든다.** `k_combat.js`(원소 11 · 상태 이상 30)는 손으로. ② 옛 B 클래스 · 스킬 삭제, `b_hunters` 를 K ID 로 바꿈. 시작 장비 IT_B0021/22 는 그대로 ③ `classSkillSync`(클래스 바뀌면 패시브 · 레벨 스킬 맞춤), NPC 클래스 = 1차(tier 1)만, 양손 무기 전력 · 한 벌 방어 버그 수정(`gear.js`) ④ DB 화면 8탭 (`engine/db_ui.js`)
+- [완료] 2026-10-24 (Claude) DB 화면 8탭 (`engine/db_ui.js`) · `classSkillSync`(클래스 바뀌면 패시브 · 레벨 스킬 맞춤) · NPC 클래스 = 1차만 · 양손 무기 전력 · 한 벌 방어 버그 수정. 같은 날 만든 클래스 60 · 스킬 720 · 장비 421 · 원소/상태 이상 표 · 생성기(tools/content)는 사용자 판단으로 전부 삭제 — 지금 데이터는 엔진 검증용 B 데이터뿐
 - [완료] 2026-10-24 (Claude) `skillCats` 8개 + 기본 공용 스킬에 cat, 커마 클래스 무작위 = 1차 · 희귀도 가중(`awakeClass`), validate 규칙(공용 cat · tier · rarity · pick)
 - [완료] 2026-10-24 (Claude) 외형 → 외모 점수: `data/relations.js` lookScoreFx (기본 18줄) · `index.html` lookFx (buildHunter 에서만) · validate 규칙
 - [완료] 2026-10-24 (Claude) 나머지 표 선택 필드 '최대한 많이': items · traits · guilds · core · system · world · gate_content · actions · stars · content · base/b_hunters · b_content · b_story 머리 주석, validate 참조 · 값 검사 추가
