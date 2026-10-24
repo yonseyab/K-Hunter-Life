@@ -10,6 +10,6 @@ console.log('work',await p.evaluate(()=>['NP_B0001','NP_B0002','NP_B0003'].map(i
 console.log('where',await p.evaluate(()=>{const id='NP_B0003',c=SIM.careerOf(P(id));c.work='RG_SEOUL_EUNPYEONG';let d=G.day;while(((d%7)+7)%7>=5)d++;G.day=d;G.time=0;G.lastDay=d-1;dayTick();
   const T=G.ai[id].today.filter(x=>x.act==='ACT_WORK');if(!T.length)return 'no work today: '+G.ai[id].today.map(x=>x.act).join(',');const out=[];for(const t of [T[0].s+5,T[0].s+120,T.at(-1).e-5]){G.time=t;const w=npcWhere(id);out.push(`${hhmm(t)} ${placeName(w)} ${w.busy||''}`)}return out.join(' / ')}));
 console.log('commute cost',await p.evaluate(()=>JSON.stringify(G.ai.NP_B0003.commute||null)));
-await p.evaluate(()=>{UI.screen='db';UI.dbTab='PEOPLE';UI.dbF='NPC';relOf('NP_B0003').to.RD_CLOSE=40;render();dbOpen('NP_B0003')});
-console.log('detail',(await p.locator('#iv .ivp').innerText()).match(/일터[^\n]*\n?[^\n]*/)?.[0]?.replace(/\n/g,' '));
+await p.evaluate(()=>{relOf('NP_B0003').to.RD_CLOSE=40;DB_UI.open('people','NP_B0003')});
+console.log('detail',(await p.locator('#dbx-det').innerText()).match(/일터[^\n]*\n?[^\n]*/)?.[0]?.replace(/\n/g,' '));
 console.log('errs',errs);await b.close()})();

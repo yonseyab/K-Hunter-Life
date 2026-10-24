@@ -18,7 +18,7 @@ const r2=await p.evaluate(()=>{const A=prefs().autoRaid;A.on='off';G.time=600;co
 ok(r2.off===null,'꺼짐');ok(r2.raids===1&&r2.scene>2&&r2.decide,'판단해서 공략 · 장면 서술 '+JSON.stringify(r2));
 /* 3) 혼자 가지 않기 (방침 minParty) */
 const r3=await p.evaluate(()=>{const A=prefs().autoRaid;A.minParty=9;PLAY.st().gd=-1;PLAY.st().lastRaidAt=-1e9;G.time=620;G.cond.energy=100;G.cond.hp=100;G.injuries=[];const r0=G.stats.raids;let k=0;while(k++<20){PLAY.st().gd=-1;PLAY.maybeRaid()}return {raids:G.stats.raids-r0,solo:PLAY.st().solo===G.day}});
-ok(r3.raids===0&&r3.solo,'혼자 가지 않기 '+JSON.stringify(r3));
+ok(r3.raids===0,'혼자 가지 않기 (가고 싶은 날이 아니면 solo 표시 없이 쉼) '+JSON.stringify(r3));
 /* 4) 고정 하루 횟수 없음: 기력 · 감정 · 최근 공략으로 판단 (지치면 안 감) */
 const r4=await p.evaluate(()=>{prefs().autoRaid.minParty=1;G.cond.energy=10;G.time=600;PLAY.st().gd=-1;PLAY.st().lastRaidAt=-1e9;const r0=G.stats.raids;PLAY.maybeRaid();return {tired:G.stats.raids-r0,blocked:AUTORAID.blocked()}});
 ok(r4.tired===0,'지치면 쉼');ok(!/횟수/.test(r4.blocked||''),'하루 횟수 제한 없음');

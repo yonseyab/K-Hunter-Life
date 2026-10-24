@@ -35,7 +35,7 @@ await p.evaluate(()=>{UI.profTab='성장';render()});console.log('growth:',(awai
 // other hunter unscouted & scouted
 await p.evaluate(()=>{UI.profTab='개요';UI.profileId='HN_B0009';render()});await p.screenshot({path:''+OUT+'/s_ab5.png'});
 await p.evaluate(()=>{KNOW.report(H('HN_B0009'));render()});await p.screenshot({path:''+OUT+'/s_ab6.png'});
-await p.evaluate(()=>{UI.screen='db';render()});
+await p.evaluate(()=>{UI.screen='homeDb';render()});
 // demo scenario
 await p.evaluate(()=>{gameFromScenario('SC_BDEMO');UI.screen='profile';UI.profileId=G.player.id;render()});
 await p.screenshot({path:''+OUT+'/s_ab7.png'});

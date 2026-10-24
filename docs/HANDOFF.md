@@ -8,7 +8,7 @@
 - 게임 페이지(아티팩트): https://claude.ai/artifact/1KVipZo2SnDCQkUgtbLpri (옛 Hunter Life 페이지는 건드리지 않음)
 - PC 폴더: `C:\Users\YON\Desktop\K-Hunter-Life` — Claude가 바뀐 파일을 써 넣어 맞춘다 (git 은 쓰지 않음)
 - 옛 버전: [yonseyab/Hunter-Life](https://github.com/yonseyab/Hunter-Life) — 보관본. 옛 저장과 호환하지 않는다.
-- 2026-10-24 정리: 옛 직접 조작 화면 · 옛 외주 문서/데이터 · 끝난 계획 문서 · 한 번 쓴 도구를 지웠다 (GitHub 기록에 남아 있음).
+- 2026-10-24 정리: 옛 직접 조작 화면 · 옛 상점 · 옛 DB 화면 · 외주 문서 · 끝난 계획 문서 · 지난 진행 기록을 지웠다 (GitHub 커밋 기록에 남아 있음).
 
 ## 2. 구조
 
@@ -16,9 +16,9 @@
 - 좌측 메뉴(`renderNav`, 탭 정의 `engine/life_ui.js` HOME_TABS): **이야기**(인생 · 일대기) · **내 헌터**(정보 `hunter_info.js` · 상태창 `hunter_status.js` · 관계 `hunter_rel.js`) · **성좌**(내 정보 · 상점 · 성좌 경매장 · 업적 — `star_ui.js`) · **DB**(`db_ui.js`).
 - 인생 탭: 원본 로그 + 작은 상태창(`statusWindowHTML(h,true,{fold:true})`, EXP 아래 접기 `UI.swOpen`) + 위젯(`G.prefs.play.homeWidgets`, `WIDGETS` 재사용). 상단에 코인(`#topCoin`) · 각성 경과.
 - 내 헌터 › 상태창: `engine/hunter_status.js` (기본 상태 · 장비 · 클래스/스킬 · 특성. 스탯 분배 없음 — 헌터가 스스로 `autoStatAlloc`).
-- DB: `engine/db_ui.js` DB_UI · `db.css`. 탭 정의 `DB_UI.T[탭]` = rows · F(필드: 이름 · 값 · 정렬 값 · 분류 가능) · cols · detail. 분류 칩 설정 `SETTINGS.dbView[탭] = {g 기준, hide [숨긴 칩], s [정렬 키, 방향]}` (localStorage `khl.settings`). 다른 탭으로 건너가기 `DB_UI.open(탭, id)`. 옛 `V.db`(DB_TABS)는 남아 있지만 화면에서 안 씀.
+- DB: `engine/db_ui.js` DB_UI · `db.css`. 탭 정의 `DB_UI.T[탭]` = rows · F(필드: 이름 · 값 · 정렬 값 · 분류 가능) · cols · detail. 분류 칩 설정 `SETTINGS.dbView[탭] = {g 기준, hide [숨긴 칩], s [정렬 키, 방향]}` (localStorage `khl.settings`). 다른 탭으로 건너가기 `DB_UI.open(탭, id)`.
 - `engine/observe.js`: 직접 조작 링크 · 버튼을 지우고 클릭을 막는다. 사건 · 위기는 `engine/life_ui.js` 의 선택 팝업(d20).
-- 옛 `V.*` 화면 중 아직 남은 것(소지품 · 상점 · 경매장 · 게이트 · 길드 · DB · 관계 · 정보 · 재정 · 뉴스 · 전국 현황 · 기록관 · 설정 · 공략 화면)은 검색 · 버튼 · 알림 링크로 열린다. 새 탭 UI를 만들 때 바꾼다.
+- 옛 `V.*` 화면 중 남은 것(소지품 · 게이트 · 길드 · 재정 · 뉴스 · 전국 현황 · 기록관 · 옛 정보창 · 공략 화면)은 검색 · 버튼 · 알림 링크로 열린다 — 새 탭 구조 어디에 둘지는 사용자와 정할 일 (ROADMAP B1). 옛 주소 `shop` · `auction` · `db` 는 `OBSERVE` 가 새 탭(성좌 › 상점 · 경매장, DB)으로 돌린다.
 
 ```
 game/index.html          엔진 · UI 본체
@@ -26,10 +26,13 @@ game/*.css               life · home · hunter_status · history · star
 game/data/*.js           시스템 테이블 (능력치 · 행동 · 관계 · 세계 수치 · 커마 선택지 · 지역 · 지도 · 게이트 장소 · 아이템 · 성좌 · 장소 · 몬스터 형식)
 game/data/system.js      판단 · 감정 · 고비 · 멈춤 · 국가 상태 · BAL_PLAY/MIND/TELLER/SMALL/EMO/SELF/SCALE/AGE
 game/data/base/          Claude 최소 재료 (배치 B): b_hunters.js · b_content.js · b_story.js(이야기 문장 · 위기 · 이벤트 · 데모)
-game/data/ext · packs    추가 데이터 자리 (지금 비어 있음 — `_list.js` · `_manifest.js` 에 파일 이름을 한 줄씩)
+game/data/content/       생성기(tools/content) 결과: 클래스 · 스킬 · 전투 기술 · 장비 (직접 고치지 않음)
+game/data/ext · packs    추가 데이터 — 채우기 도구 묶음(`fill_NN_종류.js`)이 여기에 붙는다 (`_list.js` · `_manifest.js` 에 파일 이름)
+fill/                    채우기 도구 작업 폴더 (orders 주문서 · done 넣은 답 원본)
 game/engine/             content(색인 · 꼬리표 · 빈칸 문장) · combat · db_ui · star_ui · hunter_info · hunter_rel · sim · goals · routine · autoraid · know · validate · status_ui (옛 버전에서) · scale · mind · story · play · life · life_ui · observe · hunter_status · history_ui · life_log · gear · star · monster · account(성좌 계정) · active(활동 중인 사람) · emo_graph
 tools/                   fill/(콘텐츠 채우기 — docs/FILL.md) · validate_data.js · report_content.js(커버리지 · 겹침) · perf_scale.js(속도) · qa_sim.js · content/(클래스 · 스킬 · 장비 생성) · build_regions.py · build_maps.py · build_gate_pool.py
 tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데이터)
+tests/tools/             도구 시험 (t_fill.js)
 ```
 
 ### 시스템 → 구현 위치
@@ -40,11 +43,11 @@ tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데�
 | 3 | 판단 엔진 | `engine/mind.js` MIND | 태그(mindTags) × 재료(성격 · 감정 · 상태 · 자기 인식 · 방침) + 판정 확률 + 관계 · 기억 + 무작위(예측 가능성). 이벤트 · 위기 · 하루 공략 · 게이트 고르기. 이유 문장(mindWhy). 성격 변화(`drift`). NPC 점수(`npcScore`) |
 | 4 | 세 층 원칙 | `engine/validate.js` assertErrs · `tools/validate_data.js` | `asserts` ⊆ `req` 강제, 단정 낱말 검사, 조건 키 looks · emo · self · adult · place |
 | 5 | 이야기꾼 | `engine/mind.js` TELLER | 조용하면 확률 ↑, 몰리면 ↓ (이벤트 · 작은 일) |
-| 6 | 멈춤 · 개입 | `engine/story.js` EVT · play.js | 안 멈춤 / 큰 갈림길만 / 사건마다 + 종류별. 자동 결정. 위기에서 멈추면 옛 공략 화면으로 넘김. 끼어들기 막대 · '다시 맡기기' |
+| 6 | 멈춤 · 조언 | `engine/story.js` EVT · play.js · `engine/star_advice.js` STARADV | 안 멈춤 / 큰 갈림길만 / 사건마다 + 종류별. 헌터가 성좌를 알면 고민될 때 묻고(선택 모달), 따를지는 헌터가 정한다. 모르면 혼자 정한다 |
 | 7 | 고비 · 일대기 | `engine/life.js` LIFE | 상태 비교로 고비 감지 → 회고 카드 + 한 줄. 나이 · 은퇴 생각 · 노화. 끝나면 일대기 한 장(장 · 기록 · 사람 · 감정 흐름 · 성격 변화 · 노년 · 작별) |
 | 8 | 이어 가기 | `engine/life.js` LEGACY | 같은 세계 새 인물(커마 → `adoptWorld`) · 플레이 중 인물 바꾸기(`switchTo`) · 기록관(`khl.archive.v1`, 시점 · 관계) · 파일 내보내기/가져오기 |
 | 9 | 화면 | index.html `renderNav` · life_ui.js | 위 '화면' 참고 |
-| 10 | 설정 묶음 | life_ui.js `V.settings` · `G.prefs.play` | 재생 · 멈춤 / 판단 · 방침 / 이야기 / 게임 설정 / 환경설정 / 헌터 관리 |
+| 10 | 설정 | life_ui.js `V.settings` · `G.prefs.play` | 재생 · 화면 · 헌터 관리(헌터 사진 주문서 · 은퇴) · 개발 |
 | + | 인구 · 게이트 규모 | `engine/scale.js` SCALE · sim.js popGen ver 3 | 각성 0.5% · 활동 0.2% · 전국 하루 약 5,470개. 내 주변 개별, 나머지 집계(`G.wagg`). 다른 헌터 공략 시각(`g.clr`) |
 | + | 장비 · 아이템 틀 | `engine/gear.js` GEAR · data/items.js | 등급 6(일반~전설 + 숨은 신화, 보정 +1 · 2 · 4 · 7 · 11 · 16) · 칸 8(양손 · 한 벌 · 특수) · 개성(itemTraits) · 출처 13(itemSources) · 내구도 · 수리(헌터가 자동) · 마정석 80종(게이트 등급 × 품질). 착용은 헌터 판단 `GEAR.consider` (선물받을 때). 옛 칸 · rank 만 있는 장비는 `GEAR.normalize` 가 바꿈. 화면 = 상태창 › 장비 |
 | + | 성좌 | `engine/star.js` STAR · data/stars.js | 선물 `STAR.gift`(상점 · 경매 → 헌터 가방) · 성좌 경매장(코인, `G.auction.coin`) · NPC 성좌 `STAR.ofHunter` · 고유 클래스 `STAR.grantClass`(세계에 한 명, `G.uniqueHeld`) · 클래스북 `readBook` · 메시지 `STAR.say`(starMsgEvents 때마다) · 축복 `STAR.bless` · 상점 매일 진열 `STAR.shopList` · 선물 안배(헌터가 모를 때 giftCovers). 계정 · 업적 · 잠재력 엿보기 `engine/account.js` STARACC |
@@ -62,7 +65,7 @@ tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데�
 
 ## 4. 작업 순서 (매 변경)
 1. `node tools/validate_data.js`
-2. `CHROMIUM=/opt/pw-browsers/chromium OUT=/tmp/claude-0 NODE_PATH=$(npm root -g) node tests/ui/run_all.js` (병렬: `ls tests/ui/t_*.js | xargs -P 6 …`)
+2. `node tests/tools/t_fill.js` · `CHROMIUM=/opt/pw-browsers/chromium OUT=/tmp/claude-0 NODE_PATH=$(npm root -g) node tests/ui/run_all.js` (병렬: `ls tests/ui/t_*.js | xargs -P 6 …`)
 3. 큰 변경이면 QA 봇: `DAYS=120 RUNS=3 node tools/qa_sim.js` (docs/QA.md)
 4. 커밋 → push → PC 동기화(바탕화면 폴더) → 게임 페이지(아티팩트) 갱신
 
@@ -76,43 +79,12 @@ tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데�
 - 자녀 · 범죄 · 각성 전 시작은 보류 (사용자 '나중에'). 잠재력 '전부 엿보기'는 만들어 두고 꺼 둠(`BAL_STAR.peekFull`), '대략 엿보기'만 켜짐.
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
-## 7. 진행 상황
-- [완료] 2026-10-24 (Claude) 콘텐츠 채우기 도구 `tools/fill` ([FILL.md](FILL.md)): 주문서(`order` — 세계관 · 스타일 · 칸 설명 · 고를 값 · 이미 있는 것 + 빈 곳부터 미리 깐 빈칸) → 사람/AI 가 글만 채움 → `check`(겹침 bigram 72% · 스타일 · 자리 표시 · 값 · validate.js 테이블 규칙) → `apply`(통과한 것만 `data/ext/fill_NN_종류.js` + `_list.js` 등록, 전체 검사 실패 시 되돌림) · `batches` · `undo`. 종류 15(story · hear · rumor · news · career · starmsg · giftcover · bits · crisis · event · monster · place · trait · consumable · constellation, `tools/fill/kinds.js`). 바로 쓸 주문서 15개 `fill/orders/`. 윈도우 `fill.cmd`. 시험 `tests/tools/t_fill.js`
-- [완료] 2026-10-24 (Claude) 기반 작업: ① `engine/content.js` CONTENT — 색인(`get/by/all`, def 가 올리는 테이블별 판 번호 `HL_REV` 로 갱신) · 공통 꼬리표(`contentTags` + 행의 `ctags`, 이벤트 조건 `{k:'tag', of:here·gate·who·player·bag}`) · 빈칸 문장(`CONTENT.fill`: `{a|b}` · `{@key}` 재료 `textBits` · `{who.name}` · 조사 자동) ② 발동 시점별 색인: 이벤트(on) · 이야기 문장 · 감정 문장 · 들은 말 · 위기를 색인으로 고른다. `GEAR.normalize` 가 매번 물건 전체를 훑던 것 고침 (×30 콘텐츠에서 하루 460 → 290ms) ③ 세이브 IndexedDB (`SAVES` — 목록만 localStorage, 내용은 IndexedDB `khl-saves`, 옛 세이브 자동 이전, 없으면 localStorage) ④ 도구: `tools/report_content.js`(커버리지 · 빈 곳 · 겹침 보고) · `tools/perf_scale.js`(콘텐츠 ×N 속도 시험) ⑤ 남은 기초 형식: 직업 `aiJobs` · 생활비 `costItems`(fixedCosts 에 붙음) · 인물 `npcs` · 관계(`relDims` · `relStatus` · `relTypes`) 형식 주석 + validate. 검사 `t_foundation.js`
-- [완료] 2026-10-24 (Claude) 꼭 할 일: ① 문서 · data 주석의 '외주' 예정 문구를 'Claude가 채움'으로 ② 스탯 포인트 정식 규칙 `BAL_STATALLOC` + 이유 문장 `statAllocWhy` (`autoStatAlloc` = 클래스 성향 · 역할 · 성격 · 처진 스탯 메우기, 몫 나눈 뒤 나머지 무작위) ③ 빈 표 구조: `starMsgEvents`(메시지 걸리는 때 11개 — 선물 · 축복 · 클래스 · 레벨 · 등급 · 공략 성공/실패 · 부상 · 알아챔 · 사망 · 은퇴, 엔진 곳곳에서 `STAR.say`) · `starMessages`(trait · known · lv · chance · once) · `starBlessings`(`STAR.bless` · 판정 `fx.check` · 전투 `fx.cstat` · 기간 · 재사용 · 상점 '축복' 갈래) · `starPresets`(unlock 업적 잠금 · 시작 때 고유 클래스/스킬 `STARACC.applyPreset`) · `constellations`. validate 규칙 모두. 검사 `t_star_data.js`
-- [완료] 2026-10-24 (Claude) 성좌 탭 마무리 (`engine/star_ui.js` · `star.css`): 내 정보(카드 · 요약 · 해금과 여는 업적 · 잠재력 엿보기 대략(전부는 `BAL_STAR.peekFull` 로 꺼 둠) `STARACC.peek` · 고유 클래스 · 지난 헌터들 = 성좌 계정 `past`), 상점(매일 바뀌는 진열 `STAR.shopList/rollShop` · `BAL_SHOP.stock` — 헌터 등급에 맞는 장비 등급 위주 · 상시 `sysShop` · 갈래 칩 · 카드 · 수량 · 선물), 성좌 경매장(기존 `STAR.auctionView`), 업적(30개 `achievements` · 갈래 칩 · 진행 막대 `STARACC.progress` · 숨은 업적 ??? · 새 measure skills · gearGrade · close · known · followed · refused · nakedClear). 상태창 › 장비 탭(칸 8개 · 등급 · 내구도 · 더해지는 값 · 입지 않은 장비, 버튼 없음). 검사 `t_star_tabs.js`
-- [완료] 2026-10-24 (Claude) 정보 탭: 기본 스탯 4개(신체 · 정신 · 마력 · 감각)를 위 핵심 칸(6×2)에, 사진은 왼쪽 줄 맨 위 따로(FM 선수 사진 칸 + 소속 문장). 관계 탭: 마음마다 다른 말 5단계(`hunter_rel.js` WORDS, '꽤' 없앰) · 눈금 10칸 막대(호감은 가운데 0). 성좌를 모를 때 선물은 운 · 노력으로 얻은 것처럼(`data/stars.js` giftCovers 18줄 · `STAR.gift` cover, 게이트 안/밖 · 물건 갈래로 고름). 커마 오른쪽 초상화 에셋 칸 삭제. 설정 › 헌터 관리 › '헌터 사진 주문서'(커마 외형 전부 → 실사 · 흰 배경 이미지 프롬프트, 복사). 검사 `t_info_rel.js`
-- [완료] 2026-10-24 (Claude) 클래스 · 스킬 · 장비 콘텐츠 (외주 결과는 사용자 판단으로 버림): `tools/content/build.py` + 원고 `classes_src.py`(클래스 100, 헌터 소설풍 이름) · `skills_src.py`(클래스 스킬 200, 여러 클래스가 함께 쓰는 묶음식) · `common_src.py`(공용 80 = 묶음 8 × 10) · `gear_src.py`(갈래 45 × 등급 5 × 재질 2 + 이름 있는 장비 → 507) → `game/data/content/k_moves.js`(전투 기술 157) · `k_skills.js` · `k_classes.js` · `k_gear.js`. 스킬 요약(desc)은 수치에서 자동으로 만든다 (DB에 그대로). 장비 성능(items.stat)이 내 헌터 전투 능력치에 그대로 더해진다(`COMBAT` wornStats). 옛 B 클래스 · 스킬 삭제, b_hunters 를 K 로. DB 클래스 상세 = '이 클래스로 얻을 수 있는 스킬'(기본 패시브 · 각성 후보 · 레벨 습득 + 요약). 위기 확률은 구간마다 `BAL_GATE.crisisPerSeg`
-- [완료] 2026-10-24 (Claude) 데이터 분류 정함: `skillDomains`(전투 · 탐색 · 생활 · 사회) 표 · 스킬 형식 머리 주석(세 축 · 영역별 읽는 칸) · validate(scope · kind · domains · move/cstat/checks) · 엔진 연결(전투 패시브 cstat → `COMBAT`, 판정 보정 checks → `checkMods`) · DB 스킬 '효과 영역' 칸 · 이름 분위기 규칙(STYLE_CHECKLIST). 다음: 이 분류로 클래스 · 스킬 콘텐츠
-- [완료] 2026-10-24 (Claude) 내 헌터 › 정보 탭을 FM 정보창 느낌으로 (`engine/hunter_info.js` · `hunter_status.css` hi-*): 등급 색 이름 띠 + 핵심 칸 8개, 세 줄(신상 · 외모 · 각성 전의 삶(접기) | 전투 능력(실제 전투 계산값, 같은 등급 · 같은 역할 평균과 비교 색) · 성격 · 특성 | 착용 · 가방 · 기록)
-- [완료] 2026-10-24 (Claude) 전투 시스템: `engine/combat.js` COMBAT · `data/combat.js`(속성 9 · 상태 13 · 몬스터 역할 7 · 기술 combatMoves 22 · BAL_COMBAT). 0.5초 단위 실시간 통계 시뮬 — 전투원 능력치는 기본 스탯 · 세부 능력 · 레벨 · 역할 · 장비 등급에서, 몬스터는 '같은 급 헌터' × 역할 × 크기 × 잡몹/보스 배율 + 등급 차 압력(gapPow). 역할 기본 기술 + 스킬의 `move`. 공략 = 구역마다 이동 → 교전 1~2 → 숨 고르기, 마지막 보스(격노). 내 공략은 `raidTick` → `COMBAT.stepRaid`(한 구간씩, 위기는 구간 사이), 상세 인물이 낀 NPC 파티는 `COMBAT.npcRaid`(쓰러짐 → 사망 · 부상), 배경 인구끼리는 `SIM.pWin`(등급 차 표 `quick.byGap`, 시뮬에 맞춤). 몬스터 형식 새로(`data/content.js` 머리 주석: mrole · size · stat · moves · pack · minions · weak/resist/immune · boss · enrage), B 몬스터 15종(보스 5). DB 몬스터 · 클래스 · 스킬 · 장비 상세에 '전투에서' 칸(같은 급 헌터 대비 배율 · 기술 설명). 이야기 창의 위기 판정 숫자 꼬리 뺌. 검사 `tests/ui/t_combat.js` (같은 등급 ~95% · 4등급 위 ~10%)
-- [완료] 2026-10-24 (Claude) DB 화면 8탭 (`engine/db_ui.js`) · `classSkillSync`(클래스 바뀌면 패시브 · 레벨 스킬 맞춤) · NPC 클래스 = 1차만 · 양손 무기 전력 · 한 벌 방어 버그 수정. 같은 날 만든 클래스 60 · 스킬 720 · 장비 421 · 원소/상태 이상 표 · 생성기(tools/content)는 사용자 판단으로 전부 삭제 — 지금 데이터는 엔진 검증용 B 데이터뿐
-- [완료] 2026-10-24 (Claude) `skillCats` 8개 + 기본 공용 스킬에 cat, 커마 클래스 무작위 = 1차 · 희귀도 가중(`awakeClass`), validate 규칙(공용 cat · tier · rarity · pick)
-- [완료] 2026-10-24 (Claude) 외형 → 외모 점수: `data/relations.js` lookScoreFx (기본 18줄) · `index.html` lookFx (buildHunter 에서만) · validate 규칙
-- [완료] 2026-10-24 (Claude) 나머지 표 선택 필드 '최대한 많이': items · traits · guilds · core · system · world · gate_content · actions · stars · content · base/b_hunters · b_content · b_story 머리 주석, validate 참조 · 값 검사 추가
-- [완료] 2026-10-24 (Claude) 데이터 형식 '최대한 많이': content.js(몬스터) · classes.js(클래스 · 스킬) · places.js · world.js(gateInteriors) · items.js 머리 주석에 선택 필드 전부, validate.js 참조 · 값 검사 추가
-- [완료] 2026-10-24 (Claude) 설정 정리(`life_ui.js` V.settings 4탭 · 타이틀 설정 `settingsOptionsHTML` 축소 · status_ui 의 옛 V.settings 삭제), 내 헌터 정보 탭(`engine/hunter_info.js` HUNTER_INFO), 관계 탭 상대 마음 삭제, 관계 이름 성별 맞춤(`relName` · `bgRelName`, relTypes nameM/nameF), 전투 대비 데이터 형식(content.js · classes.js · places.js · world.js 머리 주석, attackKinds · statusEffects · terrains, validate 규칙)
-- [완료] 2026-10-24 (Claude) 성좌의 조언: `engine/star_advice.js` STARADV(G.starRel 신뢰 · 호감 · 횟수, 따를 확률 `BAL_STAR.advice`, 데이터 `starTrustStages` · `starAdviceLines`). 모르면 `STARADV.canAsk()` 거짓 → 멈춤 없이 EVT.auto · 위기 자동 · 제안 자동, `EVT.resolve` how 'auto' 는 결과 문장만, 'star' 는 헌터 반응 + 결과. 선택 창은 '헌터의 고민'(말 걸지 않기), 결과 창은 반응 + 일어난 일 (주사위 화면 · d20 CSS · choicePrefs 삭제, t_choice_prefs 삭제). 관계 탭 `engine/hunter_rel.js` HUNTER_REL (성좌 칸 포함). 목표 위젯 뺌
-- [완료] 2026-10-24 (Claude) 인트로 글자만(그림 · `assets/intro` · `assets/star_intro` 삭제), 세부 능력 알파벳 숨김, '오늘 할 일을 정한다' 줄 삭제(`play.js` planDay · SL_B0041), 성좌 탭 화면 틀(`engine/star_ui.js` STAR_UI · `star.css` su-*), 좌측 '목표 설정' · '소지품' 탭 삭제(화면 함수 V.goals · V.inventory 는 남김), 인생 아래 버튼 정리
-- [완료] 2026-10-24 (Claude) 새 헌터 만들기 다듬기: 클래스 다시 굴리기(`data-clsroll`), 능력치 단계에 세부 능력 표, 시작 전 확인의 기록관 칸 삭제(`life_ui.js`), '헌터 인생 시작' 가운데 확인 창(`UI.ccConfirm`), 성좌 인트로 SI_04 문구, 헌터 인트로 5장면 전면 교체(`data/intro.js`, 그림 `HINTRO_01~05` 없음 — GPT 외주, 옛 `INTRO_01~07.webp` 는 안 씀)
-- [완료] 2026-10-24 (Claude) 성좌 만들기 다듬기: 새 성좌 → 성좌 인트로(`data/stars.js` starIntroScenes, 그림 `assets/star_intro/SI_01~05.webp` — 아직 없음, GPT 외주) → '정해진 성좌로 깨어나기'(`starPresets`, 지금 비어 있음 — 탭만) / '나만의 성좌 빚기'(커마 기본 정보식 항목/선택지: 이름 · 성향 · 영역 · 색(팔레트) · 문양(직접 입력) · 말투(ccSpeech), 모두 무작위, 가운데 확인 창, 뒤로). 성좌 데이터는 색 #hex · 문양 글자로 저장. 이유 · 시작 코인 선택 · 헌터가 아는지 선택 · 프리셋 5개 삭제 — 코인 0, 헌터는 `G.starKnown`(하루 `BAL_STAR.revealPerDay` 확률로 알아챔). 정해진 성좌는 성향에 맞는 메시지만(`STAR.say`)
-- [완료] 2026-10-24 (Claude) 새 게임 흐름 + 준비 묶음: ① 성좌 = 계정 = 세이브 칸 (`engine/account.js` STARACC, localStorage `khl.stars.v1`, 3칸 · 세이브 `star-<칸>` · 코인/업적/해금 유지 · 한 번 받은 업적은 다시 못 받음 · 성좌 하나에 헌터 한 명 · 수정 불가) ② 타이틀 '시작하기' → 성좌 고르기(이어 가기 · 새 헌터 · 지우기 · 데모) / 성좌 만들기(프리셋 5 · 이름 자동 생성 · 성향 · 이유 · 영역 · 색 · 문양 · 시작 코인 · 헌터가 아는지, 기본값 base:true) ③ 커마: 클래스 · 능력치(잠재력 포함)는 각성 결과 무작위 + 능력치 다시 굴리기(무제한), 업적 해금(pickClass · pickStats · pickPotential)이 있으면 옛 직접 고르기 ④ 마지막 단계 '시작 전 확인'에 성좌 카드 ⑤ 저장 메뉴 = 성좌 칸 하나 ⑥ 활동 중인 사람(`engine/active.js` ACTIVE: 등장 · 기억 · 관계로 올라옴, 60일 · 200명 · 관계자 보호, 가벼운 감정 `G.npcEmo`, MIND.factors 가 NPC 감정 · 부상 반영, 만남 가중치 · 먼저 연락 · 자동 공략 동행 판단) ⑦ 일대기 감정 그래프(`engine/emo_graph.js`, 월별/연도별, 감정마다 작은 선 그래프). 옛 slot1~3 · auto 세이브는 화면에서 안 보임. QA 365일: 하루 평균 208ms · 세이브 657KB
-- [완료] 2026-10-24 (Claude) 정리: 옛 직접 조작 화면(행동 · 파티 · 공략대 · 공략 준비 · 일정 · 알림 · 메신저 · 대시보드 · 개발 도구)과 그 처리 코드 · 위젯 배치 편집 · `OBSERVE.legacy` · `doNowDirect` 삭제, 옛 테스트 29개 삭제, 외주 문서 전부 · 끝난 계획 문서(REBUILD_PLAN · CODEX 인계 · CC_IMPACT · DATA_IDS · NPC_SIM) · 한 번 쓴 도구 · 옛 외주 커마 데이터(lookOpts_LA/LB · bgOpts_BB) 삭제
-- [완료] 2026-10-24 (Claude) 게이트 · 몬스터 형식: 몬스터 등급 범위(`ranks`) · 크기 · 꼬리표 · 약점/저항 · 지형 · 보스 · 소재 부위 표(비어 있음), 게이트 = 잡몹 1~3 + 보스(`engine/monster.js` MONSTER.compose, `g.mobs` · `g.boss`), 특별한 게이트 분류 `gateKinds`(브레이크만, 넘치면 `g.kind`). (형식 문서는 정리 때 삭제 — data/content.js 주석이 기준)
-- [완료] 2026-10-24 (Claude) 장소 외주 준비: `placeTypes` 추가 필드(group · where · sources · desc) · 새 테이블 `placeTags` · `places`(이름 있는 개별 장소, 지금은 데이터만) · 검사 규칙. (형식 문서는 정리 때 삭제 — data/places.js 주석이 기준)
-- [완료] 2026-10-24 (Claude) 스탯 임시 자동 분배(`autoStatAlloc`, 이야기 창 한 줄) · 소식 줄 `{p}` 치환 고침(`OBSERVE.notices` 가 `STORY.fill`)
-- [완료] 2026-10-24 (Claude) 메뉴 · 상태창 정리: 좌측 메뉴 순서(DB 맨 아래) · '성좌' 묶음(내 정보 · 상점 · 성좌 경매장 · 업적 — 빈 탭), 스탯 분배 화면 없앰(`OBSERVE` 차단 'statpt', 상태창 분배 칸 삭제 — 포인트는 쌓이고 헌터 판단 분배는 나중), 인생 탭 상태창 EXP 아래 접기(`UI.swOpen`), 코인은 상단 `#topCoin`
-- [완료] 2026-10-24 (Claude) 성좌 · 아이템 틀 (사용자와 목록 합의, UI는 꼭 필요한 곳만): 아이템 등급 · 칸 · 개성 · 출처 · 내구도 · 마정석 체계, 스탯 착용 조건 없앰, 착용은 헌터 판단(화면의 착용 버튼 없앰 — `OBSERVE` 차단 목록 'equip'), 상점 = 성좌가 사서 선물(판매 탭 · 소지품의 '시스템 상점에 팔기' 없앰), 원화 경매장 → 성좌 경매장(코인, 내 출품 없앰), NPC 성좌 · 고유 클래스(선천 각성 제외 · 한 명만 · 원래 클래스 바뀜) · 클래스북 틀, 좌측 '내 정보' → '정보'. 견본 데이터는 넣지 않음(표만). 장비 화면 이미지 의뢰서 `docs/outsource/gear_view_image_prompt.md`. 남은 것: 내 성좌 설정 · 시작 코인 · 고유 클래스로 시작(커마 화면) · 업적 · 성좌 화면 — 사용자와 상의하며
-- [완료] 2026-10-23 (Claude) GPT 수정본에 맞추기 + 주사위: ① PC 로컬 수정본을 GitHub main 에 그대로 반영 ② `OBSERVE.legacy`(검사용) — 켜면 옛 직접 조작 화면 · `doNowDirect` · 수동 `startRaid` · 팝업 생략. 게임에서는 꺼져 있다 ③ 옛 UI 테스트 28개를 새 화면에 맞춤(좌측 메뉴 · 상단 도구 · 위치 메뉴 · 알림 배지 대신 함수 호출, 일과 제목 '방향 · 목표') ④ 판정 주사위 새로 그림: 정이십면체 모양(SVG), 굴리는 동안 숫자가 점점 느려지며 멈추고 착지 · 결과 색(성공 초록 · 실패 빨강 · 20 금색 · 1 어두운 빨강), 아래에 능력치 + d20 + 보정 = 합계 칸과 난이도 눈금 막대가 차오른다. 장식 숫자는 정해진 순서(난수 안 씀), 움직임 줄이기 설정이면 바로 결과. 위치 `engine/life_ui.js` performChoice · `home.css` d20-* ⑤ 테스트 71개 · 데이터 검사 통과
-- [완료] 2026-10-23 사용자 정정 반영: 성격 요약명 바로 아래 짧은 설명 한 문단을 복원했다. persRoles/persStyles의 desc를 조합하며 긴 세부 목록은 복원하지 않았다. 256개 이름과 게임 판단 수치는 유지한다. 의상 스타일은 기본 10개+확장 50개 전부 짧고 일관된 취향 문구로 바꿨다(캐주얼한 옷차림 선호 / 몸의 선이 드러나는 옷 선호). 기존 ID/desc/검색/자동 줄바꿈 유지. t_personality_names/t_creation_text/t_ccbasic 및 데이터/asserts 통과. 아래 이전 요약명 전용/의상 단어화 기록은 이 정정으로 대체한다.
-- [완료] 2026-10-23 성격 요약 정정: 오른쪽/최종 확인의 요약은 표제와 짧은 이름만 표시한다. index.html의 상세 요약 생성/외주 문장 병합/CSS를 제거하고 personality.js의 strong/mid/view/stress/hunter/balanced 및 원본 세부 설명 테이블을 삭제했다. 확장 `ext/pers_PB.js`와 로드 목록 항목도 삭제했다. `persRoles`/`persStyles` 각 16행의 axes/poles 규칙으로 8개 축을 모두 반영하는 256가지 짧은 요약명을 생성한다. 미정/중간 축이 많으면 기존 극성 adj/noun으로 주요 성향만 반영한다. 단계별 levels 예시와 MIND의 수치 판단은 유지한다. t_personality_names는 256개 고유명, 모든 축 영향, 난수/수치 변경 없음, 상세 원본 부재, 슬라이더 노드 보존/실시간 갱신, 확인 화면과 모바일을 검증한다. t_ccbasic/t_mind 및 데이터/asserts도 통과했다.
-- [완료] 2026-10-23 커마 의상 이름/긴 선택지: `data/ext/lookOpts_LA.js`/`lookOpts_LB.js`의 SC_OUTFIT 50개 name을 짧은 스타일명으로 바꾸고 원래 문장을 desc로 보존했다. ID/그룹/저장값은 그대로다. `chTilesHTML`은 이름과 desc를 검색하고 툴팁에 설명을 표시한다. 공통 CH 선택지의 `.choice-label`, 왼쪽 선택값/상단 현재값에서 말줄임을 제거하고 줄바꿈/높이 자동 조정을 적용했다. 문장형 의상 전용 240px 레이아웃은 제거했으며 공통 text 선택지는 반응형 180px 기준이다. `t_creation_text`는 기본/외형/배경의 모든 선택 카테고리와 남녀, 320/400/768/1366px에서 실제 글씨 잘림/가로 넘침을 검사한다. t_ccbasic 및 데이터/asserts 검사 통과, ID 참조 재생성.
-- [완료] 2026-10-23 월별 인생 원문/일대기: `engine/life_log.js`를 STORY 앞에 로드한다. 지난달 원문은 IndexedDB `khl-life-log`의 `months` 스토어에 UUID 키의 불변 묶음으로 기록한다. `G.storyArchive={v,months,pending}`의 월별 count/kinds/keys만 세이브에 남으며 IDB 완료 전 원문은 pending에도 유지한다. 과거 세이브의 키 목록이 미래 묶음을 참조하지 않으므로 분기/되돌리기 기록이 섞이지 않는다. 기록 DB는 저장 슬롯 삭제 시 자동 삭제하지 않는다. 기존 남은 900줄도 로드 시 월별 이관하지만 이미 잘린 기록은 복구할 수 없다. 월말 하루 마무리용 직전 날짜 기록은 메모리 캐시로 보존한다.
-- [완료] `engine/history_ui.js`/`history.css`: 이야기 → 일대기에 기록 기간/건수와 지난 일생 돌아보기 버튼을 구현했다. 현재 달만 인생 창에 표시하며 이번 달 전체 보기로 화면 밖 원문도 읽는다. 팝업은 연/월/날짜/종류, 전체 기간 검색, 검색 결과에서 해당 하루로 이동, 최근 기록, 이전/다음 페이지를 제공한다. 월별 읽기+최대 3개월 캐시, 100건 단위 DOM, 취소 가능한 순차 월 검색으로 100년 이상 대응한다. 사망/은퇴 화면에서도 열 수 있다. 원문은 현재 브라우저 IDB에 보관되며 기존 헌터 JSON 내보내기는 이 DB를 포함하지 않는다. 기존 chron 요약 4000개 제한과 별개로 원문은 월별 보관에 남는다. 1201개월/실제 새로고침/저장 실패 복구 테스트와 실제 시뮬레이션 120일 QA 통과.
-- [완료] 2026-10-23 우측 상태창/상세 탭/인물별 선택 설정: 인생 중앙에서 `#lifeSide`를 빼서 `.life-widgets` 맨 위로 이동, 좁은 패널은 스탯/정보를 2열로 표시한다. 내 헌터 상태창 내부 `기본 상태 / 클래스 · 스킬 / 특성` 탭과 키보드 전환을 추가했으며 클래스 → 스킬 세로 배치다. 검색 왼쪽 각성 경과는 실시간 날짜 갱신과 UTC 기념일 계산을 사용한다. 새 커마 인물은 `awakenedDate`, 같은 세계 새 인물은 이어받은 날짜를 기록한다. 기존 YYYY-MM만 있는 각성 기록은 월 1일 기준이고 툴팁에 명시한다. `G.player.choicePrefs={skipDice,delegate}`를 주사위 팝업 체크박스와 설정 → 재생·멈춤에서 바꾸며 체크 시 autoSave 규칙을 따른다. 이번 굴림만 스킵은 저장하지 않는다. 항상 맡기면 EVT/MIND/AUTORAID가 사건·위기·계약을 결정하고 회고 대기는 생략한다. 기존 인물에게 돌아오면 그 인물 설정을 복원하며 새 인물은 기본값이다. t_choice_prefs 및 관련 UI 회귀 통과.
-- [완료] 2026-10-23 날짜/게이트 상태/선택 모달: 홈 자금 내역에 기존 ledger 날짜를 10px로 표시한다(과거 시간은 추정하지 않음). index.html의 별도 `.gbanner` 출력을 제거하고 공유 상태창의 `.in-gate` 색/제목만 전환해 레이아웃을 고정했다. `life_ui.js`의 `#lifePend`를 제거하고 문서 흐름 밖의 native `dialog#lifeEventModal`에 직접 선택할 사건·위기·계약·회고를 표시한다. 팝업 동안 재생을 멈추며 ESC로 필수 선택을 건너뛰지 않는다. judge/EVT.resolve/PLAY.chooseCrisis의 실제 판정 메타데이터로 애니메이션을 표시하고, 장식 숫자는 난수를 소비하지 않는다. 계약 협상은 기존 수식의 `replyGuildOffer`를 공용화했다. 무판정은 즉시 처리하고 새 게임/타이틀에서 모달 상태를 정리한다. 저장된 선택은 불러올 때 다시 표시된다. `t_event_popup` 추가, 관련 회귀 통과.
-- [완료] 2026-10-23 상태 요약/홈 위젯 수정: 공유 상태창에 스킬·특성 이름을 텍스트로 노출(클래스는 기존 텍스트), 클래스·스킬 이동 버튼 제거. 고비 회고는 한 줄 입력 없이 계속 버튼만 표시한다. 홈 자금은 최근 입출금 3건과 +/- 부호를 노출하며 고정 최소 높이를 제거했다. 즐겨찾기한 인물은 구성에서 아는 인물 최대 10명을 선택/해제하며 `prefs.play.homePeople`에 저장한다. 선택 인물은 관계 자동 정리에서 보호하고, SIM.gc는 기존 G 참조 스캔으로 보존한다. 내 헌터의 상태창 상세 표도 유지한다. `t_home_widgets` 신규 회귀 검사 추가.
-- [완료] 2026-10-23 내 헌터 → 상태창: `engine/hunter_status.js` · `hunter_status.css` 추가. 공유 상태창 아래에 분배안/실제 HP·MP 예상 변화, 스킬·클래스·특성을 촘촘한 사각형 표로 표시한다. 분배안은 UI 메모리에만 두고 적용 시 재검증 후 실제 스탯·포인트에 한 번 반영하며 자동 저장 설정을 따른다. 저장/불러오기 · 인물 변경 · 기반 스탯 변경 시 미확정 분배안을 초기화한다. 세부 능력은 새 화면에서 제외(엔진 삭제는 미실시), 부상·상태 이상은 기존 기능 유지. 다른 빈 탭은 그대로다. t_hunter_status · t_home 및 기존 관련 회귀 검사 결과는 QA.md 참고.
-- [완료] 2026-10-23 실제 홈 UI 적용: 샘플에서 합의한 작은 사각형 상태창과 위젯 · 세로 인생 로그. 위치는 상태창 우측 하단, 별도 행동 설명 제거, 상단 정렬 · 폰트 통일, 좌측 인생만 표시(내부 기능 유지). t_home · t_observe · t_play · t_status · t_legacy 및 데이터/조건 검사 통과.
-- [완료] 2026-10-23 시뮬레이션 중심 전환: observe.js 공통 UI 정책, 방향 · 목표, 사건 · 계약 · 공략 위기 카드, 이야기 창 소식 전달, 위기 대기 저장 복원. 새 회귀 테스트 t_observe 및 주요 기존 테스트 통과. QA 새 헌터 120일 × 3 · 데모 60일 × 2: 문제 0, 저장 왕복 정상. 옛 수동 조작을 전제로 한 전체 UI 테스트는 이번 검증 대상이 아니다.
-- [완료] 2026-10-23 새 버전 한 번에 만들기 (REBUILD_PLAN 6장 1~8): 옛 엔진 · 세계 · 커마 이식, 콘텐츠 비우기 + 최소 재료(배치 B), 새 시스템 10개 + 인구 · 게이트 규모, 테스트 62개 통과, QA 봇.
+## 7. 지금 있는 것 (2026-10-24 기준 요약 — 자세한 지난 기록은 GitHub 커밋 기록)
+- **새 게임 흐름:** 성좌 칸(3) → 성좌 인트로 → 정해진 성좌(비어 있음) / 나만의 성좌 → 헌터 인트로 → 커마(클래스 · 능력치 · 잠재력 무작위 + 다시 굴리기) → 시작 전 확인 → 플레이.
+- **인생:** 실시간 재생 · 이야기 창 · 판단 엔진 · 감정 · 고비 회고 · 일대기(월별 원문 IndexedDB · 감정 그래프) · 노년 · 사망 · 은퇴 · 이어 가기 · 기록관.
+- **세계:** 배경 인구 · 전국 게이트 규모 · NPC 자율 행동 · 활동 중인 사람 · 길드 · 경제 · 뉴스 · 소문.
+- **전투:** 실시간 통계 시뮬(`COMBAT`) — 내 공략 · 상세 인물 공략, 배경은 성공률 표. 장비 성능이 능력치에 더해진다.
+- **콘텐츠:** 클래스 100 · 스킬 280 · 전투 기술 157 · 장비 507 (생성기 `tools/content`) · 업적 30 · 선물 안배 18 · 기본 이야기 문장 · 이벤트 · 위기 · 몬스터 15 (B 데이터). 나머지는 채우기 도구로 (`fill/orders/` 주문서 15개 준비).
+- **성좌:** 계정 · 코인 · 업적 · 해금 · 상점(매일 진열) · 성좌 경매장 · 선물(모를 땐 운 · 노력처럼) · 조언(신뢰) · 잠재력 대략 엿보기 · 메시지 · 축복 · NPC 성좌 · 정해진 성좌 구조.
+- **화면:** 좌측 이야기 · 내 헌터(정보 · 상태창(기본 · 장비 · 클래스/스킬 · 특성) · 관계) · 성좌(내 정보 · 상점 · 경매장 · 업적) · DB(8탭) · 설정(헌터 사진 주문서 포함).
+- **기반:** 색인 · 공통 꼬리표 · 빈칸 문장(`engine/content.js`) · IndexedDB 세이브 · 채우기 도구 · 콘텐츠 보고 · 속도 시험 · QA 봇 · 데이터 검사.

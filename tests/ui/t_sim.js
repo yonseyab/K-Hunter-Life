@@ -22,9 +22,7 @@ console.log('promote',await p.evaluate(()=>{const id=SIM.search('','FREE',1).row
 console.log('save',await p.evaluate(async()=>{saveGame('slot2');await new Promise(r=>setTimeout(r,800));const lv=SIM.POP.level.slice(0,50).join(),m=SIM.POP.money[7];SIM.POP.level.fill(0);const res=await SIM.load('slot2');return [res,SIM.POP.level.slice(0,50).join()===lv,SIM.POP.money[7]===m]}));
 const t2=Date.now();await p.evaluate(()=>{for(let i=0;i<4;i++)runTime('week')});console.log('month ms',Date.now()-t2,await p.evaluate(()=>JSON.stringify((({byRank,last,...r})=>r)(SIM.stats()))));
 /* 화면: DB 인물(수만 명 검색) · 세계 통계 · NPC 생활 탭(개발자 보기) · 파티 후보 */
-await p.evaluate(()=>{UI.screen='db';UI.dbTab='PEOPLE';UI.dbQ='';UI.dbF='ALL';render()});console.log('db count',await p.locator('#dbcount').innerText());
-await p.fill('[data-dbq]','이서');await p.waitForTimeout(200);console.log('db search',await p.locator('#dbcount').innerText());await p.screenshot({path:OUT+'/sim_db.png'});
-await p.evaluate(()=>{UI.dbTab='WORLD';render()});await p.screenshot({path:OUT+'/sim_world.png'});
+await p.evaluate(()=>{DB_UI.open('people')});console.log('db count',await p.locator('#dbx-count').innerText());await p.screenshot({path:OUT+'/sim_db.png'});
 await p.evaluate(()=>{SETTINGS.dev=true;UI.screen='profile';UI.profileId='HN_B0002';UI.profTab='생활';render()});await p.screenshot({path:OUT+'/sim_life.png'});
 console.log('cands',await p.evaluate(()=>{leaveGuild();UI.prep={gid:'GT_0001',party:[],retreat:35};return raidCands().map(h=>h.name+'/'+h.rank).slice(0,8).join(',')}));
 console.log('errs',errs.slice(0,5));await b.close()})();

@@ -9,7 +9,9 @@ const OBSERVE = (() => {
   const selector = blocked.map(k => '[data-' + k + ']').join(',');
   const directions = { auto: ['성격에 맡기기', null], grow: ['실력 · 승급', 'GOAL_GROW'], money: ['돈 모으기', 'GOAL_WEALTH'],
     rest: ['회복 · 안정', 'GOAL_STABLE'], social: ['사람들과 가까워지기', 'GOAL_PEOPLE'] };
-  const route = s => routes.has(s) ? (s === 'schedule' ? 'goals' : 'life') : s;
+  /* 새 탭으로 옮긴 옛 화면 (2026-10-24 정리): 상점 → 성좌 › 상점 · DB → DB 탭 · 경매장 → 성좌 › 성좌 경매장 */
+  const MOVED = { shop: ['homeTrade', 'trade', 'shop'], auction: ['homeTrade', 'trade', 'auction'], db: ['homeDb', null, null] };
+  const route = s => { const m = MOVED[s]; if (m) { if (m[1]) (UI.homeTabs = UI.homeTabs || {})[m[1]] = m[2]; return m[0]; } return routes.has(s) ? (s === 'schedule' ? 'goals' : 'life') : s; };
   function invalidate() { ROUTINE.state().planned = null; PLAY.st().decided = -1; }
   function normalize() {
     if (!G) return;

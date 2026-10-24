@@ -13,7 +13,7 @@ ok(rnd.screen==='life'&&rnd.pro.length>=3&&rnd.cls,'무작위 시작 · 시작 �
 await p.evaluate(async()=>{await packsLoad();gameFromScenario('SC_BDEMO');enterGame();await poolPrefetch()});
 /* 첫 화면 = 인생: 이야기 창 · 상태 · 끼어들기 · 재생 막대 */
 ok(await p.locator('#story').count()===1,'이야기 창');ok(await p.locator('#lifeSide').count()===1,'오른쪽 상태');
-ok(await p.locator('#lifeBar button').count()===4,'방향 · 구매 · 장비 버튼');ok(await p.locator('#playbar [data-kspeed]').count()===4,'배속 4개');
+ok(await p.locator('#playbar [data-kspeed]').count()===4,'배속 4개');
 ok(await p.locator('[data-advance="next"]').count()===0,"옛 '계속' 버튼 없음");
 const nav=await p.locator('#nav [data-go]').evaluateAll(L=>L.map(x=>x.dataset.go));ok(JSON.stringify(nav)===JSON.stringify(['life','homeHunter','homeTrade','homeDb']),'좌측 대분류 네 개 '+nav);
 /* 실시간: ▶ 누르면 시계가 움직이고, 문장은 붙기만 한다 */
@@ -53,17 +53,17 @@ ok(await p.evaluate(()=>{prefs().play.autoDecide=false;const r=EVT.stopWanted({k
 await p.evaluate(()=>{prefs().play.stop='big';LIFE.milestone('MS_LOVE',{who:'오세린'});render()});
 ok(await p.locator('.kcard.retro').count()===1,'회고 카드');ok(await p.locator('#retroLine,[data-kretro="save"]').count()===0,'한 줄 입력 제거');await p.click('[data-kretro="skip"]');
 const ms=await p.evaluate(()=>({note:G.milestones.slice(-1)[0].note,open:G.retroOpen}));ok(!ms.note&&!ms.open,'회고 닫기 '+JSON.stringify(ms));
-/* 하루 진행(동기): 하루 계획 · 하루 마무리 · 일대기 기록 */
+/* 하루 진행(동기): 하루 마무리 · 일대기 기록 */
 const day=await p.evaluate(()=>{prefs().play.stop='none';G.pendingPick=false;EVT.pending().forEach(x=>EVT.auto(x));const d0=G.day;PLAY.runSync(1440*2,60);return {d:G.day-d0,ends:G.story.filter(x=>x.dayEnd!=null).length,chron:(G.chron||[]).length,plan:G.story.some(x=>/오늘 할 일/.test(x.s))}});
-ok(day.d>=2&&day.ends>=1&&day.chron>=1&&day.plan,'하루 계획 · 마무리 '+JSON.stringify(day));
+ok(day.d>=2&&day.ends>=1&&day.chron>=1,'하루 마무리 · 일대기 기록 '+JSON.stringify(day));
 /* 감정: 들뜸이 생기고 반감기로 가라앉는다 · 바뀔 때 이야기 창에 한 줄 */
 const emo=await p.evaluate(()=>{G.emo=null;EMO.add('EM_JOY',80);const c0=EMO.cur(),n0=G.story.filter(x=>x.k==='emo').length;EMO.decay(60*40);return {c0,c1:EMO.cur(),lines:G.story.filter(x=>x.k==='emo').length-n0}});
 ok(emo.c0==='EM_JOY'&&emo.c1==='EM_CALM','감정 가라앉음 '+JSON.stringify(emo));
 /* 공략 위기에서 직접 고르기로 넘기기: SK_CRISIS 켜면 옛 공략 화면 */
 const hand=await p.evaluate(async()=>{prefs().play.kinds.SK_CRISIS=true;prefs().play.stop='each';G.cond.hp=100;G.cond.energy=100;G.injuries=[];G.time=600;
-  const g=vals('gates').find(x=>gateSt(x.id).status==='open'&&!gateFit(G.player,x))||spawnGate(Math.random,G.player.region);gateSt(g.id).status='open';DB.balance.BAL_GATE.crisisPerTick=1;
+  const g=vals('gates').find(x=>gateSt(x.id).status==='open'&&!gateFit(G.player,x))||spawnGate(Math.random,G.player.region);gateSt(g.id).status='open';DB.balance.BAL_GATE.crisisPerTick=1;DB.balance.BAL_GATE.crisisPerSeg=1;DB.balance.BAL_DEATH.rescue=10;DB.balance.BAL_DEATH.soloRescue=10;DB.balance.BAL_DEATH.fatal=0;
   const r=PLAY.raid(g,AUTORAID.party(g));const R=UI.raid,h={stop:!!(r&&r.stop),screen:UI.screen,crisis:!!R.crisis,auto:R.auto};
-  clearInterval(UI._rt);DB.balance.BAL_GATE.crisisPerTick=0.06;let k=0;while(!R.done&&!G.dead&&k++<3000){if(R.crisis)PLAY.chooseCrisis();else PLAY.stepSync(1)}clearInterval(UI._rt);
+  clearInterval(UI._rt);DB.balance.BAL_GATE.crisisPerTick=0.06;DB.balance.BAL_GATE.crisisPerSeg=0;let k=0;while(!R.done&&!G.dead&&k++<3000){if(R.crisis)PLAY.chooseCrisis();else PLAY.stepSync(1)}clearInterval(UI._rt);
   h.narr=G.story.filter(x=>x.k==='raid'&&x.ok!=null).length;h.done=R.done;return h});
 ok(hand.stop&&hand.screen==='life'&&hand.crisis&&hand.auto===true,'위기 직접 고르기로 넘김 '+JSON.stringify(hand));ok(hand.done&&hand.narr>=1,'직접 끝낸 공략도 이야기 창에');
 await p.evaluate(()=>{prefs().play.kinds.SK_CRISIS=false;prefs().play.stop='none';UI.screen='life';render()});

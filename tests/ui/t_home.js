@@ -36,7 +36,7 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
     await p.getByRole('tab',{name:'인생',exact:true}).focus();await p.keyboard.press('ArrowRight');
     assert.equal(await p.getByRole('tab',{name:'일대기',exact:true}).getAttribute('aria-selected'),'true');
     await p.getByRole('tab',{name:'인생',exact:true}).click();
-    assert(await p.evaluate(()=>['status','bio','relations','inventory','goals','guild','db','auction','archive','settings'].every(s=>typeof V[s]==='function')));
+    assert(await p.evaluate(()=>['status','bio','relations','inventory','goals','guild','homeDb','auction','archive','settings'].every(s=>typeof V[s]==='function')));
     const status=await p.locator('#lifeSide').boundingBox(),story=await p.locator('#story').boundingBox(),widget=await p.locator('.life-widget').first().boundingBox();
     assert(story.width>740,'central story uses wide 16:9 layout: '+story.width);
     assert(status.x>=story.x+story.width&&status.width>=300,'status in right panel');

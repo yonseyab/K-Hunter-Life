@@ -779,7 +779,7 @@ function applySettings(){document.body.classList.toggle('no-trig',!SETTINGS.show
    ========================================================= */
 let G = null;   // 현재 게임 상태 (세이브 데이터)
 const UI = {mode:'title', panel:null, screen:'life', profileId:null, profTab:'개요', attrView:'ABS_A', alert:null, thWith:null, newsCat:'전체',
-  gateSel:null, squadTab:'파티', dbTab:'PEOPLE', dbQ:'', dbF:'ALL', dbSel:null, tactic:'균형', editHome:false, moving:null, pickCell:null, raid:null, cc:null};
+  gateSel:null, squadTab:'파티', tactic:'균형', editHome:false, moving:null, pickCell:null, raid:null, cc:null};
 
 const SLOTS=['오전','오후','저녁','밤'];
 const WEEK='월화수목금토일';
@@ -2537,77 +2537,7 @@ const shopLeft=s=>{G.shop=G.shop||{};return s.stock==null?null:(G.shop[s.id]??s.
 const coinPrice=w=>Math.max(1,Math.round((w||0)/DB.balance.BAL_COIN.wonPerCoin));
 const coinTxt=n=>`<span class="coin">◈ ${Math.round(n).toLocaleString()}</span>`;
 const shopCoin=s=>s.coin??coinPrice(s.price);
-const sellPrice=it=>it.price?Math.max(1,Math.floor(coinPrice(it.price)*DB.balance.BAL_SHOP.sellRate)):0;
 function coinsFor(kills,gateLv,ok){const B=DB.balance.BAL_COIN;return Math.round(kills*B.perKill*Math.pow(21-gateLv,B.rankExp)*(ok?1:B.retreat))}
-function shopTotHTML(){const q=Math.max(1,UI.shopQty||1);
-  if(UI.shopTab==='sell'){const r=invOf()[UI.shopSel];if(!r)return '';const it=DB.items[r.item];return `합계 <b class="num good">+${coinTxt(sellPrice(it)*Math.min(q,r.qty))}</b>`}
-  const s=DB.sysShop[UI.shopSel];if(!s)return '';const t=shopCoin(s)*q;return `합계 <b class="num ${t>(G.coin||0)?'bad':''}">${coinTxt(t)}</b> · 결제 후 잔여 <span class="num">${coinTxt((G.coin||0)-t)}</span>`}
-V.shop=()=>{UI.shopTab='buy';const tab='buy', inv=invOf();  /* 성좌는 사서 선물만 한다. 파는 건 헌터가 이야기 속에서 알아서 */
-  const head=`<div class="h-row"><div><h1 class="h1">상점</h1><div class="sub">성좌가 코인으로 물건을 사서 헌터에게 선물합니다. 산 물건은 바로 헌터 가방으로 가고, 쓸지 · 입을지는 헌터가 정합니다. 코인은 헌터가 몬스터를 처치할 때마다 쌓입니다.</div></div>
-    <div class="panel pb stat" style="min-width:180px"><div class="lab"><span>보유 코인</span></div><div class="big num" style="font-size:20px">${coinTxt(G.coin||0)}</div></div></div>
-`;
-  const qtyRow=(max,btn)=>`<div class="row" style="flex-wrap:wrap;gap:8px"><label class="sub" for="shopqty">수량</label><input id="shopqty" class="abin" style="width:70px" type="number" min="1" max="${max}" value="${Math.min(Math.max(1,UI.shopQty||1),max)}" data-shopqty="1">${btn}</div><div id="shoptot" style="font-size:12px">${shopTotHTML()}</div>`;
-  if(tab==='buy'){const list=vals('sysShop').filter(s=>DB.items[s.item]), s=DB.sysShop[UI.shopSel]||list[0]; if(s)UI.shopSel=s.id; const it=s&&DB.items[s.item], left=s?shopLeft(s):0;
-    return head+`<div class="grid g-side" style="margin-top:12px"><div class="panel pb tight"><div class="tw"><table><thead><tr><th>상품</th><th>분류</th><th>등급</th><th class="r">가격</th><th class="r">재고</th><th>ID</th></tr></thead><tbody>
-      ${list.map(x=>{const i=DB.items[x.item],l=shopLeft(x);return `<tr data-shopsel="${x.id}" tabindex="0" class="${x.id===s?.id?'sel':''}" style="cursor:pointer"><td><b>${esc(i.name)}</b></td><td>${DB.itemCats[i.cat]?.name||'—'}</td><td>${i.rank?rkBadge(i.rank):'<span class="dim">—</span>'}</td><td class="r num">${coinTxt(shopCoin(x))}</td><td class="r num ${l===0?'bad':''}">${l==null?'∞':l}</td><td class="dim num">${x.id}</td></tr>`}).join('')}</tbody></table></div></div>
-      <div class="panel" style="align-self:start">${s?`<div class="ph"><span>${esc(it.name)}</span><span class="dim num" style="font-weight:400">${it.id}</span></div><div class="pb" style="display:grid;gap:10px">
-        <p style="margin:0">${esc(it.desc||'설명 없음')}</p><dl class="kv" style="font-size:12px"><dt>가격</dt><dd class="num">${coinTxt(shopCoin(s))}</dd><dt>재고</dt><dd>${left==null?'무제한':left+'개'}</dd><dt>등급</dt><dd>${it.rank?DB.ranks[it.rank].name+'급':'—'}</dd><dt>받는 곳</dt><dd>헌터 가방 (선물)</dd></dl>
-        ${qtyRow(left==null?99:Math.max(1,left),`<button class="btn pri" data-shopbuy="${s.id}" ${left===0||shopCoin(s)>(G.coin||0)?'disabled':''}>구매</button>`)}<div><button class="btn sm" data-item="${it.id}">자세히 보기</button></div>
-        ${left===0?'<div class="bad" style="font-size:12px">품절</div>':shopCoin(s)>(G.coin||0)?'<div class="bad" style="font-size:12px">코인이 부족합니다. 몬스터를 처치하면 쌓입니다.</div>':''}</div>`:'<div class="pb muted">판매 중인 상품이 없습니다.</div>'}</div></div>`}
-  const rows=inv.map((r,i)=>({...r,i,it:DB.items[r.item]})).filter(r=>r.it&&DB.itemLocs[r.loc]?.carry), sel=rows.find(r=>r.i===UI.shopSel)||rows[0]; if(sel)UI.shopSel=sel.i;
-  return head+`<div class="grid g-side" style="margin-top:12px"><div class="panel pb tight"><div class="tw"><table><thead><tr><th>지닌 물건</th><th>분류</th><th>위치</th><th class="r">수량</th><th class="r">개당 판매가</th></tr></thead><tbody>
-    ${rows.map(r=>`<tr data-shopsel="${r.i}" tabindex="0" class="${sel&&r.i===sel.i?'sel':''}" style="cursor:pointer"><td><b>${esc(r.it.name)}</b></td><td>${DB.itemCats[r.it.cat]?.name||'—'}</td><td>${DB.itemLocs[r.loc]?.name}</td><td class="r num">${r.qty}</td><td class="r num">${sellPrice(r.it)?coinTxt(sellPrice(r.it)):'<span class="dim">판매 불가</span>'}</td></tr>`).join('')||'<tr><td colspan="5" class="muted">지니고 있는 물건이 없습니다.</td></tr>'}</tbody></table></div></div>
-    <div class="panel" style="align-self:start">${sel?`<div class="ph"><span>${esc(sel.it.name)}</span><span class="dim num" style="font-weight:400">${sel.it.id}</span></div><div class="pb" style="display:grid;gap:10px">
-      <dl class="kv" style="font-size:12px"><dt>보유</dt><dd>${sel.qty}개</dd><dt>기준가</dt><dd class="num">${sel.it.price==null?'감정 필요':won(sel.it.price||0)}</dd><dt>시스템 매입가</dt><dd class="num">${sellPrice(sel.it)?coinTxt(sellPrice(sel.it))+' (코인 환산가의 '+Math.round(DB.balance.BAL_SHOP.sellRate*100)+'%)':'매입하지 않음'}</dd></dl>
-      ${sellPrice(sel.it)?qtyRow(sel.qty,`<button class="btn pri" data-shopsell="${sel.i}">판매</button>`):'<div class="dim" style="font-size:12px">시스템이 사지 않는 물건입니다.</div>'}</div>`:'<div class="pb muted">팔 물건을 고르세요.</div>'}</div></div>`};
-
-/* ---------- DB: 인물 · 몬스터 · 아이템 · 클래스 · 스킬 (검색 · 분류 · 상세) ----------
-   탭마다 rows() 가 {id, f(분류 키), q(검색용 문자열), cells[]} 를 돌려준다. 새 탭은 DB_TABS 에 한 줄 추가. */
-const rankCell=r=>r?rkBadge(r):'<span class="dim">?</span>';
-const DB_TABS=[
-  {id:'PEOPLE', name:'인물', head:['이름','구분','나이','등급','소속 · 직업','ID'], right:[2],
-   count:()=>allHunters().length+vals('npcs').length+Object.keys(G.genNpcs||{}).length+(SIM.POP?SIM.search('','ALL',0).total:0),
-   more:(q,f,limit)=>{const r=SIM.search(q,f==='ALL'?'ALL':f,limit);return {total:r.total,rows:r.rows.map(x=>({id:x.id,f:[],q:'',cells:[`<b>${esc(x.name)}</b>`,x.awake?'헌터':'일반인',x.age,x.rank?rankCell(x.rank):'<span class="dim">—</span>',x.awake?`<span class="${x.guild?'':'good'}">${guildName(x.guild)}</span>`:esc(x.job||'—'),x.id]}))}},
-   filters:()=>[['HUNTER','헌터'],['FREE','무소속 헌터'],['NPC','일반인']],
-   rows:()=>[...allHunters().map(h=>({id:h.id,f:['HUNTER',...(h.guild?[]:['FREE'])],q:[h.name,h.id,DB.classes[h.cls]?.name,guildName(h.guild)].join(' '),
-       cells:[`<b>${esc(h.name)}</b>${h.id===G.player.id?' <span class="chip a">나</span>':KNOW.get(h.id,'report')?' <span class="chip g">보고서</span>':''}`,'헌터',h.age??'—',rankCell(h.rank),`<span class="${h.guild?'':'good'}">${guildName(h.guild)}</span>`,h.id]})),
-     ...[...vals('npcs'),...Object.values(G.genNpcs||{})].map(n=>({id:n.id,f:['NPC'],q:[n.name,n.id,n.job].join(' '),cells:[`<b>${esc(n.name)}</b>`,'일반인',n.age??'—','<span class="dim">—</span>',esc(relOf(n.id)||SETTINGS.dev?SIM.jobTitle(n):n.job||'—'),n.id]}))]},
-  {id:'MONSTER', name:'몬스터', head:['이름','분류','추정 등급','ID'],
-   filters:()=>vals('monsterCats').map(c=>[c.id,c.name]),
-   rows:()=>vals('monsters').map(m=>({id:m.id,f:[m.cat],q:[m.name,m.id,m.desc].join(' '),cells:[`<b>${esc(m.name)}</b>`,DB.monsterCats[m.cat]?.name||'—',rankCell(m.rank),m.id]}))},
-  ...vals('itemCats').filter(c=>c.equip).map(c=>({id:'IT:'+c.id, name:c.name, item:true, head:['이름','부위','등급','착용 조건','기준가','ID'], right:[4],
-   filters:()=>vals('equipSlots').filter(sl=>vals('items').some(i=>i.cat===c.id&&i.slot===sl.id)).map(sl=>[sl.id,sl.name]),
-   rows:()=>vals('items').filter(it=>it.cat===c.id).map(it=>({id:it.id,f:[it.slot],q:[it.name,it.id,it.desc].join(' '),cells:[`<b>${esc(it.name)}</b>`,DB.equipSlots[it.slot]?.name||'—',rankCell(it.rank),Object.entries(it.req||{}).map(([k,v])=>`${k==='lv'?'레벨':DB.baseStats[k]?.short||k} ${v}`).join(' · ')||'<span class="dim">없음</span>',it.price==null?'<span class="dim">감정 필요</span>':it.price?won(it.price):'—',it.id]}))})),
-  {id:'ITEM', name:'기타 아이템', item:true, head:['이름','분류','등급','기준가','ID'], right:[3],
-   filters:()=>vals('itemCats').filter(c=>!c.equip).map(c=>[c.id,c.name]),
-   rows:()=>vals('items').filter(it=>!DB.itemCats[it.cat]?.equip).map(it=>({id:it.id,f:[it.cat],q:[it.name,it.id,it.desc].join(' '),cells:[`<b>${esc(it.name)}</b>`,DB.itemCats[it.cat]?.name||'—',rankCell(it.rank),it.price==null?'<span class="dim">감정 필요</span>':it.price?won(it.price):'—',it.id]}))},
-  {id:'CLASS', name:'클래스', head:['이름','계열','성향','전용 스킬 후보','ID'], right:[3],
-   filters:()=>vals('classCats').map(c=>[c.id,c.name]),
-   rows:()=>vals('classes').map(c=>({id:c.id,f:[c.cat],q:[c.name,c.id,c.desc].join(' '),cells:[`<b>${esc(c.name)}</b>`,DB.classCats[c.cat]?.name||'—',DB.roles[c.role]?.name||'—',(c.pool||[]).length+'개',c.id]}))},
-  {id:'SKILL', name:'스킬', head:['이름','범위','종류','분류','ID'],
-   filters:()=>[['class','클래스 전용'],['common','공용']],
-   rows:()=>vals('skills').map(k=>({id:k.id,f:[k.scope],q:[k.name,k.id,k.desc,k.kind,k.cat].join(' '),cells:[`<b>${esc(k.name)}</b>`,`<span class="chip ${k.scope==='class'?'a':''}">${k.scope==='class'?'클래스 전용':'공용'}</span>`,esc(k.kind||'—'),esc(k.cat||'—'),k.id]}))},
-  {id:'WORLD', name:'세계', custom:true, count:()=>'', rows:()=>[], filters:()=>[]},
-];
-/* 세계 통계: 집계 인구 · 어제 NPC 활동 (협회 공개 통계라는 설정) */
-function worldStatsHTML(){const S=SIM.stats();if(!S)return '<div class="panel pb muted">세계 인구가 없습니다.</div>';const L=S.last||{},mx=Math.max(...S.byRank.slice(1));
-  const acts=Object.entries({...(L.popActs||{})}).sort((a,b)=>b[1]-a[1]);const tot=acts.reduce((a,x)=>a+x[1],0)||1;
-  return `<div class="grid g4" style="margin-bottom:12px">${[['인구',S.alive.toLocaleString()+'명'],['각성자',S.awake.toLocaleString()+'명'],['길드 소속',S.guild.toLocaleString()+'명'],['평균 자산',won(S.avgMoney)],['실업률 (일반인)',(S.unemp/Math.max(1,S.civ)*100).toFixed(1)+'%']].map(([k,v])=>`<div class="panel pb stat"><div class="lab"><span>${k}</span></div><div class="big" style="font-size:18px">${v}</div></div>`).join('')}</div>
-  <div class="grid g2"><div class="panel"><div class="ph">등급별 각성자</div><div class="pb" style="display:grid;gap:3px">${S.byRank.map((c,i)=>i?`<div class="meter" style="grid-template-columns:40px 1fr 56px;margin:0"><span>${i}급</span><div class="bar"><i style="width:${c/mx*100}%"></i></div><span class="num r">${c.toLocaleString()}</span></div>`:'').join('')}</div></div>
-  <div class="panel"><div class="ph">어제 하루 (${L.day!=null?dateOf(L.day).m+'/'+dateOf(L.day).d:'—'})</div><div class="pb" style="display:grid;gap:6px;font-size:12px">
-    ${L.career&&Object.keys(L.career).length?`<div>일반인 경력: ${Object.entries(L.career).map(([k,v])=>`${({promo:'승진',fired:'해고',hired:'취업',grad:'졸업',boom:'장사 잘됨',slump:'장사 부진'})[k]||k} ${v}`).join(' · ')}</div>`:''}
-    <div>게이트 공략 <b class="num">${(L.raids||0).toLocaleString()}</b>회 (지켜보는 게이트 ${L.tracked||0}) · 사망 <b class="num">${L.dead||0}</b> · 새 각성 ${L.awaken||0} · 레벨업 ${L.lvups||0} · 등급 상승 ${L.rankups||0} · 부상 중 ${S.inj.toLocaleString()}명</div>
-    <div class="dim">처리 시간 ${L.ms??'—'}ms ${L.prof?`(상세 ${L.prof[0]} · 집계 ${L.prof[1]} · 공략 ${L.prof[2]})`:''}</div>
-    ${acts.slice(0,10).map(([id,n])=>`<div class="meter" style="grid-template-columns:110px 1fr 56px;margin:0"><span>${DB.actions[id]?.name||id}</span><div class="bar"><i style="width:${n/tot*100}%"></i></div><span class="num r">${Math.round(n/tot*100)}%</span></div>`).join('')}
-    <div class="dim" style="font-size:11px">배경 인구가 고른 행동 비율 (블록 단위)</div></div></div></div>`}
-const dbTab=()=>DB_TABS.find(t=>t.id===UI.dbTab)||DB_TABS[0];
-function dbFiltered(){const t=dbTab(),q=UI.dbQ.trim().toLowerCase();
-  const rows=t.rows().filter(r=>(UI.dbF==='ALL'||r.f.includes(UI.dbF))&&(!q||r.q.toLowerCase().includes(q)));rows.total=rows.length;
-  if(t.more){const m=t.more(UI.dbQ.trim(),UI.dbF,Math.max(0,500-rows.length));rows.push(...m.rows);rows.total+=m.total}  /* 집계 인구 (수만 명): 앞 500개만 행으로 만든다 */
-  return rows}
-function dbListHTML(rows){const t=dbTab(),R=new Set(t.right||[]),sel=UI.dbSel;
-  return `<table><thead><tr>${t.head.map((h,i)=>`<th class="${R.has(i)?'r':''}">${h}</th>`).join('')}</tr></thead><tbody>
-    ${rows.slice(0,500).map(r=>`<tr data-dbsel="${r.id}" tabindex="0" class="${r.id===sel?'sel':''}" style="cursor:pointer">${r.cells.map((c,i)=>`<td class="${R.has(i)?'r num':''}${i===r.cells.length-1?' dim num':''}">${c}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${t.head.length}" class="muted">조건에 맞는 항목이 없습니다.</td></tr>`}</tbody></table>${(rows.total??rows.length)>500?`<div class="dim" style="padding:8px">앞의 500개만 표시합니다. 검색어를 좁혀 주세요.</div>`:''}`}
 /* 일반인 정보: 직업 · 직급 · 경력(아는 만큼) · 생활. 개발자 보기는 업무 능력 · 수입 */
 function civDetailHTML(n,rel,kv){const dev=!!SETTINGS.dev,cl=rel?.to?.RD_CLOSE||0,known=dev||cl>=30||!!KNOW.get(n.id,'career'),cr=SIM.careerOf(n),st=G.ai?.[n.id],J=DB.aiJobs[cr.job];
   const jt=known?SIM.jobTitle(n):esc(n.job||'—'),log=(st?.careerLog||[]).slice(0,5);
@@ -2617,52 +2547,7 @@ function civDetailHTML(n,rel,kv){const dev=!!SETTINGS.dev,cl=rel?.to?.RD_CLOSE||
     ${known&&log.length?`<div><div class="sub" style="margin-bottom:4px">경력</div>${log.map(([d,e,t])=>`<div style="font-size:12px"><span class="num muted">${dateOf(d).m}/${dateOf(d).d}</span> ${evName[e]||e} <span class="dim">${esc(t)}</span></div>`).join('')}</div>`:''}
     <div class="dim" style="font-size:11px">${known?'':'자세한 사정은 더 가까워져야 압니다 (친밀도 30+ 또는 직접 들은 소식).'}</div>
     ${npcLifeHTML(n,rel)}</div>`}
-function dbDetailHTML(id){
-  if(!id) return '<div class="pb muted">항목을 고르세요.</div>';
-  const t=UI.dbTab, kv=pairs=>`<dl class="kv" style="font-size:12px">${pairs.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>`, ph=(n)=>`<div class="ph"><span>${esc(n)}</span><span class="dim num" style="font-weight:400">${id}</span></div>`;
-  if(t==='PEOPLE'&&SIM.isPop(id)&&!G.genHunters?.[id]&&!G.genNpcs?.[id]){const x=SIM.popRow(+id.slice(3));
-    return ph(x.name)+`<div class="pb" style="display:grid;gap:10px">${kv(x.awake?[['구분','헌터'],['등급',rankCell(x.rank)+' '+DB.ranks[x.rank].name+'급'],['레벨','? (스카우트 필요)'],['소속',guildName(x.guild)],['나이',x.age+'세'],['거주',regionName(x.region)]]:[['구분','일반인'],['직업',esc(x.job||'—')],['나이',x.age+'세'],['거주',regionName(x.region)]])}
-      ${x.awake?`<div class="row"><button class="btn pri" data-hunter="${x.id}">정보창 열기</button></div>`:''}<div class="dim" style="font-size:11px">배경 인구 (집계 처리). 정보창을 열면 상세 인물이 됩니다.</div></div>`}
-  if(t==='PEOPLE'){const h=H(id);
-    if(h){const me=h.id===G.player.id,rep=me?null:KNOW.get(h.id,'report'),known=me||!!rep;return ph(h.name)+`<div class="pb" style="display:grid;gap:10px">${kv([['구분','헌터'],['등급',rankCell(h.rank)+' '+DB.ranks[h.rank].name+'급'],['레벨',me?'Lv.'+h.level:rep?`Lv.${rep.v.level} <span class="dim">(${KNOW.ageTxt(rep)} 보고서)</span>`:'? (스카우트 필요)'],['클래스',DB.classes[h.cls]?.name||'—'],['역할',DB.roles[h.roleMain]?.name||'—'],['소속',guildName(h.guild)],['나이',h.age?h.age+'세':'—'],['거주',regionName(h.region)]])}
-      <div class="row"><button class="btn pri" data-hunter="${h.id}">정보창 열기</button>${me?'':`<button class="btn" data-actdo="ACT_SCOUT" data-acttgt="${h.id}" title="${esc(DB.actions.ACT_SCOUT.desc)}">${rep?'보고서 다시 요청':'스카우트 보고서 요청'}</button>`}</div></div>`}
-    const n=P(id);if(!n)return '';const rel=relOf(id);
-    return ph(n.name)+civDetailHTML(n,rel,kv)}
-  if(t==='MONSTER'){const m=DB.monsters[id],gs=vals('gates').filter(g=>g.mon===id);
-    return ph(m.name)+`<div class="pb" style="display:grid;gap:10px"><p style="margin:0">${esc(m.desc||'')}</p>${kv([['분류',DB.monsterCats[m.cat]?.name||'—'],['추정 등급',m.rank?DB.ranks[m.rank].name+'급':'미상']])}
-      <div class="trig" style="margin:0">협회 장비와 축적 정보로 매긴 추정 등급이라 틀릴 수 있습니다.</div>
-      <div><div class="sub" style="margin-bottom:4px">출현 중인 게이트</div>${gs.map(g=>`<button class="chip" data-gate="${g.id}">${rkBadge(g.rank)} ${esc(g.name)}</button>`).join(' ')||'<span class="dim">없음</span>'}</div></div>`}
-  if(t==='ITEM'){const it=DB.items[id],own=(G.inv||[]).filter(r=>r.item===id).reduce((a,r)=>a+r.qty,0);
-    return ph(it.name)+`<div class="pb" style="display:grid;gap:10px"><p style="margin:0">${esc(it.desc||'설명 없음')}</p>${kv([['분류',DB.itemCats[it.cat]?.name||'—'],['등급',it.rank?DB.ranks[it.rank].name+'급':'—'],['기준가',it.price==null?'감정 필요':it.price?won(it.price):'—'],['시스템 상점',(s=>s?won(s.price):'판매 안 함')(vals('sysShop').find(x=>x.item===id))],['보유',own?own+'개':'없음']])}
-      ${own?'<button class="btn" data-go="inventory">소지품에서 보기</button>':''}</div>`}
-  if(t==='CLASS'){const c=DB.classes[id],hs=allHunters().filter(h=>h.cls===id);
-    return ph(c.name)+`<div class="pb" style="display:grid;gap:10px"><p style="margin:0">${esc(c.desc||'')}</p>${kv([['계열',DB.classCats[c.cat]?.name||'—'],['성향',DB.roles[c.role]?.name||'—'],['생성 시 전용 스킬',c.pick+'개 선택']])}
-      <div><div class="sub" style="margin-bottom:4px">전용 스킬 후보 ${(c.pool||[]).length}</div><div class="chips">${(c.pool||[]).map(s=>`<span class="chip">${esc(DB.skills[s]?.name||s)}</span>`).join('')}</div></div>
-      <div><div class="sub" style="margin-bottom:4px">알려진 보유자</div>${hs.map(h=>`<button class="chip" data-hunter="${h.id}">${esc(h.name)}</button>`).join(' ')||'<span class="dim">없음</span>'}</div>
-      <div class="dim" style="font-size:11px">같은 이름의 클래스라도 스킬은 사람마다 다릅니다.</div></div>`}
-  const k=DB.skills[id],cs=vals('classes').filter(c=>(c.pool||[]).includes(id)),hs=allHunters().filter(h=>h.skills.some(([s])=>s===id));
-  return ph(k.name)+`<div class="pb" style="display:grid;gap:10px"><p style="margin:0">${esc(k.desc||'')}</p>${kv([['범위',k.scope==='class'?'클래스 전용':'공용'],['종류',esc(k.kind||'—')],['분류',esc(k.cat||'—')]])}
-    ${cs.length?`<div><div class="sub" style="margin-bottom:4px">후보로 가진 클래스</div><div class="chips">${cs.map(c=>`<span class="chip">${esc(c.name)}</span>`).join('')}</div></div>`:''}
-    <div><div class="sub" style="margin-bottom:4px">알려진 보유자</div>${hs.map(h=>`<button class="chip" data-hunter="${h.id}">${esc(h.name)}</button>`).join(' ')||'<span class="dim">없음</span>'}</div></div>`;
-}
-/* DB 줄을 누르면: 헌터 → 정보창, 아이템 → 아이템 상세, 그 밖(일반인 · 몬스터 · 클래스 · 스킬) → 정보 창 */
-function dbOpen(id){const t=dbTab();UI.dbSel=id;
-  if(t.item){showItem(id);return}
-  if(t.id==='PEOPLE'){const h=H(id);if(h){UI.profileId=h.id;UI.profTab='개요';UI.screen='profile';$('#main').scrollTop=0;render();return}}
-  showInfo(dbDetailHTML(id))}
 function showInfo(html){let el=$('#iv');if(!el){el=document.createElement('div');el.id='iv';document.body.appendChild(el)}el.innerHTML=`<div class="qsbg" data-ivclose="1"></div><div class="ivp infop" role="dialog" tabindex="-1" style="--rc:var(--line2)"><button class="btn sm ivx" data-ivclose="1" aria-label="닫기">✕</button>${html}</div>`;el.querySelector('.ivp')?.focus()}
-function dbRefresh(){const rows=dbFiltered(),l=$('#dblist'),c=$('#dbcount');
-  if(UI.dbSel&&!rows.some(r=>r.id===UI.dbSel))UI.dbSel=null;
-  if(l){const sc=l.scrollTop;l.innerHTML=dbListHTML(rows);l.scrollTop=sc}
-  if(c)c.textContent=(rows.total??rows.length).toLocaleString()+'개';
-  document.querySelectorAll('[data-dbf]').forEach(b=>b.classList.toggle('a',b.dataset.dbf===UI.dbF))}
-V.db=()=>{const t=dbTab(),rows=dbFiltered();
-  return `<div class="h-row"><div><h1 class="h1">DB</h1><div class="sub">인물 · 몬스터 · 무기 · 방어구 · 악세사리 · 아이템 · 클래스 · 스킬. 이름 · ID · 설명으로 검색하고, 줄을 누르면 정보창이 열립니다. 협회와 공개 정보 기준이며, 모르는 정보는 표시되지 않습니다.</div></div></div>
-  <div class="tabs" role="tablist">${DB_TABS.map(x=>`<button role="tab" aria-selected="${x.id===t.id}" data-dbtab="${x.id}">${x.name} <span class="dim num">${(x.count?x.count():x.rows().length).toLocaleString()}</span></button>`).join('')}</div>
-  ${t.custom?worldStatsHTML():`<div class="row" style="margin:10px 0;flex-wrap:wrap;gap:8px"><div class="field" style="flex:1;min-width:200px;max-width:420px"><input type="text" placeholder="${t.name} 검색 (이름 · ID · 설명)" value="${esc(UI.dbQ)}" data-dbq="1" aria-label="${t.name} 검색"></div><span class="muted">결과 <b id="dbcount" class="num">${(rows.total??rows.length).toLocaleString()}개</b></span></div>
-  <div class="chips" style="margin-bottom:10px">${[['ALL','전체'],...t.filters()].map(([id,n])=>`<button class="chip ${UI.dbF===id?'a':''}" data-dbf="${id}">${esc(n)}</button>`).join('')}</div>
-  <div class="panel pb tight"><div class="tw" id="dblist" style="max-height:calc(100vh - 300px);overflow:auto">${dbListHTML(rows)}</div></div>`}`};
-
 /* ---------- FM식 헌터 정보창 (DB에서 연다. 나 · 다른 헌터 공용) ---------- */
 function ring(label,v,color){const c=2*Math.PI*26;return `<div class="ring"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="#243042" stroke-width="6"/><circle cx="32" cy="32" r="26" fill="none" stroke="${color}" stroke-width="6" stroke-dasharray="${c*v/100} ${c}" transform="rotate(-90 32 32)" stroke-linecap="round"/><text x="32" y="37" text-anchor="middle">${v}%</text></svg>${label}</div>`}
 /* NPC 생활 (자율 행동 엔진). 내가 아는 만큼만 보인다: 친밀도 30+ 목표 · 60+ 오늘 한 일. 개발자 보기는 전부 + 결정 이유 */
@@ -3300,23 +3185,10 @@ document.addEventListener('click',e=>{
   if(d.poach){const [id,a]=d.poach.split('|');poachAct(id,a);render();return}
   if(d.crest){const [k,v]=d.crest.split('|');setCrest(k,v);render();return}
   if(d.shoptab){UI.shopTab=d.shoptab;UI.shopSel=null;UI.shopQty=1;render();return}
-  if(d.shopsel!=null){UI.shopSel=UI.shopTab==='sell'?+d.shopsel:d.shopsel;UI.shopQty=1;render();return}
-  if(d.shopbuy){const s=DB.sysShop[d.shopbuy],it=DB.items[s.item],left=shopLeft(s),n=Math.max(1,Math.min(UI.shopQty||1,left??99)),t=shopCoin(s)*n;
-    if(t>(G.coin||0)){toast('코인이 부족합니다.');return}
-    G.coin-=t;if(left!=null)G.shop[s.id]=left-n;STAR.gift(s.item,n,'shop');
-    toast(`<b>${esc(it.name)}</b> ${n}개를 헌터에게 보냈습니다 (−◈${t.toLocaleString()} 코인).`);UI.shopQty=1;render();return}
-  if(d.shopsell!=null){const i=+d.shopsell,r=invOf()[i];if(!r)return;const it=DB.items[r.item],n=Math.max(1,Math.min(UI.shopQty||1,r.qty)),t=sellPrice(it)*n;
-    invTake(i,n);G.coin=(G.coin||0)+t;
-    toast(`<b>${esc(it.name)}</b> ${n}개를 팔았습니다 (+◈${t.toLocaleString()} 코인).`);UI.shopSel=null;UI.shopQty=1;render();return}
-  if(d.dbtab){UI.dbTab=d.dbtab;UI.dbF='ALL';UI.dbSel=null;render();return}
-  if(d.dbf){UI.dbF=d.dbf;UI.dbSel=null;dbRefresh();return}
-  if(d.dbsel){dbOpen(d.dbsel);return}
   if(d.newscat){UI.newsCat=d.newscat;render();return}
 });
 /* 입력 필드 (캐릭터 생성 · 설정). 텍스트 입력 중에는 전체를 다시 그리지 않는다 (한글 입력 보호) */
 document.addEventListener('input',e=>{const el=e.target,d=el.dataset,cc=UI.cc;if(UI.busy)return;
-  if(d.dbq!=null){UI.dbQ=el.value;UI.dbSel=null;dbRefresh();return}
-  if(d.shopqty){UI.shopQty=Math.max(1,Math.min(+el.max||99,parseInt(el.value,10)||1));const t=$('#shoptot');if(t)t.innerHTML=shopTotHTML();return}
   if(!cc&&!d.setsel)return;
   if(d.clsq){cc.clsQ=el.value;refreshCls();return}
   if(d.comq){cc.comQ=el.value;refreshCls();return}

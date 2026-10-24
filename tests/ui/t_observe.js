@@ -27,8 +27,9 @@ const {chromium}=require('playwright'), path=require('path'), assert=require('as
     assert.equal(await p.evaluate(()=>EVT.pending().length),0);
     await p.click('[data-life-roll-continue]');
     // Real purchase and equipment controls must survive the UI policy.
-    await p.evaluate(()=>{UI.screen='shop';G.coin=100000;render()});
-    assert(await p.locator('[data-shopbuy]').count()>0);await p.click('[data-shopbuy]');
+    await p.evaluate(()=>{UI.screen='shop';G.coin=100000;render()});  /* 옛 상점 주소 → 성좌 › 상점 */
+    assert.equal(await p.evaluate(()=>UI.screen),'homeTrade');
+    await p.click('.su-item:not(.out) >> nth=0');assert(await p.locator('[data-subuy]').count()>0);await p.click('[data-subuy]');
     assert(await p.evaluate(()=>G.coin<100000));
     // Force a crisis, answer on the life screen, then complete through the same engine.
     const hand=await p.evaluate(()=>{

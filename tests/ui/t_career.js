@@ -12,8 +12,7 @@ await p.evaluate(()=>{const c=SIM.careerOf(P('NP_B0002'));c.tot=47;for(let i=0;i
 console.log('sister',await p.evaluate(()=>[SIM.jobTitle(P('NP_B0002')),JSON.stringify(G.ai.NP_B0002.careerLog||[]),(threadWith('NP_B0002').msgs.slice(-1)[0]||{}).t]));
 console.log('world career',await p.evaluate(()=>{let n={};for(let k=0;k<1;k++){}return JSON.stringify(G.simStat.career)}));
 console.log('pop after',await p.evaluate(()=>{const S=SIM.stats();return `unemp ${S.unemp} (${(S.unemp/S.civ*100).toFixed(1)}%) avg ${won(S.avgMoney)}`}));
-await p.evaluate(()=>{UI.screen='db';UI.dbTab='PEOPLE';UI.dbF='NPC';UI.dbQ='';UI.dbSel='NP_B0002';render()});await p.screenshot({path:OUT+'/career_db.png'});
-await p.evaluate(()=>{UI.dbTab='WORLD';render()});await p.screenshot({path:OUT+'/career_world.png'});
+await p.evaluate(()=>{DB_UI.open('people','NP_B0002')});await p.screenshot({path:OUT+'/career_db.png'});
 /* 배경 인구 일반인 승격 → 경력 이어짐 */
 console.log('promo civ',await p.evaluate(()=>{const r=SIM.search('','NPC',1).rows[0];const o=P(r.id);return r.job+' → '+SIM.jobTitle(o)}));
 console.log('errs',errs);await b.close()})();
