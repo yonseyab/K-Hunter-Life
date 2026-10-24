@@ -177,3 +177,18 @@
 @media (max-width:1200px){.hi-cols{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.hi-cols>.hi-col:nth-child(2){grid-column:span 2;order:1}.hi-facts{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (max-width:760px){.hi-band{grid-template-columns:1fr}.hi-facts{grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr))}.hi-cols{grid-template-columns:minmax(0,1fr)}.hi-cols>.hi-col:nth-child(2){grid-column:auto}}
 .kimgp {display:block;width:100%;margin-top:8px;background:var(--bg);color:var(--fg);border:1px solid var(--line2);border-radius:3px;padding:8px 10px;font:12px/1.6 var(--f-body);resize:vertical;}
+/* 상태창 › 장비 (2026-10-24) */
+#hs-bag {margin-top:10px;}
+.hs-gear {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);}
+.hs-gslot {display:grid;gap:3px;align-content:start;padding:8px 10px;background:var(--panel);border-top:2px solid var(--gc,transparent);min-width:0;font-size:12px;}
+.hs-gslot.empty,.hs-gslot.linked {border-top-color:transparent;}
+.hs-gslot b {font-weight:600;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.hs-gk {display:flex;justify-content:space-between;gap:6px;font-size:11px;color:var(--muted);}
+.hs-gg {font-size:10px;color:var(--gc);}
+.hs-gt {font-size:11px;color:var(--warn);}
+.hs-gd {display:block;height:4px;background:var(--panel2);border:1px solid var(--line);margin-top:2px;}
+.hs-gd i {display:block;height:100%;background:var(--good);}
+.hs-gd.bad i {background:var(--bad);}
+.hs-gslot small {font-size:10px;}
+.hs-gsum {display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;padding:8px 10px;border-top:1px solid var(--line);font-size:12px;}
+@media (max-width:760px){.hs-gear{grid-template-columns:repeat(2,minmax(0,1fr))}}

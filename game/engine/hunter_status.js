@@ -45,10 +45,26 @@ const HUNTER_STATUS = (() => {
     const L=G.player.traits||[];
     return `<section class="hs-section" id="hs-traits"><header><span>특성</span><span class="muted">${L.length}개</span></header>${L.length?`<table class="hs-table hs-trait-table"><thead><tr><th>특성</th><th>분류</th><th>설명</th></tr></thead><tbody>${L.map(id=>{const t=DB.traits[id];return `<tr><td>${esc(t?.name||'알 수 없는 특성')}</td><td>${esc(DB.traitCats[t?.cat]?.name||'—')}</td><td>${esc(t?.desc||'—')}</td></tr>`;}).join('')}</tbody></table>`:'<div class="hs-empty muted">보유 특성 없음</div>'}</section>`;
   }
+  /* 장비 (2026-10-24): 칸 8개 · 등급 · 내구도 · 입으면 더해지는 값 · 가방 속 장비. 입을지는 헌터가 정한다 (버튼 없음) */
+  function gearHTML() {
+    const ST={atk:'공격',mag:'마공',def:'방어',res:'마법 저항',acc:'명중',eva:'회피',crit:'치명'}, tot={};
+    const statOf=it=>{const st=it.stat||{},L=Object.entries(st).map(([k,v])=>`${ST[k]||k} +${v}`);if(!L.length){const g=GEAR.gradeOf(it);if(g)L.push(`등급 보정 +${g.bonus}`)}return L.join(' · ')};
+    const W=GEAR.worn(); W.forEach(({r,it})=>{if(GEAR.broken(r))return;Object.entries(it.stat||{}).forEach(([k,v])=>tot[k]=(tot[k]||0)+v)});
+    const cell=sl=>{const x=GEAR.at(sl.id);if(!x)return `<div class="hs-gslot empty"><span class="hs-gk">${esc(sl.name)}</span><span class="dim">비어 있음</span></div>`;
+      const {r,it}=x,g=GEAR.gradeOf(it),own=GEAR.slotOf(it)===sl.id,md=GEAR.maxDur(it),d=GEAR.durOf(r);
+      if(!own)return `<div class="hs-gslot linked"><span class="hs-gk">${esc(sl.name)}</span><span class="dim">${esc(it.name)}${it.twoHand?' (양손)':' (한 벌)'}</span></div>`;
+      return `<div class="hs-gslot" style="--gc:${g?.color||'var(--line2)'}"><span class="hs-gk">${esc(sl.name)}${g?`<span class="hs-gg">${esc(g.name)}</span>`:''}</span><b data-item="${it.id}">${esc(it.name)}</b><span class="muted">${esc(statOf(it))||'—'}</span>
+        ${GEAR.traitsOf(it).length?`<span class="hs-gt">${GEAR.traitsOf(it).map(t=>esc(GEAR.traitTxt(t))).join(' · ')}</span>`:''}
+        ${md?`<span class="hs-gd ${GEAR.broken(r)?'bad':''}"><i style="width:${Math.round(d/md*100)}%"></i></span><small class="${GEAR.broken(r)?'bad':'dim'}">${GEAR.broken(r)?'부서짐 — 성능 없음':`내구도 ${d} / ${md}`}</small>`:''}</div>`};
+    const bag=invOf().filter(r=>r.loc!=='LOC_BODY'&&DB.items[r.item]&&GEAR.slotOf(DB.items[r.item]));
+    return `<section class="hs-section" id="hs-gear"><header><span>착용 장비</span><span class="muted">입을지는 헌터가 정한다</span></header><div class="hs-gear">${vals('equipSlots').map(cell).join('')}</div>
+      <div class="hs-gsum"><span class="muted">장비로 더해지는 값</span>${Object.keys(tot).length?Object.entries(tot).map(([k,v])=>`<span><b class="num">+${v}</b> ${ST[k]||k}</span>`).join(''):'<span class="dim">없음</span>'}</div></section>
+      <section class="hs-section" id="hs-bag"><header><span>입지 않은 장비</span><span class="muted">${bag.length}개</span></header>${bag.length?`<table class="hs-table"><thead><tr><th>장비</th><th>칸</th><th>등급</th><th>성능</th><th>있는 곳</th></tr></thead><tbody>${bag.map(r=>{const it=DB.items[r.item],g=GEAR.gradeOf(it);return `<tr><td><b data-item="${it.id}" style="cursor:pointer">${esc(it.name)}</b></td><td>${esc(DB.equipSlots[GEAR.slotOf(it)]?.name||'')}</td><td>${g?`<span style="color:${g.color}">${esc(g.name)}</span>`:'—'}</td><td class="muted">${esc(statOf(it))||'—'}</td><td>${esc(DB.itemLocs[r.loc]?.name||'')}</td></tr>`}).join('')}</tbody></table>`:'<div class="hs-empty muted">없음</div>'}</section>`;
+  }
   function html() {
     lastStamp = stamp();
-    const tabs=[['base','기본 상태'],['classSkills','클래스 · 스킬'],['traits','특성']],tab=tabs.some(([id])=>id===UI.hunterStatusTab)?UI.hunterStatusTab:'base';
-    return `<div id="hunterStatus" class="hunter-status"><div class="home-category-tabs hs-tabs" role="tablist" aria-label="상태창 상세">${tabs.map(([id,label])=>`<button role="tab" id="hs-tab-${id}" data-hs-tab="${id}" aria-selected="${id===tab}" aria-controls="hs-content" tabindex="${id===tab?0:-1}">${label}</button>`).join('')}</div><div id="hs-content" class="hs-content" role="tabpanel" aria-labelledby="hs-tab-${tab}">${tab==='base'?`<div id="hs-overview">${statusWindowHTML(G.player,true,{hunter:true})}</div>`:tab==='classSkills'?`${classHTML()}${skillsHTML()}`:traitsHTML()}</div><div id="hs-message" class="hs-message" role="status" aria-live="polite"></div></div>`;
+    const tabs=[['base','기본 상태'],['gear','장비'],['classSkills','클래스 · 스킬'],['traits','특성']],tab=tabs.some(([id])=>id===UI.hunterStatusTab)?UI.hunterStatusTab:'base';
+    return `<div id="hunterStatus" class="hunter-status"><div class="home-category-tabs hs-tabs" role="tablist" aria-label="상태창 상세">${tabs.map(([id,label])=>`<button role="tab" id="hs-tab-${id}" data-hs-tab="${id}" aria-selected="${id===tab}" aria-controls="hs-content" tabindex="${id===tab?0:-1}">${label}</button>`).join('')}</div><div id="hs-content" class="hs-content" role="tabpanel" aria-labelledby="hs-tab-${tab}">${tab==='base'?`<div id="hs-overview">${statusWindowHTML(G.player,true,{hunter:true})}</div>`:tab==='gear'?gearHTML():tab==='classSkills'?`${classHTML()}${skillsHTML()}`:traitsHTML()}</div><div id="hs-message" class="hs-message" role="status" aria-live="polite"></div></div>`;
   }
   function renderStatus() {
     const root=document.getElementById('hunterStatus'); if(!root)return;

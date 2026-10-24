@@ -124,7 +124,12 @@ def('balance', [
   /* autoSellFee: '공략 끝나면 자동 판매'(협회 원격 매입) 수수료 — 매입소에 직접 가서 팔면 없음 (사용자 요청 2026-10-23) */
   /* BAL_GEAR: repairRate = 수리비(기준가 × 닳은 비율 × 등급 repair 에 곱함). autoRepairAt: 내구가 이 비율 아래면 공략 뒤 공방에 맡김 (돈이 수리비 × keep 배 이상일 때). armorPieceMul: 상의 · 하의 따로면 각각 이 배율 (한 벌은 1) */
   {id:'BAL_GEAR', proto:true, repairRate:0.3, autoRepairAt:0.5, keep:3, armorPieceMul:0.6},
-  {id:'BAL_SHOP', proto:true, sellRate:0.4, assocRate:0.9, autoSellFee:0.03},
+  {id:'BAL_SHOP', proto:true, sellRate:0.4, assocRate:0.9, autoSellFee:0.03,
+    /* 성좌 상점 매일 진열 (engine/star.js rollShop): groups = [[갈래들], 개수] · gradeW = 헌터 등급에 맞는 장비 등급에서 멀어질수록 비중 (0, 1, 2 … 칸 차이)
+       plainW = 등급 없는 물건 비중 · qty = 장비가 아닌 물건 재고 [최소, 최대] · price = 코인 환산가 배율 [최소, 최대] */
+    stock:{cats:['ITC_WEAPON','ITC_ARMOR','ITC_ACCESSORY','ITC_GEAR','ITC_CONSUME','ITC_STONE','ITC_MAT','ITC_BOOK'],
+      groups:[[['ITC_WEAPON'],4],[['ITC_ARMOR'],4],[['ITC_ACCESSORY'],2],[['ITC_CONSUME','ITC_GEAR'],5],[['ITC_STONE','ITC_MAT'],2],[['ITC_BOOK'],1]],
+      gradeW:[60,22,6,1.2,0.25], plainW:20, qty:[2,6], price:[0.9,1.2]}},
   /* 코인: 몬스터 1마리 처치마다 perKill × (21 − 게이트 등급 숫자)^rankExp 코인 (후퇴하면 retreat 배). wonPerCoin: 코인 가격이 없을 때 원화 기준가를 코인으로 바꾸는 값 */
   /* 협회 경매장 (원화). 매일 NPC 출품이 newPerDay 개쯤 올라오고, 경매는 days 일 동안 열린다. 시작가 = 기준가 × start, 즉시 구매가 = 기준가 × buyout
      NPC 입찰: 시간마다 bidPerHour 확률로 다음 입찰가(현재가 × (1 + step))를 부르되, 기준가 × npcMax 를 넘으면 멈춘다

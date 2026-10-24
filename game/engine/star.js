@@ -77,6 +77,33 @@ const STAR = (() => {
   }
   const sellerName = () => { const L = vals('constellations'); return L.length && Math.random() >= B().anonSeller ? L[Math.floor(Math.random() * L.length)].name : '익명의 성좌'; };
 
+  /* ---------- 상점 진열 (2026-10-24): 매일 바뀌는 진열 + 늘 파는 기본 물건(sysShop) ----------
+     헌터 등급에 맞는 장비 등급이 많이 나온다 (BAL_SHOP.stock). 값은 코인 환산가 ±, 재고는 장비 1 · 나머지 몇 개 */
+  const SB = () => DB.balance.BAL_SHOP;
+  const shopPool = () => vals('items').filter(i => i.price > 0 && !i.old && !GEAR.gradeOf(i)?.hidden && SB().stock.cats.includes(i.cat) && !(i.classBook && isUnique(i.classBook)));
+  function rollShop() {
+    const b = SB().stock, lv = DB.ranks[G.player?.rank]?.lv ?? 20, shift = Math.max(0, Math.min(4, Math.floor((20 - lv) / 4))), pool = shopPool();
+    const w = it => { const g = GEAR.gradeOf(it); return g ? (b.gradeW[Math.abs(g.n - 1 - shift)] ?? 0.1) : b.plainW; };
+    const take = (cats, n) => { const L = pool.filter(i => cats.includes(i.cat)), out = [];
+      for (let k = 0; k < n && L.length; k++) { let t = L.reduce((a, i) => a + w(i), 0), x = Math.random() * t, j = 0; for (; j < L.length - 1; j++) { x -= w(L[j]); if (x <= 0) break; } out.push(L.splice(j, 1)[0]); } return out; };
+    const list = b.groups.flatMap(([cats, n]) => take(cats, n)), seq = (G.shopStock?.seq || 0) + 1;
+    G.shopStock = { day: G.day, seq, list: list.map((it, k) => { const eq = !!GEAR.slotOf(it), q = eq ? 1 : b.qty[0] + Math.floor(Math.random() * (b.qty[1] - b.qty[0] + 1));
+      return { id: `SR${seq}_${k}`, item: it.id, coin: Math.max(1, Math.round(coinPrice(it.price) * (b.price[0] + Math.random() * (b.price[1] - b.price[0])))), left: q }; }) };
+  }
+  /* 지금 진열: [{id, item, coin, left(null = 무제한), fixed}] */
+  function shopList() {
+    if (!G) return []; if (!G.shopStock || G.shopStock.day !== G.day) rollShop();
+    const fixed = vals('sysShop').filter(x => DB.items[x.item]).map(x => ({ id: x.id, item: x.item, coin: shopCoin(x), left: shopLeft(x), fixed: true }));
+    return [...G.shopStock.list.filter(x => DB.items[x.item]), ...fixed];
+  }
+  function shopBuy(id, qty) {
+    const e = shopList().find(x => x.id === id); if (!e) return false; const n = Math.max(1, Math.min(qty || 1, e.left ?? 99)), t = e.coin * n;
+    if (e.left === 0) { toast('품절이다.'); return false; } if (t > (G.coin || 0)) { toast('코인이 부족하다.'); return false; }
+    G.coin -= t; if (e.fixed) { if (e.left != null) G.shop[e.id] = e.left - n; } else G.shopStock.list.find(x => x.id === id).left -= n;
+    gift(e.item, n, 'shop'); toast(`<b>${esc(DB.items[e.item].name)}</b>${n > 1 ? ' ' + n + '개' : ''}를 헌터에게 보냈다 (−◈${t.toLocaleString()}).`);
+    if (typeof STARACC !== 'undefined') STARACC.sync(); return true;
+  }
+
   /* ---------- 성좌 경매장 (코인) ---------- */
   const AB = () => DB.balance.BAL_AUCTION;
   const A = () => { ensure(); return G.auction || (G.auction = { lots: [], seq: 0, coin: true }); };
@@ -125,7 +152,7 @@ const STAR = (() => {
       return `<tr><td><b data-item="${it.id}" style="cursor:pointer;text-decoration:underline dotted">${esc(it.name)}</b> <span class="dim">${DB.itemCats[it.cat]?.name || ''}</span></td><td>${it.rank ? rkBadge(it.rank) : '<span class="dim">—</span>'}</td><td class="r num">${l.qty}</td><td class="muted">${esc(l.seller)}</td><td class="r num">${coinTxt(l.bid || l.start)}</td><td>${l.bidder === 'ME' ? '<span class="chip a">나</span>' : l.bidder ? esc(l.bidder) : '<span class="dim">없음</span>'}</td><td class="r num">${l.buyout ? coinTxt(l.buyout) : '—'}</td><td class="num">${left(l)}</td>
       <td class="r">${live ? `<span class="row" style="gap:4px;justify-content:flex-end;flex-wrap:nowrap"><button class="btn sm" data-aucbid="${l.id}" ${l.bidder === 'ME' || (G.coin || 0) < nx ? 'disabled' : ''}>${l.bidder === 'ME' ? '최고가' : '◈' + nx + ' 입찰'}</button>${l.buyout ? `<button class="btn sm pri" data-aucbuy="${l.id}" ${(G.coin || 0) < l.buyout ? 'disabled' : ''}>즉시 구매</button>` : ''}</span>` : ''}</td></tr>`; }).join('') || `<tr><td colspan="9" class="muted">${tab === '경매 목록' ? '올라온 물건이 없습니다.' : '없습니다.'}</td></tr>`}</tbody></table></div></div>`;
   }
-  return { ensure, say, gift, isUnique, holderOf, grantClass, readBook, ofHunter, aucNew, aucBid, aucClose, aucTick, aucDay, aucNext, auctionView, A };
+  return { ensure, say, gift, shopList, shopBuy, rollShop, isUnique, holderOf, grantClass, readBook, ofHunter, aucNew, aucBid, aucClose, aucTick, aucDay, aucNext, auctionView, A };
 })();
 /* 옛 이름으로 부르는 곳 (index.html · 테스트) */
 const AUC = () => STAR.A();

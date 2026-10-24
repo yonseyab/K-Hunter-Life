@@ -35,24 +35,37 @@ const STARACC = (() => {
   /* 게임 → 성좌: 코인 · 헌터 생사 (저장할 때 · 하루마다 · 죽을 때) */
   function sync() {
     if (!G || !G.star) return; const s = at(G.star.slot); if (!s || s.id !== G.star.id) return;
-    update(G.star.slot, x => { x.coin = Math.max(0, Math.round(G.coin || 0)); if (x.hunter && x.hunter.created === G.created) { x.hunter.alive = !G.dead; x.hunter.name = G.player.name; } });
+    update(G.star.slot, x => { x.coin = Math.max(0, Math.round(G.coin || 0)); if (x.hunter && x.hunter.created === G.created) { x.hunter.alive = !G.dead; x.hunter.name = G.player.name; }
+      /* 지난 헌터: 이야기가 끝나면 한 줄 남긴다 (한 번만) */
+      if (G.dead && !(x.past || []).some(p => p.created === G.created)) { const h = G.player, best = typeof bestRankOf === 'function' ? bestRankOf() : h.rank;
+        (x.past = x.past || []).unshift({ created: G.created, name: h.name, cls: h.cls, rank: best || h.rank, level: h.level, days: G.day - (G.startDay ?? G.day) + 1, kind: G.dead.kind || 'death', cause: G.dead.cause || '', cleared: G.stats?.cleared || 0, end: Date.now() }); } });
   }
   const unlocked = k => !!cur()?.unlocks?.[k];
 
-  /* 업적: 이루면 코인 (성좌마다 한 번) */
-  function measure(a) {
-    const h = G.player, S = G.stats || {};
+  /* 업적: 이루면 코인 (성좌마다 한 번). progress(a) = [지금 값, 목표, 이뤘나] — 업적 화면 막대에도 쓴다 */
+  function progress(a) {
+    const h = G?.player; if (!h) return [0, a.n, false]; const S = G.stats || {}, R = G.starRel || {};
+    const lvRank = DB.ranks[h.rank]?.lv ?? 20, wornMax = typeof GEAR !== 'undefined' ? Math.max(0, ...GEAR.worn().map(x => GEAR.gradeOf(x.it)?.n || 0)) : 0;
+    const up = v => [v, a.n, v >= a.n];
     switch (a.measure) {
-      case 'raids': return (S.raids || 0) >= a.n;
-      case 'cleared': return (S.cleared || 0) >= a.n;
-      case 'rank': return (DB.ranks[h.rank]?.lv ?? 20) <= a.n;
-      case 'level': return (h.level || 1) >= a.n;
-      case 'money': return (G.money || 0) >= a.n;
-      case 'days': return G.day - (G.startDay ?? G.day) >= a.n;
-      case 'gifts': return (G.starGifts?.length || 0) >= a.n;
-      case 'rels': return (G.relations || []).length >= a.n;
-    } return false;
+      case 'raids': return up(S.raids || 0);
+      case 'cleared': return up(S.cleared || 0);
+      case 'rank': return [21 - lvRank, 21 - a.n, lvRank <= a.n];
+      case 'level': return up(h.level || 1);
+      case 'money': return up(G.money || 0);
+      case 'days': return up(G.day - (G.startDay ?? G.day));
+      case 'gifts': return up(G.starGifts?.length || 0);
+      case 'rels': return up((G.relations || []).length);
+      case 'skills': return [(h.skills || []).length, a.n + 1, (h.skills || []).length > a.n];
+      case 'gearGrade': return up(wornMax);
+      case 'close': return up((G.relations || []).filter(r => (r.to?.RD_CLOSE || 0) >= 75).length);
+      case 'known': return up(G.starKnown ? 1 : 0);
+      case 'followed': return up(R.followed || 0);
+      case 'refused': return up(R.refused || 0);
+      case 'nakedClear': return up(S.nakedClear || 0);
+    } return [0, a.n, false];
   }
+  const measure = a => progress(a)[2];
   function checkAch() {
     if (!G || G.dead || !G.star) return []; const s = cur(); if (!s) return []; const got = [];
     vals('achievements').forEach(a => { if (s.ach[a.id] || !measure(a)) return; got.push(a); });
@@ -217,5 +230,5 @@ const STARACC = (() => {
     const it = document.querySelector(`[data-smitem="${UI.smSel}"] .tx`); if (it) it.innerHTML = valTxt(UI.smSel, UI.sm);
   });
 
-  return { revealRoll, load, at, cur, curSlot, saveKey, create, remove, attach, sync, unlocked, checkAch, peek, slotsHTML, makeHTML, introHTML, pickHTML, presetHTML, cardOf, genName, begin, colOf, markOf };
+  return { revealRoll, load, at, cur, curSlot, saveKey, create, remove, attach, sync, unlocked, checkAch, peek, progress, slotsHTML, makeHTML, introHTML, pickHTML, presetHTML, cardOf, genName, begin, colOf, markOf };
 })();

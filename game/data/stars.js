@@ -102,10 +102,48 @@ def('giftCovers', [
 ]);
 
 /* 업적 (자리만 — 목록은 나중에). 헌터가 이루면 성좌에게 코인. 성좌마다 한 번만 (다시 받을 수 없다). unlock 이 있으면 그 해금이 열린다
-   {id, name, desc, measure, n, coin, unlock?}
+   {id, cat(성장 · 공략 · 관계 · 인생 · 성좌 · 숨은), name, desc, measure, n, coin, unlock?, hidden?(이루기 전엔 ???)}
    measure: raids(공략 수) · cleared(클리어 수) · rank(등급 숫자 이하) · level(레벨 이상) · money(돈 이상) · days(산 날) · gifts(받은 선물 수) · rels(아는 사람 수)
+            · skills(스킬 수 초과) · gearGrade(입은 장비 등급 n 이상) · close(친밀 75 이상 사람 수) · known(성좌를 앎) · followed · refused(성좌 말 따름 · 거절 수) · nakedClear(장비 없이 클리어)
    unlock : pickPotential(잠재력 직접 고르기) · pickClass(클래스 직접 고르기) · pickStats(능력치 직접 고르기) · peekPotential(잠재력 엿보기) */
-def('achievements', []);
+def('achievements', [
+  /* 성장 */
+  {id:'ACH_001', cat:'성장', name:'첫걸음',            desc:'레벨 5에 오른다',            measure:'level', n:5,   coin:20},
+  {id:'ACH_002', cat:'성장', name:'제 몫을 하는 헌터',  desc:'레벨 15에 오른다',           measure:'level', n:15,  coin:60},
+  {id:'ACH_003', cat:'성장', name:'중견',              desc:'레벨 30에 오른다',           measure:'level', n:30,  coin:150, unlock:'pickStats'},
+  {id:'ACH_004', cat:'성장', name:'벽 너머',            desc:'레벨 50에 오른다',           measure:'level', n:50,  coin:400},
+  {id:'ACH_005', cat:'성장', name:'정점을 보는 자',     desc:'레벨 80에 오른다',           measure:'level', n:80,  coin:1200, unlock:'pickPotential'},
+  {id:'ACH_006', cat:'성장', name:'승급',              desc:'18급 이상이 된다',            measure:'rank',  n:18,  coin:40},
+  {id:'ACH_007', cat:'성장', name:'눈에 띄는 이름',     desc:'15급 이상이 된다',            measure:'rank',  n:15,  coin:120, unlock:'pickClass'},
+  {id:'ACH_008', cat:'성장', name:'상위 헌터',          desc:'10급 이상이 된다',            measure:'rank',  n:10,  coin:500},
+  {id:'ACH_009', cat:'성장', name:'국가 전력',          desc:'5급 이상이 된다',             measure:'rank',  n:5,   coin:2000},
+  {id:'ACH_010', cat:'성장', name:'손에 익은 기술',     desc:'스킬을 6개 넘게 지닌다',       measure:'skills', n:6, coin:40},
+  /* 공략 */
+  {id:'ACH_101', cat:'공략', name:'첫 게이트',          desc:'게이트 공략에 처음 나선다',     measure:'raids',   n:1,   coin:10},
+  {id:'ACH_102', cat:'공략', name:'첫 클리어',          desc:'게이트를 처음 클리어한다',      measure:'cleared', n:1,   coin:20},
+  {id:'ACH_103', cat:'공략', name:'단골 사냥꾼',        desc:'게이트를 10번 클리어한다',      measure:'cleared', n:10,  coin:80},
+  {id:'ACH_104', cat:'공략', name:'베테랑',             desc:'게이트를 50번 클리어한다',      measure:'cleared', n:50,  coin:300},
+  {id:'ACH_105', cat:'공략', name:'백 번의 문',         desc:'게이트를 100번 클리어한다',     measure:'cleared', n:100, coin:800},
+  {id:'ACH_106', cat:'공략', name:'좋은 장비',          desc:'희귀 등급 이상 장비를 입는다',  measure:'gearGrade', n:3, coin:60},
+  {id:'ACH_107', cat:'공략', name:'빛나는 무구',        desc:'전설 등급 장비를 입는다',       measure:'gearGrade', n:5, coin:600},
+  /* 관계 */
+  {id:'ACH_201', cat:'관계', name:'아는 얼굴',           desc:'아는 사람이 10명이 넘는다',     measure:'rels', n:10, coin:20},
+  {id:'ACH_202', cat:'관계', name:'넓은 인맥',          desc:'아는 사람이 30명이 넘는다',     measure:'rels', n:30, coin:100},
+  {id:'ACH_203', cat:'관계', name:'곁에 있는 사람',      desc:'아주 가까운 사람이 생긴다 (친밀 75 이상)', measure:'close', n:1, coin:60},
+  /* 인생 */
+  {id:'ACH_301', cat:'인생', name:'한 달',              desc:'각성하고 30일을 산다',          measure:'days', n:30,  coin:20},
+  {id:'ACH_302', cat:'인생', name:'한 해',              desc:'각성하고 365일을 산다',         measure:'days', n:365, coin:200},
+  {id:'ACH_303', cat:'인생', name:'모은 돈',            desc:'1억 원을 모은다',              measure:'money', n:100000000,  coin:100},
+  {id:'ACH_304', cat:'인생', name:'부자 헌터',          desc:'10억 원을 모은다',             measure:'money', n:1000000000, coin:500},
+  /* 성좌 */
+  {id:'ACH_401', cat:'성좌', name:'첫 선물',            desc:'헌터에게 처음 선물한다',         measure:'gifts', n:1,  coin:5},
+  {id:'ACH_402', cat:'성좌', name:'후원자',             desc:'선물을 20번 보낸다',            measure:'gifts', n:20, coin:60},
+  {id:'ACH_403', cat:'성좌', name:'목소리',             desc:'헌터가 성좌를 알아챈다',         measure:'known', n:1,  coin:50, unlock:'peekPotential'},
+  {id:'ACH_404', cat:'성좌', name:'믿을 만한 별',        desc:'헌터가 성좌의 말을 10번 따른다', measure:'followed', n:10, coin:120},
+  /* 숨은 업적 — 이루기 전까지 이름이 ??? */
+  {id:'ACH_901', cat:'숨은', hidden:true, name:'고집쟁이',  desc:'헌터가 성좌의 말을 10번 거절한다', measure:'refused', n:10, coin:80},
+  {id:'ACH_902', cat:'숨은', hidden:true, name:'맨손의 헌터', desc:'장비 없이 게이트를 클리어한다',   measure:'nakedClear', n:1, coin:100},
+]);
 
 /* npcRate: 고유 클래스가 없는 NPC 헌터에게 성좌가 붙어 있을 확률 · uniqueRate: 고유 클래스가 있는 헌터에게 성좌가 붙어 있을 확률
    giftsKeep: 선물 기록 줄 수 · anonSeller: 경매 출품 · 입찰자가 '익명의 성좌'일 확률 (NPC 성좌가 없으면 늘 익명)

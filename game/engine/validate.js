@@ -110,6 +110,7 @@ const RULES = [
   ['constellations', (c, DB) => [...(c.trait && !DB.starTraits?.[c.trait] ? ['성향 ' + c.trait + ' 없음'] : []), ...(c.cls && !DB.classes?.[c.cls]?.unique ? ['cls 는 고유 클래스(unique)여야 함'] : [])]],
   ['classes', (c, DB) => (c.unique && c.star && !DB.constellations?.[c.star] ? ['star ' + c.star + ' 없음'] : [])],
   ['starMessages', (m) => (!m.on || !m.text ? ['on · text 필요'] : [])],
+  ['achievements', (a) => [...(!['raids', 'cleared', 'rank', 'level', 'money', 'days', 'gifts', 'rels', 'skills', 'gearGrade', 'close', 'known', 'followed', 'refused', 'nakedClear'].includes(a.measure) ? ['measure ' + a.measure + ' 모름'] : []), ...(!(a.n > 0) ? ['n 필요'] : []), ...(!a.name || !a.cat ? ['name · cat 필요'] : []), ...(a.unlock && !['pickClass', 'pickStats', 'pickPotential', 'peekPotential'].includes(a.unlock) ? ['unlock 모름'] : [])]],
   ['giftCovers', (c, DB) => [...(!['luck', 'effort'].includes(c.how) ? ['how 는 luck · effort'] : []), ...(!['gate', 'town', 'any'].includes(c.where) ? ['where 는 gate · town · any'] : []), ...(!/\{item\}/.test(c.text || '') ? ['text 에 {item} 필요'] : []), ...(c.cats || []).filter(x => !DB.itemCats[x]).map(x => `cats ${x} 없음`)]],
   ['placeTypes', (t, DB) => [...(t.group && !['life', 'hunter', 'shop', 'public', 'move', 'nature', 'etc'].includes(t.group) ? ['group 값: ' + t.group] : []), ...(t.where && !['all', 'city', 'metro', 'rare'].includes(t.where) ? ['where 값: ' + t.where] : []),
     ...(t.sources || []).filter(x => !DB.itemSources?.[x]).map(x => '구하는 곳 ' + x + ' 없음'), ...(!t.name ? ['name 필요'] : [])]],

@@ -64,8 +64,8 @@
 .su-stat span {font-size:11px;color:var(--muted);}
 .su-stat b {font-size:15px;font-weight:500;overflow-wrap:anywhere;}
 .su-unl {display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:6px;}
-.su-unl div {display:flex;gap:8px;align-items:center;padding:6px 8px;border:1px solid var(--line);font-size:12px;color:var(--dim);}
-.su-unl div.on {color:var(--fg);border-color:var(--accent);}
+.su-unl>div {display:flex;gap:8px;align-items:center;padding:6px 8px;border:1px solid var(--line);font-size:12px;color:var(--dim);}
+.su-unl>div.on {color:var(--fg);border-color:var(--accent);}
 .su-split {display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px;align-items:start;}
 .su-side {position:sticky;top:0;}
 .su-grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-bottom:8px;}
@@ -82,3 +82,31 @@
 .su-ach .su-ph {margin:-10px;border:0;}
 @media (max-width:900px){.su-info,.su-split{grid-template-columns:1fr}.su-side{position:static}}
 .su-coin b .coin {font-size:18px;}
+/* 2026-10-24 마무리: 상점 카드 · 잠재력 · 지난 헌터 · 고유 · 업적 진행 */
+.su-grade {font-size:10px;font-weight:600;padding:0 5px;border-radius:3px;color:var(--gc);border:1px solid color-mix(in srgb,var(--gc) 55%,transparent);white-space:nowrap;}
+.su-item {all:unset;box-sizing:border-box;cursor:pointer;aspect-ratio:auto;display:grid;gap:4px;align-content:start;padding:9px 10px;border:1px solid var(--line);border-top:2px solid var(--gc);background:var(--panel);min-width:0;}
+.su-item:hover {background:var(--panel2);}
+.su-item.on {outline:1px solid var(--accent);background:#16263a;}
+.su-item.out {opacity:.5;}
+.su-item:focus-visible {outline:2px solid var(--accent);}
+.su-item b {font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.su-it-top,.su-it-ft {display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:11px;}
+.su-it-st {font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.su-side .ph {gap:8px;}
+.su-pot {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.su-pot>div {display:grid;gap:4px;padding:8px 10px;border:1px solid var(--line);background:var(--panel2);}
+.su-pot span {font-size:11px;color:var(--muted);}
+.su-pot b {font-size:16px;}
+.su-pot small {font-size:11px;color:var(--muted);}
+.su-past {width:100%;}
+.su-uq {display:grid;gap:6px;}
+.su-uq>div {display:grid;gap:2px;padding:7px 10px;border:1px solid var(--line);}
+.su-uq>div.on {border-color:var(--accent);}
+.su-uq span,.su-uq small {font-size:11px;color:var(--muted);}
+.su-unl>div small {display:block;font-size:10px;color:var(--dim);}
+.su-ach-t {display:flex;justify-content:space-between;gap:6px;align-items:baseline;}
+.su-ach-c {font-size:10px;color:var(--dim);}
+.su-ach-p {display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-size:11px;color:var(--muted);}
+.su-ach-r {display:flex;gap:6px;align-items:center;font-size:12px;}
+.su-ach:not(.on) .su-ach-t b {color:var(--fg);}
+@media (max-width:600px){.su-pot{grid-template-columns:1fr}}
