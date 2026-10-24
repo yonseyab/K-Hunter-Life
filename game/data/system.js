@@ -12,7 +12,7 @@
    emoTriggers  : 일 → 감정 변화 (on = 엔진이 부르는 일 이름)
    milestoneTypes : 고비 회고 (big = 기본 설정에서 멈춤)
    stopKinds    : 멈춤 종류 (설정 › 멈춤에서 켜고 끔)
-   nationStates : 국가 상태 (게이트 브레이크로 무너진 나라 등 — 나라별 값은 Codex 세계관 외주)
+   nationStates : 국가 상태 (게이트 브레이크로 무너진 나라 등 — 나라별 값은 세계관 콘텐츠)
    ========================================================= */
 /* ════ '최대한 많이' 선택 필드 (2026-10-24) — 전부 선택. 안 쓰면 그만, 필요할 때 넣어 쓴다. 공통 [작업] notes 메모 · src 작성자 · ver 버전 ════
    mindTags     : + name · desc · icon · group 묶음 · opposite 반대 꼬리표 · px {ccPersonality: 가중치} · emo {emotions: 가중치}
