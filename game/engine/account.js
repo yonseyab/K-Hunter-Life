@@ -85,7 +85,7 @@ const STARACC = (() => {
   }
   /* 잠재력 엿보기 (성좌의 힘 — 화면은 성좌 탭 만들 때). lv 1 = 대략, 2 = 전부. 업적 해금이 있으면 공짜 */
   function peek(lv) {
-    if (!G || !G.star) return false; G.peek = G.peek || 0; if (G.peek >= lv) return true;
+    if (!G || !G.star) return false; if (lv >= 2 && !B().peekFull) return false; G.peek = G.peek || 0; if (G.peek >= lv) return true;
     const cost = unlocked('peekPotential') ? 0 : (B().peekCost || [300, 1500])[lv - 1] || 0; if ((G.coin || 0) < cost) return false;
     G.coin -= cost; G.peek = lv; sync(); return true;
   }

@@ -171,10 +171,10 @@ def('achievements', [
 
 /* npcRate: 고유 클래스가 없는 NPC 헌터에게 성좌가 붙어 있을 확률 · uniqueRate: 고유 클래스가 있는 헌터에게 성좌가 붙어 있을 확률
    giftsKeep: 선물 기록 줄 수 · anonSeller: 경매 출품 · 입찰자가 '익명의 성좌'일 확률 (NPC 성좌가 없으면 늘 익명)
-   slots: 성좌 칸 수 · peekCost: 잠재력 엿보기 코인 [대략, 전부] (화면은 성좌 탭 만들 때)
+   slots: 성좌 칸 수 · peekCost: 잠재력 엿보기 코인 [대략, 전부] · peekFull: '전부 엿보기'를 켤지 (사용자 '나중에' — 지금 false)
    startCoin: 새 성좌 코인(늘 0) · revealPerDay: 헌터가 성좌의 존재를 알아챌 하루 확률 (처음엔 모름 — 일상 중 무작위 메시지로) */
 def('balance', [
-  {id:'BAL_STAR', proto:true, npcRate:0.03, uniqueRate:0.95, giftsKeep:200, anonSeller:0.3, slots:3, peekCost:[300,1500], startCoin:0, revealPerDay:0.012,
+  {id:'BAL_STAR', proto:true, npcRate:0.03, uniqueRate:0.95, giftsKeep:200, anonSeller:0.3, slots:3, peekCost:[300,1500], peekFull:false, startCoin:0, revealPerDay:0.012,
     /* 성좌의 조언 (engine/star_advice.js). 따를 확률 = base + 신뢰 · 호감 · 성격 · 상태 − 성향 차이 · 위험 */
     advice:{base:0.45, trust:0.35, favor:0.15, depend:0.12, self:0.06, stress:0.08, gap:0.25, risk:{'주의':0.05,'위험':0.15,'치명적':0.3}, min:0.05, max:0.95,
       followOk:4, followNg:-5, refuseOk:-1, refuseNg:1, agreeOk:1, giftFavor:3, favorDecay:0.2}},

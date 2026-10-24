@@ -13,6 +13,8 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
     assert.match(await p.locator('.su').innerText(),/시험 성좌[\s\S]*잠재력 엿보기[\s\S]*지난 헌터들/);
     await p.click('[data-speek="1"]');
     assert.match(await p.locator('.su-pot').innerText(),/레벨 한계 \(대략\)/);
+    assert.equal(await p.locator('[data-speek="2"]').count(),0,'전부 엿보기는 꺼 둠');
+    await p.evaluate(()=>{DB.balance.BAL_STAR.peekFull=true;render()});
     await p.click('[data-speek="2"]');
     assert.match(await p.locator('.su-pot').innerText(),/세부 능력 합계 상한/);
     assert.equal(await p.evaluate(()=>G.coin),5000-300-1500);

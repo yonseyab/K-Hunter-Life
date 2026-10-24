@@ -28,7 +28,8 @@ const STAR_UI = (() => {
       body = `<div class="su-pot"><div><span>레벨 한계 (대략)</span><b class="num">Lv.${a} ~ ${b}</b><small>${left > 40 ? '아직 한참 더 클 수 있다.' : left > 15 ? '갈 길이 남아 있다.' : left > 0 ? '벽이 머지않았다.' : '이미 벽에 닿았다.'}</small></div>
         <div><span>재능의 폭</span><b>${pot.cap >= 1000 ? '드물게 넓다' : pot.cap >= 800 ? '넓은 편' : pot.cap >= 600 ? '보통' : '좁은 편'}</b><small>세부 능력이 얼마나 자랄 수 있는지</small></div></div>`;
     } else body = `<div class="dim">헌터 본인도 모르는 그릇의 크기. 성좌의 힘으로 엿볼 수 있다.</div>`;
-    return `${body}<div class="row" style="gap:6px;margin-top:10px">${lv < 1 ? btn(1, '대략 엿보기') : ''}${lv < 2 ? btn(2, '전부 엿보기') : '<span class="dim">모두 보았다.</span>'}</div>`;
+    const full = !!DB.balance.BAL_STAR.peekFull;  /* '전부 엿보기'는 사용자 '나중에' — 만들어 두고 꺼 둠 */
+    return `${body}<div class="row" style="gap:6px;margin-top:10px">${lv < 1 ? btn(1, '대략 엿보기') : ''}${full ? (lv < 2 ? btn(2, '전부 엿보기') : '<span class="dim">모두 보았다.</span>') : lv >= 1 ? '<span class="dim">더 또렷이 보는 힘은 아직 닿지 않는다.</span>' : ''}</div>`;
   }
   function pastHTML(s) {
     const L = s.past || [];

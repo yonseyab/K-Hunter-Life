@@ -2,7 +2,7 @@
 
 **K-Hunter-Life**는 헌터 라이프(Hunter Life)의 새 버전이야. 한국 헌터물 + 성좌물 **관찰형** 인생 시뮬레이션: 플레이어는 헌터를 직접 조종하지 않고, 그 헌터의 성좌로서 지켜보며 코인으로 선물해. 옛 저장소는 [yonseyab/Hunter-Life](https://github.com/yonseyab/Hunter-Life) (보관본).
 
-**새 채팅을 시작하면 먼저 [docs/HANDOFF.md](docs/HANDOFF.md)(진행 상황 · 구조)와 [docs/DECISIONS.md](docs/DECISIONS.md)(사용자 결정)를 읽어.** 콘텐츠 스타일은 [docs/STYLE_CHECKLIST.md](docs/STYLE_CHECKLIST.md). 이 문서들과 사용자의 최근 말이 기준이야. 새 기능 구현이나 큰 정리는 시작하기 전에 할 일 목록을 사용자와 먼저 맞춰.
+**새 채팅을 시작하면 먼저 [docs/ROADMAP.md](docs/ROADMAP.md)(앞으로 할 일 · 규칙), [docs/HANDOFF.md](docs/HANDOFF.md)(진행 상황 · 구조), [docs/DECISIONS.md](docs/DECISIONS.md)(사용자 결정)를 읽어.** 다른 AI용 안내는 [AGENTS.md](AGENTS.md). 콘텐츠 스타일은 [docs/STYLE_CHECKLIST.md](docs/STYLE_CHECKLIST.md). 이 문서들과 사용자의 최근 말이 기준이야. 새 기능 구현이나 큰 정리는 시작하기 전에 할 일 목록을 사용자와 먼저 맞춰.
 
 ## 사용자와 일하는 규칙
 
