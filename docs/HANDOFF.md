@@ -82,6 +82,7 @@ tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데�
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
 ## 7. 진행 상황
+- [완료] 2026-10-24 (Claude) 외형 → 외모 점수: `data/relations.js` lookScoreFx (기본 18줄) · `index.html` lookFx (buildHunter 에서만) · validate 규칙
 - [완료] 2026-10-24 (Claude) 나머지 표 선택 필드 '최대한 많이': items · traits · guilds · core · system · world · gate_content · actions · stars · content · base/b_hunters · b_content · b_story 머리 주석, validate 참조 · 값 검사 추가
 - [완료] 2026-10-24 (Claude) 데이터 형식 '최대한 많이': content.js(몬스터) · classes.js(클래스 · 스킬) · places.js · world.js(gateInteriors) · items.js 머리 주석에 선택 필드 전부, validate.js 참조 · 값 검사 추가
 - [완료] 2026-10-24 (Claude) 설정 정리(`life_ui.js` V.settings 4탭 · 타이틀 설정 `settingsOptionsHTML` 축소 · status_ui 의 옛 V.settings 삭제), 내 헌터 정보 탭(`engine/hunter_info.js` HUNTER_INFO), 관계 탭 상대 마음 삭제, 관계 이름 성별 맞춤(`relName` · `bgRelName`, relTypes nameM/nameF), 전투 대비 데이터 형식(content.js · classes.js · places.js · world.js 머리 주석, attackKinds · statusEffects · terrains, validate 규칙)

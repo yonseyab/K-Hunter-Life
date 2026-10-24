@@ -37,6 +37,29 @@ def('lookScores', [
   {id:'APS_SENSUAL', name:'관능미', adult:true},
   {id:'APS_STYLE',   name:'스타일 관리'},
 ]);
+/* 외형 선택 → 외모 점수 (2026-10-24 사용자: 커마 외형 선택이 점수를 조금씩 올리고 내린다. 커마 화면에는 표시하지 않음)
+   lookScoreFx: {id, look(ccLook), opt(lookOpts), aps:{lookScores: ±}} — 헌터를 만들 때(buildHunter) 무작위 점수에 더하고 1~20 으로 자른다.
+   지금은 Claude 기본값 (외모 · 몸매 수준 · 피부 · 근육 선명도 · 체지방). 외주로 늘린다 */
+def('lookScoreFx', [
+  {id:'LSF_LV1', look:'LK_LOOKS', opt:'LV_1', aps:{APS_FACE:-4}},
+  {id:'LSF_LV2', look:'LK_LOOKS', opt:'LV_2', aps:{APS_FACE:-2}},
+  {id:'LSF_LV3', look:'LK_LOOKS', opt:'LV_3', aps:{APS_FACE:0}},
+  {id:'LSF_LV4', look:'LK_LOOKS', opt:'LV_4', aps:{APS_FACE:2}},
+  {id:'LSF_LV5', look:'LK_LOOKS', opt:'LV_5', aps:{APS_FACE:4}},
+  {id:'LSF_FG1', look:'LK_FIGURE', opt:'LV_1', aps:{APS_BODY:-4, APS_SENSUAL:-2}},
+  {id:'LSF_FG2', look:'LK_FIGURE', opt:'LV_2', aps:{APS_BODY:-2, APS_SENSUAL:-1}},
+  {id:'LSF_FG3', look:'LK_FIGURE', opt:'LV_3', aps:{APS_BODY:0, APS_SENSUAL:0}},
+  {id:'LSF_FG4', look:'LK_FIGURE', opt:'LV_4', aps:{APS_BODY:2, APS_SENSUAL:1}},
+  {id:'LSF_FG5', look:'LK_FIGURE', opt:'LV_5', aps:{APS_BODY:4, APS_SENSUAL:2}},
+  {id:'LSF_SK1', look:'LK_SKIN', opt:'SKN_1', aps:{APS_FACE:-1, APS_STYLE:-1}},
+  {id:'LSF_SK2', look:'LK_SKIN', opt:'SKN_2', aps:{APS_FACE:-1, APS_STYLE:0}},
+  {id:'LSF_SK4', look:'LK_SKIN', opt:'SKN_4', aps:{APS_FACE:1, APS_STYLE:0}},
+  {id:'LSF_SK5', look:'LK_SKIN', opt:'SKN_5', aps:{APS_FACE:1, APS_STYLE:1}},
+  {id:'LSF_MD4', look:'LK_MUSCLE_D', opt:'DF_4', aps:{APS_BODY:1}},
+  {id:'LSF_MD5', look:'LK_MUSCLE_D', opt:'DF_5', aps:{APS_BODY:1, APS_SENSUAL:1}},
+  {id:'LSF_FT5', look:'LK_FAT', opt:'AM_5', aps:{APS_BODY:-1}},
+]);
+
 
 def('balance', [
   {id:'BAL_REL', proto:true,

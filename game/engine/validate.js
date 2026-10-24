@@ -169,6 +169,7 @@ const RULES = [
       ['monsterCats', (x, DB) => chk(DB, x, [['weak', 'elements'], ['resist', 'elements'], ['mats', 'matParts']])],
       ['statusEffects', (x, DB) => chk(DB, x, [['cure', 'items'], ['el', 'elements']])],
       ['starBlessings', (x, DB) => chk(DB, x, [['cls', 'classes'], ['trait', 'starTraits']])],
+      ['lookScoreFx', (x, DB) => [...(!DB.ccLook[x.look] ? [`look ${x.look} 없음`] : []), ...(!DB.lookOpts?.[x.opt] ? [`opt ${x.opt} 없음`] : []), ...Object.keys(x.aps || {}).filter(k => !DB.lookScores[k]).map(k => `aps ${k} 없음`)]],
       ['constellations', (x, DB) => chk(DB, x, [['rivals', 'constellations'], ['likes', 'mindTags'], ['hates', 'mindTags']])],
       ['items', (it, DB) => [...chk(DB, it, [['cls', 'classes'], ['resist', 'elements'], ['immune', 'statusEffects'], ['el', 'elements'], ['kind2', 'attackKinds']]), ...one(it.legal, ['legal', 'grey', 'illegal'], 'legal')]],
     ]; })(),

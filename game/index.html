@@ -1433,7 +1433,7 @@ function buildHunter(cc){
     contract:{share:0, until:'—', bonus:'—'},
     style:(cls?cls.name:'—')+' 신입', personality:persText(cc.pers), media:'미숙함', status:'정상', morale:'좋음', fit:92,
     prefs:(DB.roles[main].prefs||[]).slice(0,3), form:[], career:[], byRank:{}, portrait:'POR_HN_G0001', look:cc.sex?Object.fromEntries(lookSet(cc.sex).items.map(id=>[id,cc.look[id]])):{},
-    stats:{...ab.stats}, abl:{...ab.abl}, pot:{...ab.pot}, looks:{...(ab.looks||{})}};
+    stats:{...ab.stats}, abl:{...ab.abl}, pot:{...ab.pot}, looks:lookFx(cc,{...(ab.looks||{})})};
 }
 /* 시작 능력치 생성. mode: real = 현실적(기본), rand = 완전 무작위. 값 범위는 ccRules.RULE_START.gen */
 function genStart(mode,r){
@@ -1540,6 +1540,8 @@ function relRead(r,dim){const B=DB.balance.BAL_REL,c=r.to.RD_CLOSE,v=r.from[dim]
 /* ---------- 외모 절대 평가 1~20 + 사람마다 다른 취향 ---------- */
 const ageOfP=p=>p?.age??30;
 const isAdultP=p=>ageOfP(p)>=DB.balance.BAL_REL.adultAge;
+/* 외형 선택이 외모 점수를 조금 올리고 내린다 (lookScoreFx). 커마 화면에는 보이지 않고 헌터를 만들 때만 */
+function lookFx(cc,L){vals('lookScoreFx').forEach(f=>{if(cc.look?.[f.look]!==f.opt)return;Object.entries(f.aps||{}).forEach(([k,v])=>{if(L[k]!=null)L[k]=Math.max(1,Math.min(20,L[k]+v))})});return L}
 function looksOf(p){if(!p)return {};if(p.looks)return p.looks;const r=rng((p.id||'x')+'|looks'),o={};vals('lookScores').forEach(k=>o[k.id]=Math.max(1,Math.min(20,Math.round(10+gauss(r)*3))));return o}
 function tasteOf(id){const [a,b]=DB.balance.BAL_REL.taste,r=rng(id+'|taste'),o={};vals('lookScores').forEach(k=>o[k.id]=a+r()*(b-a));return o}
 function impression(viewer,target){const L=looksOf(target),w=tasteOf(viewer.id),adult=isAdultP(viewer)&&isAdultP(target);let s=0,t=0;
