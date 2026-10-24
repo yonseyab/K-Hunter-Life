@@ -11,13 +11,14 @@
 - **사용자가 "물어보지 말고 해 줘"라고 하면** 합리적으로 정하고 결과에 적어.
 - **"나중에"로 미룬 결정:** 범죄 · 자녀 · 잠재력 전체 보기. 자녀는 '다음 인물로 이어 가기'를 만들 때 같이 정해.
 - **게임 안에 AI(LLM)를 넣지 않아.** 모든 내용은 ID 기반 데이터와 규칙으로 만들어.
-- **콘텐츠도 Claude가 만든다 (2026-10-24 사용자 결정 — 외주 중단).** 데이터 형식은 각 data 파일 머리 주석과 `game/engine/validate.js` 규칙이 기준이야.
+- **콘텐츠도 Claude가 만든다 (2026-10-24 사용자 결정 — 외주 중단).** 글 콘텐츠는 채우기 도구(`tools/fill`, [docs/FILL.md](docs/FILL.md))로 — 사용자가 다른 AI · 사람에게 주문서를 줄 수도 있다. 받은 답 파일은 check → apply. 데이터 형식은 각 data 파일 머리 주석과 `game/engine/validate.js` 규칙이 기준이야.
 - **문서를 늘 최신으로 유지해.** `docs/HANDOFF.md`와 `docs/DECISIONS.md`가 기준이야.
 
 ## 변경할 때마다 하는 순서
 
 1. **테스트**
    - 데이터 검사: `node tools/validate_data.js`
+   - 채우기 도구 시험: `node tests/tools/t_fill.js` (tools/fill 을 고쳤을 때)
    - UI 전체: `CHROMIUM=/opt/pw-browsers/chromium OUT=/tmp/claude-0 NODE_PATH=$(npm root -g) node tests/ui/run_all.js` (병렬로 돌려도 됨)
 2. **커밋**: 메시지 끝에 세션이 알려 주는 attribution 줄을 붙여.
 3. **push** (`main`)

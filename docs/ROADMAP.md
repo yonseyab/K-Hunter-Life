@@ -18,7 +18,7 @@
 
 ### 변경할 때마다
 1. `node tools/validate_data.js` — '문제 없음'이어야 한다.
-2. UI 테스트 전체 (Playwright · Chromium): `ls tests/ui/t_*.js | CHROMIUM=<chromium 경로> OUT=/tmp/out NODE_PATH=$(npm root -g) xargs -P 6 -I{} sh -c 'node {} >/tmp/out/$(basename {}).log 2>&1 || echo FAIL {}'`
+2. 채우기 도구 시험 `node tests/tools/t_fill.js` + UI 테스트 전체 (Playwright · Chromium): `ls tests/ui/t_*.js | CHROMIUM=<chromium 경로> OUT=/tmp/out NODE_PATH=$(npm root -g) xargs -P 6 -I{} sh -c 'node {} >/tmp/out/$(basename {}).log 2>&1 || echo FAIL {}'`
 3. 콘텐츠를 많이 넣었으면 `node tools/report_content.js` (빈 곳 · 겹침), 큰 변경이면 `tools/qa_sim.js`(QA 봇) · `tools/perf_scale.js`(속도).
 4. 커밋 → `main` 에 push.
 5. (Claude 세션 전용) 사용자 PC 폴더 동기화 · 게임 페이지(아티팩트) 갱신 — CLAUDE.md 참고. 다른 AI는 이 단계를 사용자에게 알리고 넘긴다.
@@ -51,7 +51,7 @@
 
 | # | 할 일 | 어디 · 형식 | 완료 기준 |
 |---|---|---|---|
-| A1 [바로] | 이야기 문장: 모든 발동 시점 5~10줄 | `data/base/b_story.js` storyLines 머리 주석 (on · lv · req · asserts · w). 새 파일로 나눠도 됨(`data/ext/_list.js` 에 등록) | report 의 '5줄 미만 시점' 0개. asserts 는 req 에 같은 조건(세 층 원칙) |
+| A1 [바로] | 이야기 문장: 모든 발동 시점 5~10줄 (`fill order story`) | `data/base/b_story.js` storyLines 머리 주석 (on · lv · req · asserts · w). 새 파일로 나눠도 됨(`data/ext/_list.js` 에 등록) | report 의 '5줄 미만 시점' 0개. asserts 는 req 에 같은 조건(세 층 원칙) |
 | A2 [바로] | 게이트 · 몬스터 목록 | `data/content.js`(monsterCats · monsterTags · matParts · terrains) · monsters · gates 형식 (DECISIONS '게이트 · 몬스터': 게이트 하나 = 잡몹 1~3종 + 보스 1, 몬스터 등급은 범위) | 20개 등급마다 잡몹 · 보스 후보가 있음, 몬스터 갈래마다 꼬리표 · 소재 부위 |
 | A3 [바로] | 이름 있는 장소 | `data/places.js` (placeTypes · placeTags · places, 시 · 군 · 구 단위) | 큰 도시(서울 · 부산 · 인천 · 대구 · 대전 · 광주 · 울산 · 경기 주요 시)부터, 지역마다 생활 · 헌터 · 가게 장소 몇 개 |
 | A4 [바로] | 물건 나머지: 개성 · 소모품 · 소재 · 책 · 생활품 | `data/items.js` (itemTraits · items 형식 · itemGrades · itemSources). 장비는 `tools/content/gear_src.py` 를 고치고 `python3 tools/content/build.py` | 개성 30+ · 소모품 30+ · 소재(몬스터 갈래 × 부위) · 스킬북/클래스북 · 생활품. 가격은 ECONOMY.md 가이드 |
@@ -104,14 +104,17 @@
 - **문장 자리 표시:** 이야기 문장은 `{p}` `{place}` 등(b_story.js 주석), 새 문장은 `CONTENT.fill` 의 `{a|b}` · `{@재료}` · `{who.name}`. 조사는 `이(가)` `을(를)` 처럼 쓰면 자동으로 맞춘다.
 - **세이브:** `G` 한 덩어리. 목록은 localStorage `khl.saves.v1.meta`, 내용은 IndexedDB `khl-saves`(`SAVES`). 성좌 계정은 localStorage `khl.stars.v1`. 배경 인구 · 월별 이야기 원문은 IndexedDB 따로.
 - **화면:** 좌측 4묶음 `이야기 · 내 헌터 · 성좌 · DB` (`engine/life_ui.js` HOME_TABS · index.html `renderNav`). 클릭은 `data-*` 위임. 관찰형이라 `engine/observe.js` 가 직접 조작 버튼을 지운다.
-- **도구:** `tools/validate_data.js`(검사) · `tools/report_content.js`(커버리지 · 겹침) · `tools/perf_scale.js`(속도) · `tools/qa_sim.js`(QA 봇) · `tools/content/build.py`(클래스 · 스킬 · 장비 생성) · `tools/build_*.py`(지역 · 지도 · 게이트 장소).
+- **도구:** `tools/fill/fill.js`(콘텐츠 채우기 — 주문서 · 검사 · 반영, docs/FILL.md) · `tools/validate_data.js`(검사) · `tools/report_content.js`(커버리지 · 겹침) · `tools/perf_scale.js`(속도) · `tools/qa_sim.js`(QA 봇) · `tools/content/build.py`(클래스 · 스킬 · 장비 생성) · `tools/build_*.py`(지역 · 지도 · 게이트 장소).
 
 ---
 
 ## 4. 콘텐츠 만드는 법 (A 단계 작업 순서)
 
+**글 콘텐츠는 채우기 도구로 — [FILL.md](FILL.md).** `node tools/fill/fill.js order <종류>` 로 주문서를 뽑아(세계관 · 스타일 · 칸 · 이미 있는 것이 다 들어 있다) 사람이든 어떤 AI든 빈칸만 채우고, `check` → `apply` 로 넣는다. 겹침 · 스타일 · 게임 규칙을 도구가 막는다. 종류: 이야기 문장 · 들은 이야기 · 소문 · 뉴스 · 지인 메시지 · 성좌 메시지 · 선물 안배 · 빈칸 재료 · 위기 · 이벤트 · 몬스터 · 장소 · 장비 개성 · 소모품 · NPC 성좌. 바로 쓸 주문서는 `fill/orders/`.
+
+도구에 없는 종류는 직접:
 1. `node tools/report_content.js` 로 빈 곳을 본다.
-2. 넣을 테이블의 data 파일 **머리 주석**을 읽는다 (필드 · 필수/선택 · 자리 표시).
+2. 넣을 테이블의 data 파일 **머리 주석**을 읽는다 (필드 · 필수/선택 · 자리 표시). 자주 넣을 종류면 `tools/fill/kinds.js` 에 종류를 추가하는 게 낫다.
 3. [STYLE_CHECKLIST.md](STYLE_CHECKLIST.md) 를 지킨다 — 3인칭 · 현재형 · 짧게 · 건조한 기록체, 이름은 헌터 소설풍, 희귀도에 맞는 이름 분위기, 비하 · 혐오는 인물의 말로만, 성적 묘사는 성인끼리만(adult 조건).
 4. 많으면 새 파일(`data/ext/<주제>.js` + `_list.js` 등록)로. 클래스 · 스킬 · 장비는 `tools/content/*_src.py` 원고를 고치고 `build.py` 로 다시 만든다 (생성 파일을 직접 고치지 않는다).
 5. `validate_data.js` → `report_content.js` → 테스트.

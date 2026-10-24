@@ -8,7 +8,7 @@
    런타임에 생기는 ID(게임 중 생성 · 에셋 파일)는 RUNTIME 접두어로 빼 둔다.
    ========================================================= */
 const fs = require('fs'), path = require('path'), vm = require('vm');
-const ROOT = path.resolve(__dirname, '../game');
+const ROOT = process.env.KHL_GAME ? path.resolve(process.env.KHL_GAME) : path.resolve(__dirname, '../game');  /* KHL_GAME: 다른 game 폴더 사본을 검사할 때 (tools/fill 시험) */
 
 function load() {
   const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');

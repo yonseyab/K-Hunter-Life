@@ -6,6 +6,7 @@ Claude 는 [CLAUDE.md](CLAUDE.md) 를 읽는다. 다른 AI(Codex · Gemini · GP
 2. [docs/HANDOFF.md](docs/HANDOFF.md) — 구조 · 진행 상황
 3. [docs/DECISIONS.md](docs/DECISIONS.md) — 사용자 결정 (가장 우선)
 4. [docs/STYLE_CHECKLIST.md](docs/STYLE_CHECKLIST.md) — 글 스타일
+5. [docs/FILL.md](docs/FILL.md) — 콘텐츠 채우기 도구. **글 콘텐츠만 채우는 일이면 이것만 보면 된다** — `fill/orders/` 의 주문서 하나를 받아 '## 답' 빈칸을 채워 돌려주면 끝
 
 핵심 규칙: 한국어로 짧게 답한다 · 결정할 건 선택지를 펼쳐 고르게 한다 · 범위 밖을 앞서 고치지 않는다 · 게임 안에 LLM 금지(ID 데이터 + 규칙) · 관찰형(헌터를 직접 조종하는 UI 금지) · 밸런스는 `BAL_*` 테이블 · 변경마다 `node tools/validate_data.js` + `tests/ui` → 커밋 → `main` push → HANDOFF/DECISIONS 갱신.
 사용자 PC 폴더 동기화 · 게임 페이지(claude.ai 아티팩트) 갱신은 Claude 세션 도구로만 할 수 있다 — 다른 AI는 바뀐 파일 목록을 사용자에게 알려 준다.
