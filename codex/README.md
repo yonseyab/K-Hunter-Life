@@ -15,8 +15,9 @@ Codex(GPT)에게 맡기는 콘텐츠 작업 의뢰서를 여기에 쌓는다. �
 게임 안에 AI(LLM)는 없다. 모든 문장과 판단은 **ID 기반 데이터 + 규칙**으로 만든다. 그래서 데이터의 양과 질이 곧 게임의 깊이다.
 
 ### 2. 작업 장소 · 권한
-- GitHub 저장소 `yonseyab/K-Hunter-Life` 의 `main` 브랜치, 그리고 사용자 PC 폴더 `C:\Users\YON\Desktop\K-Hunter-Life` (같은 내용).
-- 둘 다 수정 권한이 있다. 작업이 끝나면 **커밋 · push 하고, PC 폴더도 같은 상태로** 맞춘다.
+- GitHub 저장소 `yonseyab/K-Hunter-Life`의 `main`이 최신 기준이다. 작업은 `origin/main`에서 만든 `codex/<작업이름>` 브랜치와 전용 작업 폴더에서 한다.
+- PC 기준 폴더는 `C:\Users\YON\Desktop\K-Hunter-Life`, Codex 작업 폴더는 그 아래 `.worktrees\codex`다. 작업이 끝나면 **커밋 · 브랜치 push · main 대상 PR** 순서로 반영하고, 병합 뒤 기준 폴더를 갱신한다.
+- Claude도 별도 브랜치 · 작업 폴더를 쓴다. 상세 순서는 [Git 협업 규칙](../docs/GIT_WORKFLOW.md)을 따른다.
 
 ### 3. 손대도 되는 곳 · 안 되는 곳
 - **새 데이터 파일:** `game/data/ext/` 에 의뢰서가 정한 이름으로 만든다.

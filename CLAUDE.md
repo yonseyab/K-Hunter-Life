@@ -20,9 +20,8 @@
    - 데이터 검사: `node tools/validate_data.js`
    - UI 전체: `CHROMIUM=/opt/pw-browsers/chromium OUT=/tmp/claude-0 NODE_PATH=$(npm root -g) node tests/ui/run_all.js` (병렬로 돌려도 됨)
 2. **커밋**: 메시지 끝에 세션이 알려 주는 attribution 줄을 붙여.
-3. **push**
-4. **PC 동기화**: 바탕화면 `K-Hunter-Life` 폴더 (`C:\Users\YON\Desktop\K-Hunter-Life`)
-   - 연결된 컴퓨터 도구로 바뀐 파일을 써 넣어 (`device_commit_files`, force). 지운 파일은 PC에서도 지워야 하면 사용자에게 알려.
+3. **자기 `claude/<작업이름>` 브랜치 push → `main` 대상 PR**. GitHub `main`이 최신 기준이다. Codex와 각자 별도 작업 폴더를 사용한다.
+4. **PC 동기화**: PR 병합 뒤 깨끗한 기준 폴더 `C:\Users\YON\Desktop\K-Hunter-Life`에서 `git pull --ff-only origin main`으로 갱신한다. 파일 복사로 덮어쓰지 않는다. 상세 절차는 [Git 협업 규칙](docs/GIT_WORKFLOW.md)을 따른다.
 5. **게임 페이지(아티팩트) 갱신**: `docs/HANDOFF.md`에 적힌 K-Hunter-Life 페이지. 옛 Hunter Life 페이지에는 덮어쓰지 마.
 
 ## 역할
