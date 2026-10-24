@@ -1742,8 +1742,25 @@ function judge(c,gate){
   const v=attrVal(G.player,c.check.attr), d=1+Math.floor(Math.random()*20), m=checkMods(c.check.attr,gate), tot=v+d+m.sum, ok=tot>=c.check.dc;
   return {ok,dice:d,value:v,mods:m.sum,total:tot,dc:c.check.dc,attr:attrName(c.check.attr),line:`<div class="dim" style="font-size:11px;margin-bottom:4px">${attrName(c.check.attr)} ${v} + d20 ${d}${modTxt(m)} = ${tot} vs 난이도 ${c.check.dc} → <b class="${ok?'good':'bad'}">${ok?'성공':'실패'}</b></div>`};
 }
+/* 효과를 숫자 없이 문장으로 (이야기 창 · 알림 결과에 보이는 쪽, 2026-10-24 사용자 결정). 숫자는 엔진 안에서만 */
+function fxWords(fx={},tgt){
+  const w=[],big=(v,n)=>Math.abs(v)>=n,nm=id=>nameOf(id)||'그 사람';
+  if(fx.fatigue)fx={...fx,energy:(fx.energy||0)-fx.fatigue};
+  if(fx.energy)w.push(fx.energy>0?(big(fx.energy,15)?'몸이 한결 가벼워졌다.':'조금 기운이 난다.'):(big(fx.energy,15)?'몸이 무겁다.':'조금 지쳤다.'));
+  if(fx.stress)w.push(fx.stress>0?(big(fx.stress,8)?'속이 꽤 상했다.':'신경이 좀 쓰인다.'):(big(fx.stress,8)?'마음이 한결 편해졌다.':'기분이 조금 풀렸다.'));
+  if(fx.hp)w.push(fx.hp>0?'몸이 조금 회복됐다.':'몸 어딘가가 욱신거린다.');
+  if(fx.rep)w.push(fx.rep>0?'사람들 사이에서 평이 조금 좋아졌다.':'평판에 조금 금이 갔다.');
+  if(fx.money)w.push(fx.money>0?`${won(fx.money)}이 들어왔다.`:`${won(-fx.money)}이 나갔다.`);
+  if(fx.rel){const [t,k,v]=fx.rel,id=t==='T'?tgt:t;if(id&&relOf(id)){const n=nm(id),m=big(v,10)?'한층':'조금';
+    w.push(k==='love'?(v>0?`${n}에게 마음이 ${m} 더 간다.`:`${n}에게 정이 ${m} 식었다.`):k==='trust'?(v>0?`${n}을(를) ${m} 더 믿게 됐다.`:`${n}에 대한 믿음이 ${m} 흔들렸다.`):(v>0?`${n}와(과) ${m} 가까워졌다.`:`${n}와(과) 사이가 ${m} 멀어졌다.`))}}
+  (fx.relDim||[]).forEach(([t,dim,v])=>{const id=t==='T'?tgt:t;if(id&&relOf(id)&&DB.relDims[dim])w.push(`${nm(id)}에 대한 ${DB.relDims[dim].name}이(가) ${v>0?'커졌다':'줄었다'}.`)});
+  if(fx.relStatus){const id=fx.relStatus[0]==='T'?tgt:fx.relStatus[0];if(id&&relOf(id)&&DB.relStatus[fx.relStatus[1]])w.push(`${nm(id)}와(과)의 사이가 '${DB.relStatus[fx.relStatus[1]].name}'(으)로 바뀌었다.`)}
+  if(fx.item&&DB.items[fx.item[0]])w.push(`${DB.items[fx.item[0]].name}을(를) ${fx.item[1]>0?'얻었다':'잃었다'}.`);
+  if(fx.retire)w.push('은퇴를 마음먹었다.');
+  return w.map(x=>typeof STORY!=='undefined'?STORY.josa(x):x);
+}
 function applyFx(fx={},tgt){
-  const out=[], sg=v=>(v>0?'+':'')+v, dt=dateOf(G.day);
+  const out=[], sg=v=>(v>0?'+':'')+v, dt=dateOf(G.day), words=fxWords(fx,tgt);out.words=words;
   if(fx.rep){G.rep+=fx.rep;out.push('평판 '+sg(fx.rep))}
   if(fx.fatigue)fx={...fx,energy:(fx.energy||0)-fx.fatigue};
   if(fx.energy){G.cond.energy=clamp(G.cond.energy+fx.energy,0,energyMax());out.push('기력 '+sg(fx.energy))}
@@ -1753,16 +1770,16 @@ function applyFx(fx={},tgt){
   if(fx.rel){const [t,k,v]=fx.rel, id=t==='T'?tgt:t, r=relOf(id); if(r){relAdd(r,REL_KEY[k]||k,v,'both');out.push(`${nameOf(id)} ${({love:'호감',close:'친밀도',trust:'신뢰'})[k]} ${sg(v)}`)}}
   (fx.relDim||[]).forEach(([t,dim,v,dir])=>{const id=t==='T'?tgt:t,r=relOf(id);if(r){relAdd(r,dim,v,dir||'both');out.push(`${nameOf(id)} ${DB.relDims[dim].name} ${sg(v)}`)}});
   if(fx.relStatus){const id=fx.relStatus[0]==='T'?tgt:fx.relStatus[0],r=relOf(id);if(r){r.status=fx.relStatus[1];pushHistory(`${nameOf(id)}: ${DB.relStatus[r.status].name}`,'');out.push(`${nameOf(id)}: ${DB.relStatus[r.status].name}`)}}
-  if(fx.injury){out.push('부상: '+addInjury(fx.injury.part||'rand',fx.injury.type,fx.injury.sev||1))}
+  if(fx.injury){const t=addInjury(fx.injury.part||'rand',fx.injury.type,fx.injury.sev||1);out.push('부상: '+t);words.push(`부상을 입었다 — ${t}.`)}
   if(fx.item){const [id,q]=fx.item;if(q>0)invAdd(id,q,'LOC_BAG');else{let n=-q;invOf().forEach((r,i)=>{if(n>0&&r.item===id){const k=Math.min(n,r.qty);r.qty-=k;n-=k}});G.inv=invOf().filter(r=>r.qty>0)}out.push(`${DB.items[id].name} ${sg(q)}`)}
-  if(fx.exp){out.push('EXP '+sg(fx.exp));addExp(fx.exp).forEach(x=>out.push(x))}
+  if(fx.exp){out.push('EXP '+sg(fx.exp));addExp(fx.exp).forEach(x=>{out.push(x);words.push(x)})}
   if(fx.emo&&typeof EMO!=='undefined')Object.entries(fx.emo).forEach(([k,v])=>EMO.add(k,v));
   if(fx.retire){G.retirePending=true;out.push('은퇴')}
   if(fx.flag){G.flags=G.flags||{};G.flags[fx.flag]=G.day}
   if(fx.unflag&&G.flags)delete G.flags[fx.unflag];
   return out;
 }
-const fxChips=f=>f.length?`<div class="chips" style="margin-top:6px">${f.map(x=>`<span class="chip">${x}</span>`).join('')}</div>`:'';
+const fxChips=f=>(f.words||[]).length?`<div class="muted" style="margin-top:6px">${f.words.map(esc).join(' ')}</div>`:'';
 const checkText=c=>c.check?`판정: ${attrName(c.check.attr)} ${attrVal(G.player,c.check.attr)} + d20${modTxt(checkMods(c.check.attr))} vs 난이도 ${c.check.dc}`:'판정 없음';
 const trigBox=ev=>`<div class="trig dev"><b>발동 조건</b> (개발용 표시 · ${ev.id}) — ${ev.req.map(describeReq).join(' · ')}</div>`;
 
