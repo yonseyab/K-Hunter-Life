@@ -5,5 +5,9 @@
    추가한 뒤: node tools/validate_data.js
    ========================================================= */
 var HL_EXT = [
+  'codex_combat_base.js',
+  'codex_class_skills.js',
+  'codex_common_skills.js',
+  'codex_classes.js',
 ];
 HL_EXT.forEach(function (f) { document.write('<script src="data/ext/' + f + '"><\/script>'); });
