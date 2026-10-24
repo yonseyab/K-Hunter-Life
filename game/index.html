@@ -216,6 +216,7 @@ body.no-trig .trig.dev{display:none}
 .cc-main{overflow-y:auto;padding:20px 24px 32px;min-width:0}
 .cc-main h2{font-family:var(--f-display);font-weight:400;font-size:22px;margin:0 0 4px}
 .cc-main .lead{color:var(--muted);margin:0 0 18px;max-width:60ch}
+.cc-body.cc-noside{grid-template-columns:220px minmax(0,1fr)}
 .cc-side{border-left:1px solid var(--line);overflow-y:auto;padding:16px max(16px,env(safe-area-inset-right,0px)) 16px 16px;background:var(--panel)}
 .cc-foot{display:flex;justify-content:space-between;gap:10px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));border-top:1px solid var(--line);background:var(--panel)}
 .trait{all:unset;cursor:pointer;display:flex;justify-content:space-between;gap:8px;padding:8px 10px;border:1px solid var(--line2);border-radius:3px;font-size:12px;background:var(--panel2)}
@@ -2228,10 +2229,9 @@ function ccHTML(){
   const canStart=pts>=0&&cc.given.trim()&&clsReady(cc)&&!abOver(cc);
   return `<div class="cc">
     <div class="cc-top"><span class="t">새 헌터 만들기</span><span class="sub">${st+1} / ${CC_STEPS.length} · ${CC_STEPS[st]}</span><span style="margin-left:auto" class="row">${st<7?`<button class="btn" data-ccauto="step" title="${CC_STEPS[st]} 단계만 무작위로 채웁니다">이 단계 자동 설정</button>`:''}<button class="btn pri" data-ccauto="all" title="모든 단계를 무작위로 채웁니다">전체 자동 설정</button><button class="btn" data-cccancel="1">타이틀로</button></span></div>
-    <div class="cc-body">
+    <div class="cc-body cc-noside">
       <nav class="steps" aria-label="생성 단계">${CC_STEPS.map((s,i)=>{const m=i<7?ccMissing(cc,i):0;return `<button data-ccstep="${i}" class="${i<st&&!m?'done':''}" ${i===st?'aria-current="step"':''}><span class="n">${i<st&&!m?'✓':i+1}</span><span class="sn">${s}</span>${m&&i!==4?`<span class="miss" title="정하지 않은 항목">미선택 ${m}</span>`:''}</button>`}).join('')}</nav>
       <div class="cc-main" id="ccmain">${body}</div>
-      <aside class="cc-side" aria-label="미리보기">${ccSideHTML()}</aside>
     </div>
     <div class="cc-foot"><button class="btn" data-ccstep="${Math.max(0,st-1)}" ${st===0?'disabled':''}>◂ 이전</button>${st<CC_STEPS.length-1?`<button class="btn pri" data-ccstep="${st+1}">다음 ▸</button>`:`<button class="btn pri" data-ccstartask="1" ${canStart?'':'disabled'}>헌터 인생 시작</button>`}</div>${UI.ccConfirm?`<div class="sm-confirm" role="dialog" aria-modal="true" aria-label="확인"><div class="sm-confirm-box"><b>${esc(buildHunter(cc).name)}의 인생을 시작할까?</b><p class="muted">시작하면 성좌와 헌터 설정은 바꿀 수 없어.</p><div class="row" style="justify-content:center;gap:8px"><button class="btn" data-ccstartno="1">더 고칠래</button><button class="btn pri" data-ccstart="1">시작하기</button></div></div></div>`:''}
   </div>`;

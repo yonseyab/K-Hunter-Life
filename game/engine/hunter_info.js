@@ -1,6 +1,6 @@
 /* =========================================================
    hunter_info.js — 내 헌터 › 정보 탭 (2026-10-24, FM 정보창 느낌으로 촘촘하게)
-   위: 이름 띠 + 핵심 정보 칸. 아래 세 줄: 신상 · 외모 · 생활 | 전투 능력 · 성격 · 특성 | 지닌 것 · 기록
+   위: 이름 띠 + 핵심 정보 칸(등급 · 레벨 · 클래스 · 기본 스탯 4개 …). 사진은 왼쪽 줄 맨 위 따로 (FM 선수 사진 칸처럼). 아래 세 줄: 신상 · 외모 · 생활 | 전투 능력 · 성격 · 특성 | 지닌 것 · 기록
    긴 내용(각성 전의 삶)은 접어 둔다. 조작 버튼 없음.
    ========================================================= */
 const HUNTER_INFO = (() => {
@@ -39,13 +39,15 @@ const HUNTER_INFO = (() => {
     const fact = (k, v) => `<div class="hi-fact"><span>${k}</span><b>${v}</b></div>`;
     return `<div class="hi">
       <header class="hi-band" style="--rc:${rk?.color || 'var(--accent)'}">
-        <div class="hi-por">${portrait(h, 120)}</div>
         <div class="hi-name"><div class="hi-tag">헌터 · ${esc(h.id)}</div><h1>${esc(h.name)}</h1>
           <div class="hi-sub">${[h.age ? h.age + '세' : '', h.sex || '', regionName(h.region)].filter(Boolean).map(esc).join(' · ')}${G.dead ? ` · <b class="bad">${G.dead.kind === 'retire' ? '은퇴' : '사망'}</b>` : ''}</div></div>
-        <div class="hi-facts">${fact('등급', `<span class="hi-rk" style="--rc:${rk?.color || '#888'}">${esc(rk?.name || '?')}</span>급`)}${fact('레벨', 'Lv.' + h.level)}${fact('클래스', esc(cls?.name || '—'))}${fact('역할', esc([DB.roles[h.roleMain]?.name, DB.roles[h.roleSub]?.name].filter(Boolean).join(' · ')))}${fact('소속', esc(guildName(h.guild)))}${fact('각성', `${days}일째`)}${fact('자금', won(G.money || 0))}${fact('집', esc(DB.housing[home.type]?.name || '—'))}</div>
+        <div class="hi-facts">${fact('등급', `<span class="hi-rk" style="--rc:${rk?.color || '#888'}">${esc(rk?.name || '?')}</span>급`)}${fact('레벨', 'Lv.' + h.level)}${fact('클래스', esc(cls?.name || '—'))}${fact('역할', esc([DB.roles[h.roleMain]?.name, DB.roles[h.roleSub]?.name].filter(Boolean).join(' · ')))}${fact('소속', esc(guildName(h.guild)))}${fact('각성', `${days}일째`)}
+          ${vals('baseStats').map(b => `<div class="hi-fact st" title="${esc(b.desc)}"><span>${esc(b.name)}</span><b class="num">${h.stats?.[b.id] ?? '—'}</b></div>`).join('')}${fact('자금', won(G.money || 0))}${fact('집', esc(DB.housing[home.type]?.name || '—'))}</div>
       </header>
       <div class="hi-cols">
         <div class="hi-col">
+          <section class="hi-box hi-photo" style="--rc:${rk?.color || 'var(--accent)'}"><div class="hi-por">${portrait(h, 220)}<span class="hi-prk"><b>${esc(rk?.name || '?')}</b>급</span></div>
+            <div class="hi-pcap">${crest(h.guild, 26)}<div><b>${esc(guildName(h.guild))}</b><span>${esc(cls?.name || '—')} · Lv.${h.level}</span></div></div></section>
           ${box('신상', rows([['이름', esc(h.name)], ['성별', esc(h.sex || '—')], ['나이', h.age ? `${h.age}세 <span class="dim">${esc(h.birth || '')}</span>` : '—'], ['출생지', esc(h.birthplace ? regionName(h.birthplace) : '')], ['사는 곳', esc(regionName(h.region))], ['언어', esc((h.langs || []).map(l => DB.ccLanguages?.[l]?.name || l).join(', '))], ['말투', esc(DB.ccSpeech?.[h.speech]?.name || '')], ['혈액형', esc(G.bio?.blood || '')], ['주로 쓰는 손', esc(G.bio?.hand || '')], ['각성한 날', esc(h.awakenedDate || h.awakened || '')]]))}
           ${box('외모', `<div class="hi-looks">${vals('lookScores').filter(k => !k.adult).map(k => `<div><span>${esc(k.name)}</span><b>${lk[k.id] ?? '—'}</b></div>`).join('')}</div>`, '1~20')}
           

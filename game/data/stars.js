@@ -77,6 +77,30 @@ def('constellations', []);
 def('starMessages', []);
 def('starBlessings', []);
 
+/* 성좌를 모를 때의 선물 안배 (2026-10-24 사용자 결정). 헌터가 성좌를 모르면 선물은 헌터가 운이나 노력으로 얻은 것처럼 들어온다.
+   {id, how:'luck'(운)|'effort'(노력), where:'gate'(게이트 안)|'town'(바깥)|'any', cats?(itemCats — 없으면 모든 물건), text}
+   text 치환: {item} 물건 이름(수량 포함) · {을}{이}{은}{과}{으로} 물건 이름 뒤 조사 · {name} 헌터 이름 */
+def('giftCovers', [
+  {id:'GC_01', how:'luck',   where:'gate',  text:'쓰러진 몬스터 밑에서 {item}{이} 굴러 나왔다. 운이 좋았다.'},
+  {id:'GC_02', how:'luck',   where:'gate',  text:'무너진 벽 틈에서 누군가 두고 간 {item}{을} 발견했다.'},
+  {id:'GC_03', how:'effort', where:'gate',  text:'끝까지 구석구석 뒤진 끝에 {item}{을} 찾아냈다.'},
+  {id:'GC_04', how:'effort', where:'gate',  text:'다들 지나친 곳을 다시 살펴보다 {item}{을} 건졌다.'},
+  {id:'GC_05', how:'luck',   where:'town',  text:'협회 보급 추첨에서 {item}{이} 당첨됐다.'},
+  {id:'GC_06', how:'luck',   where:'town',  text:'중고 거래 앱에서 {item}{을} 말도 안 되는 값에 건졌다.'},
+  {id:'GC_07', how:'luck',   where:'town',  text:'편의점 경품 행사에 응모했더니 {item}{이} 왔다.'},
+  {id:'GC_08', how:'luck',   where:'town',  text:'이사 가는 선배 헌터가 짐을 정리하며 {item}{을} 넘겨주었다.'},
+  {id:'GC_09', how:'effort', where:'town',  text:'훈련장 정리를 도운 답례로 관리인이 {item}{을} 건넸다.'},
+  {id:'GC_10', how:'effort', where:'town',  text:'밀린 잡일 의뢰를 마무리하자 의뢰인이 {item}{을} 덤으로 챙겨 주었다.'},
+  {id:'GC_11', how:'effort', where:'town',  text:'협회 교육을 빠짐없이 들은 수료 기념으로 {item}{을} 받았다.'},
+  {id:'GC_12', how:'luck',   where:'town',  cats:['ITC_WEAPON','ITC_ARMOR','ITC_ACCESSORY'], text:'단골 공방 주인이 "주인 못 찾은 물건"이라며 {item}{을} 싸게 내주었다.'},
+  {id:'GC_13', how:'effort', where:'town',  cats:['ITC_WEAPON','ITC_ARMOR','ITC_ACCESSORY'], text:'대장간 일손을 며칠 도운 대가로 {item}{을} 받았다.'},
+  {id:'GC_14', how:'luck',   where:'town',  cats:['ITC_BOOK'], text:'헌책방 구석에서 먼지 쌓인 {item}{을} 발견했다.'},
+  {id:'GC_15', how:'effort', where:'town',  cats:['ITC_BOOK'], text:'협회 도서관 정리 봉사를 하다 폐기 목록의 {item}{을} 얻었다.'},
+  {id:'GC_16', how:'luck',   where:'town',  cats:['ITC_CONSUME','ITC_DAILY'], text:'약국 개업 기념으로 {item}{을} 공짜로 받았다.'},
+  {id:'GC_17', how:'effort', where:'town',  cats:['ITC_STONE','ITC_MAT'], text:'버려진 하급 게이트 터를 끈질기게 뒤져 {item}{을} 모았다.'},
+  {id:'GC_18', how:'luck',   where:'any',   cats:['ITC_STONE','ITC_MAT'], text:'발밑에서 반짝이는 게 보여 주워 보니 {item}{이었다}.'},
+]);
+
 /* 업적 (자리만 — 목록은 나중에). 헌터가 이루면 성좌에게 코인. 성좌마다 한 번만 (다시 받을 수 없다). unlock 이 있으면 그 해금이 열린다
    {id, name, desc, measure, n, coin, unlock?}
    measure: raids(공략 수) · cleared(클리어 수) · rank(등급 숫자 이하) · level(레벨 이상) · money(돈 이상) · days(산 날) · gifts(받은 선물 수) · rels(아는 사람 수)

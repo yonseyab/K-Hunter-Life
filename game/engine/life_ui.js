@@ -278,6 +278,9 @@ const LIFEUI = (() => {
       ${tgl('dev', !!SETTINGS.dev, '개발자 보기', '숨은 값(잠재력 · 상대의 감정 · 게이트 내부 · 다른 헌터 능력치)을 그대로 보여 준다. 밸런스 확인용.')}
       ${tgl('showTrig', SETTINGS.showTrig !== false, '이벤트 발동 조건 표시', '이벤트가 어떤 데이터로 발동했는지 보여 준다.')}</div>`;
     else body = `<div class="pb grid" style="gap:14px">
+        <div><b>헌터 사진 주문서</b><p class="muted">커마에서 정한 외형을 전부 모아 이미지 생성 AI에게 그대로 붙여 넣을 문장으로 만든다. 실사 · 흰 배경 · 장식 없음.</p>
+          <div class="row" style="gap:6px"><button class="btn" data-kimgp="1">${UI.imgPrompt ? '다시 만들기' : '사진 주문서 만들기'}</button>${UI.imgPrompt ? '<button class="btn pri" data-kimgcopy="1">복사</button>' : ''}</div>
+          ${UI.imgPrompt ? `<textarea class="kimgp" readonly rows="14" aria-label="이미지 프롬프트">${esc(UI.imgPrompt)}</textarea>` : ''}</div>
         <div><b>은퇴</b><p class="muted">은퇴하면 노년을 짧게 흘린 뒤 일대기 한 장이 남고, 이 성좌로 새 헌터를 지켜볼 수 있다.</p><button class="btn ${UI.retireArm ? 'club' : ''}" data-retire="1" ${raidActive() || G.dead ? 'disabled' : ''}>${UI.retireArm ? '정말 은퇴할까? 한 번 더 누르면 은퇴' : '은퇴'}</button></div></div>`;
     return `<div class="h-row"><h1 class="h1">설정</h1></div><div class="tabs" role="tablist">${TABS.map(t => `<button role="tab" aria-selected="${tab === t}" data-settingstab="${t}">${t}</button>`).join('')}</div><div class="panel" style="max-width:780px">${body}</div>`;
   };
@@ -299,7 +302,24 @@ const LIFEUI = (() => {
   };
 
   /* ---------- 클릭 · 변경 ---------- */
+  /* 헌터 사진 주문서 (2026-10-24): 커마 외형 전부 → 실사 · 흰 배경 이미지 프롬프트 */
+  function imagePrompt() {
+    const h = G.player, lk = h.look || G.bio?.look || {}, set = vals('ccLookSets').find(x => x.sex === h.sex), minor = h.age != null && h.age < 18;
+    const skip = minor ? ['LK_CUP', 'LK_CHEST_F', 'LK_CHEST_S', 'LK_HIP_F', 'LK_FIGURE'] : [];
+    const val = id => { const it = DB.ccLook[id]; let v = lk[id]; if (v == null) v = id === 'LK_HEIGHT' ? h.height : id === 'LK_WEIGHT' ? h.weight : null; if (v == null) v = it?.slider ? it.slider.def?.[h.sex] : DB.lookPools[it?.pool]?.def; if (v == null) return null; return it?.slider ? v + it.slider.unit : DB.lookOpts[v]?.name || null; };
+    const rows = (set?.items || Object.keys(lk)).filter(id => DB.ccLook[id] && !skip.includes(id)).map(id => [DB.ccLook[id].name, val(id)]).filter(([, v]) => v);
+    const nat = DB.ccNations?.[h.nation]?.name;
+    return ['실사 인물 사진 (photorealistic portrait photo).',
+      '배경: 심플한 흰색 배경 하나뿐. 소품 · 장식 · 글자 · 무늬 · 액자 · 테두리 없음.',
+      '구도: 한 사람, 정면에 가까운 전신, 머리부터 발끝까지 화면 안. 부드러운 스튜디오 조명, 자연스러운 피부 질감, 보정 과하지 않게.',
+      `인물: ${[nat ? nat + ' 사람' : '', h.sex === '여' ? '여성' : h.sex === '남' ? '남성' : '', h.age ? h.age + '세' : ''].filter(Boolean).join(' · ')}`,
+      '외형 (아래 항목을 모두 반영):', ...rows.map(([k, v]) => `- ${k}: ${v}`),
+      '옷은 위 의상 스타일 그대로 입힌다. 무기 · 갑옷 · 마법 효과 · 판타지 장식은 넣지 않는다.',
+      '피할 것: 일러스트 · 애니메이션 · 3D 렌더 느낌, 여러 명, 글자 · 워터마크, 배경 사물.'].join('\n');
+  }
   async function onClick(e) {
+    if (e.target.closest('[data-kimgp]')) { UI.imgPrompt = imagePrompt(); render(); return; }
+    if (e.target.closest('[data-kimgcopy]')) { try { await navigator.clipboard.writeText(UI.imgPrompt || ''); toast('사진 주문서를 복사했다'); } catch (_) { const t = document.querySelector('.kimgp'); if (t) { t.select(); toast('복사가 막혀 있어 글을 선택해 두었다 — Ctrl+C'); } } return; }
     if(e.target.closest('[data-life-roll-continue]')) {if(e.target.closest('button').disabled)return;resetPopup();syncPopup();return;}
     const offer=e.target.closest('[data-life-offer]');if(offer){const o=(G.offers||[]).filter(x=>x.exp>nowAbs())[0];if(!o)return;const v=offer.dataset.lifeOffer,opts=offerOpts(o);performChoice(()=>STARADV.advise(opts,v==='auto'?null:+v,{kind:'event'},(i,how,r)=>offerRun(o,i,r)));return;}
     const addPerson=e.target.closest('[data-life-person-add]'), removePerson=e.target.closest('[data-life-person-remove]');

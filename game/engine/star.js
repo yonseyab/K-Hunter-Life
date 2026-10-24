@@ -23,13 +23,23 @@ const STAR = (() => {
     const m = L[Math.floor(Math.random() * L.length)], t = String(m.text || '').replace(/\{(\w+)\}/g, (_, k) => vars?.[k] ?? '');
     STORY.add('event', `[${starName() || '성좌'}] ${t}`, 1); return true;
   }
+  /* 성좌를 모를 때: 헌터가 운이나 노력으로 얻은 것처럼 (data/stars.js giftCovers) */
+  function cover(it, what) {
+    const where = G.inGate ? 'gate' : 'town', J = { 을: ['을', '를'], 이: ['이', '가'], 은: ['은', '는'], 과: ['과', '와'], 으로: ['으로', '로'], 이었다: ['이었다', '였다'] };
+    const fit = c => (c.where === 'any' || c.where === where) && (!c.cats || c.cats.includes(it.cat));
+    let L = vals('giftCovers').filter(c => fit(c) && c.cats); if (!L.length || Math.random() < .4) L = vals('giftCovers').filter(fit);
+    const c = L.length ? L[Math.floor(Math.random() * L.length)] : null;
+    if (!c) return `${what}${josa(what, '을', '를')} 얻었다.`;
+    return c.text.replace(/\{item\}(\{(을|이|은|과|으로|이었다)\})?/g, (_, __, j) => what + (j ? josa(what, ...J[j]) : '')).replace(/\{name\}/g, G.player?.name || '');
+  }
   /* 선물: 바로 헌터 가방으로. 장비면 헌터가 입어 볼지, 클래스북이면 읽을지 헌터가 정한다 */
   function gift(item, qty, via) {
     ensure(); const it = DB.items[item]; if (!it || !(qty > 0)) return false;
     invAdd(item, qty, 'LOC_BAG');
     G.starGifts.unshift({ t: nowAbs(), item, qty, via }); if (G.starGifts.length > B().giftsKeep) G.starGifts.length = B().giftsKeep;
     const what = `${it.name}${qty > 1 ? ' ' + qty + '개' : ''}`, nm = starName();
-    STORY.add('event', G.starKnown && nm ? `성좌 「${nm}」${josa(nm, '이', '가')} ${what}${josa(what, '을', '를')} 선물했다.` : `어디선가 ${what}${josa(what, '이', '가')} 가방에 들어와 있다. 성좌의 선물이다.`, 1);
+    if (G.starKnown && nm) STORY.add('event', `성좌 「${nm}」${josa(nm, '이', '가')} ${what}${josa(what, '을', '를')} 선물했다.`, 1);
+    else { const c = cover(it, what); G.starGifts[0].cover = c; STORY.add('event', c, 1); }
     say('gift', { item: it.name }); if (typeof STARADV !== 'undefined') STARADV.onGift();
     if (GEAR.slotOf(it)) GEAR.consider('선물받은');
     if (it.classBook) readBook(it);

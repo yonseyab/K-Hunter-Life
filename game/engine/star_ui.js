@@ -37,7 +37,7 @@ const STAR_UI = (() => {
         ${ph('오늘의 진열 · 성좌 성향 할인 · 품절 같은 상점 소식이 들어갈 예정', 'sm')}</div>
       <aside class="panel su-side"><div class="ph">고른 상품</div><div class="pb">${ph('상품 그림 · 이름 · 등급 · 설명 · 착용 조건(귀속 · 특수 클래스)이 들어갈 예정')}
         <div class="su-buy"><span class="dim">가격</span><b>${coinTxt(0)}</b><button class="btn pri" disabled>헌터에게 선물하기</button></div>
-        <div class="dim su-note">${G.starKnown ? '헌터는 선물이 누구에게서 왔는지 안다.' : '헌터는 아직 성좌를 모른다 — 선물은 어디선가 생긴 물건으로 보인다.'}</div></div></aside></div>`;
+        <div class="dim su-note">${G.starKnown ? '헌터는 선물이 누구에게서 왔는지 안다.' : '헌터는 아직 성좌를 모른다 — 선물은 헌터가 운이나 노력으로 얻은 것처럼 안배된다.'}</div></div></aside></div>`;
   }
 
   /* ---------- 성좌 경매장 ---------- */
