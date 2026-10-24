@@ -205,7 +205,7 @@ const EMO = (() => {
   function changed(why) {
     const E = st(), c = cur(); if (c === E.cur) return;
     E.cur = c; E.since = nowAbs();
-    const L = vals('storyLines').filter(l => l.on === (c === 'EM_CALM' ? 'emo:calm' : 'emo:' + c) && STORY.ok(l));
+    const on = c === 'EM_CALM' ? 'emo:calm' : 'emo:' + c, L = (typeof CONTENT !== 'undefined' ? CONTENT.get('storyLines', 'on', on) : vals('storyLines').filter(l => l.on === on)).filter(l => STORY.ok(l));
     if (L.length) STORY.add('emo', STORY.fill(pick(L).text, { why }), pick(L).lv || 2, { emo: c });
     else STORY.add('emo', `${MIND.callName()}의 기분: ${DB.emotions[c].name}`, 2, { emo: c });
   }

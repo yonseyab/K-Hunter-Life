@@ -68,7 +68,11 @@ def('traits', [
   {id:'TR_B0008', name:'게이트 생존자', cat:'TC_PAST', cost:1, pick:true, tags:['과거'], desc:'어릴 때 브레이크 현장에 있었다.'},
 ]);
 
-/* ---------- 일반인 직업 · 경력 메시지 (배경 인구 시뮬레이션에 필요) ---------- */
+/* ---------- 일반인 직업 · 경력 메시지 (배경 인구 시뮬레이션에 필요) ----------
+   ════ 직업 (aiJobs) 형식 (2026-10-24 기반 작업) — 필수: id · name · pay · w. 나머지는 선택, 안 쓰면 그만 ════
+   pay 월급(원 ÷ 100 단위 — 18000 = 180만 원) · w 배경 인구에서 나오는 비중 · keys [이 일에 쓰는 능력 ABL_] · ladder [직급 이름 — 경력이 쌓이면 오른다] · names [부르는 이름]
+   student 학생 · years 학업 연수 · self 자영업 · cat(jobCats) · hours {start, end, days:[0~6]} 일하는 시간 · place(placeTypes) 일하는 곳
+   ages [최소, 최대] · sex? · edu? 학력 · awakeOk 각성자도 하는 일 · side 헌터 부업 가능 · risk 1~5 · stress 1~5 · ctags [contentTags] · lines {hire, quit, promote} */
 def('aiJobs', [
   {id:'JOB_B_OFFICE',  name:'회사원',    pay:18000, w:5, keys:['ABL_B01','ABL_B15','ABL_B24'], ladder:['사원','주임','대리','과장','차장','부장'], names:['회사원','직장인']},
   {id:'JOB_B_SERVICE', name:'서비스직',  pay:12500, w:4, keys:['ABL_B15','ABL_B18','ABL_C09'], ladder:['직원','매니저','점장']},
@@ -96,6 +100,8 @@ def('guilds', [
 ]);
 
 /* ---------- 고정 NPC (데모 가족 · 지인) ---------- */
+/* ════ 인물 (npcs) 형식 — 필수: id · name · sex · age. 선택: job(부르는 직업명) · jobId(aiJobs) · region(regions) · portrait · birth · pers {PX_ 1~10} · traits [traits]
+   look {LK_: 값} · rels [{to:인물 ID, rel:relTypes, to?:{RD_: 값}}] 이 사람끼리의 관계 · home(housing) · money · desc · lore · ctags [contentTags] · lines {} ════ */
 def('npcs', [
   {id:'NP_B0001', name:'김순례', sex:'여', age:58, job:'식당 운영', jobId:'JOB_B_SELF',    region:'RG_SEOUL_MAPO', portrait:'POR_NP_B0001'},
   {id:'NP_B0002', name:'이도윤', sex:'남', age:22, job:'대학생',    jobId:'JOB_B_STUDENT', region:'RG_SEOUL_MAPO', portrait:'POR_NP_B0002'},

@@ -63,3 +63,37 @@ def('gateKinds', [
   {id:'GK_BREAK', name:'브레이크', auto:'break', desc:'공략되지 않은 채 시간이 다 돼 몬스터가 밖으로 넘친 게이트.'},
 ]);
 
+
+/* ════ 업데이트하기 쉬운 구조 (2026-10-24 기반 작업, engine/content.js CONTENT) ════
+   contentTags : 공통 꼬리표. 어느 테이블의 행이든 ctags:['CT_…'] 로 붙인다 (옛 tags 칸은 자유 글자 그대로 둔다).
+                 {id:'CT_…', name, kinds?:[이 꼬리표를 쓸 수 있는 테이블 이름 — 없으면 어디든], desc?}
+                 쓰는 곳: 이벤트 조건 {k:'tag', of:'here'(지금 장소 · 지역)|'gate'(들어가 있는 게이트)|'who'(상대 인물)|'player'(헌터 · 클래스 · 특성)|'bag'(가진 물건), tag}
+                          CONTENT.tagged(테이블, 꼬리표) 로 그 꼬리표가 붙은 행 찾기 (색인)
+   textBits    : 빈칸 문장 재료. {id:'TB_…', key:'weather.rain'(소문자 · 점), texts:[…], req?:[조건]}
+                 문장 안에서 {@weather.rain} 이라고 쓰면 그 key 의 texts 중 하나가 들어간다 (CONTENT.fill). 같은 key 를 여러 행에 나눠 써도 합쳐진다.
+                 fill 이 아는 것: {a|b|c} 셋 중 하나 · {@key} 재료 · {이름} 넘겨준 값({who.name} 처럼 점도 됨) · 조사 이(가) 을(를) 은(는) 와(과) (으)로 자동 */
+def('contentTags', [
+  {id:'CT_URBAN',    name:'도심',        kinds:['placeTypes','regions','gates','events','textBits'], desc:'사람 많고 건물 빽빽한 곳'},
+  {id:'CT_RURAL',    name:'시골',        kinds:['placeTypes','regions','gates','events','textBits']},
+  {id:'CT_NATURE',   name:'자연',        kinds:['placeTypes','regions','gates','events','textBits'], desc:'산 · 바다 · 숲'},
+  {id:'CT_NIGHT',    name:'밤',          desc:'밤에 어울리는 것'},
+  {id:'CT_DANGER',   name:'위험',        desc:'다칠 수 있는 곳 · 일'},
+  {id:'CT_LUXURY',   name:'고급',        desc:'돈 많은 사람의 것'},
+  {id:'CT_CHEAP',    name:'서민',        desc:'싸고 흔한 것'},
+  {id:'CT_HUNTER',   name:'헌터 업계',   desc:'협회 · 길드 · 게이트 관련'},
+  {id:'CT_FAMILY',   name:'가족',        desc:'가족과 얽힌 것'},
+  {id:'CT_ROMANCE',  name:'연애',        desc:'연애 · 설렘'},
+  {id:'CT_MEDIA',    name:'언론 · 방송', desc:'기자 · 방송 · 인터넷 방송'},
+  {id:'CT_UNDERWORLD', name:'뒷골목',    desc:'불법 · 암시장 · 범죄 (범죄 콘텐츠는 맨 나중)'},
+  {id:'CT_FIRE',     name:'불',          desc:'불 · 열기 속성'},
+  {id:'CT_WATER',    name:'물',          desc:'물 · 냉기 속성'},
+  {id:'CT_UNDEAD',   name:'언데드',      desc:'죽은 것들'},
+  {id:'CT_BEAST',    name:'짐승',        desc:'짐승형 몬스터 · 동물'},
+]);
+def('textBits', [
+  {id:'TB_0001', key:'weather.rain',  texts:['빗줄기가 굵어진다','창밖으로 비가 그치지 않는다','젖은 아스팔트 냄새가 올라온다']},
+  {id:'TB_0002', key:'weather.clear', texts:['하늘이 높고 맑다','햇볕이 따갑다','바람 한 점 없다']},
+  {id:'TB_0003', key:'city.noise',    texts:['어디선가 경적이 울린다','배달 오토바이가 골목을 가른다','편의점 앞에 사람들이 모여 있다']},
+  {id:'TB_0004', key:'gate.air',      texts:['공기가 눅눅하고 무겁다','마력 냄새가 코끝을 찌른다','멀리서 무언가 긁는 소리가 난다']},
+  {id:'TB_0005', key:'mood.tired',    texts:['어깨가 무겁다','하품이 계속 나온다','눈꺼풀이 자꾸 내려온다']},
+]);

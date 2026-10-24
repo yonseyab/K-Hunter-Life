@@ -34,7 +34,7 @@ const STORY = (() => {
   function ok(l, tgt) {
     try { if (l.req && !l.req.every(q => checkReq(q, tgt))) return false; if (l.asserts && !l.asserts.every(q => checkReq(q, tgt))) return false; return true; } catch (e) { return false; }
   }
-  function lines(on, tgt) { return vals('storyLines').filter(l => l.on === on && ok(l, tgt)); }
+  function lines(on, tgt) { return (typeof CONTENT !== 'undefined' ? CONTENT.get('storyLines', 'on', on) : vals('storyLines').filter(l => l.on === on)).filter(l => ok(l, tgt)); }
   function pickLine(on, tgt) { const L = lines(on, tgt); return L.length ? pickW(L) : null; }
 
   /* 체격 · 무기 · 파티 소개 */
@@ -164,7 +164,7 @@ const STORY = (() => {
     const p = G.player, bg = G.bio?.bg || {}, age = p.age || 25, bp = DB.ccBirthplaces?.[p.birthplace]?.name || '어딘가', gateAge = age - 27;
     const bgNames = ['BI_FAMENV', 'BI_EDU', 'BI_JOB', 'BI_FINANCE', 'BI_PAST'].map(k => { const v = bg[k]; const ids = Array.isArray(v) ? v : v ? [v] : []; return ids.map(id => DB.bgOpts?.[id]?.name).filter(Boolean).join(', '); }).filter(Boolean);
     const ctx = { age, bplace: bp, sinceGate: Math.max(0, (2026 - age) - 1999), gateAge: Math.max(0, gateAge), bgline: bgNames.length ? bgNames.join(' · ') + '.' : '평범하게 살아왔다.' };
-    vals('storyLines').filter(l => l.on === 'prologue' && ok(l)).forEach(l => add('prologue', fill(l.text, ctx), 1));
+    (typeof CONTENT !== 'undefined' ? CONTENT.get('storyLines', 'on', 'prologue') : vals('storyLines').filter(l => l.on === 'prologue')).filter(l => ok(l)).forEach(l => add('prologue', fill(l.text, ctx), 1));
   }
   function pickW(L) { let t = L.reduce((a, c) => a + (c.w ?? 1), 0), r = Math.random() * t; for (const c of L) { r -= c.w ?? 1; if (r <= 0) return c; } return L[L.length - 1]; }
   return { josa, add, on, visible, lvMax, ok, lines, pickLine, fill, act, move, smallTick, meetTick, reactTick, fxApply, raidScene, newsLine, flavorTick, dayEnd, dayStart, prologue, who, build, partyText };

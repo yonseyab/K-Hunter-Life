@@ -56,6 +56,10 @@ def('balance', [
   {id:'BAL_LIFE', proto:true, payDay:1, debtStress:15,
    fixed:[['월세',550000],['관리비 · 공과금',120000],['통신비',55000],['헌터 보험',90000]]},
 ]);
+/* 더 붙는 생활비 (2026-10-24 기반 형식) — 매월 payDay 에 BAL_LIFE.fixed 뒤에 붙어 빠져나간다 (index.html fixedCosts).
+   {id:'CI_…', name, amount(원/월), req?[이벤트와 같은 조건 — 맞을 때만], desc?, ctags?}
+   예: 차 할부 · 반려동물 · 대출 상환 · 부모님 용돈 · 구독. 비어 있으면 기존 고정 지출만 */
+def('costItems', []);
 
 /* 주거 [prototype_default] — 월세는 매월 고정 지출(BAL_LIFE)에 '월세' 대신 들어간다. regionMul: 지역별 월세 배수
    이사 비용 = deposit(보증금) + moveCost. 이사 나갈 때 보증금은 돌려받는다.

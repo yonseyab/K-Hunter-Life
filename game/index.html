@@ -686,6 +686,7 @@ input[type=range].unset{opacity:.7;accent-color:var(--line2)}
 window.HLDB = {};
 function def(table, rows){
   window.HL_CONTENT_REV=(window.HL_CONTENT_REV||0)+1;
+  const R=window.HL_REV||(window.HL_REV={});R[table]=(R[table]||0)+1;  /* 테이블별 판 번호 — engine/content.js 색인이 다시 만들 때를 안다 */
   const t = HLDB[table] || (HLDB[table] = {});
   rows.forEach(r=>{ if(!r.id) return console.warn('[HLDB] id 없음', table, r); if(t[r.id]) console.warn('[HLDB] 중복 ID', r.id); t[r.id]=r; });
 }
@@ -744,7 +745,30 @@ const ACTLOG_KEEP=200;
 function actLog(k,s,t){const L=G.actLog||(G.actLog=[]);L.unshift({t:t??nowAbs(),k,s:String(s)});if(L.length>ACTLOG_KEEP)L.length=ACTLOG_KEEP}
 function actNote(html){if(SETTINGS.actToast)toast(html)}
 function toast(t){const el=$('#toast');el.innerHTML=t;el.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>el.hidden=true,3400)}
-const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}};
+/* 세이브는 IndexedDB (2026-10-24 기반 작업 — localStorage 5MB 한계를 넘는 대량 콘텐츠 · 긴 인생 대비).
+   목록(이름 · 날짜 같은 작은 정보)만 localStorage 'khl.saves.v1.meta', 게임 내용은 IndexedDB 'khl-saves' 에 슬롯마다 JSON 문자열.
+   다른 코드는 그대로 store.get/set(SAVE_KEY) 를 쓴다 — 여기서 메모리 사본으로 바로 답하고 IndexedDB 에는 뒤에서 쓴다.
+   시작할 때 SAVES.init() 이 IndexedDB 를 읽어 메모리에 올린다 (옛 localStorage 세이브는 옮긴다). IndexedDB 가 없으면 옛 방식 그대로 */
+const SAVES=(()=>{const K='khl.saves.v1',MK=K+'.meta',DBN='khl-saves',OS='saves';let on=typeof indexedDB!=='undefined',json={},meta=null,dbp=null,ready=false;
+  const open=()=>dbp||(dbp=new Promise((res,rej)=>{try{const q=indexedDB.open(DBN,1);q.onupgradeneeded=()=>q.result.createObjectStore(OS);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)}catch(e){rej(e)}}));
+  const run=(mode,fn)=>open().then(db=>new Promise((res,rej)=>{const t=db.transaction(OS,mode),r=fn(t.objectStore(OS));t.oncomplete=()=>res(r?.result);t.onerror=()=>rej(t.error)}));
+  const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}};
+  const metaOf=s=>{const m={...s};delete m.data;return m};
+  function get(d){if(meta==null)meta=lsGet(MK,[]);return meta.filter(m=>json[m.slot]!=null||!ready).map(m=>({...m,data:json[m.slot]!=null?JSON.parse(json[m.slot]):undefined}))}
+  function set(list){const prev=json,nj={},puts=[];list.forEach(s=>{const j=s.data===undefined?prev[s.slot]:JSON.stringify(s.data);if(j==null)return;nj[s.slot]=j;if(j!==prev[s.slot])puts.push(s.slot)});
+    const dels=Object.keys(prev).filter(k=>!(k in nj));json=nj;meta=list.map(metaOf);try{localStorage.setItem(MK,JSON.stringify(meta))}catch(e){return false}
+    run('readwrite',o=>{puts.forEach(k=>o.put(json[k],k));dels.forEach(k=>o.delete(k))}).catch(e=>console.warn('save idb',e));return true}
+  /* 시작: IndexedDB → 메모리. 옛 localStorage 세이브(내용 포함)는 옮기고 지운다 */
+  function init(){if(!on)return Promise.resolve(false);
+    return open().then(db=>new Promise((res,rej)=>{const q=db.transaction(OS,'readonly').objectStore(OS).openCursor(),got={};q.onsuccess=()=>{const c=q.result;if(c){got[c.key]=c.value;c.continue()}else res(got)};q.onerror=()=>rej(q.error)}))
+      .then(got=>{const old=lsGet(K,null);meta=lsGet(MK,[]);Object.assign(json,got,json);
+        if(Array.isArray(old)&&old.length){old.forEach(s=>{if(s.data!=null&&json[s.slot]==null){json[s.slot]=JSON.stringify(s.data);meta=meta.filter(m=>m.slot!==s.slot);meta.push(metaOf(s))}});
+          try{localStorage.setItem(MK,JSON.stringify(meta));localStorage.removeItem(K)}catch(e){}run('readwrite',o=>Object.keys(json).forEach(k=>o.put(json[k],k))).catch(()=>{})}
+        meta=meta.filter(m=>json[m.slot]!=null);ready=true;return true})
+      .catch(e=>{console.warn('IndexedDB 세이브를 쓸 수 없어 localStorage 로 돌아간다',e);on=false;return false})}
+  return {get:d=>on?get(d):lsGet(K,d), set:v=>{if(on)return set(v);try{localStorage.setItem(K,JSON.stringify(v));return true}catch(e){return false}}, init, get on(){return on}, get ready(){return ready}};
+})();
+const store={get(k,d){if(k==='khl.saves.v1')return SAVES.get(d);try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){if(k==='khl.saves.v1')return SAVES.set(v);try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}};
 
 /* 설정 (브라우저에 저장되는 개인 설정) */
 const SETTINGS = Object.assign({showTrig:true, autosave:true, intro:true, fontSize:13, raidSpeed:1, textSpeed:'보통'}, store.get('khl.settings',{}));
@@ -853,7 +877,7 @@ function perform(a,dur,o={}){const B=DB.balance.BAL_TIME,T=DB.balance.BAL_TRAIN,
   G.timeLog.unshift({t:t0,dur,act:a?.id||null,tgt:o.target||null,ups});G.timeLog.length=Math.min(G.timeLog.length,80);
   advanceClock(dur);healTick(h,!!(a&&a.sleep),a);return ups}
 function maybeEvent(hours){const p=1-Math.pow(1-DB.balance.BAL_TIME.eventPerHour*(typeof TELLER!=='undefined'&&G?TELLER.mul('big'):1),hours);if(Math.random()>=p)return null;
-  const pool=vals('events').filter(e=>eligible(e));if(!pool.length)return null;const ev=pick(pool);triggerEvent(ev.id,hhmm(G.time));return ev}
+  const pool=(typeof CONTENT!=='undefined'?CONTENT.get('events','on',undefined):vals('events').filter(e=>!e.on)).filter(e=>eligible(e));if(!pool.length)return null;const ev=pick(pool);triggerEvent(ev.id,hhmm(G.time));return ev}
 /* 진행: 1h · next(다음 일정 끝) · morning(다음 날 07:00) · week · event(다음 주요 사건, 최대 30일) */
 const ADV_MODES=[['1h','1시간'],['next','다음 일정까지'],['morning','다음 날 아침 (07:00)'],['week','1주일'],['event','다음 주요 사건까지']];
 function advTarget(mode){const now=nowAbs();
@@ -875,7 +899,7 @@ const rentOf=(type,region)=>Math.round(DB.housing[type].rent*rentMul(region)/100
 /* 동거 생활비 분담: 내 몫 비율(h.split), 상대 몫은 상대 돈에서. full=true 면 나눔 없이 전체 금액 */
 function mySplit(){const h=homeOf();return h.partner?(h.split??DB.balance.BAL_HOUSE.shareRent):1}
 function fixedCosts(full){const h=homeOf(),HB=DB.balance.BAL_HOUSE,sp=full?1:mySplit(),tag=h.partner&&!full?` · ${nameOf(h.partner)}와 나눠 냄 (내 몫 ${Math.round(sp*100)}%)`:'';
-  return DB.balance.BAL_LIFE.fixed.map(([n,v])=>{const base=n==='월세'?rentOf(h.type,h.region):v,shared=(HB.shareItems||['월세']).includes(n),lab=n==='월세'?`월세 (${regionName(h.region)} ${DB.housing[h.type].name})`:n;return shared&&h.partner?[lab+tag,Math.round(base*sp)]:[lab,base]})}
+  return DB.balance.BAL_LIFE.fixed.map(([n,v])=>{const base=n==='월세'?rentOf(h.type,h.region):v,shared=(HB.shareItems||['월세']).includes(n),lab=n==='월세'?`월세 (${regionName(h.region)} ${DB.housing[h.type].name})`:n;return shared&&h.partner?[lab+tag,Math.round(base*sp)]:[lab,base]}).concat(vals('costItems').filter(c=>(c.req||[]).every(q=>checkReq(q))).map(c=>[c.name,c.amount]))}  /* 더 붙는 생활비 (data/world.js costItems) */
 function partnerShare(){const h=homeOf();if(!h.partner)return 0;return fixedCosts(true).reduce((a,x,i)=>a+x[1],0)-fixedCosts().reduce((a,x)=>a+x[1],0)}
 /* 납부일: 상대 몫을 상대 돈에서. 상대 돈이 모자라면 내가 낸다 */
 function partnerPay(day){const h=homeOf(),HB=DB.balance.BAL_HOUSE;if(!h.partner)return 0;const amt=partnerShare(),ag=G.ai?.[h.partner],nm=nameOf(h.partner),r=relOf(h.partner);
@@ -1022,7 +1046,7 @@ function prefsHTML(){const p=prefs(),N=p.gateNote,fee=Math.round((DB.balance.BAL
       </div><div class="dim" style="font-size:11px;margin-top:4px">입장 가능한 등급 = 내 등급보다 ${DB.balance.BAL_PARTY.gateUp}급 약한 ~ ${DB.balance.BAL_PARTY.gateDown}급 강한 게이트 (파티 규칙과 같음). 알림 화면에서 '게이트' 분류를 통째로 끌 수도 있습니다.</div></div>
   </div>`}
 const assocPrice=it=>Math.floor((it.price||0)*mktMul(it.id)*DB.balance.BAL_SHOP.assocRate/100)*100;
-function marketDay(){const M=DB.balance.BAL_MARKET;G.market=G.market||{};vals('items').filter(i=>M.cats.includes(i.cat)&&i.price).forEach(it=>{const o=mktMul(it.id),n=Math.max(M.range[0],Math.min(M.range[1],o*(1+(Math.random()*2-1)*M.dayMove)));G.market[it.id]=Math.round(n*1000)/1000;
+function marketDay(){const M=DB.balance.BAL_MARKET;G.market=G.market||{};(typeof CONTENT!=='undefined'?CONTENT.all('items'):vals('items')).filter(i=>M.cats.includes(i.cat)&&i.price).forEach(it=>{const o=mktMul(it.id),n=Math.max(M.range[0],Math.min(M.range[1],o*(1+(Math.random()*2-1)*M.dayMove)));G.market[it.id]=Math.round(n*1000)/1000;
   const base=G.mktBase?.[it.id]??1;if(Math.abs(n-base)>=M.newsMove){newsAdd('경제',n>base?'g':'',`${it.name} 협회 매입가 ${n>base?'상승':'하락'}… 개당 ${won(assocPrice(it))}`);G.mktBase=G.mktBase||{};G.mktBase[it.id]=n}})}
 /* 고정 헌터(NPC)도 매일 조금씩 성장한다. 데이터 원본은 그대로 두고 G.hState 에 덮어쓴다 */
 let H_ORIG=null;
@@ -1637,6 +1661,7 @@ function checkReq(q,tgt){
     case 'rankMax': return DB.ranks[p.rank].lv<=q.lv;
     case 'cleared': return (G.stats?.cleared||0)>=q.min;
     case 'item': return invOf().filter(r=>r.item===q.id).reduce((a,r)=>a+r.qty,0)>=(q.min||1);
+    case 'tag': return typeof CONTENT!=='undefined'&&CONTENT.ctxHas(q.of||'here',q.tag,tgt);  /* 꼬리표에 거는 이벤트 (engine/content.js) */
     case 'weekday': return q.in.includes(wd(G.day));
     case 'flag': return !!(G.flags||{})[q.id];
     case 'memory': return !!tgt&&memOf(tgt).some(m=>m.tag===q.tag);
@@ -1673,6 +1698,7 @@ function describeReq(q){
     case 'level': return `레벨 ≥ ${q.min}`; case 'rankMax': return `등급 ${q.lv}급 이상`;
     case 'cleared': return `게이트 클리어 ${q.min}회 이상`;
     case 'item': return `${DB.items[q.id].name} ${q.min||1}개 이상`;
+    case 'tag': return `${({here:'지금 있는 곳',gate:'게이트',who:'상대',player:'헌터',bag:'가진 물건'})[q.of||'here']} 꼬리표 ${DB.contentTags?.[q.tag]?.name||q.tag}`;
     case 'weekday': return '요일: '+q.in.map(i=>WEEK[i]).join('/');
     case 'memory': return '대상이 기억하는 일: '+q.tag;
     case 'flag': return '진행 표시: '+q.id; case 'noFlag': return '진행 표시 없음: '+q.id;
@@ -1695,14 +1721,14 @@ function eligible(ev){
 function processHappen(){const L=G.happen||[];if(!L.length)return null;G.happen=[];let fired=null;G.hapLog=G.hapLog||{};const keep=[];
   for(const h of L){const who=h.who;if(!P(who))continue;hearOf(h.k,who,h.data);
     const be=G.threads.find(t=>t.with===who)?.event,busy=be&&!be.resolved;  /* 그 사람과 아직 답하지 않은 대화가 있으면 메시지 이벤트는 미룬다 */
-    const C0=vals('events').filter(e=>e.on===h.k&&(G.hapLog[e.id+'|'+who]==null||G.day-G.hapLog[e.id+'|'+who]>=(e.cooldown??7))&&(e.req||[]).every(q=>checkReq(q,who))),C=C0.filter(e=>!(busy&&e.ch==='msg'));
+    const C0=(typeof CONTENT!=='undefined'?CONTENT.get('events','on',h.k):vals('events').filter(e=>e.on===h.k)).filter(e=>(G.hapLog[e.id+'|'+who]==null||G.day-G.hapLog[e.id+'|'+who]>=(e.cooldown??7))&&(e.req||[]).every(q=>checkReq(q,who))),C=C0.filter(e=>!(busy&&e.ch==='msg'));
     if(!C.length&&C0.length){if(nowAbs()-h.t<3*1440)keep.push(h);continue}
     if(C.length){const e=pickW(C);G.hapLog[e.id+'|'+who]=G.day;triggerEvent(e.id,hhmm(G.time),h);fired=fired||{ev:e,who,h};continue}
     const ev=h.k.startsWith('career:')?h.k.slice(7):null,TX=ev?vals('careerMsgs').filter(m=>m.ev===ev).flatMap(m=>m.texts):[];  /* 같은 ev 의 모든 행(본체 + 외주)을 후보로 합친다 */
     if(TX.length&&relOf(who)){const th=threadWith(who);th.msgs.push({from:who,t:pick(TX).replaceAll('{job}',h.data.job||'').replaceAll('{rank}',h.data.rank||''),tm:hhmm(G.time)});th.unread++;KNOW.learn(who,'career',h.data.title||'','KS_TALK')}}
   G.happen=[...keep,...(G.happen||[])];return fired}
 /* 아는 사람에게 생긴 일 → 들은 이야기 (hearTexts). 가까운 사이(친밀 40+)면 '대화', 아니면 '건너 들음' */
-function hearOf(k,who,data){const r=relOf(who);if(!r)return;const T=vals('hearTexts').filter(x=>x.on===k);if(!T.length)return;const p=P(who),d=data||{};
+function hearOf(k,who,data){const r=relOf(who);if(!r)return;const T=(typeof CONTENT!=='undefined'?CONTENT.get('hearTexts','on',k):vals('hearTexts').filter(x=>x.on===k));if(!T.length)return;const p=P(who),d=data||{};
   const txt=pick(T).text.replaceAll('{a}',p?.name||nameOf(who)).replace(/\{(\w+)\}/g,(m,x)=>d[x]??'');KNOW.hear(who,txt,(r.to?.RD_CLOSE||r.close||0)>=40?'KS_TALK':'KS_HEARD')}
 /* 만나서 수다: 상대가 내가 아는 다른 사람 이야기(소문 또는 들은 이야기)를 하나 들려준다 */
 function gossipFrom(tid){const mine=new Set(G.relations.map(r=>r.id));const R=(G.rumors||[]).filter(x=>x.about.some(id=>id!==tid&&mine.has(id))&&!x.about.every(id=>KNOW.heard(id).some(h=>h.text===x.text)));
@@ -2879,7 +2905,7 @@ function startRaid(gid){
 function crisisFits(c,g){const mc=DB.monsters[g.mon]?.cat,rn=DB.ranks[g.rank]?.lv??20;
   return (!c.monCat||c.monCat.includes(mc))&&(!c.gateType||c.gateType.includes(g.type))&&(c.rankMin==null||rn>=c.rankMin)&&(c.rankMax==null||rn<=c.rankMax)}
 function pickW(L){let t=L.reduce((a,c)=>a+(c.w??1),0),r=Math.random()*t;for(const c of L){r-=c.w??1;if(r<=0)return c}return L.at(-1)}
-function raidCrisis(when){const R=UI.raid,g=DB.gates[R.gid],seen=R.crSeen||(R.crSeen=[]);let L=vals('crises').filter(c=>(when==='boss'?c.when==='boss':c.when!=='boss'&&(c.when==='any'||c.when===when))&&crisisFits(c,g));
+function raidCrisis(when){const R=UI.raid,g=DB.gates[R.gid],seen=R.crSeen||(R.crSeen=[]);let L=(typeof CONTENT!=='undefined'?CONTENT.all('crises'):vals('crises')).filter(c=>(when==='boss'?c.when==='boss':c.when!=='boss'&&(c.when==='any'||c.when===when))&&crisisFits(c,g));
   const fresh=L.filter(c=>!seen.includes(c.id));if(fresh.length)L=fresh;if(!L.length)return;
   const others=R.party.filter((p,i)=>i>0&&p.hp>0);const bm=others.length?pick(others):null;R.crisis={id:pickW(L).id,b:bm?bm.n:'동료',bid:bm?bm.id:null};seen.push(R.crisis.id);R.paused=true;if(when==='boss')R.bossCr=true;else R.crN++;
   addLog('c',`위기 — ${DB.crises[R.crisis.id].title}`)}
@@ -3342,6 +3368,7 @@ document.addEventListener('keydown',e=>{
 });
 addEventListener('resize',()=>{if(UI.mode==='app'&&UI.screen==='raid')drawRaid()});
 applySettings(); render(); packsLoad();  /* 대량 콘텐츠 팩을 뒤에서 불러온다 */
+SAVES.init().then(ok=>{if(ok&&UI.mode==='title')render()});  /* 세이브를 IndexedDB 에서 올린다 */
 </script>
 <script src="engine/sim.js"></script>
 <script src="engine/goals.js"></script>
@@ -3373,3 +3400,4 @@ applySettings(); render(); packsLoad();  /* 대량 콘텐츠 팩을 뒤에서 �
 <script src="engine/hunter_rel.js"></script>
 <script src="engine/hunter_info.js"></script>
 <script src="engine/db_ui.js"></script>
+<script src="engine/content.js"></script>

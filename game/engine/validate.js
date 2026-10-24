@@ -12,7 +12,9 @@ const prefixOf = id => id.split('_')[0];
 const REQ_K = ['time','slot','trait','density','rel','relStat','known','family','money','at','inRegion','romanceAny','spouseAny','homeIn','guildMaster','rep','hasGuild','noGuild','guildNot','all','any','not','energy','stress','sleepDebt','injured','relDim','relStatus','level','rankMax','cleared','item','weekday','flag','memory','noFlag',
   'look','lookNum','bmi','bg','pers','sex','age','basic','lang','cls',
   /* K-Hunter-Life: 세 층 원칙 · 감정 · 자기 인식 · 성인 · 장소 */
-  'looks','emo','self','adult','place'];
+  'looks','emo','self','adult','place',
+  /* 2026-10-24 기반 작업: 꼬리표 조건 {k:'tag', of:'here'|'gate'|'who'|'player'|'bag', tag:'CT_…'} */
+  'tag'];
 function reqErrs(q, DB, where) {
   if (!q || typeof q !== 'object') return [`${where}: 조건 형식`];
   if (!REQ_K.includes(q.k)) return [`${where}: 모르는 조건 k=${q.k}`];
@@ -24,6 +26,7 @@ function reqErrs(q, DB, where) {
   if (q.k === 'bg' && (!DB.bgItems?.[q.item] || !Array.isArray(q.in))) o.push(`${where}: bg 는 item(BI_) · in[] 필요`);
   if (q.k === 'pers' && !DB.ccPersonality?.[q.axis]) o.push(`${where}: pers 는 axis(PX_) 필요`);
   if (q.k === 'sex' && !['남', '여'].includes(q.v)) o.push(`${where}: sex 는 v '남' · '여'`);
+  if (q.k === 'tag' && (!DB.contentTags?.[q.tag] || (q.of && !['here', 'gate', 'who', 'player', 'bag'].includes(q.of)))) o.push(`${where}: tag 는 tag(contentTags) · of(here · gate · who · player · bag) 필요`);
   if (q.k === 'basic' && !['blood', 'hand', 'nation', 'bplace', 'langMain', 'voice', 'speech'].includes(q.key)) o.push(`${where}: basic key 값`);
   if (['lookNum', 'bmi', 'pers', 'age'].includes(q.k) && q.min == null && q.max == null) o.push(`${where}: min 또는 max 필요`);
   if (q.k === 'looks' && (!DB.lookScores?.[q.aspect] || (q.min == null && q.max == null))) o.push(`${where}: looks 는 aspect(APS_) · min/max 필요`);
@@ -113,6 +116,13 @@ const RULES = [
   ['starPresets', (p, DB) => [...(!p.name || !p.trait || !p.domain ? ['name · trait · domain 필요'] : []), ...(p.trait && !DB.starTraits?.[p.trait] ? ['trait 없음'] : []), ...(p.domain && !DB.starDomains?.[p.domain] ? ['domain 없음'] : []), ...(p.speech && !DB.ccSpeech?.[p.speech] ? ['speech 없음'] : []), ...(p.cls && !DB.classes?.[p.cls] ? ['cls 없음'] : []), ...(p.skills || []).filter(k => !DB.skills?.[k]).map(k => 'skills ' + k + ' 없음'), ...(p.unlock && !DB.achievements?.[p.unlock] ? ['unlock 업적 없음'] : [])]],
   ['starBlessings', (b, DB) => [...(!b.name || !(b.coin >= 0) ? ['name · coin 필요'] : []), ...Object.keys(b.fx?.check || {}).filter(k => !DB.abilities?.[k] && !DB.baseStats?.[k]).map(k => 'fx.check ' + k + ' 없음'), ...Object.keys(b.fx?.cstat || {}).filter(k => !['atk', 'mag', 'def', 'res', 'hp', 'acc', 'eva', 'crit', 'spd'].includes(k)).map(k => 'fx.cstat ' + k + ' 모름')]],
   ['statAllocWhy', (x) => [...(!['cls', 'role', 'adven', 'calm', 'focus', 'even', 'lag'].includes(x.why) ? ['why ' + x.why + ' 모름'] : []), ...(!/\{stats\}/.test(x.text || '') ? ['text 에 {stats} 필요'] : [])]],
+  ['contentTags', (t) => [...(!t.name ? ['name 필요'] : []), ...(t.kinds && !Array.isArray(t.kinds) ? ['kinds 는 테이블 이름 목록'] : [])]],
+  ['textBits', (b) => [...(!b.key || !/^[a-z][a-z0-9_.]*$/.test(b.key) ? ['key 는 소문자 · 숫자 · 점 (예: weather.rain)'] : []), ...(!Array.isArray(b.texts) || !b.texts.length ? ['texts[] 필요'] : [])]],
+  ['aiJobs', (j, DB) => [...(!j.name || !(j.pay >= 0) || !(j.w >= 0) ? ['name · pay · w 필요'] : []), ...(j.keys || []).filter(k => !DB.abilities?.[k]).map(k => 'keys ' + k + ' 없음'), ...(j.place && !DB.placeTypes?.[j.place] ? ['place 없음'] : []), ...(j.ages && !(Array.isArray(j.ages) && j.ages.length === 2) ? ['ages 는 [최소, 최대]'] : [])]],
+  ['costItems', (c) => [...(!c.name || !(c.amount > 0) ? ['name · amount 필요'] : [])]],
+  ['npcs', (n, DB) => [...(!n.name || !['남', '여'].includes(n.sex) || !(n.age > 0) ? ['name · sex(남/여) · age 필요'] : []), ...(n.jobId && !DB.aiJobs?.[n.jobId] ? ['jobId 없음'] : []), ...(n.region && !DB.regions?.[n.region] ? ['region 없음'] : []), ...(n.rels || []).filter(r => !DB.relTypes?.[r.rel]).map(r => 'rels.rel ' + r.rel + ' 없음')]],
+  ['relTypes', (r) => (!['가족', '연애', '친구', '동료', '라이벌', '지인'].includes(r.tag) ? ['tag 는 가족 · 연애 · 친구 · 동료 · 라이벌 · 지인'] : [])],
+  ['relDims', (d) => (!Array.isArray(d.range) || d.range.length !== 2 ? ['range [최소, 최대] 필요'] : [])],
   ['achievements', (a) => [...(!['raids', 'cleared', 'rank', 'level', 'money', 'days', 'gifts', 'rels', 'skills', 'gearGrade', 'close', 'known', 'followed', 'refused', 'nakedClear'].includes(a.measure) ? ['measure ' + a.measure + ' 모름'] : []), ...(!(a.n > 0) ? ['n 필요'] : []), ...(!a.name || !a.cat ? ['name · cat 필요'] : []), ...(a.unlock && !['pickClass', 'pickStats', 'pickPotential', 'peekPotential'].includes(a.unlock) ? ['unlock 모름'] : [])]],
   ['giftCovers', (c, DB) => [...(!['luck', 'effort'].includes(c.how) ? ['how 는 luck · effort'] : []), ...(!['gate', 'town', 'any'].includes(c.where) ? ['where 는 gate · town · any'] : []), ...(!/\{item\}/.test(c.text || '') ? ['text 에 {item} 필요'] : []), ...(c.cats || []).filter(x => !DB.itemCats[x]).map(x => `cats ${x} 없음`)]],
   ['placeTypes', (t, DB) => [...(t.group && !['life', 'hunter', 'shop', 'public', 'move', 'nature', 'etc'].includes(t.group) ? ['group 값: ' + t.group] : []), ...(t.where && !['all', 'city', 'metro', 'rare'].includes(t.where) ? ['where 값: ' + t.where] : []),
@@ -216,6 +226,8 @@ function check(DB, dup) {
   };
   for (const [tn, t] of Object.entries(DB)) for (const [id, row] of Object.entries(t)) for (const [k, v] of Object.entries(row)) if (k !== 'id') walk(v, `${tn}.${id}.${k}`, 0);
   for (const [tn, fn] of RULES) for (const [id, row] of Object.entries(DB[tn] || {})) for (const p of fn(row, DB)) errs.push(`${tn}.${id}: ${p}`);
+  /* 공통 꼬리표 (2026-10-24): 어느 테이블이든 ctags[] 는 contentTags 에 있어야 하고, 그 꼬리표의 kinds 가 있으면 이 테이블이 들어 있어야 한다 */
+  for (const [tn, t] of Object.entries(DB)) for (const [id, row] of Object.entries(t)) for (const c of row.ctags || []) { const d = DB.contentTags?.[c]; if (!d) errs.push(`${tn}.${id}: ctags ${c} 없음 (contentTags)`); else if (d.kinds && !d.kinds.includes(tn)) errs.push(`${tn}.${id}: ctags ${c} 는 ${d.kinds.join(' · ')} 에만`); }
   const rows = Object.values(DB).reduce((a, t) => a + Object.keys(t).length, 0);
   return { errs, warns, stats: { tables: Object.keys(DB).length, rows } };
 }

@@ -24,7 +24,7 @@ const STAR = (() => {
     const L = vals('starMessages').filter(m => m.on === on && (st?.preset ? m.trait === st.trait : (!m.trait || m.trait === st?.trait))
       && (!m.known || G.starKnown) && (!m.lv || (G.player?.level || 1) >= m.lv) && !(m.once && G.saidOnce[m.id]) && Math.random() < (m.chance ?? 1));
     if (!L.length) return false;
-    const m = L[Math.floor(Math.random() * L.length)], t = String(m.text || '').replace(/\{(\w+)\}/g, (_, k) => k === 'name' ? (G.player?.name || '') : vars?.[k] ?? '');
+    const m = L[Math.floor(Math.random() * L.length)], V = { name: G.player?.name || '', star: starName() || '', ...vars }, t = typeof CONTENT !== 'undefined' ? CONTENT.fill(m.text, V) : String(m.text || '').replace(/\{(\w+)\}/g, (_, k) => V[k] ?? '');
     if (m.once) G.saidOnce[m.id] = true;
     STORY.add('event', `[${starName() || '성좌'}] ${t}`, 1); return true;
   }
@@ -138,7 +138,7 @@ const STAR = (() => {
   const A = () => { ensure(); return G.auction || (G.auction = { lots: [], seq: 0, coin: true }); };
   const toCoin = w => Math.max(1, Math.round((w || 0) / DB.balance.BAL_COIN.wonPerCoin));
   function aucNew(n) {
-    const b = AB(), a = A(), pool = vals('items').filter(i => b.cats.includes(i.cat) && i.price && !i.old && !GEAR.gradeOf(i)?.hidden && !(i.classBook && isUnique(i.classBook) && holderOf(i.classBook))); if (!pool.length) return;
+    const b = AB(), a = A(), pool = (typeof CONTENT !== 'undefined' ? CONTENT.all('items') : vals('items')).filter(i => b.cats.includes(i.cat) && i.price && !i.old && !GEAR.gradeOf(i)?.hidden && !(i.classBook && isUnique(i.classBook) && holderOf(i.classBook))); if (!pool.length) return;
     for (let k = 0; k < n && a.lots.filter(l => l.end > nowAbs()).length < b.maxLots; k++) {
       const it = pick(pool), r = x => x[0] + Math.random() * (x[1] - x[0]), qty = ['ITC_STONE', 'ITC_MAT', 'ITC_CONSUME'].includes(it.cat) ? 1 + Math.floor(Math.random() * 4) : 1, base = toCoin(it.price) * qty;
       a.lots.push({ id: 'AU' + (++a.seq), item: it.id, qty, seller: sellerName(), start: Math.max(1, Math.round(base * r(b.start))), bid: 0, bidder: null, buyout: Math.max(2, Math.round(base * r(b.buyout))), end: nowAbs() + Math.round(r(b.days) * 1440), cap: base * r(b.npcMax) });

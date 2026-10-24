@@ -43,7 +43,7 @@ const {chromium}=require('playwright'), path=require('path'), assert=require('as
     await p.evaluate(()=>{saveGame('slot1');const s=store.get(SAVE_KEY,[]).find(x=>x.slot==='slot1');G=JSON.parse(JSON.stringify(s.data));enterGame()});
     assert(await p.evaluate(()=>UI.raid?.crisis&&UI.raid.t===G.play.pendingRaid.t&&!PLAY.S.running));
     assert(await p.locator('[data-kcrisis]').count()>0);
-    await p.evaluate(()=>{prefs().play.stop='none';DB.balance.BAL_GATE.crisisPerTick=0.06;DB.balance.BAL_DEATH.rescue=1;DB.balance.BAL_DEATH.soloRescue=1;DB.balance.BAL_DEATH.fatal=0});
+    await p.evaluate(()=>{prefs().play.stop='none';DB.balance.BAL_GATE.crisisPerTick=0.06;DB.balance.BAL_DEATH.rescue=10;DB.balance.BAL_DEATH.soloRescue=10;DB.balance.BAL_DEATH.fatal=0});
     await p.click('[data-kcrisisauto]');
     {const st=await p.evaluate(()=>({done:UI.raid?.done,scr:UI.screen,pend:!!G.play.pendingRaid,dead:!!G.dead,cr:!!UI.raid?.crisis,story:G.story.some(x=>x.k==='raid'&&x.ok!=null)}));assert(st.done&&st.scr==='life'&&!st.pend&&st.story,JSON.stringify(st));}
     const n=await p.evaluate(()=>PLAY.st().raids);await p.evaluate(()=>PLAY.chooseCrisis());assert.equal(await p.evaluate(()=>PLAY.st().raids),n);

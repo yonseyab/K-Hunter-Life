@@ -19,7 +19,7 @@ const GEAR = (() => {
   /* 옛 데이터를 새 틀로 (옛 칸 이름 → 새 칸, grade 없는 장비 → rank 로 어림). 팩을 불러온 뒤에도 다시 부른다 */
   let seen = 0;
   function normalize() {
-    const L = vals('items'); if (L.length === seen) return; seen = L.length;
+    const r = (window.HL_REV || {}).items || 0; if (r === seen) return; seen = r; const L = vals('items');  /* def('items') 가 판 번호를 올릴 때만 (매번 훑지 않게) */
     L.forEach(it => { if (!it.slot) return; const s = slotOf(it); if (s !== it.slot) { if (s) it.slot = s; else delete it.slot; }
       if (it.slot && !it.grade) { const g = gradeOf(it); if (g) it.grade = g.id; } });
   }

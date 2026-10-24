@@ -9,6 +9,11 @@
    · 수치는 모두 [prototype_default] 임시값
    ========================================================= */
 
+/* ════ 관계 형식 (2026-10-24 기반 작업)
+   relDims   : 마음의 갈래. {id:'RD_…', name, range:[최소, 최대], def 시작값, color, adult?(성인끼리만)} — 관계 탭 눈금 막대 · 말(hunter_rel.js WORDS)
+   relStatus : 관계 상태. {id, name, romance?, …} — 사귐 · 약혼 · 결혼 · 이혼 같은 것
+   relTypes  : 관계 종류(core.js · system.js). {id:'REL_…', name, tag(가족 · 연애 · 친구 · 동료 · 라이벌 · 지인), nameM?, nameF?}
+   관계 한 줄(G.relations[]) = {id(인물), rel(relTypes), status?(relStatus), to {RD_: 값}, note?} ════ */
 def('relDims', [
   {id:'RD_LIKE',    name:'호감',     range:[-100,100], def:0,  color:'#5cc48a'},
   {id:'RD_CLOSE',   name:'친밀도',   range:[0,100],    def:0,  color:'#4fa8e0'},
