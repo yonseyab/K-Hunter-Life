@@ -170,6 +170,8 @@ const RULES = [
       ['statusEffects', (x, DB) => chk(DB, x, [['cure', 'items'], ['el', 'elements']])],
       ['starBlessings', (x, DB) => chk(DB, x, [['cls', 'classes'], ['trait', 'starTraits']])],
       ['lookScoreFx', (x, DB) => [...(!DB.ccLook[x.look] ? [`look ${x.look} 없음`] : []), ...(!DB.lookOpts?.[x.opt] ? [`opt ${x.opt} 없음`] : []), ...Object.keys(x.aps || {}).filter(k => !DB.lookScores[k]).map(k => `aps ${k} 없음`)]],
+      ['skills', (k, DB) => [...(k.scope === 'common' && !k.cat ? ['공용 스킬은 cat(skillCats) 필요'] : []), ...(k.cat && !DB.skillCats?.[k.cat] ? [`cat ${k.cat} 없음`] : []), ...(k.tier != null && !(k.tier >= 1 && k.tier <= 5) ? ['tier 는 1~5'] : [])]],
+      ['classes', (c, DB) => [...(c.tier != null && !(c.tier >= 1 && c.tier <= 5) ? ['tier 는 1~5'] : []), ...(c.rarity != null && !(c.rarity >= 1 && c.rarity <= 5) ? ['rarity 는 1~5'] : []), ...((c.tier || 1) <= 1 && !c.unique && c.pick > (c.pool || []).length ? ['pick 이 pool 보다 많음'] : [])]],
       ['constellations', (x, DB) => chk(DB, x, [['rivals', 'constellations'], ['likes', 'mindTags'], ['hates', 'mindTags']])],
       ['items', (it, DB) => [...chk(DB, it, [['cls', 'classes'], ['resist', 'elements'], ['immune', 'statusEffects'], ['el', 'elements'], ['kind2', 'attackKinds']]), ...one(it.legal, ['legal', 'grey', 'illegal'], 'legal')]],
     ]; })(),

@@ -82,6 +82,7 @@ tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데�
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
 ## 7. 진행 상황
+- [완료] 2026-10-24 (Claude) Codex 외주 폴더 `codex/` (README 공통 규칙 · 01 클래스 · 스킬 의뢰서), `skillCats` 8개 + 기본 공용 스킬에 cat, 커마 클래스 무작위 = 1차 · 희귀도 가중(`awakeClass`), validate 규칙(공용 cat · tier · rarity · pick)
 - [완료] 2026-10-24 (Claude) 외형 → 외모 점수: `data/relations.js` lookScoreFx (기본 18줄) · `index.html` lookFx (buildHunter 에서만) · validate 규칙
 - [완료] 2026-10-24 (Claude) 나머지 표 선택 필드 '최대한 많이': items · traits · guilds · core · system · world · gate_content · actions · stars · content · base/b_hunters · b_content · b_story 머리 주석, validate 참조 · 값 검사 추가
 - [완료] 2026-10-24 (Claude) 데이터 형식 '최대한 많이': content.js(몬스터) · classes.js(클래스 · 스킬) · places.js · world.js(gateInteriors) · items.js 머리 주석에 선택 필드 전부, validate.js 참조 · 값 검사 추가

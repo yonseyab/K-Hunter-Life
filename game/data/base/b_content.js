@@ -90,12 +90,12 @@ def('skills', [
   {id:'SK_B0026', name:'은신',       scope:'class', kind:'액티브', desc:'잠깐 기척을 지운다.'},
   {id:'SK_B0027', name:'함정 해제',  scope:'class', kind:'액티브', desc:'함정을 찾아 푼다.'},
   {id:'SK_B0028', name:'급소 찌르기', scope:'class', kind:'액티브', desc:'약점을 노린다.'},
-  {id:'SK_B0101', name:'위기 감지',  scope:'common', kind:'패시브', desc:'나쁜 예감이 잘 맞는다.'},
-  {id:'SK_B0102', name:'응급 처치',  scope:'common', kind:'액티브', desc:'붕대를 빨리 감는다.'},
-  {id:'SK_B0103', name:'지구력',     scope:'common', kind:'패시브', desc:'덜 지친다.'},
-  {id:'SK_B0104', name:'야간 시야',  scope:'common', kind:'패시브', desc:'어두운 곳에서 조금 더 보인다.'},
-  {id:'SK_B0105', name:'짐 꾸리기',  scope:'common', kind:'패시브', desc:'회수품을 더 챙긴다.'},
-  {id:'SK_B0106', name:'침착',       scope:'common', kind:'패시브', desc:'위기에서 손이 덜 떨린다.'},
+  {id:'SK_B0101', cat:'SKC_SENSE', name:'위기 감지',  scope:'common', kind:'패시브', desc:'나쁜 예감이 잘 맞는다.'},
+  {id:'SK_B0102', cat:'SKC_HEAL', name:'응급 처치',  scope:'common', kind:'액티브', desc:'붕대를 빨리 감는다.'},
+  {id:'SK_B0103', cat:'SKC_SURVIVE', name:'지구력',     scope:'common', kind:'패시브', desc:'덜 지친다.'},
+  {id:'SK_B0104', cat:'SKC_SENSE', name:'야간 시야',  scope:'common', kind:'패시브', desc:'어두운 곳에서 조금 더 보인다.'},
+  {id:'SK_B0105', cat:'SKC_LIFE', name:'짐 꾸리기',  scope:'common', kind:'패시브', desc:'회수품을 더 챙긴다.'},
+  {id:'SK_B0106', cat:'SKC_MIND', name:'침착',       scope:'common', kind:'패시브', desc:'위기에서 손이 덜 떨린다.'},
 ]);
 
 /* ---------- 특성 (몇 개) ---------- */

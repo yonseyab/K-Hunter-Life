@@ -19,6 +19,7 @@
 
    ════ 스킬 형식 (skills) — 필수는 id · name · scope · kind ════
    [기본]   id 'SK_<배치><번호>' · name · alias · en · scope(class 클래스 전용 · common 공용 · unique 고유 · monster 몬스터) · kind(액티브 · 패시브)
+            cat 공용 스킬 묶음(skillCats — 공용 스킬은 필수. 커마 공용 스킬 고르기 화면의 묶음 칩)
             cls 주인 클래스 · classes [classes 같이 쓰는 클래스] · grade 스킬 등급(글 또는 1~5) · rarity 1~5 · tier 1~5 · desc · lore · img · icon · fx 시각 효과 ID · sound
    [대상]   target(self · ally · allies · enemy · enemies · area) · range(melee · near · far) · area 범위 크기 1~5 · hits 타격 수 · count 대상 수
    [비용]   cost {mp, hp, stamina, item(items), cd(재사용 턴), cast(시전 턴), charges(충전 수), daily(하루 횟수)}
@@ -33,6 +34,17 @@
    [문장]   lines {use, hit, miss, crit, kill, fail, idle} — {u} 쓰는 사람 · {t} 대상 · {s} 스킬 이름
    [작업]   notes · src · ver
    ========================================================= */
+/* 공용 스킬 묶음 (2026-10-24). 커마 › 공용 스킬 화면의 묶음 칩 */
+def('skillCats', [
+  {id:'SKC_SURVIVE', name:'생존'},
+  {id:'SKC_COMBAT',  name:'전투 보조'},
+  {id:'SKC_SENSE',   name:'감지'},
+  {id:'SKC_HEAL',    name:'회복 · 응급'},
+  {id:'SKC_MOVE',    name:'이동'},
+  {id:'SKC_MIND',    name:'정신'},
+  {id:'SKC_SOCIAL',  name:'사회 · 교섭'},
+  {id:'SKC_LIFE',    name:'생활 · 기술'},
+]);
 def('classCats', [
   {"id":"CC_MELEE","name":"근접"},
   {"id":"CC_RANGED","name":"원거리"},

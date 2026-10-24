@@ -1541,6 +1541,8 @@ function relRead(r,dim){const B=DB.balance.BAL_REL,c=r.to.RD_CLOSE,v=r.from[dim]
 const ageOfP=p=>p?.age??30;
 const isAdultP=p=>ageOfP(p)>=DB.balance.BAL_REL.adultAge;
 /* 외형 선택이 외모 점수를 조금 올리고 내린다 (lookScoreFx). 커마 화면에는 보이지 않고 헌터를 만들 때만 */
+/* 처음 각성으로 나올 수 있는 클래스: 고유 아님 · 1차(tier 없거나 1). 희귀도(rarity 1~5)가 높을수록 덜 나온다 */
+function awakeClass(c){return !c.unique&&(c.tier||1)<=1&&c.pool&&c.pool.length>0}
 function lookFx(cc,L){vals('lookScoreFx').forEach(f=>{if(cc.look?.[f.look]!==f.opt)return;Object.entries(f.aps||{}).forEach(([k,v])=>{if(L[k]!=null)L[k]=Math.max(1,Math.min(20,L[k]+v))})});return L}
 function looksOf(p){if(!p)return {};if(p.looks)return p.looks;const r=rng((p.id||'x')+'|looks'),o={};vals('lookScores').forEach(k=>o[k.id]=Math.max(1,Math.min(20,Math.round(10+gauss(r)*3))));return o}
 function tasteOf(id){const [a,b]=DB.balance.BAL_REL.taste,r=rng(id+'|taste'),o={};vals('lookScores').forEach(k=>o[k.id]=a+r()*(b-a));return o}
@@ -1971,7 +1973,7 @@ function autoStep(cc,st){
     cc._tl=null;
   }
   if(st===5){
-    const c=rpick(vals('classes').filter(c=>!c.unique)); cc.cls=c.id; cc.clsSkills=rsample(c.pool,c.pick);
+    const L=vals('classes').filter(awakeClass),W=L.map(c=>6-Math.min(5,Math.max(1,c.rarity||1)));let r=Math.random()*W.reduce((a,b)=>a+b,0),c=L[L.length-1];for(let i=0;i<L.length;i++){r-=W[i];if(r<0){c=L[i];break}} cc.cls=c.id; cc.clsSkills=rsample(c.pool,c.pick);
     cc.comSkills=rsample(vals('skills').filter(s=>s.scope==='common').map(s=>s.id),rint(0,DB.ccRules.RULE_START.commonSkills));
   }
   if(st===6) cc.ab=genStart('real',Math.random);
@@ -1980,7 +1982,7 @@ function autoAll(cc){[0,1,2,3,4,5,6].forEach(i=>autoStep(cc,i)); cc.seed=Math.ra
 const clsReady=cc=>{const c=DB.classes[cc.cls];return !!c&&cc.clsSkills.length===c.pick};
 function clsListHTML(){
   const cc=UI.cc, q=(cc.clsQ||'').trim().toLowerCase(), g=cc.clsG||'';
-  const list=vals('classes').filter(c=>!c.unique&&(!g||c.cat===g)&&(!q||(c.name+' '+c.id+' '+(DB.classCats[c.cat]?.name||'')).toLowerCase().includes(q)));
+  const list=vals('classes').filter(c=>awakeClass(c)&&(!g||c.cat===g)&&(!q||(c.name+' '+c.id+' '+(DB.classCats[c.cat]?.name||'')).toLowerCase().includes(q)));
   return list.map(c=>`<button class="cs-item" data-clspick="${c.id}" aria-current="${cc.cls===c.id}"><span class="nm">${esc(c.name)}${c.unique?' <span class="chip w">고유</span>':''}</span><span class="dim">${DB.classCats[c.cat]?.name||''} · 후보 ${c.pool.length}</span></button>`).join('')||'<div class="tempty">조건에 맞는 클래스가 없습니다.</div>';
 }
 function skillTile(sk,on,attr){return `<button class="lk-tile text sk-tile" ${attr} aria-pressed="${on}" title="${esc(sk.name)} (${sk.id})"><span class="ck" aria-hidden="true">${on?'✓':''}</span><span>${esc(sk.name)}</span><small>${sk.kind} · ${sk.id}</small></button>`}
@@ -2001,7 +2003,7 @@ function comTilesHTML(){
 function comHeadHTML(){const cc=UI.cc,max=DB.ccRules.RULE_START.commonSkills;return `<h3 style="margin:0;font-family:var(--f-display);font-weight:400;font-size:18px">공용 스킬</h3><span class="${cc.comSkills.length?'good':'dim'}">${cc.comSkills.length} / ${max} (선택)</span>`}
 function classPickerHTML(){
   if(typeof STARACC!=='undefined'&&!STARACC.unlocked('pickClass'))return classResultHTML();
-  const cc=UI.cc, cats=vals('classCats'), comCats=[...new Set(vals('skills').filter(s=>s.scope==='common').map(s=>s.cat))];
+  const cc=UI.cc, cats=vals('classCats'), comCats=[...new Set(vals('skills').filter(s=>s.scope==='common').map(s=>s.cat).filter(Boolean))];
   return `<h2>클래스 · 스킬</h2><p class="lead">항상 각성 직후, 무소속으로 시작합니다. 클래스를 고르고 그 클래스의 전용 스킬을 정해진 개수만큼 고릅니다. 공용 스킬은 선택입니다. 클래스는 능력치와 맞지 않을 수 있고, 게임 중 클래스북 · 스킬북으로 바뀌거나 늘어날 수 있습니다.</p>
   <div class="cs">
     <div class="cs-left">
@@ -2014,7 +2016,7 @@ function classPickerHTML(){
       <section class="lk-panel" style="margin-top:12px">
         <div class="lk-head" id="comhead">${comHeadHTML()}</div>
         <div class="lk-tools"><input type="text" data-comq="1" value="${esc(cc.comQ||'')}" placeholder="공용 스킬에서 찾기" aria-label="공용 스킬 검색">
-          <div class="chips" id="comgrp">${['',...comCats].map(g=>`<button class="chip ${(cc.comG||'')===g?'a':''}" data-comgrp="${g}">${g||'전체'}</button>`).join('')}</div></div>
+          <div class="chips" id="comgrp">${['',...comCats].map(g=>`<button class="chip ${(cc.comG||'')===g?'a':''}" data-comgrp="${g}">${g?esc(DB.skillCats?.[g]?.name||g):'전체'}</button>`).join('')}</div></div>
         <div class="lk-tiles k-text sk-grid" id="comtiles">${comTilesHTML()}</div>
       </section>
     </div>
