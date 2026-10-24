@@ -68,3 +68,5 @@
 .dbx-flavor {border-top:1px dashed var(--line2);padding-top:8px;display:grid;gap:6px;opacity:.85;}
 .dbx-old summary {cursor:pointer;color:var(--dim);font-size:11px;}
 .dbx-old[open] summary {margin-bottom:6px;}
+.dbx-sks {padding-left:0;list-style:none;gap:6px;}
+.dbx-sk div {color:var(--muted);font-size:11px;margin-top:2px;line-height:1.5;}

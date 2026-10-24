@@ -34,7 +34,7 @@ const {chromium}=require('playwright'), path=require('path'), assert=require('as
     const hand=await p.evaluate(()=>{
       prefs().play.stop='each';prefs().play.kinds.SK_CRISIS=true;G.cond.hp=100;G.cond.energy=100;G.injuries=[];G.time=600;
       const g=vals('gates').find(x=>gateSt(x.id).status==='open'&&!gateFit(G.player,x))||spawnGate(Math.random,G.player.region);
-      gateSt(g.id).status='open';gateSt(g.id).permit=true;DB.balance.BAL_GATE.crisisPerTick=1;
+      gateSt(g.id).status='open';gateSt(g.id).permit=true;DB.balance.BAL_GATE.crisisPerTick=1;DB.balance.BAL_GATE.crisisPerSeg=1;
       const r=PLAY.raid(g,AUTORAID.party(g));render();return {stop:!!r?.stop,screen:UI.screen,crisis:!!UI.raid?.crisis,auto:UI.raid?.auto,timer:!!UI._rt};
     });
     assert(hand.stop&&hand.screen==='life'&&hand.crisis&&hand.auto,JSON.stringify(hand));

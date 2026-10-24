@@ -8,7 +8,7 @@
    ========================================================= */
 const DB_UI = (() => {
   const MAX = 600;  /* 목록에 한 번에 그리는 줄 */
-  const STAT = { atk: '공격', mag: '마력', def: '방어', res: '저항', spd: '속도', acc: '명중', eva: '회피', crit: '치명' };
+  const STAT = { atk: '공격', mag: '마공', def: '방어', res: '저항', spd: '속도', acc: '명중', eva: '회피', crit: '치명' };
   const nm = (t, id) => DB[t]?.[id]?.name || '';
   const kv = rows => `<dl class="dbx-kv">${rows.filter(r => r && r[1] != null && r[1] !== '').map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>`;
   const sec = (title, body) => body ? `<div class="dbx-sec"><div class="dbx-st">${title}</div>${body}</div>` : '';
@@ -153,9 +153,8 @@ const DB_UI = (() => {
       return head(i.name, i.id, gradeChip(i)) + (i.desc ? `<p class="dbx-desc">${esc(i.desc)}</p>` : '') + kv([['분류', esc(nm('itemCats', i.cat))], ['갈래', esc(i.wtype || i.atype || t?.name || '')], ['칸', esc(nm('equipSlots', i.slot)) + (i.twoHand ? ' · 보조 칸도 차지 (양손)' : i.onePiece ? ' · 하의 칸도 차지 (한 벌)' : '')],
         ['거리', ({ melee: '근접', near: '가까이', far: '멀리' })[i.range] || ''], ['공격 종류', esc(nm('attackKinds', i.kind2))], ['속성', esc(elName(i.el))], ['상태 이상', (i.se || []).map(s => `${esc(seName(s.se))} ${Math.round(s.chance * 100)}%`).join(' · ')], ['저항', (i.resist || []).map(elName).join(' · ')],
         ['내구도', gradeOf(i)?.dur == null ? '닳지 않음' : gradeOf(i)?.dur], ['기준가', i.price == null ? '감정 필요' : i.price ? won(i.price) : '—'], ['가지고 있음', own ? own + '개' : '']])
-        + sec('전투에서', (() => { const g = gradeOf(i), K = DB.balance.BAL_COMBAT.hunter; if (!g) return ''; const b = g.bonus;
-            return i.slot === 'SLOT_WEAPON' ? `<div>공격 · 마공 +${b * K.gearAtk} <span class="dim">(등급 보정 ${b} × ${K.gearAtk})</span></div>` : ['SLOT_TOP', 'SLOT_BOTTOM'].includes(i.slot) ? `<div>방어 +${+(b * K.gearDef / (i.onePiece ? 1 : 2)).toFixed(1)} · 마법 저항 +${+(b * K.gearDef * 0.6 / (i.onePiece ? 1 : 2)).toFixed(1)} <span class="dim">(상의 · 하의 등급 보정의 평균 × ${K.gearDef})</span></div>` : '<div class="dim">전투 효과 없음 (아직)</div>'; })())
-        + sec('성능', chips(statTxt(i.stat).map(s => `<span class="chip">${s}</span>`)) + chips((typeof GEAR !== 'undefined' ? GEAR.perf(i) : []).map(([k, v]) => `<span class="chip">${esc(k)} ${esc(String(v))}</span>`)))
+        + sec('전투에서 (입으면 더해지는 값)', i.stat ? `<div>${statTxt(i.stat).join(' · ')}</div><div class="dbx-note">공격 · 마공 · 방어 · 저항은 역할 배율이 곱해지기 전에 더해진다. 명중 · 회피 · 치명은 그대로 더해진다.</div>` : '<div class="dim">등급 보정으로만 계산한다.</div>')
+        + sec('판정 · 공략 전력', chips((typeof GEAR !== 'undefined' ? GEAR.perf(i) : []).map(([k, v]) => `<span class="chip">${esc(k)} ${esc(String(v))}</span>`)))
         + sec('이 갈래를 쓰는 클래스', chips((t?.classes || []).filter(c => DB.classes[c]).map(c => go('classes', c, DB.classes[c].name))))
         + `<div class="dbx-act"><button class="btn sm" data-item="${i.id}">물건 창으로 보기</button></div>`;
     }
@@ -213,18 +212,16 @@ const DB_UI = (() => {
       gear: { n: '장비 갈래', v: c => (c.weapons || []).concat(c.armors || []), g: 1 },
       fame: { n: '흔한 정도', v: c => ({ common: '흔함', rare: '드묾', unique: '고유' })[c.fame] || c.fame || '', g: 1 },
     },
-    cols: ['name', 'cat', 'role'], sort: ['cat', 1], group: 'cat',
+    cols: ['name', 'cat', 'role', 'rarity', 'range'], sort: ['cat', 1], group: 'cat',
     detail(c) {
       const sk = id => DB.skills[id] ? go('skills', id, DB.skills[id].name) : '', C = DB.balance.BAL_COMBAT, rs = C.roleStat[c.role] || {}, rn = nm('roles', c.role);
       const w = v => v >= 1.15 ? `<b class="good">×${v}</b>` : v <= 0.85 ? `<span class="bad">×${v}</span>` : `×${v}`;
-      const mvIds = [...new Set([...(c.pool || []), ...(c.passive || []), ...(c.learn || []).map(l => l.skill)].map(id => DB.skills[id]?.move).filter(Boolean))];
-      return head(c.name, c.id, stars(c.rarity)) + `<p class="dbx-sum">${esc(c.summary || rn + ' 클래스. ' + (c.desc || ''))}</p>`
-        + sec(`전투에서 — 역할 '${esc(rn)}' 기준 (보통 = ×1)`, kv([['체력', w(rs.hp)], ['물리 공격', w(rs.atk)], ['마법 공격', w(rs.mag)], ['방어', w(rs.def)], ['마법 저항', w(rs.res)], ['공격 간격', `${rs.spd}초마다 (세부 능력 '시전 속도'로 조금 빨라짐)`], ['기본 공격', rs.magic ? '마법 (마공으로 계산)' : '물리 (공격으로 계산)']])
-          + `<div class="dbx-st" style="margin-top:6px">역할 기본 기술</div><ul class="dbx-ul">${(C.roleMoves[c.role] || []).map(id => `<li>${esc(COMBAT.describeMove(id))}</li>`).join('')}</ul>`
-          + (mvIds.length ? `<div class="dbx-st" style="margin-top:6px">이 클래스 스킬이 주는 기술</div><ul class="dbx-ul">${mvIds.map(id => `<li>${esc(COMBAT.describeMove(id))}</li>`).join('')}</ul>` : '<div class="dbx-note">이 클래스 스킬에는 아직 전투 기술이 붙어 있지 않다 (역할 기본 기술만 쓴다).</div>'))
-        + kv([['계열', esc(nm('classCats', c.cat))], ['각성 때', `후보 ${(c.pool || []).length}개 중 ${c.pick}개를 받는다`]])
-        + sec('각성 후보 스킬', chips((c.pool || []).map(sk))) + sec('기본 패시브', chips((c.passive || []).map(sk)))
-        + sec('레벨에 따라 배우는 스킬', chips((c.learn || []).map(l => DB.skills[l.skill] ? `<button type="button" class="chip" data-dbx-go="skills|${l.skill}"><span class="dim">Lv.${l.lv}</span> ${esc(DB.skills[l.skill].name)}</button>` : '')))
+      const skLi = (id, tag) => { const k = DB.skills[id]; if (!k) return ''; return `<li class="dbx-sk"><button type="button" class="chip" data-dbx-go="skills|${id}">${esc(k.name)}</button> <span class="dim">${tag}${k.kind ? ' · ' + esc(k.kind) : ''}</span><div>${esc(k.desc || '')}</div></li>`; };
+      return head(c.name, c.id, stars(c.rarity)) + `<p class="dbx-sum">${esc(c.summary || `${rn}${(c.roles || []).length > 1 ? ' · ' + nm('roles', c.roles[1]) : ''} · ${nm('classCats', c.cat)}. ${c.desc || ''}`)}</p>`
+        + sec('이 클래스로 얻을 수 있는 스킬', `<div class="dbx-note">각성할 때 후보 ${(c.pool || []).length}개 가운데 ${c.pick}개를 무작위로 받고, 기본 패시브는 늘 붙는다. 레벨이 오르면 나머지를 배운다.</div><ul class="dbx-ul dbx-sks">${[...(c.passive || []).map(id => skLi(id, '기본 패시브')), ...(c.pool || []).map(id => skLi(id, '각성 후보')), ...(c.learn || []).map(l => skLi(l.skill, `Lv.${l.lv}에 배움`))].join('')}</ul>`)
+        + sec(`전투에서 — 역할 '${esc(rn)}' 기준 (보통 = ×1)`, kv([['체력', w(rs.hp)], ['물리 공격', w(rs.atk)], ['마법 공격', w(rs.mag)], ['방어', w(rs.def)], ['마법 저항', w(rs.res)], ['공격 간격', `${rs.spd}초마다`], ['기본 공격', rs.magic ? '마법 (마공으로 계산)' : '물리 (공격으로 계산)']])
+          + `<div class="dbx-st" style="margin-top:6px">스킬이 없어도 역할로 쓰는 기본 기술</div><ul class="dbx-ul">${(C.roleMoves[c.role] || []).map(id => `<li>${esc(COMBAT.describeMove(id))}</li>`).join('')}</ul>`)
+        + kv([['계열', esc(nm('classCats', c.cat))], ['거리', ({ melee: '근접', near: '가까이', far: '멀리' })[c.range] || ''], ['속성', esc(elName(c.el))], ['희귀도', stars(c.rarity)]])
         + sec('알려진 보유자', chips(holders(h => h.cls === c.id)))
         + (c.lore || (c.habits || []).length ? `<div class="dbx-flavor">${c.lore ? `<p class="dbx-lore">${esc(c.lore)}</p>` : ''}${(c.habits || []).length ? `<ul class="dbx-ul">${c.habits.map(j => `<li>${esc(j)}</li>`).join('')}</ul>` : ''}</div>` : '');
     }

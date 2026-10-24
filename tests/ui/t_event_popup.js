@@ -68,10 +68,10 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
   await p.evaluate(()=>{
    prefs().play.kinds.SK_CRISIS=true;G.cond.hp=100;G.cond.energy=100;
    const g=vals('gates').find(x=>gateSt(x.id).status==='open'&&!gateFit(G.player,x))||spawnGate(Math.random,G.player.region);
-   gateSt(g.id).status='open';gateSt(g.id).permit=true;DB.balance.BAL_GATE.crisisPerTick=1;
+   gateSt(g.id).status='open';gateSt(g.id).permit=true;DB.balance.BAL_GATE.crisisPerTick=1;DB.balance.BAL_GATE.crisisPerSeg=1;
    PLAY.raid(g,AUTORAID.party(g));
    DB.crises.CR_POPUP_TEST={id:'CR_POPUP_TEST',title:'좁은 통로',text:'앞으로 나아갈 방법을 고른다.',choices:[{t:'안전한 길을 찾는다',check:{attr:'STAT_BODY',dc:150},risk:'낮음',ok:'길을 찾았다.',ng:'우회한다.',okFx:{},ngFx:{}}]};
-   UI.raid.crisis={id:'CR_POPUP_TEST'};DB.balance.BAL_GATE.crisisPerTick=0;window.judgeCalls=0;render();
+   UI.raid.crisis={id:'CR_POPUP_TEST'};DB.balance.BAL_GATE.crisisPerTick=0;DB.balance.BAL_GATE.crisisPerSeg=0;window.judgeCalls=0;render();
   });
   assert(await dialog.isVisible());
   await p.click('[data-kcrisis="0"]');

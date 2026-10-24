@@ -39,10 +39,10 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
     assert.equal(await p.evaluate(()=>SETTINGS.dbView.equipment?.g||'cat'),'cat');
     /* 클래스 → 스킬로 건너가기 */
     await p.getByRole('tab',{name:'클래스',exact:true}).click();
-    await p.click('#dbx-list tr[data-dbx-sel="CLS_B01"]');
-    await p.click('#dbx-det [data-dbx-go="skills|SK_B0001"]');
+    await p.click('#dbx-list tr[data-dbx-sel="CLS_K003"]');
+    await p.click('#dbx-det [data-dbx-go="skills|SK_K010"]');
     assert.equal(await p.getByRole('tab',{name:'스킬',exact:true}).getAttribute('aria-selected'),'true');
-    assert.match(await p.locator('#dbx-det').innerText(),/방패 밀치기/);
+    assert.match(await p.locator('#dbx-det').innerText(),/도발/);
     /* 인물: 나 */
     await p.getByRole('tab',{name:'인물',exact:true}).click();
     assert.match(await p.locator('#dbx-list').innerText(),/나/);

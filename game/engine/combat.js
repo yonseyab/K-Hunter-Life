@@ -32,11 +32,11 @@ const COMBAT = (() => {
     return {
       max: Math.round((K.hpBase + s.STAT_BODY * K.hpBody + L * K.hpLv) * rs.hp),
       mpMax: Math.round(K.mpBase + s.STAT_MANA * K.mpMana),
-      atk: (s.STAT_BODY * K.atkBody + (a('ABL_A01') + a('ABL_A02')) * K.atkAbl + (src.gearAtk || 0) * K.gearAtk) * rs.atk,
-      mag: (s.STAT_MANA * K.magMana + (a('ABL_A09') + a('ABL_A07')) * K.magAbl + (src.gearAtk || 0) * K.gearAtk) * rs.mag,
-      def: (s.STAT_BODY * K.defBody + a('ABL_A04') * K.defAbl + (src.gearDef || 0) * K.gearDef) * rs.def,
-      res: (s.STAT_MIND * K.resMind + a('ABL_A28') * K.resAbl + (src.gearDef || 0) * K.gearDef * 0.6) * rs.res,
-      acc: a('ABL_A02') * K.accAbl, eva: a('ABL_A03') * K.evaAbl, crit: K.critBase + a('ABL_A06') * K.critAbl,
+      atk: (s.STAT_BODY * K.atkBody + (a('ABL_A01') + a('ABL_A02')) * K.atkAbl + (src.gAtk ?? (src.gearAtk || 0) * K.gearAtk)) * rs.atk,
+      mag: (s.STAT_MANA * K.magMana + (a('ABL_A09') + a('ABL_A07')) * K.magAbl + (src.gMag ?? (src.gearAtk || 0) * K.gearAtk)) * rs.mag,
+      def: (s.STAT_BODY * K.defBody + a('ABL_A04') * K.defAbl + (src.gDef ?? (src.gearDef || 0) * K.gearDef)) * rs.def,
+      res: (s.STAT_MIND * K.resMind + a('ABL_A28') * K.resAbl + (src.gRes ?? (src.gearDef || 0) * K.gearDef * 0.6)) * rs.res,
+      acc: a('ABL_A02') * K.accAbl + (src.gAcc || 0), eva: a('ABL_A03') * K.evaAbl + (src.gEva || 0), crit: K.critBase + a('ABL_A06') * K.critAbl + (src.gCrit || 0),
       spd: rs.spd * (1 - cl(a('ABL_A16'), 0, 30) * 0.008), magic: !!rs.magic,
     };
   }
@@ -50,7 +50,16 @@ const COMBAT = (() => {
     const lv = DB.ranks[pr.rank || h.rank]?.lv ?? 20, gw = me && typeof GEAR !== 'undefined' ? GEAR.bonus(GEAR.at('SLOT_WEAPON')) : gearOfRank(lv);
     const ga = me && typeof GEAR !== 'undefined' ? (GEAR.bonus(GEAR.at('SLOT_TOP')) + GEAR.bonus(GEAR.at('SLOT_BOTTOM'))) / 2 : gearOfRank(lv);
     const stats = pr.stats || h.stats || typicalStats(pr.level || h.level || 1).stats, abl = pr.abl || h.abl || typicalStats(pr.level || 1).abl;
-    return hunterUnit({ id: h.id, name: h.name, role: h.roleMain || 'ROLE_MDPS', level: pr.level || h.level || 1, stats, abl, gearAtk: gw, gearDef: ga, skills: h.skills || [] }, opt);
+    return hunterUnit({ id: h.id, name: h.name, role: h.roleMain || 'ROLE_MDPS', level: pr.level || h.level || 1, stats, abl, gearAtk: gw, gearDef: ga, skills: h.skills || [], ...(me ? wornStats() : {}) }, opt);
+  }
+  /* 나: 입은 장비의 성능(items.stat)을 그대로 더한다. 성능 칸이 없는 옛 장비는 등급 보정으로 어림 */
+  function wornStats() {
+    if (typeof GEAR === 'undefined') return {}; const K = B().hunter, o = { gAtk: 0, gMag: 0, gDef: 0, gRes: 0, gAcc: 0, gEva: 0, gCrit: 0 };
+    GEAR.worn().forEach(({ r, it }) => { if (GEAR.broken(r)) return; const st = it.stat, b = GEAR.bonus({ it, r }), sl = GEAR.slotOf(it);
+      if (st) { o.gAtk += st.atk || 0; o.gMag += st.mag || 0; o.gDef += st.def || 0; o.gRes += st.res || 0; o.gAcc += st.acc || 0; o.gEva += st.eva || 0; o.gCrit += st.crit || 0; }
+      else if (sl === 'SLOT_WEAPON') { o.gAtk += b * K.gearAtk; o.gMag += b * K.gearAtk; }
+      else if (sl === 'SLOT_TOP' || sl === 'SLOT_BOTTOM') { o.gDef += b * K.gearDef / (it.onePiece ? 1 : 2); o.gRes += b * K.gearDef * 0.6 / (it.onePiece ? 1 : 2); } });
+    return o;
   }
   /* 레벨 · 역할만 아는 사람 (배경 인구) */
   function fromLevel(o, opt = {}) { const t = typicalStats(o.level || 1), lv = o.rankLv ?? 20; return hunterUnit({ ...o, stats: t.stats, abl: t.abl, gearAtk: gearOfRank(lv), gearDef: gearOfRank(lv), skills: [] }, opt); }

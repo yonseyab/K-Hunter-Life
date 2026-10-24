@@ -43,7 +43,7 @@ def('injurySev', [
 /* 공략 밸런스 [prototype_default] */
 def('balance', [
   {id:'BAL_GATE', proto:true,
-   crisisPerTick:0.05, crisisMax:2,     /* 틱당 위기 확률 · 한 번 공략에서 최대 횟수 (보스 위기는 따로 1회) */
+   crisisPerTick:0.05, crisisPerSeg:0.12, crisisMax:2,     /* (옛) 틱당 위기 확률 · 구간(이동 · 교전) 사이 위기 확률 · 한 번 공략에서 최대 횟수 (보스 위기는 따로 1회) */
    rankMod:1,                           /* 판정 보정 = (게이트 등급 숫자 − 내 등급 숫자) × rankMod. 내가 약하면 음수 */
    expBase:40,                          /* EXP = expBase × (21 − 게이트 등급)² × (구역 수 / 5) × (성공 1, 후퇴 0.4) */
    injuryOnHit:0.15,                    /* 내가 큰 피해(14 이상)를 받을 때 부상 확률 */

@@ -54,52 +54,7 @@ def('monsters', [
   {id:'MON_B015', name:'여왕 개미', cat:'MC_INSECT', ranks:['RANK_14','RANK_09'], boss:true, mrole:'MR_SUPPORT', size:'MSZ_H', moves:['CM_M_ACID','CM_M_MEND'], minions:['MON_B009'], desc:'알을 지키는 거대한 개미. 일개미를 끝없이 부른다.'},
 ]);
 
-/* ---------- 클래스 · 스킬 (역할마다 하나) ---------- */
-def('classes', [
-  {id:'CLS_B01', name:'방패병',   cat:'CC_MELEE',   role:'ROLE_TANK', pick:2, desc:'앞에서 버티는 클래스.', pool:['SK_B0001','SK_B0002','SK_B0003','SK_B0004']},
-  {id:'CLS_B02', name:'검사',     cat:'CC_MELEE',   role:'ROLE_MDPS', pick:2, desc:'가장 흔한 근접 클래스. 같은 검사라도 스킬은 사람마다 다르다.', pool:['SK_B0005','SK_B0006','SK_B0007','SK_B0008']},
-  {id:'CLS_B03', name:'궁수',     cat:'CC_RANGED',  role:'ROLE_RDPS', pick:2, desc:'거리를 유지하며 쏜다.', pool:['SK_B0009','SK_B0010','SK_B0011','SK_B0012']},
-  {id:'CLS_B04', name:'원소술사', cat:'CC_MAGIC',   role:'ROLE_MAGE', pick:2, desc:'마력을 원소로 바꿔 쓴다.', pool:['SK_B0013','SK_B0014','SK_B0015','SK_B0016']},
-  {id:'CLS_B05', name:'치유사',   cat:'CC_SUPPORT', role:'ROLE_HEAL', pick:2, desc:'상처를 봉합하고 지혈한다. 포션은 없다.', pool:['SK_B0017','SK_B0018','SK_B0019','SK_B0020']},
-  {id:'CLS_B06', name:'결계사',   cat:'CC_SUPPORT', role:'ROLE_SUP',  pick:2, desc:'결계로 파티를 받친다.', pool:['SK_B0021','SK_B0022','SK_B0023','SK_B0024']},
-  {id:'CLS_B07', name:'추적자',   cat:'CC_SPECIAL', role:'ROLE_SCOUT', pick:2, desc:'앞서 길을 읽는다.', pool:['SK_B0025','SK_B0026','SK_B0027','SK_B0028']},
-]);
-def('skills', [
-  {id:'SK_B0001', name:'방패 밀치기', scope:'class', kind:'액티브', desc:'방패로 밀어 거리를 만든다. 반동 주의.'},
-  {id:'SK_B0002', name:'도발',       scope:'class', kind:'액티브', desc:'적의 시선을 끈다.'},
-  {id:'SK_B0003', name:'버티기',     scope:'class', kind:'패시브', desc:'받는 충격을 조금 줄인다.'},
-  {id:'SK_B0004', name:'철벽',       scope:'class', kind:'액티브', desc:'짧은 시간 움직이지 않는 대신 거의 밀리지 않는다.'},
-  {id:'SK_B0005', name:'연속 베기',  scope:'class', kind:'액티브', desc:'두 번 벤다.'},
-  {id:'SK_B0006', name:'흘려 막기',  scope:'class', kind:'패시브', desc:'칼끝으로 공격을 흘린다.'},
-  {id:'SK_B0007', name:'돌파',       scope:'class', kind:'액티브', desc:'적 사이로 파고든다.'},
-  {id:'SK_B0008', name:'일섬',       scope:'class', kind:'액티브', desc:'한 번에 거리를 좁혀 벤다.'},
-  {id:'SK_B0009', name:'조준',       scope:'class', kind:'패시브', desc:'명중이 오른다.'},
-  {id:'SK_B0010', name:'연사',       scope:'class', kind:'액티브', desc:'세 발을 빠르게 쏜다.'},
-  {id:'SK_B0011', name:'관통 사격',  scope:'class', kind:'액티브', desc:'두 마리를 꿰뚫는다.'},
-  {id:'SK_B0012', name:'후퇴 사격',  scope:'class', kind:'액티브', desc:'물러나며 쏜다.'},
-  {id:'SK_B0013', name:'화염구',     scope:'class', kind:'액티브', desc:'작은 불덩이. 실내 사용 주의.'},
-  {id:'SK_B0014', name:'빙결',       scope:'class', kind:'액티브', desc:'발을 얼린다.'},
-  {id:'SK_B0015', name:'마력 순환',  scope:'class', kind:'패시브', desc:'마력 회복이 빨라진다.'},
-  {id:'SK_B0016', name:'낙뢰',       scope:'class', kind:'액티브', desc:'좁은 범위에 번개를 떨군다.'},
-  {id:'SK_B0017', name:'지혈',       scope:'class', kind:'액티브', desc:'출혈을 멈춘다.'},
-  {id:'SK_B0018', name:'봉합',       scope:'class', kind:'액티브', desc:'베인 상처를 닫는다.'},
-  {id:'SK_B0019', name:'생명 감지',  scope:'class', kind:'패시브', desc:'파티원의 상태를 느낀다.'},
-  {id:'SK_B0020', name:'응급 소생',  scope:'class', kind:'액티브', desc:'쓰러진 동료를 깨운다. 하루 한 번.'},
-  {id:'SK_B0021', name:'방어 결계',  scope:'class', kind:'액티브', desc:'얇은 막을 친다.'},
-  {id:'SK_B0022', name:'정화',       scope:'class', kind:'액티브', desc:'독 · 산을 씻어 낸다.'},
-  {id:'SK_B0023', name:'가속',       scope:'class', kind:'액티브', desc:'파티 발걸음이 빨라진다.'},
-  {id:'SK_B0024', name:'마력 공유',  scope:'class', kind:'액티브', desc:'자기 마력을 나눠 준다.'},
-  {id:'SK_B0025', name:'흔적 읽기',  scope:'class', kind:'패시브', desc:'발자국 · 마력 흔적을 읽는다.'},
-  {id:'SK_B0026', name:'은신',       scope:'class', kind:'액티브', desc:'잠깐 기척을 지운다.'},
-  {id:'SK_B0027', name:'함정 해제',  scope:'class', kind:'액티브', desc:'함정을 찾아 푼다.'},
-  {id:'SK_B0028', name:'급소 찌르기', scope:'class', kind:'액티브', desc:'약점을 노린다.'},
-  {id:'SK_B0101', cat:'SKC_SENSE', name:'위기 감지',  scope:'common', kind:'패시브', desc:'나쁜 예감이 잘 맞는다.'},
-  {id:'SK_B0102', cat:'SKC_HEAL', name:'응급 처치',  scope:'common', kind:'액티브', desc:'붕대를 빨리 감는다.'},
-  {id:'SK_B0103', cat:'SKC_SURVIVE', name:'지구력',     scope:'common', kind:'패시브', desc:'덜 지친다.'},
-  {id:'SK_B0104', cat:'SKC_SENSE', name:'야간 시야',  scope:'common', kind:'패시브', desc:'어두운 곳에서 조금 더 보인다.'},
-  {id:'SK_B0105', cat:'SKC_LIFE', name:'짐 꾸리기',  scope:'common', kind:'패시브', desc:'회수품을 더 챙긴다.'},
-  {id:'SK_B0106', cat:'SKC_MIND', name:'침착',       scope:'common', kind:'패시브', desc:'위기에서 손이 덜 떨린다.'},
-]);
+/* 클래스 · 스킬 · 장비는 data/content/k_*.js (tools/content/build.py) */
 
 /* ---------- 특성 (몇 개) ---------- */
 def('traits', [
