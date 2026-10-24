@@ -20,7 +20,9 @@ def('balance', [
 /* 새 게이트 이름 = 실제 장소 (data/gate_pool.js · data/pool, tools/build_gate_pool.py)
    한 세이브에서 쓴 장소는 다시 쓰지 않는다 (G.gpUsed). 지역 장소가 다 떨어지면 가장 가까운 다른 지역 장소 (게이트도 그 지역에). 위 gatePlaces 는 마지막 대비용
    gateInteriors : 게이트 내부 지형 (들어가야 알 수 있음). 뒤에 붙이던 게이트명은 쓰지 않기로 함 (2026-10-23) — 이름 자료는 docs/world/content/gate_names_200k 에 보관 */
-/* gateInteriors 선택 필드 (2026-10-24): terrain(terrains) · desc · lines {enter:[..], walk:[..]} 들어설 때 · 걸을 때 문장 */
+/* gateInteriors 선택 필드 (2026-10-24 '최대한 많이'): name · alias · desc · lore · img · terrain(terrains) · light 밝기 1~5 · temp 온도(글) · air 공기(글)
+   size 넓이 1~5 · floors [최소, 최대] 층 수 · hazards [글 함정 · 낙석 · 독안개] · monsters [monsters 자주 나오는 종] · cats [monsterCats] · ranks [약한, 센]
+   loot [{item, chance}] 바닥에서 줍는 것 · rest 쉴 수 있나 · lines {enter, walk, rest, boss, exit} · bgm · notes · src */
 def('gateInteriors', [
   {id:'GI_CAVE',   name:'좁은 동굴 통로'},
   {id:'GI_SUBWAY', name:'무너진 지하철 터널'},

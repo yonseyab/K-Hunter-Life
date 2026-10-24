@@ -123,7 +123,7 @@ const RULES = [
       ...(!pl.desc || pl.desc.length > 60 ? ['desc 1~60자'] : []), ...(!['local', 'region', 'national'].includes(pl.scale) ? ['scale 은 local · region · national'] : []), ...(typeof pl.real !== 'boolean' ? ['real 은 true · false'] : []),
       ...(pl.tags || []).filter(x => !DB.placeTags?.[x]).map(x => '꼬리표 ' + x + ' 없음'), ...(d && d !== pl.id ? ['같은 지역에 같은 이름: ' + d] : [])]; }; })()],
   ['sysShop', (x) => (!(x.coin >= 1) ? ['coin(코인 가격) 필요'] : [])],
-  ['skills', (k) => [...(!['class', 'common', 'unique'].includes(k.scope) ? ['scope 는 class · common · unique'] : []), ...(!['액티브', '패시브'].includes(k.kind) ? ['kind 는 액티브 · 패시브'] : [])]],
+  ['skills', (k) => [...(!['class', 'common', 'unique', 'monster'].includes(k.scope) ? ['scope 는 class · common · unique · monster'] : []), ...(!['액티브', '패시브'].includes(k.kind) ? ['kind 는 액티브 · 패시브'] : [])]],
   ['hearTexts', (h) => [...(!['npcInjured', 'npcRaidWin', 'npcRankUp', 'npcDied', 'npcAwaken', 'career:promo', 'career:fired', 'career:hired', 'career:grad', 'career:boom', 'career:slump', 'guildSign', 'guildLeave'].includes(h.on) ? ['on 값이 잘못됨: ' + h.on] : []), ...(!h.text || !h.text.includes('{a}') ? ['text 에 {a} 필요'] : [])]],
   ['gateInteriors', (g) => (!g.name ? ['name 필요'] : [])],
   /* 2026-10-24 전투 개편 대비 선택 필드 */
@@ -137,6 +137,25 @@ const RULES = [
     (k.se || []).forEach(x => { if (!DB.statusEffects?.[x.se]) e.push(`se ${x.se} 없음`); }); return e; }],
   ['classes', (c, DB) => [...Object.keys(c.stats || {}).filter(s => !DB.baseStats[s]).map(s => `stats ${s} 없음`), ...(c.keys || []).filter(a => !DB.abilities?.[a]).map(a => `keys ${a} 없음`),
     ...(c.next || []).filter(n => !DB.classes[n.to]).map(n => `next ${n.to} 없음`), ...(c.traits || []).filter(t => !DB.traits?.[t]).map(t => `traits ${t} 없음`)]],
+  /* '최대한 많이' 선택 필드의 참조 검사 (2026-10-24). miss(목록, 표) = 그 표에 없는 ID */
+  ...(() => { const miss = (DB, a, tb) => (Array.isArray(a) ? a : a ? [a] : []).filter(x => typeof x === 'string' && !DB[tb]?.[x]);
+    const chk = (DB, o, spec) => spec.flatMap(([f, tb]) => miss(DB, o[f], tb).map(x => `${f} ${x} 없음`));
+    const one = (v, list, f) => (v != null && !list.includes(v) ? [`${f} 값: ${v}`] : []);
+    return [
+      ['monsters', (m, DB) => [...chk(DB, m, [['skills', 'skills'], ['immune', 'statusEffects'], ['absorb', 'elements'], ['weak', 'elements'], ['resist', 'elements'], ['leader', 'monsters'], ['minions', 'monsters'], ['preys', 'monsters'], ['predators', 'monsters'], ['rivals', 'monsters'], ['allies', 'monsters'], ['mats', 'matParts'], ['terrains', 'terrains'], ['habitats', 'gateInteriors'], ['regions', 'regions'], ['gateKinds', 'gateKinds']]),
+        ...(m.summon || []).flatMap(x => miss(DB, x.mon, 'monsters').map(v => `summon ${v} 없음`)),
+        ...one(m.ai, ['aggressive', 'defensive', 'cowardly', 'territorial', 'swarm', 'ambush', 'guardian', 'berserk', 'cunning'], 'ai'), ...one(m.active, ['day', 'night', 'all'], 'active'),
+        ...(m.moves || []).flatMap(v => one(v, ['walk', 'fly', 'swim', 'burrow', 'climb', 'phase'], 'moves'))]],
+      ['classes', (c, DB) => [...chk(DB, c, [['roles', 'roles'], ['passive', 'skills'], ['from', 'classes'], ['affinity', 'elements'], ['weakEl', 'elements'], ['el', 'elements'], ['guildPref', 'guilds']]), ...(c.learn || []).flatMap(x => miss(DB, x.skill, 'skills').map(v => `learn ${v} 없음`)),
+        ...Object.keys(c.statReq || {}).filter(k => !DB.baseStats[k]).map(k => `statReq ${k} 없음`), ...Object.keys(c.ablReq || {}).filter(k => !DB.abilities?.[k]).map(k => `ablReq ${k} 없음`)]],
+      ['skills', (k, DB) => [...chk(DB, k, [['classes', 'classes'], ['cleanse', 'statusEffects'], ['combo', 'skills'], ['acts', 'actions'], ['book', 'items']]), ...(k.evolve || []).flatMap(x => miss(DB, x.to, 'skills').map(v => `evolve ${v} 없음`)),
+        ...(k.summon || []).flatMap(x => miss(DB, x.mon, 'monsters').map(v => `summon ${v} 없음`)), ...one(k.range, ['melee', 'near', 'far'], 'range'), ...one(k.move, ['dash', 'retreat', 'teleport', 'pull', 'push'], 'move'),
+        ...(k.req ? [...miss(DB, k.req.skill, 'skills'), ...miss(DB, k.req.cls, 'classes')].map(v => `req ${v} 없음`) : [])]],
+      ['placeTypes', (t, DB) => [...chk(DB, t, [['acts', 'actions'], ['tags', 'placeTags']])]],
+      ['places', (t, DB) => [...chk(DB, t, [['type', 'placeTypes'], ['region', 'regions'], ['near', 'places'], ['parent', 'places'], ['guild', 'guilds'], ['items', 'items'], ['events', 'events'], ['tags', 'placeTags']]), ...one(t.status, ['open', 'closed', 'ruined', 'gate', 'moved'], 'status')]],
+      ['gateInteriors', (g, DB) => chk(DB, g, [['monsters', 'monsters'], ['cats', 'monsterCats']])],
+      ['items', (it, DB) => [...chk(DB, it, [['cls', 'classes'], ['resist', 'elements'], ['immune', 'statusEffects'], ['el', 'elements'], ['kind2', 'attackKinds']]), ...one(it.legal, ['legal', 'grey', 'illegal'], 'legal')]],
+    ]; })(),
   ['statusEffects', (x) => [...(!x.name ? ['name 필요'] : []), ...(x.kind && !['buff', 'debuff'].includes(x.kind) ? ['kind 는 buff · debuff'] : [])]],
   ['terrains', (x) => (!x.name ? ['name 필요'] : [])],
   ['gateInteriors', (g, DB) => (g.terrain && !DB.terrains?.[g.terrain] ? [`terrain ${g.terrain} 없음`] : [])],

@@ -1,22 +1,27 @@
-/* content.js — 몬스터 (특성은 traits.js, 스킬은 skills.js, 클래스는 classes.js, 아이템은 items.js)
-   몬스터 형식 (2026-10-24 사용자 결정 — 지금은 형식만, 목록은 나중에 한꺼번에 외주)
-   cat     : 계열 (monsterCats)
-   ranks   : 등급 범위 ['RANK_20','RANK_17'] = [약한 쪽, 센 쪽]. 같은 종이라도 개체마다 세기가 다르다. 옛 rank 하나만 있으면 그 등급 하나 (MONSTER.range)
-   rank    : 협회 추정 등급 (옛 형식 · 표시용). ranks 가 있으면 MONSTER.normalize 가 가운데 등급을 넣는다
-   size    : 크기 (monsterSizes)
-   tags    : 행동 꼬리표 (monsterTags — 무리 · 매복 · 돌진 · 원거리 · 재생 같은 것. 위기 · 문장 조건 재료)
-   weak · resist : 약점 · 저항 (elements ID 목록)
-   habitats: 나오는 내부 지형 (gateInteriors ID 목록, 없으면 어디든)
-   boss    : true 면 보스 전용 (게이트 하나 = 잡몹 1~3종 + 보스 1)
-   drops   : 처치 후 회수할 수 있는 것 [{item, chance(0~1 · 공략 1회당), qty}]. 소재는 계열 × 부위 규칙(items 의 matCat · matPart)으로도 자동 연결 (나중에)
-   desc    : 설명
-   ── 2026-10-24 전투 개편 대비 (모두 선택 필드 — 없으면 지금처럼 등급으로만 계산) ──
-   stat    : 등급 기본치에 곱하는 배율 {hp, atk, def, spd} (기본 1). 같은 등급이라도 단단한 놈 · 빠른 놈
-   group   : 한 번에 나오는 수 [최소, 최대] (기본 [1,1]). 무리 꼬리표와 함께
-   attacks : 공격 방식 [{name, kind(attackKinds), el(elements), power(배율, 기본 1), se:[{se(statusEffects), chance}], text(전투 문장 — {m} 몬스터 · {t} 대상)}]
-   lines   : 전투 서술 {appear:[..], hurt:[..], enrage:[..], die:[..]} — {m} 몬스터 이름. 없으면 공통 문장
-   phases  : 보스 전용 단계 [{hp(남은 비율 0~1 이하가 되면), text, stat(배율 덮어쓰기), attacks(추가)}]
-   몬스터가 게임에 주는 전투 수치는 아직 등급으로만 계산한다. */
+/* content.js — 몬스터 (특성은 traits.js, 스킬은 classes.js 머리 주석, 클래스는 classes.js, 아이템은 items.js)
+   ════ 몬스터 형식 (monsters) — 2026-10-24 '최대한 많이' 버전 ════
+   필수는 id · name · cat 뿐. 나머지는 전부 선택 — 비우면 엔진이 등급 기본값 · 공통 문장으로 채운다. 필요할 때 골라 쓰면 된다.
+   [기본]   id 'MON_<배치><번호>' · name 이름 · alias [다른 이름] · en 영문/학명 · cat 계열(monsterCats) · sub 세부 분류(글) · title 칭호(보스 등)
+            ranks [약한 쪽, 센 쪽] 등급 범위 · rank 협회 추정 등급(옛) · rarity 희귀도 1~5 · tier 같은 계열 안 서열 1~5 · size 크기(monsterSizes)
+            desc 한 줄 설명 · lore 긴 설명 · first 첫 보고 연도 · known 협회 정보 공개 0 미확인 ~ 3 완전 · img 그림 ID · icon · color
+   [몸]     height 키(m) · length 몸길이(m) · weight 무게(kg) · looks 생김새 문장 · sound 소리 · smell 냄새 · blood 피 색/성질
+            parts [{id, name, hp(체력 비율), weak(약점 부위면 true), mat(matParts)}] 부위 · core 마력핵 위치 문장
+   [능력]   stat {hp, mp, atk, mag, def, res, spd, acc, eva, crit} 등급 기본치 배율 (기본 1) · lv [최소, 최대] 개체 레벨 · exp 경험치 배율
+            attacks [{id, name, kind(attackKinds), el(elements), power, hits, range(melee · near · far), area, cd, se:[{se(statusEffects), chance, turns}], text}]
+            skills [skills — scope 'monster'] · passive [글] 지속 능력 · weak · resist · immune(statusEffects) · absorb(elements 흡수)
+            regen 턴당 회복 비율 · armor 고정 피해 감소 · pierce 방어 무시 비율
+   [행동]   ai 성향(aggressive 공격적 · defensive 수비 · cowardly 겁많음 · territorial 영역 · swarm 무리 · ambush 매복 · guardian 수호 · berserk 폭주 · cunning 교활)
+            intel 지능 1~5 · tags 행동 꼬리표(monsterTags) · group [최소, 최대] 무리 수 · formation 대형(글) · leader [이끄는 종 monsters]
+            summon [{mon, count, chance, hp(이 비율 이하일 때)}] · flee 도망 체력 비율 · enrage 격노 체력 비율 · target 노리는 대상(weak 약한 쪽 · healer · back 후열 · near 가까운)
+            active 활동 시간(day · night · all) · senses [sight · smell · hearing · mana · heat] · moves [walk · fly · swim · burrow · climb · phase] · speed 이동 1~5
+   [환경]   habitats [gateInteriors] · terrains [terrains 좋아하는 지형] · climate 기후(글) · season 계절 · regions [regions 자주 나오는 지역] · gateKinds [gateKinds]
+   [관계]   preys · predators · rivals · allies [monsters] 먹이 · 천적 · 경쟁 · 공생
+   [보스]   boss true = 보스 전용 · phases [{hp(0~1 이하가 되면), name, text, stat, attacks, summon}] · minions [monsters] · arena 싸우는 곳 문장 · bgm
+   [보상]   drops [{item, chance, qty}] · mats [matParts] · stone 마정석 품질 배율 · coreChance 핵 확률 · bounty 협회 처치 보상금(원) · coin 성좌 코인
+   [위험]   danger 일반인 위험 1~5 · contagion 오염 · 감염(글) · breakRisk 브레이크 때 위험 1~5 · warn 협회 경고 문장
+   [문장]   lines {appear, idle, attack, hurt, enrage, flee, summon, die, corpse} 배열 — {m} 몬스터 · {t} 대상 · news [뉴스 문장] · rumor [소문]
+   [작업]   notes 메모 · src 작성자 · ver 버전
+   몬스터가 게임에 주는 전투 수치는 아직 등급으로만 계산한다 (전투 개편 때 stat · attacks 부터 연결). */
 
 /* 몬스터 분류 */
 def('monsterCats', [

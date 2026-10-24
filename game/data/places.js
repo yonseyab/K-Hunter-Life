@@ -11,8 +11,23 @@
    placeTags  : 장소 꼬리표 {id:'PTAG_…', name, desc} — 분위기 · 가격대 · 위험 · 혼잡 같은 사건 조건 재료
    places     : 이름 있는 개별 장소 {id:'PL_<배치><5자리>', name, type(placeTypes), region(regions), desc 한 문장, tags(placeTags), scale(local 동네 · region 시 · 군 · 구 · national 전국에 알려짐), real(실존 공공 지명 기반이면 true)}
                 지금은 데이터만 — 게임에서 쓰는 건 나중 (이동 · 단골 · 사건 조건)
-   2026-10-24 (선택 필드): placeTypes · places 의 terrain(terrains — 거기서 싸움이 나면 지형), hours [여는 시, 닫는 시](0~24),
-                price 가격대 1~5, crowd 붐빔 1~5, safe 안전 1~5 (사람과 싸움 · 범죄 사건의 재료)
+   ════ 2026-10-24 '최대한 많이' 버전 — 전부 선택 필드 ════
+   placeTypes (장소 종류):
+     [기본] id 'PT_…' · name · alias · icon · group · desc · where · img · color
+     [환경] terrain(terrains) · indoor 실내 true · size 넓이 1~5 · capacity 수용 인원 · noise 소음 1~5 · light 밝기 1~5
+     [이용] hours [여는 시, 닫는 시] · closed [요일 0~6] · price 가격대 1~5 · fee 입장료(원) · req {rank, guild, member, age} 출입 조건
+            services [heal 치료 · repair 수리 · buy 매입 · sell 판매 · train 훈련 · rest 휴식 · info 정보 · quest 의뢰 · bank 금융 · transit 교통]
+            sources [itemSources] · acts [actions 여기서 할 수 있는 행동] · jobs [글/직업 ID 일하는 사람] · npcKinds [글 자주 보이는 사람]
+     [분위기] crowd 붐빔 1~5 · safe 안전 1~5 · tags [placeTags] · mood 분위기(글)
+     [위험] gateRisk 게이트가 열리기 쉬운 정도 1~5 · fightOk 싸움이 날 수 있나 · police 신고 빠르기 1~5
+     [문장] lines {enter, stay, leave, fight, gate} — {u} 헌터 · {p} 장소
+   places (이름 있는 개별 장소, 위 필드 + 아래):
+     [기본] id · name · alias · type(placeTypes) · region(regions) · addr 동 단위 주소 글 · geo [위도, 경도] · desc · lore · scale · real · img
+     [건물] floors 층수 · built 지은 해 · status(open · closed · ruined · gate 게이트 안 · moved) · owner 주인 인물 ID · guild(guilds) · brand 상호 글
+     [연결] near [places] · transit [글 가까운 역] · parent 큰 장소(places — 건물 안 가게 등)
+     [사람 · 물건] npcs [인물 ID 상주] · items [items 파는 것] · menu [글] · regulars 단골 조건(글)
+     [사건] events [events 여기서만 나는 사건] · gateHist [글 게이트 출현 기록] · news [글] · rumor [글]
+     [작업] notes · src · ver
    ========================================================= */
 def('placeTypes', [
   {id:'PT_HOME',     name:'집',          icon:'⌂'},

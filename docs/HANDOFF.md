@@ -82,6 +82,7 @@ tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데�
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
 ## 7. 진행 상황
+- [완료] 2026-10-24 (Claude) 데이터 형식 '최대한 많이': content.js(몬스터) · classes.js(클래스 · 스킬) · places.js · world.js(gateInteriors) · items.js 머리 주석에 선택 필드 전부, validate.js 참조 · 값 검사 추가
 - [완료] 2026-10-24 (Claude) 설정 정리(`life_ui.js` V.settings 4탭 · 타이틀 설정 `settingsOptionsHTML` 축소 · status_ui 의 옛 V.settings 삭제), 내 헌터 정보 탭(`engine/hunter_info.js` HUNTER_INFO), 관계 탭 상대 마음 삭제, 관계 이름 성별 맞춤(`relName` · `bgRelName`, relTypes nameM/nameF), 전투 대비 데이터 형식(content.js · classes.js · places.js · world.js 머리 주석, attackKinds · statusEffects · terrains, validate 규칙)
 - [완료] 2026-10-24 (Claude) 성좌의 조언: `engine/star_advice.js` STARADV(G.starRel 신뢰 · 호감 · 횟수, 따를 확률 `BAL_STAR.advice`, 데이터 `starTrustStages` · `starAdviceLines`). 모르면 `STARADV.canAsk()` 거짓 → 멈춤 없이 EVT.auto · 위기 자동 · 제안 자동, `EVT.resolve` how 'auto' 는 결과 문장만, 'star' 는 헌터 반응 + 결과. 선택 창은 '헌터의 고민'(말 걸지 않기), 결과 창은 반응 + 일어난 일 (주사위 화면 · d20 CSS · choicePrefs 삭제, t_choice_prefs 삭제). 관계 탭 `engine/hunter_rel.js` HUNTER_REL (성좌 칸 포함). 목표 위젯 뺌
 - [완료] 2026-10-24 (Claude) 인트로 글자만(그림 · `assets/intro` · `assets/star_intro` 삭제), 세부 능력 알파벳 숨김, '오늘 할 일을 정한다' 줄 삭제(`play.js` planDay · SL_B0041), 성좌 탭 화면 틀(`engine/star_ui.js` STAR_UI · `star.css` su-*), 좌측 '목표 설정' · '소지품' 탭 삭제(화면 함수 V.goals · V.inventory 는 남김), 인생 아래 버튼 정리

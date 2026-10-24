@@ -1,25 +1,37 @@
 /* =========================================================
-   classes.js — 클래스
-   cat  : 분류 (classCats)
-   role : 임시 능력치 생성에 쓰는 파티 역할 (능력치 규칙은 아직 정하지 않음)
-   pick : 캐릭터 생성 때 고를 수 있는 클래스 전용 스킬 개수
-   pool : 그 클래스가 처음 각성할 때 나올 수 있는 스킬 후보. 같은 클래스라도 사람마다 고르는 스킬이 다르다.
-   unique : true 면 고유 클래스 (2026-10-24 사용자 결정). 세계에 한 명만 가진다. 선천 각성으로는 나오지 않고, 성좌가 주거나 고유 클래스북으로만 얻는다.
-            star : 그 고유 클래스가 묶인 성좌 (constellations, 성좌 하나에 고유 클래스 하나). 받으면 원래 클래스가 바뀐다 (STAR.grantClass)
-   고유 스킬: skills.scope 'unique' — 고유 클래스의 pool 에만 들어간다. 이름 · 성능은 그 성좌와 엮인다 (외주)
+   classes.js — 클래스 · (스킬 형식도 여기)
+   ════ 클래스 형식 (classes) — 2026-10-24 '최대한 많이' 버전. 필수는 id · name · cat ════
+   [기본]   id 'CLS_<배치><번호>' · name · alias [다른 이름] · en · cat 분류(classCats) · tier 차수 1~5 (1 = 처음 각성) · rarity 희귀도 1~5
+            desc 한 줄 · lore 긴 설명 · img · icon · color
+   [역할]   role 대표 파티 역할(roles) · roles [roles 가능한 역할] · range 주 거리(melee · near · far) · resource 쓰는 힘(mp · stamina · rage · focus · 글)
+            el 주 속성(elements) · affinity [elements 잘 맞는 속성] · weakEl [elements 다루기 어려운 속성]
+   [스킬]   pick 커마 때 고르는 전용 스킬 수 · pool [skills] 처음 각성 때 후보 · passive [skills] 클래스에 늘 붙는 패시브 · learn [{skill, lv}] 레벨에 따라 배우는 스킬
+   [성장]   stats {STAT_…: 가중치} 레벨업 때 오르는 경향 · keys [ABL_…] 핵심 세부 능력 · growth {hp, mp} 레벨당 증가 · hpMul · mpMul 기본치 배율
+            statReq {STAT_…: 값} · ablReq {ABL_…: 값} 이 클래스로 바뀌는 데 필요한 능력 (전직 · 클래스북)
+   [장비]   gear [itemCats · 꼬리표] 잘 맞는 장비 · weapons [글/꼬리표] 무기 갈래 · armors 방어구 갈래 · ban [금지 장비 꼬리표]
+   [변화]   from [classes] 하위 클래스 · next [{to(classes), cond(조건 문장), lv}] 상위 클래스 · traits [traits] 같이 붙는 특성
+   [고유]   unique true = 고유 클래스 (세계에 한 명 · 선천 각성 불가 · 성좌가 주거나 고유 클래스북) · star 묶인 성좌(constellations)
+   [사회]   fame 평판(rare 희귀 · common 흔함 · scorned 천대 · popular 인기) · pay 의뢰 시세 배율 · demand 길드 수요 1~5 · guildPref [guilds 잘 뽑는 길드]
+            jobs [글] 각성 후 흔한 일 · habits [글] 이 클래스 사람의 일상 버릇 (이야기 문장 재료)
+   [문장]   lines {awaken, levelUp, classUp, idle} — {u} 헌터
+   [작업]   notes · src · ver
    클래스는 능력치와 맞지 않을 수 있고, 게임 중 클래스북으로 바뀔 수 있다.
-   ── 2026-10-24 전투 개편 대비 (선택 필드) ──
-   stats  : 레벨업 때 주능력치가 오르는 경향 {STAT_BODY:가중치, …} (헌터 판단 자동 분배의 재료)
-   keys   : 이 클래스에 중요한 세부 능력 [ABL_…] (전투 판정 · 성장 문장의 재료)
-   gear   : 잘 맞는 장비 갈래 [itemCats 또는 장비 꼬리표 ID] — 헌터가 장비를 고를 때 가산
-   next   : 상위 클래스로 바뀌는 길 [{to(classes), cond(조건 문장 · 나중에 규칙)}]
-   traits : 클래스를 받으면 같이 붙는 특성 [traits]
-   ── 스킬 (skills) 형식 ──
-   scope  : class 클래스 전용 · common 공용 · unique 고유   kind : 액티브 · 패시브   desc : 설명
-   선택 필드 (2026-10-24): cls(주인 클래스) · target(self 자신 · ally 아군 하나 · allies 아군 전체 · enemy 적 하나 · enemies 적 전체 · area 범위)
-            cost {mp, hp, cd(재사용 턴)} · power(배율) · kind2(attackKinds) · el(elements) · scale(주로 기대는 능력 STAT_ · ABL_ ID)
-            se [{se(statusEffects), chance, turns}] · maxLv(스킬 레벨 상한) · tags(꼬리표) · req(배우는 조건 문장)
-            lines {use:[..], hit:[..], miss:[..]} — 전투 문장 {u} 쓰는 사람 · {t} 대상 · {s} 스킬 이름
+
+   ════ 스킬 형식 (skills) — 필수는 id · name · scope · kind ════
+   [기본]   id 'SK_<배치><번호>' · name · alias · en · scope(class 클래스 전용 · common 공용 · unique 고유 · monster 몬스터) · kind(액티브 · 패시브)
+            cls 주인 클래스 · classes [classes 같이 쓰는 클래스] · grade 스킬 등급(글 또는 1~5) · rarity 1~5 · tier 1~5 · desc · lore · img · icon · fx 시각 효과 ID · sound
+   [대상]   target(self · ally · allies · enemy · enemies · area) · range(melee · near · far) · area 범위 크기 1~5 · hits 타격 수 · count 대상 수
+   [비용]   cost {mp, hp, stamina, item(items), cd(재사용 턴), cast(시전 턴), charges(충전 수), daily(하루 횟수)}
+   [효과]   power 위력 배율 · kind2 공격 갈래(attackKinds) · el 속성(elements) · scale · scale2 기대는 능력(STAT_ · ABL_) · acc · crit 보정
+            heal 회복 배율 · shield 보호막 배율 · se [{se(statusEffects), chance, turns}] · cleanse [statusEffects 풀어 주는 것] · buff {stat: 배율, turns}
+            summon [{mon, count, turns}] · move(dash 돌진 · retreat 물러남 · teleport 순간이동 · pull 끌어당김 · push 밀침) · stance 자세 · toggle 켜고 끄는 스킬
+            combo [skills 이어 쓰기 좋은 스킬] · counter 반격 조건(글) · reaction 발동 조건(글 — 패시브)
+   [성장]   maxLv 스킬 레벨 상한 · growth {power, cost, cd} 레벨당 변화 · evolve [{to(skills), cond}] 변형 · mastery [글] 숙련 단계 이름
+            req {lv, stat:{}, abl:{}, skill(skills), cls(classes)} 배우는 조건 · book 스킬북 아이템(items)
+   [판단]   ai {hpBelow, mpAbove, enemies, ally hurt …} 헌터가 언제 쓰는지 · tags [꼬리표] · risk 쓰는 위험 1~5 · side [글] 부작용(반동 · 마력 고갈)
+   [일상]   daily true = 일상에서도 씀 · acts [actions 쓰이는 행동] (요리 · 치료 · 설득 같은 생활 스킬)
+   [문장]   lines {use, hit, miss, crit, kill, fail, idle} — {u} 쓰는 사람 · {t} 대상 · {s} 스킬 이름
+   [작업]   notes · src · ver
    ========================================================= */
 def('classCats', [
   {"id":"CC_MELEE","name":"근접"},

@@ -15,6 +15,14 @@
    price : 개당 기준가(원, 표시용)
    use   : 사용 효과 — mp/hp(% 회복) · energy · cure(부상 종류 하나를 치료). 없으면 사용 불가
    내구도: 착용 장비 한 개마다 inv 줄의 dur. 공략할 때마다 닳고, 0 이면 부서져 성능이 없다. 수리는 헌터가 알아서 공방에 맡긴다
+   ════ 2026-10-24 '최대한 많이' 추가 선택 필드 ════
+   [기본] alias · en · desc · lore · img · icon · color · rarity 1~5 · brand 만든 곳(글) · made 만든 해 · origin 출처 문장 · tags [꼬리표]
+   [장비] wtype 무기 갈래(글: 검 · 창 · 활 · 지팡이 …) · atype 방어구 갈래 · stat {atk, mag, def, res, spd, acc, eva, crit} · el(elements) · kind2(attackKinds)
+          range(melee · near · far) · hands 1 · 2 · se [{se, chance}] · resist [elements] · immune [statusEffects] · set 세트 ID · setFx [글]
+          cls [classes 전용] · bind 귀속(pickup · equip) · cond 특수 조건(글) · weight 무게 느낌 1~5 · noise 소음 1~5 · stealth 은신 보정
+   [소모] use {hp, mp, energy, cure, se, cleanse, buff, turns} · cd · stack 겹치는 최대 수 · expire 유통기한(일)
+   [경제] price · coin · sell 되팔 수 있나 · legal 합법(legal · grey · illegal) · license 필요한 자격(글)
+   [문장] lines {get, use, equip, break} · notes · src · ver
    ========================================================= */
 
 /* 분류. equip:true = 장비 (DB · 소지품에서 무기 / 방어구 / 악세사리로 따로 본다) */
