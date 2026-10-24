@@ -7,6 +7,13 @@
 /* 능력치는 data/abilities.js (기본 스탯 · 세부 능력 A/B/C · 밸런스) */
 
 /* 파티 역할 — zone: 파티 진형도 위치 [가로(0 왼쪽~2 오른쪽), 세로(0 전열~2 후열)], keys: 적합도 계산 가중치 (세부 능력 ID) (정보창에서 강조), prefs: 선호 전투 방식 */
+/* ════ '최대한 많이' 선택 필드 (2026-10-24) — 전부 선택. 안 쓰면 그만, 필요할 때 넣어 쓴다. 공통 [작업] notes 메모 · src 작성자 · ver 버전 ════
+   roles   : + desc · icon · color · range(melee · near · far) · front 전열 true · keys {ABL_…} · stats {STAT_…} · gear [itemCats] · prefs [글] · party 파티에 필요한 수 · lines {fight}
+   ranks   : + name · lv · color · desc · title 칭호 · fame 대중 인지도 1~5 · pay 의뢰 시세 배율 · pop 이 등급 헌터 비율 · gateRule 입장 규칙(글) · perks [글 협회 혜택] · test 승급 심사(글) · lines {up}
+   relTypes: + nameM · nameF (헌터 성별별 부르는 말) · tag · desc · close 기본 친밀 · like 기본 호감 · family 가족 여부 · romance · inherit 상속 · lines {meet, lose}
+   regions : + alias · en · prov 시도 · kind(si · gun · gu) · pop 인구 · geo · gateDensity · rich 소득 1~5 · urban 도시화 1~5 · safe 치안 1~5 · coast 바다 · mountain 산
+             famous [글 명물] · places [places] · guilds [guilds] · news [글] · lines {arrive}
+   senders : + name · icon · desc · tone(formal · casual) · color */
 def('roles', [
   {id:'ROLE_TANK',  name:'탱커',       short:'TK', zone:[1,0], kind:'수비',
    keys:{ABL_A04:3,ABL_A28:2,ABL_A30:2,ABL_A06:1,ABL_B10:1,ABL_B40:1}, prefs:['적의 시선을 끌어 파티를 보호한다','좁은 통로에서 진형을 유지한다','후퇴 시 마지막까지 남는다']},

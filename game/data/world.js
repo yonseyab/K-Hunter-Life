@@ -60,6 +60,9 @@ def('balance', [
 /* 주거 [prototype_default] — 월세는 매월 고정 지출(BAL_LIFE)에 '월세' 대신 들어간다. regionMul: 지역별 월세 배수
    이사 비용 = deposit(보증금) + moveCost. 이사 나갈 때 보증금은 돌려받는다.
    동거하면 월세 · 관리비를 나눠 낸다(아래 shareItems · splitOpts, 기본 shareRent). 계약 기간 leaseMonths 개월. 기간 전에 나가면 earlyFee × 월세 를 위약금으로 보증금에서 뺀다 (보증금이 없으면 현금에서) */
+/* ════ 주거 (housing) '최대한 많이' 선택 필드 (2026-10-24) — 전부 선택. 안 쓰면 그만, 필요할 때 넣어 쓴다. 공통 [작업] notes 메모 · src 작성자 · ver 버전 ════
+   + name · deposit 보증금 · rent 월세 · size 평 · rooms · desc · icon · cond 조건 · comfort 1~5 · sleep 수면 보정 · safe 1~5 · noise 1~5 · guests 손님 가능 · pets 반려동물 가능
+   region 경향 [regions] · buy 매매가 · upkeep 관리비 · lines {move, home} */
 def('housing', [
   {id:'HOU_GOSI',  name:'고시원',      rent:350000,  deposit:0,        storage:false},
   {id:'HOU_ONE',   name:'원룸',        rent:550000,  deposit:5000000,  storage:true},

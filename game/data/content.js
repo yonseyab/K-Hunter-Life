@@ -24,6 +24,15 @@
    몬스터가 게임에 주는 전투 수치는 아직 등급으로만 계산한다 (전투 개편 때 stat · attacks 부터 연결). */
 
 /* 몬스터 분류 */
+/* ════ 몬스터 쪽 작은 표 '최대한 많이' 선택 필드 (2026-10-24) — 전부 선택. 안 쓰면 그만, 필요할 때 넣어 쓴다. 공통 [작업] notes 메모 · src 작성자 · ver 버전 ════
+   monsterCats : + desc · icon · color · weak [elements] · resist [elements] · mats [matParts] · lore
+   monsterSizes: + n · desc · hpMul · hitMul 맞히기 쉬움 · reach 공격 거리
+   monsterTags : id 'MTAG_…' · name · desc · icon · mind 전투 행동 규칙(글) · text
+   elements    : id 'EL_…' · name · desc · color · icon · opposite [elements] · se [statusEffects 잘 거는 상태] · terrains [terrains 강해지는 곳]
+   matParts    : id 'MP_…' · name · desc · priceMul · rarity · use(글 쓰임)
+   statusEffects: id · name · kind · turns · stack · desc · text · icon · color · dmg 턴당 피해 비율 · stat {배율} · skip 행동 불가 · cure [items] · cleanse 풀리는 조건(글) · el(elements)
+   terrains    : id · name · desc · mods · light · move · hide · el {elements: 배율} · hazards [글]
+   gateKinds   : + desc · auto · icon · color · danger 1~5 · lines {news, enter} */
 def('monsterCats', [
   {id:'MC_HUMANOID', name:'인간형'},
   {id:'MC_BEAST',    name:'마수'},

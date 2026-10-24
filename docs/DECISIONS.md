@@ -123,6 +123,7 @@
 | 내 헌터 › 정보 탭 | 신상 · 각성 · 성격 · 외모 · 각성 전의 삶 · 생활 · 몸에 지닌 것(착용 장비 · 가방) · 기록. 조작 버튼 없음 |
 | 전투 대비 데이터 형식 (2026-10-24, Claude 알잘딱) | 모두 선택 필드 — 없으면 지금 규칙 그대로. 몬스터 stat · group · attacks · lines · phases / 스킬 cls · target · cost · power · kind2 · el · scale · se · maxLv · tags · req · lines / 클래스 stats · keys · gear · next · traits / 장소 terrain · hours · price · crowd · safe / 게이트 내부 terrain · desc · lines / 새 표 attackKinds(4) · statusEffects · terrains (비어 있음). 전투 시스템 개편은 사용자가 정한 뒤 |
 | 데이터 형식 '최대한 많이' (2026-10-24 사용자) | 몬스터 · 클래스 · 스킬 · 장소(종류 · 개별) · 게이트 내부 · 아이템에 쓸 수 있는 필드를 이름 · 등급부터 문장 · 작업 메모까지 최대한 많이 열어 둔다. 전부 선택 — 안 쓰면 그만, 필요할 때 넣어 쓴다. 기준은 각 data 파일 머리 주석 · `validate.js` 참조 검사. 스킬 scope 에 'monster' 추가 |
+| 나머지 표도 '최대한 많이' (2026-10-24 사용자) | 장비 구조(itemCats · equipSlots · itemGrades · itemTraits · itemSources) · 특성 · 길드 · 역할 · 등급 · 관계 유형 · 지역 · 감정 · 고비 · 멈춤 종류 · 주거 · 부위 · 부상 · 행동 · 성좌 쪽 표(정해진 성좌 제외) · 몬스터 쪽 작은 표 · NPC 헌터 · 고정 인물 · 고정 게이트 · 목표 · 뉴스 · 직업 · 이야기 문장 · 사건 · 위기에 선택 필드를 최대한 열어 둠. 사용자가 정한 커마 · 성격 · 외형 · 배경 · 인트로 · 정해진 성좌는 건드리지 않음 |
 
 ## 2. 옛 버전에서 이어받은 결정 (그대로 유효)
 

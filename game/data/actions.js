@@ -29,6 +29,10 @@
    행동의 효과 수치는 [prototype_default] 임시값이다.
    ========================================================= */
 
+/* ════ 행동 (actions) '최대한 많이' 선택 필드 (2026-10-24) — 전부 선택. 안 쓰면 그만, 필요할 때 넣어 쓴다. 공통 [작업] notes 메모 · src 작성자 · ver 버전 ════
+   + desc · icon · cat(actionCats) · place · dur · energy · money · stress · free · req 조건(글/규칙) · with 같이 하는 사람(글) · tags [mindTags]
+   gain {ABL_/STAT_: 경험} · emo {emotions} · rel {relDims} · risk 1~5 · items [items 쓰는 것] · out [items 얻는 것] · hours [시, 시] 할 수 있는 시간 · days [요일]
+   daily 일상 행동 · indoor · lines {start, mid, end} — {u} {t} {p} */
 def('actionCats', [
   {id:'ACC_LIFE',   name:'생활'},
   {id:'ACC_TRAIN',  name:'훈련'},

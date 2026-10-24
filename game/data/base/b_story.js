@@ -14,6 +14,12 @@
    자리 표시: {p} 부르는 이름 · {P} 전체 이름 · {place} 장소 · {region} 지역 · {who} 만난 사람 · {rel} 관계 · {a}{b} 파티원 · {m} 몬스터 · {gate} 게이트 ·
             {rank} 등급 · {n} 수 · {cls} 클래스 · {role} 역할 · {gear} 무기 · {build} 체격 · {party} 파티 소개 · {money} 금액 · {line} 사용자가 남긴 한 줄
    ========================================================= */
+/* ════ 이야기 재료 '최대한 많이' 선택 필드 (2026-10-24) — 전부 선택. 안 쓰면 그만, 필요할 때 넣어 쓴다. 공통 [작업] notes 메모 · src 작성자 · ver 버전 ════
+   storyLines: id · on · lv · text + cond 조건(규칙/글) · w 비중 · once · px {성격 쏠림} · emo [emotions] · time [시, 시] · place(placeTypes) · tags
+   events    : 지금 필드(ch · to · kind · subj · lines · choices …) + cond · w · once · cd 재발 쿨다운 일 · chain [events 이어지는 사건] · time · place · season · rank [약한, 센] · tags · img
+               choices[] + tags [mindTags] · risk · check · ok · ng · okFx · ngFx · ask 헌터가 성좌에게 묻는 문장 · next(events)
+   crises    : 지금 필드(when · title · tags · text · choices) + mons [monsters] · interior(gateInteriors) · rank · w · once · img
+   scenarios : + name · desc · start 시작 상태 · cast [인물] · lines */
 def('storyLines', [
   /* --- 하루 행동 (짧고 건조한 현재형 1문장) --- */
   {id:'SL_B0001', on:'act:ACT_SLEEP', lv:3, text:'불을 끄고 눕는다.'},

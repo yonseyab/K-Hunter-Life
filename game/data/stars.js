@@ -8,6 +8,11 @@
    ========================================================= */
 
 /* 성좌 성향 (만들 때 고른다). 나중에 메시지 말투 · 축복 성격의 재료 */
+/* ════ 성좌 쪽 '최대한 많이' 선택 필드 (2026-10-24) — 전부 선택. 안 쓰면 그만, 필요할 때 넣어 쓴다. 공통 [작업] notes 메모 · src 작성자 · ver 버전 (정해진 성좌 starPresets 는 사용자가 만든다 — 아래는 나머지 표) ════
+   constellations: NPC 성좌 + id · name · trait · domain · color · sigil · speech · desc · lore · cls(고유 클래스) · coin 씀씀이 1~5 · likes [mindTags] · hates [mindTags] · rivals [constellations] · lines
+   starMessages  : + on · trait · text · lv · cond · chance · once · known(헌터가 알 때만)
+   starBlessings : + id · name · coin · desc · fx {STAT_/ABL_/se: ±} · turns · days 지속 일 · cd · trait 성향 전용 · cls 클래스 전용 · lines {give, end}
+   achievements  : id · name · desc · cat(성장 · 공략 · 관계 · 인생 · 숨은) · hidden · measure · target · coin · unlock · icon · rarity · once · text */
 def('starTraits', [
   {id:'STT_WATCH',    name:'지켜보는',   desc:'말없이 오래 지켜본다.', base:true},
   {id:'STT_GENEROUS', name:'후한',       desc:'아끼지 않고 내준다.', base:true},

@@ -82,6 +82,7 @@ tests/ui/                Playwright 테스트 + fixture.js(테스트 전용 데�
 - '같은 세계 새 인물'은 배경 인구(IndexedDB)를 옮기지 않고 메모리의 것을 이어 쓴다 — 새로 고침하면 같은 시드로 다시 만든다.
 
 ## 7. 진행 상황
+- [완료] 2026-10-24 (Claude) 나머지 표 선택 필드 '최대한 많이': items · traits · guilds · core · system · world · gate_content · actions · stars · content · base/b_hunters · b_content · b_story 머리 주석, validate 참조 · 값 검사 추가
 - [완료] 2026-10-24 (Claude) 데이터 형식 '최대한 많이': content.js(몬스터) · classes.js(클래스 · 스킬) · places.js · world.js(gateInteriors) · items.js 머리 주석에 선택 필드 전부, validate.js 참조 · 값 검사 추가
 - [완료] 2026-10-24 (Claude) 설정 정리(`life_ui.js` V.settings 4탭 · 타이틀 설정 `settingsOptionsHTML` 축소 · status_ui 의 옛 V.settings 삭제), 내 헌터 정보 탭(`engine/hunter_info.js` HUNTER_INFO), 관계 탭 상대 마음 삭제, 관계 이름 성별 맞춤(`relName` · `bgRelName`, relTypes nameM/nameF), 전투 대비 데이터 형식(content.js · classes.js · places.js · world.js 머리 주석, attackKinds · statusEffects · terrains, validate 규칙)
 - [완료] 2026-10-24 (Claude) 성좌의 조언: `engine/star_advice.js` STARADV(G.starRel 신뢰 · 호감 · 횟수, 따를 확률 `BAL_STAR.advice`, 데이터 `starTrustStages` · `starAdviceLines`). 모르면 `STARADV.canAsk()` 거짓 → 멈춤 없이 EVT.auto · 위기 자동 · 제안 자동, `EVT.resolve` how 'auto' 는 결과 문장만, 'star' 는 헌터 반응 + 결과. 선택 창은 '헌터의 고민'(말 걸지 않기), 결과 창은 반응 + 일어난 일 (주사위 화면 · d20 CSS · choicePrefs 삭제, t_choice_prefs 삭제). 관계 탭 `engine/hunter_rel.js` HUNTER_REL (성좌 칸 포함). 목표 위젯 뺌

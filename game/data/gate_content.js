@@ -12,6 +12,10 @@
    · 수치는 모두 [prototype_default] 임시값
    ========================================================= */
 
+/* ════ '최대한 많이' 선택 필드 (2026-10-24) — 전부 선택. 안 쓰면 그만, 필요할 때 넣어 쓴다. 공통 [작업] notes 메모 · src 작성자 · ver 버전 ════
+   bodyParts  : + name · desc · vital 급소 true · w 맞을 확률 비중 · armor [equipSlots 막는 칸] · ablHit [ABL_ 다치면 떨어지는 능력]
+   injuryTypes: + name · heal · desc · icon · parts [bodyParts 생기는 부위] · se [statusEffects] · scar 흉터 확률 · cure [items 치료 물건] · fx {STAT_/ABL_: −} 다친 동안 · lines {get, heal, scar}
+   injurySev  : + name · desc · color · hospital 병원 필요 · cost 치료비 배율 */
 def('bodyParts', [
   {id:'PART_HEAD',  name:'머리',     w:1},
   {id:'PART_TORSO', name:'몸통',     w:3},

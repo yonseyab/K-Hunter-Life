@@ -5,6 +5,13 @@
    ========================================================= */
 
 /* ---------- 아이템 · 시스템 상점 ---------- */
+/* ════ 이 파일의 표들 '최대한 많이' 선택 필드 (2026-10-24) — 전부 선택. 안 쓰면 그만, 필요할 때 넣어 쓴다. 공통 [작업] notes 메모 · src 작성자 · ver 버전 (아이템 · 몬스터 · 클래스 · 스킬 · 특성은 각 형식 파일 머리 주석) ════
+   npcs      : + alias · title · birth · look · personality · traits · home · family [{id, rel}] · likes · hates · secret · quirks · catch · routine 하루 일과(글) · places [places 자주 가는 곳] · story [events] · lines
+   gates     : 고정 게이트 + id · name · rank · region · place · interior(gateInteriors) · floors · mobs [monsters] · boss(monsters) · kind(gateKinds) · open 열리는 날 · until · reward · story · lines
+   objectives: + term · ai · measure · opts · name · desc · icon · cat · reward · fail · days 기한 · req · lines {start, done, fail}
+   news      : + cat · tone · title · when · body · region · rank · src 언론사(글) · cond · weight · tags
+   aiJobs    : + name · pay · w · keys · ladder · names · hours [시, 시] · days · place(placeTypes) · stress · danger · uniform 복장(글) · skillBonus [skills] · lines
+   sysShop   : + item · coin · stock · days · cond · rank */
 def('items', [
   {id:'IT_B0001', old:true, name:'옛 마정석 (하)',   cat:'ITC_STONE', rank:'RANK_19', price:89000,    desc:'원산지: 20~16급 게이트. 협회 인증 등급 하. 매입가는 협회 고시가로만 거래한다. 개인 간 거래 시 과태료.'},
   {id:'IT_B0002', old:true, name:'옛 마정석 (중)',   cat:'ITC_STONE', rank:'RANK_14', price:620000,   desc:'원산지: 15~11급 게이트. 협회 인증 등급 중. 운반 시 등록증 지참.'},

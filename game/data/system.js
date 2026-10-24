@@ -14,6 +14,12 @@
    stopKinds    : 멈춤 종류 (설정 › 멈춤에서 켜고 끔)
    nationStates : 국가 상태 (게이트 브레이크로 무너진 나라 등 — 나라별 값은 Codex 세계관 외주)
    ========================================================= */
+/* ════ '최대한 많이' 선택 필드 (2026-10-24) — 전부 선택. 안 쓰면 그만, 필요할 때 넣어 쓴다. 공통 [작업] notes 메모 · src 작성자 · ver 버전 ════
+   mindTags     : + name · desc · icon · group 묶음 · opposite 반대 꼬리표 · px {ccPersonality: 가중치} · emo {emotions: 가중치}
+   emotions     : + name · color · icon · desc · group(good · bad · neutral) · decay 하루 줄어드는 양 · max · opposite [emotions] · mind {mindTags: 가중치} · face 표정 문장 · lines {rise, peak, fade}
+   emoTriggers  : + on · emo · v · cond 조건(글/규칙) · chance · text
+   milestoneTypes: + name · big · desc · icon · cond 규칙 · once 한 번만 · chapter 장(章)을 여는가 · emo {emotions} · px {ccPersonality} · lines
+   stopKinds    : + name · dflt · big · desc · icon · ask 헌터가 성좌에게 묻는 문장(글) */
 def('mindTags', [
   {id:'TAG_RISK',     name:'위험 감수', w:{'px:PX_ADVEN':1.0,'px:PX_PESSI':-0.7,'emo:EM_ANGER':0.5,'emo:EM_JOY':0.4,'emo:EM_ANX':-0.8,'st:hpLow':-1.2,'st:injured':-0.8,'self:skill':0.6,'pol:risk':1.0}},
   {id:'TAG_SAFE',     name:'안전',     w:{'px:PX_ADVEN':-0.8,'px:PX_PESSI':0.6,'emo:EM_ANX':0.7,'st:hpLow':1.0,'st:injured':0.7,'self:skill':-0.4,'pol:risk':-1.0}},

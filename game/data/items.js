@@ -26,6 +26,17 @@
    ========================================================= */
 
 /* 분류. equip:true = 장비 (DB · 소지품에서 무기 / 방어구 / 악세사리로 따로 본다) */
+/* ════ 장비 구조 '최대한 많이' 선택 필드 (2026-10-24) — 전부 선택. 안 쓰면 그만, 필요할 때 넣어 쓴다. 공통 [작업] notes 메모 · src 작성자 · ver 버전 ════
+   itemCats  : id · name · equip · icon · color · desc · sort 정렬 · sub [글 하위 갈래] · slots [equipSlots 기본 칸] · stack 겹치기 · sell 되팔기 · legalDefault
+   equipSlots: id · name · icon · desc · max 동시 착용 수 · group(weapon · armor · acc · special) · visible 남에게 보이나 · breakable 부서지나
+               defaultItem 맨몸일 때 · covers [bodyParts 막는 부위] · slotsWith [같이 차지할 수 있는 칸] · req 칸이 열리는 조건(글)
+   itemGrades: 위 필드 + desc · lore · glow 빛 문장 · sound · priceMul 기준가 배율 · coinMul · dropW 드롭 비중 · auctionW 경매 비중 · enhance 강화 상한(제작 · 강화는 아직 없음)
+               traitPool [itemTraits 이 등급에 붙을 수 있는 개성] · bindChance 귀속 확률 · newsChance 얻으면 뉴스가 될 확률 · fame 명성 변화
+   itemTraits: id · name · kind(stat · check · resist · situ · life 생활 · social 사회 · curse 저주) · v · stat · on · desc · lore · good 좋은 개성이면 true
+               pair [itemTraits 같이 붙는 단점] · grades [itemGrades 붙을 수 있는 등급] · cats [itemCats] · slots [equipSlots] · rarity 1~5
+               show 감정해야 보이나 · text 발동 문장 {u} · icon
+   itemSources: id · name · desc · wired · where [placeTypes 있는 곳] · delay 받기까지 일 · risk 사기 · 불량 위험 1~5 · priceMul · haggle 흥정 가능
+               req 이용 조건(글) · open 여는 시간 [시, 시] · npc 대하는 사람 직업(글) · lines {buy, sell, scam} */
 def('itemCats', [
   {id:'ITC_WEAPON',  name:'무기',     equip:true},
   {id:'ITC_ARMOR',   name:'방어구',   equip:true},
