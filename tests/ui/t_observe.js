@@ -22,9 +22,10 @@ const {chromium}=require('playwright'), path=require('path'), assert=require('as
     const t=await p.evaluate(()=>nowAbs());await p.click('#stale');assert.equal(await p.evaluate(()=>nowAbs()),t);
     await p.evaluate(()=>{document.querySelector('#stale').remove();UI.screen='life';G.alerts.unshift({subj:'검사 소식',body:'중복 없이 한 번 전달',unread:true});render();render()});
     assert.equal(await p.evaluate(()=>G.story.filter(x=>x.s.includes('검사 소식')).length),1);
-    await p.evaluate(()=>{EVT.pending().forEach(x=>EVT.auto(x));G.eventLog={};triggerEvent('EV_B0004','10:00');prefs().play.stop='each';EVT.arrived();render()});
+    await p.evaluate(()=>{G.star={slot:0};G.starKnown=true;STARADV.roll=()=>0;EVT.pending().forEach(x=>EVT.auto(x));G.eventLog={};triggerEvent('EV_B0004','10:00');prefs().play.stop='each';EVT.arrived();render()});
     assert(await p.locator('[data-kpick]').count()>0);await p.click('[data-kpick="2"]');
     assert.equal(await p.evaluate(()=>EVT.pending().length),0);
+    await p.click('[data-life-roll-continue]');
     // Real purchase and equipment controls must survive the UI policy.
     await p.evaluate(()=>{UI.screen='shop';G.coin=100000;render()});
     assert(await p.locator('[data-shopbuy]').count()>0);await p.click('[data-shopbuy]');

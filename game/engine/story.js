@@ -196,7 +196,7 @@ const EVT = (() => {
   }
   /* 이 이벤트에서 멈출까 (설정 › 멈춤) */
   function stopWanted(ev) {
-    if(choicePrefs().delegate)return false;
+    if(typeof STARADV!=='undefined'&&!STARADV.canAsk())return false;  /* 성좌를 모르면 묻지 않는다 — 헌터 혼자 */
     const P = play(); if (P.autoDecide === false) return true;
     const mode = P.stop || 'big'; if (mode === 'none') return false;
     const k = kindOf(ev), K = DB.stopKinds[k], on = (P.kinds || {})[k] ?? K?.dflt ?? true;
@@ -216,8 +216,9 @@ const EVT = (() => {
     if (x.type === 'alert') { x.m.unread = false; x.m.resolved = `${line}<b>${esc(c.t)}</b><div style="margin-top:4px">${esc(res || '')}</div>${fxChips(f)}`; x.m.how = how; }
     else { x.th.msgs.push({ from: 'ME', t: c.t, tm: hhmm(G.time) }); x.th.msgs.push({ sys: `${line}${esc(res || '')}${fxChips(f)}` }); x.th.event.resolved = true; x.th.unread = 0; }
     const nm = MIND.callName(), sj = tpl(ev.subj || '', x.tgt, null);
-    const head = how === 'auto' ? `${reason ? reason + ' ' : ''}${nm}은(는) '${c.t}' 쪽을 고른다.` : `${nm}은(는) '${c.t}' 쪽을 고른다.`;
-    STORY.add('choice', `${head} ${res ? STORY.fill(tpl(res, x.tgt, null)) : ''}${f.length ? ` [${f.join(' · ')}]` : ''}`, 1, { ev: ev.id, how, subj: sj });
+    /* auto = 헌터 혼자 (선택 · 판정 문장 없이 결과만 자연스럽게) · star = 성좌의 조언 뒤 (reason = 헌터의 반응) */
+    const head = how === 'auto' ? '' : how === 'star' ? (reason || '') : `${nm}은(는) '${c.t}' 쪽을 고른다.`;
+    if (head || res || f.length) STORY.add('choice', `${head}${head ? ' ' : ''}${res ? STORY.fill(tpl(res, x.tgt, null)) : ''}${f.length ? ` [${f.join(' · ')}]` : ''}`, 1, { ev: ev.id, how, subj: sj });
     const tags = MIND.tagsOf(c); if (x.tgt) MIND.note(x.tgt, tags.some(t => ['TAG_KIND', 'TAG_SOCIAL', 'TAG_TEAM', 'TAG_LOVE'].includes(t)) ? 1 : tags.some(t => ['TAG_SELFISH', 'TAG_AVOID'].includes(t)) ? -1 : 0, ev.id);
     if (tags.includes('TAG_KIND')) MIND.drift('kindChoice', 0.5); else if (tags.includes('TAG_SELFISH')) MIND.drift('selfChoice', 0.5);
     TELLER.note(2, true);

@@ -899,7 +899,7 @@ function loveDay(){const B=DB.balance.BAL_REL;G.relations.forEach(r=>{if(!DB.rel
   if(r.from.RD_ROMANCE<B.leaveAt){r.status='RS_EX';if(homeOf().partner===r.id)homeOf().partner=null;relAdd(r,'RD_CLOSE',-10,'both');pushHistory(`${nameOf(r.id)}이(가) 이별을 고함`,'');const th=threadWith(r.id);th.msgs.push({from:r.id,t:'우리… 이제 그만하는 게 좋겠어. 요즘 너무 멀어진 것 같아.',tm:hhmm(G.time)});th.unread++}})}
 /* 거래 내역은 최근 LEDGER_KEEP 건만 남기고, 지운 것은 합계(G.ledgerSum)로 접는다 (QA: 1년이면 2천 건 넘게 쌓여 재정 화면이 느려졌다) */
 const LEDGER_KEEP=300;function ledgerTidy(){const L=G.ledger||[];if(L.length<=LEDGER_KEEP)return;const S=G.ledgerSum||(G.ledgerSum={inc:0,exp:0,n:0});L.splice(LEDGER_KEEP).forEach(l=>{if(l[2]>0)S.inc+=l[2];else S.exp-=l[2];S.n++})}
-function dayTick(){alertTidy();ledgerTidy();if(G.lastDay!=null&&G.lastDay<G.day&&!raidActive())SIM.gc();  /* 쓰이지 않는 승격 인물 정리 (세이브 크기) */G.lastDay=G.lastDay??G.day;while(G.lastDay<G.day){G.lastDay++;marketDay();npcDay();contractDay();lifeDay(G.lastDay);guildMonth(G.lastDay);npcGuildMonth(G.lastDay);aucDay();poachDay(G.lastDay);npcGuildSign();loveDay();autoStatAlloc();rankCheck();STARACC.checkAch();STARACC.revealRoll();SCALE.day(G.lastDay);SCALE.tidyUsed();G.offers=(G.offers||[]).filter(o=>o.exp>nowAbs());UI.autoDue=true}}
+function dayTick(){alertTidy();ledgerTidy();if(G.lastDay!=null&&G.lastDay<G.day&&!raidActive())SIM.gc();  /* 쓰이지 않는 승격 인물 정리 (세이브 크기) */G.lastDay=G.lastDay??G.day;while(G.lastDay<G.day){G.lastDay++;marketDay();npcDay();contractDay();lifeDay(G.lastDay);guildMonth(G.lastDay);npcGuildMonth(G.lastDay);aucDay();poachDay(G.lastDay);npcGuildSign();loveDay();autoStatAlloc();rankCheck();STARACC.checkAch();STARACC.revealRoll();if(typeof STARADV!=='undefined')STARADV.daily();SCALE.day(G.lastDay);SCALE.tidyUsed();G.offers=(G.offers||[]).filter(o=>o.exp>nowAbs());UI.autoDue=true}}
 function worldTickAcc(min){togetherTick(min);G.wAcc=(G.wAcc||0)+min;const h=Math.floor(G.wAcc/60);if(h>0){G.wAcc-=h*60;worldTick(h);checkGates();aucTick(h)}resolveBids();dayTick();SIM.tick();GOALS.check();const hf=processHappen();if(hf)UI._hapEv=hf;if(typeof LIFE!=='undefined')LIFE.watch()}
 /* 시간 진행. opt.span 이면 opt.until 까지 진행만 하고 결과를 돌려준다 (runTimeAsync 가 하루씩 나눠 부른다) */
 function runTime(mode,opt={}){ensureTime();if(G.dead)return;if(raidActive()){toast('게이트 안에서는 바깥 시간을 따로 진행할 수 없습니다. 공략을 마치거나 후퇴하세요.');return}const B=DB.balance.BAL_TIME,start=opt.start??nowAbs(),target=opt.until??advTarget(mode),e0=opt.e0??G.cond.energy,lines=opt.lines||[],ups=opt.ups||[];let stop=null,guard=0;
@@ -989,7 +989,6 @@ const mktMul=id=>(G.market||{})[id]??1;
               custom: area 'home'(사는 구 · 시 · 군) | 'near'(사는 곳에서 km 안) · from~to (등급 숫자, from 이 약한 쪽) · kind 'all' | 'open'(협회 개방) | 'bid'(입찰) */
 const PREF_DEF={play:{stop:'big',kinds:{},autoDecide:true,predict:'some',policyVsChar:0.4,detail:'detail',teller:'on',speed:1,pace:'balance'},autoSell:'stone',gateNote:{mode:'off',area:'home',km:20,from:20,to:1,kind:'all'},autoRaid:{on:'on',policy:'balanced',grade:'fit',km:20,perDay:1,retreat:35,minEnergy:60,minParty:2}};
 function prefs(){const p=G.prefs||(G.prefs={});for(const [k,v] of Object.entries(PREF_DEF)){if(p[k]==null)p[k]=typeof v==='object'?{...v}:v;else if(typeof v==='object')for(const [k2,v2] of Object.entries(v))if(p[k][k2]==null)p[k][k2]=v2}return p}
-function choicePrefs(){return G.player.choicePrefs||(G.player.choicePrefs={skipDice:false,delegate:false})}
 function gateNoteWants(g){const N=prefs().gateNote,lv=DB.ranks[g.rank].lv,home=G.player.region;
   if(N.mode==='off')return false;if(N.mode==='fit')return g.region===home&&!gateFit(G.player,g);if(N.mode==='all')return g.region===home;
   const inArea=N.area==='near'?kmBetween(home,g.region)<=N.km:g.region===home,lo=Math.max(N.from,N.to),hi=Math.min(N.from,N.to);
@@ -3315,7 +3314,9 @@ applySettings(); render(); packsLoad();  /* 대량 콘텐츠 팩을 뒤에서 �
 <script src="engine/emo_graph.js"></script>
 <script src="engine/account.js"></script>
 <script src="engine/star.js"></script>
+<script src="engine/star_advice.js"></script>
 <script src="engine/hunter_status.js"></script>
 <script src="engine/history_ui.js"></script>
 <script src="engine/life_ui.js"></script>
 <script src="engine/star_ui.js"></script>
+<script src="engine/hunter_rel.js"></script>

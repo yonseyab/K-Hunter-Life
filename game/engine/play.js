@@ -138,11 +138,11 @@ const PLAY = (() => {
     LIFE.watch(); OBSERVE.notices();
     return null;
   }
-  function chooseCrisis(i) {
+  function chooseCrisis(i, reaction) {
     const R = UI.raid, C = R?.crisis && DB.crises[R.crisis.id]; if (!C || G.dead) return;
     if (i == null) i = AUTORAID.choose(R, C);
     const ch = C.choices[i]; if (!ch || ch.needParty && R.party.filter(p => p.hp > 0).length < 2 || ch.req && !ch.req.every(q => checkReq(q))) return;
-    STORY.add('choice', `${MIND.callName()}은(는) '${crisisText(ch.t)}' 쪽을 고른다.`, 1);
+    if (reaction) STORY.add('choice', reaction, 1);  /* 성좌의 조언 뒤 헌터의 반응. 혼자 정하면 문장 없음 */
     const choiceText=crisisText(ch.t),okText=crisisText(ch.ok||''),ngText=crisisText(ch.ng||'');
     UI.playRaid = true; resolveCrisis(i);const judgement=R.lastCheck;
     if (R.done || G.dead) { if (!R._counted) { st().raids++; R._counted = true; } st().lastRaidAt = nowAbs(); delete st().pendingRaid; UI.playRaid = false; LIFE.watch(); }
@@ -153,7 +153,7 @@ const PLAY = (() => {
   }
   /* 위기에서 멈출까: '공략 위기' 종류가 켜져 있거나, 죽을 위험(치명적 선택 · HP 낮음)이 켜져 있을 때 */
   function crisisStop(R, C) {
-    if(choicePrefs().delegate)return false;
+    if(typeof STARADV!=='undefined'&&!STARADV.canAsk())return false;  /* 성좌를 모르면 묻지 않는다 */
     if (EVT.stopKindOn('SK_CRISIS')) return true;
     const deadly = C.choices.some(c => c.risk === '치명적') || R.party[0].hp < 35;
     return deadly && EVT.stopKindOn('SK_DEATH') && (G.prefs?.play?.stop || 'big') !== 'none';

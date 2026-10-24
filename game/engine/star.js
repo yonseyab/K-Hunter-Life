@@ -30,7 +30,7 @@ const STAR = (() => {
     G.starGifts.unshift({ t: nowAbs(), item, qty, via }); if (G.starGifts.length > B().giftsKeep) G.starGifts.length = B().giftsKeep;
     const what = `${it.name}${qty > 1 ? ' ' + qty + '개' : ''}`, nm = starName();
     STORY.add('event', G.starKnown && nm ? `성좌 「${nm}」${josa(nm, '이', '가')} ${what}${josa(what, '을', '를')} 선물했다.` : `어디선가 ${what}${josa(what, '이', '가')} 가방에 들어와 있다. 성좌의 선물이다.`, 1);
-    say('gift', { item: it.name });
+    say('gift', { item: it.name }); if (typeof STARADV !== 'undefined') STARADV.onGift();
     if (GEAR.slotOf(it)) GEAR.consider('선물받은');
     if (it.classBook) readBook(it);
     return true;

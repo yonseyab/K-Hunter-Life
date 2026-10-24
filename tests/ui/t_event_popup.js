@@ -20,38 +20,51 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
   await p.evaluate(()=>{UI.raid=null;render()});
   assert.equal(await p.locator('#lifeSide .in-gate').count(),0);
   assert.deepEqual(await geometry(),normal);
-  // A checked event is resolved once. The animation reveals the same engine roll.
-  await p.evaluate(()=>{
-   prefs().play.stop='each';G.eventLog={};
-   DB.events.EV_POPUP_TEST={...DB.events.EV_B0004,id:'EV_POPUP_TEST',subj:'판정 테스트',choices:[{t:'상황을 살핀다',check:{attr:'STAT_BODY',dc:150},ok:'위험을 알아차렸다.',ng:'위험을 놓쳤다.',okFx:{money:1000},ngFx:{money:-1000}}]};
-   triggerEvent('EV_POPUP_TEST','10:00');EVT.arrived();render();
+  // 성좌를 모르면 묻지 않는다: 팝업 없이 헌터 혼자 정하고, 선택 · 판정 문장 없이 결과만 이어진다.
+  const EVDEF="DB.events.EV_POPUP_TEST={...DB.events.EV_B0004,id:'EV_POPUP_TEST',subj:'판정 테스트',choices:[{t:'상황을 살핀다',check:{attr:'STAT_BODY',dc:150},ok:'위험을 알아차렸다.',ng:'위험을 놓쳤다.',okFx:{money:1000},ngFx:{money:-1000}},{t:'그냥 지나간다',ok:'아무 일도 없었다.',ng:'아무 일도 없었다.',okFx:{},ngFx:{}}]};";
+  await p.evaluate(ev=>{prefs().play.stop='each';G.eventLog={};G.star=null;G.starKnown=false;eval(ev);
    window.judgeCalls=0;window.oldJudge=judge;judge=function(...args){judgeCalls++;const j=oldJudge(...args);window.popupJudgement=j;return j};
-  });
+   G.story=[];triggerEvent('EV_POPUP_TEST','10:00');EVT.arrived();render();},EVDEF);
   const dialog=p.locator('#lifeEventModal');
+  assert.equal(await dialog.count(),0,'모르면 팝업 없음');
+  const quiet=await p.evaluate(()=>G.story.map(x=>x.s).join('\n'));
+  assert(!/쪽을 고른다|d20|난이도/.test(quiet),'선택 · 판정 문장 없음: '+quiet);
+  // 성좌를 알면 헌터가 묻는다.
+  await p.evaluate(()=>{G.star={slot:0};G.starKnown=true;G.eventLog={};window.judgeCalls=0;triggerEvent('EV_POPUP_TEST','10:30');EVT.arrived();render()});
   assert(await dialog.evaluate(el=>el.open&&el.matches(':modal')));
-  assert.equal(await p.locator('#lifePend').count(),0);
+  assert.equal(await p.locator('#lifeEventModal .ask-line').count(),1);
+  assert.equal(await p.locator('#lifeEventModal [data-kauto]').innerText(),'말 걸지 않기');
+  assert(!/d20|난이도/.test(await dialog.innerText()),'선택지에 판정 숫자 없음');
   assert.deepEqual(await geometry(),normal);
   await p.keyboard.press('Escape');assert(await dialog.isVisible());
-  // Pending choices survive save/load and show again without applying anything.
+  // 저장 · 불러오기 뒤에도 그대로 남는다.
   const money=await p.evaluate(()=>{const m=G.money;saveGame('slot1');const s=store.get(SAVE_KEY,[]).find(x=>x.slot==='slot1');G=clone(s.data);enterGame();return m});
   assert(await dialog.isVisible());assert.equal(await p.evaluate(()=>G.money),money);
+  // 따른다 (난수 0 → 따름)
+  await p.evaluate(()=>{STARADV.roll=()=>0});
   await p.click('#lifeEventModal [data-kpick="0"]');
+  await p.evaluate(()=>{STARADV.roll=()=>Math.random()});
   assert.equal(await p.evaluate(()=>judgeCalls),1);
   const j=await p.evaluate(()=>popupJudgement);
   assert.equal(await p.evaluate(()=>G.money),money+(j.ok?1000:-1000));
-  assert(await p.locator('.event-die').isVisible());assert(await p.locator('[data-life-roll-continue]').isDisabled());
-  // Programmatically double-clicking an old control cannot apply the event twice.
-  await p.evaluate(()=>document.querySelector('.event-roll').insertAdjacentHTML('beforeend','<button id="stalePick" data-kpick="0">stale</button>'));
+  assert(await p.locator('.advice-res').isVisible());assert.equal(await p.locator('.event-die').count(),0);
+  assert(!/d20|난이도/.test(await dialog.innerText()));
+  assert.equal(await p.evaluate(()=>G.starRel.asked),1);
+  // 오래된 버튼을 다시 눌러도 두 번 적용되지 않는다.
+  await p.evaluate(()=>document.querySelector('.advice-res').insertAdjacentHTML('beforeend','<button id="stalePick" data-kpick="0">stale</button>'));
   await p.evaluate(()=>document.querySelector('#stalePick').click());assert.equal(await p.evaluate(()=>judgeCalls),1);
   await p.evaluate(()=>document.querySelector('#stalePick').remove());
-  await p.locator('[data-life-roll-continue]').waitFor({state:'visible'});
-  await p.waitForFunction(()=>!document.querySelector('[data-life-roll-continue]').disabled);
-  assert.equal(await p.locator('.event-die').innerText(),String(j.dice));
-  assert.match(await p.locator('.event-roll-result').innerText(),new RegExp('= '+j.total+' / 난이도 '+j.dc));
-  assert.deepEqual(await geometry(),normal);
-  await p.screenshot({path:path.join(process.env.OUT||os.tmpdir(),'khl-event-dice.png'),fullPage:true});
+  await p.screenshot({path:path.join(process.env.OUT||os.tmpdir(),'khl-event-advice.png'),fullPage:true});
   await p.click('[data-life-roll-continue]');assert.equal(await dialog.count(),0);
-  // A real raid crisis uses the same popup, gate modifiers and actual d20.
+  // 거부한다: 헌터 자신은 2번을 원하고(판단 엔진), 난수가 크면 성좌 말을 듣지 않는다.
+  await p.evaluate(()=>{G.eventLog={};triggerEvent('EV_POPUP_TEST','11:00');EVT.arrived();render();window._d=MIND.decide;MIND.decide=(o,c)=>({i:1,reason:'',scores:[{i:0,s:0,nz:0},{i:1,s:1,nz:0}]});STARADV.roll=()=>0.999});
+  const m2=await p.evaluate(()=>G.money);
+  await p.click('#lifeEventModal [data-kpick="0"]');
+  await p.evaluate(()=>{STARADV.roll=()=>Math.random();MIND.decide=window._d});
+  assert.equal(await p.evaluate(()=>G.money),m2,'거부 → 헌터 자신의 선택(돈 변화 없음)');
+  assert.match(await p.locator('.advice-react').innerText(),/고개를 젓는다/);
+  await p.click('[data-life-roll-continue]');
+  // 공략 위기도 같은 방식.
   await p.evaluate(()=>{
    prefs().play.kinds.SK_CRISIS=true;G.cond.hp=100;G.cond.energy=100;
    const g=vals('gates').find(x=>gateSt(x.id).status==='open'&&!gateFit(G.player,x))||spawnGate(Math.random,G.player.region);
@@ -62,24 +75,22 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
   });
   assert(await dialog.isVisible());
   await p.click('[data-kcrisis="0"]');
-  await p.waitForFunction(()=>document.querySelector('[data-life-roll-continue]')&&!document.querySelector('[data-life-roll-continue]').disabled);
   assert.equal(await p.evaluate(()=>judgeCalls),1);
-  assert.equal(await p.locator('.event-die').innerText(),String(await p.evaluate(()=>popupJudgement.dice)));
+  assert(await p.locator('.advice-res').isVisible());
   await p.click('[data-life-roll-continue]');
-  // Contract negotiations expose their own real d20 without changing their rules.
-  await p.evaluate(()=>{UI.raid=null;gameFromScenario('SC_BDEMO');enterGame();prefs().play.stop='each';G.offers=[{gid:vals('guilds')[0].id,share:10,exp:nowAbs()+1440}];render()});
-  await p.click('[data-life-offer="0|neg"]');
-  await p.waitForFunction(()=>!document.querySelector('[data-life-roll-continue]').disabled);
-  assert.match(await p.locator('.event-roll-result').innerText(),/협상력.*난이도 18/);
-  await p.click('[data-life-roll-continue]');
-  if(await p.locator('[data-life-offer="0|no"]').count())await p.click('[data-life-offer="0|no"]');
-  // Modal remains inside the viewport and supports reduced motion.
+  // 길드 제안
+  await p.evaluate(()=>{UI.raid=null;gameFromScenario('SC_BDEMO');enterGame();G.star={slot:0};G.starKnown=true;prefs().play.stop='each';G.offers=[{gid:vals('guilds')[0].id,share:10,exp:nowAbs()+1440}];render()});
+  assert.equal(await p.locator('[data-life-offer]').count(),4);
+  await p.evaluate(()=>{STARADV.roll=()=>0});
+  await p.click('[data-life-offer="0"]');
+  await p.evaluate(()=>{STARADV.roll=()=>Math.random()});
+  assert.match(await p.evaluate(()=>G.story.slice(-4).map(x=>x.s).join(' ')),/제안을 받아들인다/);
+  await p.click('[data-life-roll-continue]').catch(()=>{});
+  // 좁은 화면
   await p.setViewportSize({width:320,height:700});await p.emulateMedia({reducedMotion:'reduce'});
-  await p.evaluate(()=>{UI.raid=null;G.retroOpen=null;G.retroQ=[];G.eventLog={};triggerEvent('EV_POPUP_TEST','11:00');render()});
+  await p.evaluate(()=>{UI.raid=null;G.retroOpen=null;G.retroQ=[];G.eventLog={};triggerEvent('EV_POPUP_TEST','11:30');EVT.arrived();render()});
   const bounds=await dialog.boundingBox();assert(bounds.x>=0&&bounds.x+bounds.width<=321);
-  await p.click('[data-kpick="0"]');await p.waitForFunction(()=>!document.querySelector('[data-life-roll-continue]').disabled);
-  assert.equal(await p.locator('.event-die').evaluate(el=>getComputedStyle(el).animationName),'none');
-  await p.click('[data-life-roll-continue]');
-  assert.deepEqual(errs,[]);console.log('ledger date / stable red gate status / modal / saved choice / actual dice once / crisis / narrow viewport passed; errs []');
+  await p.click('[data-kauto]');await p.click('[data-life-roll-continue]').catch(()=>{});
+  assert.deepEqual(errs,[]);console.log('ledger date / gate status / unknown star quiet / ask modal / follow · refuse / crisis / offer / narrow viewport passed; errs []');
  } finally {await b.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

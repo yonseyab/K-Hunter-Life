@@ -57,7 +57,7 @@ const LIFE = (() => {
     M.push(m); STORY.add('mile', `— ${T.name} — ${text}`, 1, { ms: id }); TELLER.note(3, true);
     pushHistory(T.name, text.slice(0, 60));
     const mode = G.prefs?.play?.stop || 'big', on = EVT.stopKindOn('SK_MILESTONE');
-    if (!choicePrefs().delegate && on && (T.big || mode === 'each')) { (G.retroQ = G.retroQ || []).push(M.length - 1); if (!G.retroOpen) G.retroOpen = { i: M.length - 1, id }; }
+    if (on && (T.big || mode === 'each')) { (G.retroQ = G.retroQ || []).push(M.length - 1); if (!G.retroOpen) G.retroOpen = { i: M.length - 1, id }; }
   }
   function note(i, line) {
     const m = (G.milestones || [])[i]; if (m) { m.note = String(line || '').slice(0, 120) || null; if (m.note) STORY.add('mile', `${MIND.callName()}의 한 줄 — "${m.note}"`, 1); }

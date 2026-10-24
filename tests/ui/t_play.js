@@ -34,12 +34,13 @@ ok(vis[0]===false&&vis[1]===true,'상세도 3단계');
 /* 조사 */
 ok(await p.evaluate(()=>STORY.josa('가윤이(가) 집(으)로 간다. 지석은(는) 서울(으)로')==='가윤이 집으로 간다. 지석은 서울로'),'조사 맞춤');
 /* 이벤트: 멈춤 설정 '사건마다' → 멈추고 카드가 뜬다 → 직접 고르면 이야기 창에 결과 */
-const ev=await p.evaluate(()=>{EVT.pending().forEach(x=>EVT.auto(x));prefs().play.stop='each';G.eventLog={};triggerEvent('EV_B0004','10:00');const s=EVT.arrived();return {s:!!s,pend:EVT.pending().length,top:EVT.pending()[0]?.ev.id}});
+const ev=await p.evaluate(()=>{G.star={slot:0};G.starKnown=true;STARADV.roll=()=>0;EVT.pending().forEach(x=>EVT.auto(x));prefs().play.stop='each';G.eventLog={};triggerEvent('EV_B0004','10:00');const s=EVT.arrived();return {s:!!s,pend:EVT.pending().length,top:EVT.pending()[0]?.ev.id}});
 ok(ev.s&&ev.pend===1&&ev.top==='EV_B0004','사건마다 멈춤 '+JSON.stringify(ev));
 await p.evaluate(()=>render());ok(await p.locator('#lifeEventModal [data-kpick]').count()>=2,'선택지 팝업');
 await p.click('#lifeEventModal [data-kpick="2"]');
 const after=await p.evaluate(()=>({pend:EVT.pending().length,last:G.story.filter(x=>x.k==='choice').slice(-1)[0]?.s||''}));
-ok(after.pend===0&&/지금 있는 걸로 버틴다/.test(after.last),'직접 고른 결과가 이야기 창에 '+after.last);
+ok(after.pend===0&&/성좌/.test(after.last),'성좌의 조언 뒤 헌터의 반응이 이야기 창에 '+after.last);
+await p.click('[data-life-roll-continue]').catch(()=>{});
 /* 자동 결정: '안 멈춤' → 판단 엔진이 고르고 이유 문장 */
 const au=await p.evaluate(()=>{EVT.pending().forEach(x=>EVT.auto(x));prefs().play.stop='none';G.eventLog={};triggerEvent('EV_B0004','11:00');const s=EVT.arrived();return {s,pend:EVT.pending().length,how:G.story.filter(x=>x.k==='choice').slice(-1)[0]}});
 ok(!au.s&&au.pend===0&&au.how.how==='auto','자동 결정 '+JSON.stringify(au));

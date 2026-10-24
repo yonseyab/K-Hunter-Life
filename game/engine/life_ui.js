@@ -85,8 +85,8 @@ const LIFEUI = (() => {
   function sideHTML() {
     return statusWindowHTML(G.player, true, { fold: true });
   }
-  const HOME_WIDGETS = ['WG_MONEY','WG_COND','WG_PEOPLE','WG_GOALS','WG_NEWS'];
-  function widgetIds() { const P = PP(); if (!Array.isArray(P.homeWidgets)) P.homeWidgets = ['WG_MONEY','WG_PEOPLE','WG_GOALS']; return P.homeWidgets = [...new Set(P.homeWidgets)].filter(id => HOME_WIDGETS.includes(id)); }
+  const HOME_WIDGETS = ['WG_MONEY','WG_COND','WG_PEOPLE','WG_NEWS'];
+  function widgetIds() { const P = PP(); if (!Array.isArray(P.homeWidgets)) P.homeWidgets = ['WG_MONEY','WG_PEOPLE']; return P.homeWidgets = [...new Set(P.homeWidgets)].filter(id => HOME_WIDGETS.includes(id)); }
   function favoriteIds() { return PP().homePeople = [...new Set(Array.isArray(PP().homePeople) ? PP().homePeople : [])].filter(id=>id!==G.player.id&&P(id)).slice(0,10); }
   const widgetName = id => id === 'WG_PEOPLE' ? '즐겨찾기한 인물' : WIDGETS[id].name;
   function widgetEditorHTML() {
@@ -105,7 +105,7 @@ const LIFEUI = (() => {
   /* ---------- 답할 사건 · 고비 회고 ---------- */
   function pendHTML() {
     const R = UI.raid, C = R && !R.done && R.crisis && DB.crises[R.crisis.id];
-    if (C) return `<div class="kcard pend" role="dialog" aria-label="공략의 중요한 선택"><div class="kh">공략 위기 — ${esc(C.title)}</div><div class="kb">${esc(crisisText(C.text))}</div><div class="kch">${C.choices.map((ch,i) => (!ch.req || ch.req.every(q=>checkReq(q))) ? `<button class="choice" data-kcrisis="${i}" ${ch.needParty && R.party.filter(p=>p.hp>0).length<2 ? 'disabled' : ''}><div>${esc(crisisText(ch.t))}</div><div class="ck">${esc(ch.risk || '')} · ${checkText(ch)}</div></button>` : '').join('')}</div><button class="btn" data-kcrisisauto="1">${esc(MIND.callName())}에게 맡기기</button></div>`;
+    if (C) return `<div class="kcard pend ask" role="dialog" aria-label="헌터의 고민"><div class="kh">공략 위기 — ${esc(C.title)}</div><div class="kb">${esc(crisisText(C.text))}</div><div class="ask-line">${esc(STARADV.line('ask'))}</div><div class="kch">${C.choices.map((ch,i) => (!ch.req || ch.req.every(q=>checkReq(q))) ? `<button class="choice" data-kcrisis="${i}" ${ch.needParty && R.party.filter(p=>p.hp>0).length<2 ? 'disabled' : ''}><div>${esc(crisisText(ch.t))}</div>${ch.risk?`<div class="ck">${esc(ch.risk)}</div>`:''}</button>` : '').join('')}</div><button class="btn" data-kcrisisauto="1">말 걸지 않기</button></div>`;
     if (raidActive()) return '';
     if (G.retroOpen) {
       const m = (G.milestones || [])[G.retroOpen.i]; if (m) {
@@ -118,18 +118,20 @@ const LIFEUI = (() => {
     const L = EVT.pending().filter(x=>EVT.stopWanted(x.ev)); if (!L.length) {
       const offers = (G.offers || []).filter(o=>o.exp>nowAbs()), o = offers[0];
       if (!o) return '';
-      return `<div class="kcard pend" role="dialog" aria-label="길드 계약 선택"><div class="kh">${esc(guildName(o.gid))} — 계약 제안</div><div class="kb">배분율 ${o.share}% · 남은 답변 시간 ${durTxt(o.exp-nowAbs())}</div><div class="row"><button class="btn pri" data-life-offer="0|ok">수락</button><button class="btn" data-life-offer="0|no">거절</button>${!o.neg?'<button class="btn" data-life-offer="0|neg">조건 협상</button>':''}</div></div>`;
+      return `<div class="kcard pend ask" role="dialog" aria-label="헌터의 고민"><div class="kh">${esc(guildName(o.gid))} — 계약 제안</div><div class="kb">배분율 ${o.share}% · 남은 답변 시간 ${durTxt(o.exp-nowAbs())}</div><div class="ask-line">${esc(STARADV.line('ask'))}</div><div class="kch">${offerOpts(o).map((c,i)=>`<button class="choice" data-life-offer="${i}"><div>${esc(c.t)}</div></button>`).join('')}</div><button class="btn" data-life-offer="auto">말 걸지 않기</button></div>`;
     }
     const x = L[0], ev = x.ev, T = EVT.texts(x), subj = T.subj, body = T.body;
     const from = ev.ch === 'alert' ? (DB.senders[ev.from]?.name || nameOf(ev.from) || '') : nameOf(x.tgt);
-    return `<div class="kcard pend" role="dialog" aria-label="답할 사건"><div class="kh">${ev.ch === 'alert' ? '알림' : '메시지'} · ${esc(from)} — ${esc(subj)} ${L.length > 1 ? `<span class="dim">외 ${L.length - 1}건</span>` : ''}</div><div class="kb">${esc(body)}</div>
-      <div class="kch">${ev.choices.map((c, i) => EVT.okChoice(c, x.tgt) ? `<button class="choice" data-kpick="${i}"><div>${esc(c.t)}</div><div class="ck">${checkText(c)}</div></button>` : '').join('')}</div>
-      <div class="row" style="gap:6px;margin-top:6px"><button class="btn" data-kauto="1" title="성격 · 감정 · 상태로 판단 엔진이 고릅니다">${esc(MIND.callName())}에게 맡기기</button><span class="dim" style="font-size:11px">${DB.stopKinds[EVT.kindOf(ev)]?.name || ''} 사건 · 멈춤은 설정에서</span></div></div>`;
+    return `<div class="kcard pend ask" role="dialog" aria-label="헌터의 고민"><div class="kh">${ev.ch === 'alert' ? '알림' : '메시지'} · ${esc(from)} — ${esc(subj)} ${L.length > 1 ? `<span class="dim">외 ${L.length - 1}건</span>` : ''}</div><div class="kb">${esc(body)}</div><div class="ask-line">${esc(STARADV.line('ask'))}</div>
+      <div class="kch">${ev.choices.map((c, i) => EVT.okChoice(c, x.tgt) ? `<button class="choice" data-kpick="${i}"><div>${esc(c.t)}</div></button>` : '').join('')}</div>
+      <div class="row" style="gap:6px;margin-top:6px"><button class="btn" data-kauto="1" title="성좌는 말하지 않고 헌터가 스스로 정한다">말 걸지 않기</button><span class="dim" style="font-size:11px">따를지는 ${esc(MIND.callName())}이(가) 정한다</span></div></div>`;
   }
-  /* 선택은 문서 흐름 바깥의 모달에 표시한다. 판정은 엔진에서 한 번만 실행하고 실제 d20 결과를 보여 준다. */
-  let popupGame=null, popupBusy=false, popupMarkup='', diceTimer=null, diceFinish=null, diceReveal=null, delegating=false;
-  function resetPopup() { clearTimeout(diceTimer);clearInterval(diceTimer);clearTimeout(diceFinish);diceTimer=diceFinish=diceReveal=null;popupBusy=false;popupMarkup='';const el=document.getElementById('lifeEventModal');el?.close();el?.remove(); }
-  function choiceSettingsHTML() {const P=choicePrefs();return `<div class="choice-settings"><label><input type="checkbox" data-choice-setting="skipDice" ${P.skipDice?'checked':''}> 주사위 애니메이션 항상 스킵 · 바로 결과 보기</label><label><input type="checkbox" data-choice-setting="delegate" ${P.delegate?'checked':''}> 항상 ${esc(MIND.callName())}에게 맡기기</label></div>`;}
+  /* 헌터의 고민은 문서 흐름 바깥의 모달에 표시한다 (헌터가 성좌를 알 때만). 판정 숫자 · 주사위는 보이지 않는다. */
+  let popupGame=null, popupBusy=false, popupMarkup='', delegating=false;
+  function resetPopup() { popupBusy=false;popupMarkup='';const el=document.getElementById('lifeEventModal');el?.close();el?.remove(); }
+  /* 길드 제안의 선택지 (성좌의 조언 · 헌터 판단 공통) */
+  function offerOpts(o) { return [{t:'계약 수락',k:'ok',tags:['TAG_TEAM','TAG_MONEY']},{t:'계약 거절',k:'no',tags:['TAG_SAFE']}].concat(o.neg?[]:[{t:'조건 협상',k:'neg',tags:['TAG_MONEY','TAG_RISK']}]); }
+  function offerRun(o, i, reaction) { const c = offerOpts(o)[i], gn = guildName(o.gid); const r = replyGuildOffer(0, c.k); STORY.add('choice', `${reaction ? reaction + ' ' : ''}${c.k === 'ok' ? `${gn}의 제안을 받아들인다.` : c.k === 'no' ? `${gn}의 제안을 거절한다.` : `${gn}에 조건을 다시 묻는다.`}`, 1); return r; }
   function popupElement() {
     let el=document.getElementById('lifeEventModal');if(el)return el;
     el=document.createElement('dialog');el.id='lifeEventModal';el.setAttribute('aria-label','중요한 선택');
@@ -140,16 +142,16 @@ const LIFEUI = (() => {
     if(popupGame!==G){resetPopup();popupGame=G;}
     if(UI.mode!=='app'){resetPopup();return;}
     if(popupBusy||delegating)return;
-    if(G&&!G.dead&&choicePrefs().delegate){
+    /* 성좌를 모르면 묻지 않는다 — 헌터가 혼자 정하고 이야기는 이어진다 (선택 · 판정 문장 없음) */
+    if(G&&!G.dead&&!STARADV.canAsk()){
       let changed=false;delegating=true;
       try {
         if(UI.raid&&!UI.raid.done&&UI.raid.crisis){PLAY.chooseCrisis();changed=true;}
         if(!raidActive()){
           for(const x of EVT.pending().slice(0,20)){EVT.auto(x);changed=true;}
           G.pendingPick=EVT.pending().length>0;
-          while(G.retroOpen){LIFE.note(G.retroOpen.i,'');changed=true;}
           const offer=(G.offers||[]).filter(o=>o.exp>nowAbs())[0];
-          if(offer){const options=[{t:'계약 수락',tags:['TAG_TEAM','TAG_MONEY']},{t:'계약 거절',tags:['TAG_SAFE']}],pick=MIND.decide(options,{kind:'event'});replyGuildOffer(0,pick.i===0?'ok':'no');STORY.add('choice',`${MIND.callName()}은(는) '${options[pick.i===0?0:1].t}' 쪽을 고른다.`,1);changed=true;}
+          if(offer){const opts=offerOpts(offer).filter(c=>c.k!=='neg'),d=MIND.decide(opts,{kind:'event'});offerRun(offer,d.i<0?1:d.i,'');changed=true;}
         }
       } finally {delegating=false;}
       if(changed){render();return;}
@@ -161,45 +163,21 @@ const LIFEUI = (() => {
     if(!el.open){el.showModal();el.querySelector('button:not(:disabled)')?.focus();}
     if(PLAY.S.running)PLAY.pause();
   }
+  /* 성좌의 조언 결과: 헌터의 반응(따름 · 거부) → 일어난 일. 주사위 · 판정 숫자는 보이지 않는다 (2026-10-24) */
   function performChoice(action) {
     if(popupBusy)return;popupBusy=true;
     if(PLAY.S.running)PLAY.pause();
-    let result;
-    try {result=action();} catch(e){popupBusy=false;syncPopup();throw e;}
-    const j=result?.judgement;
-    if(!j||j.dice==null){popupBusy=false;render();return;}
+    let out;
+    try {out=action();} catch(e){popupBusy=false;syncPopup();throw e;}
+    const result=out?.result, text=STORY.josa(result?.text||'');
+    if(!out||!out.reaction&&!text){popupBusy=false;render();return;}
     const el=popupElement();
-    /* 주사위: 정이십면체를 정면에서 본 모양(육각형 + 면 선). 굴리는 동안 숫자가 점점 느리게 바뀌다가 실제 결과에 멈춘다.
-       숫자 변화는 정해진 순서라 게임 난수를 쓰지 않는다. 아래 판정식(능력치 + d20 + 보정 → 합계 vs 난이도)은 결과가 나온 뒤 차오른다. */
-    const D20SVG='<svg class="d20-shape" viewBox="0 0 100 100" aria-hidden="true"><polygon class="d20-out" points="50,3 91,26.5 91,73.5 50,97 9,73.5 9,26.5"/><polygon class="d20-face" points="50,22 76,66 24,66"/><g class="d20-edge"><line x1="50" y1="3" x2="50" y2="22"/><line x1="91" y1="26.5" x2="76" y2="66"/><line x1="9" y1="26.5" x2="24" y2="66"/><line x1="50" y1="22" x2="91" y2="26.5"/><line x1="50" y1="22" x2="9" y2="26.5"/><line x1="76" y1="66" x2="91" y2="73.5"/><line x1="24" y1="66" x2="9" y2="73.5"/><line x1="76" y1="66" x2="50" y2="97"/><line x1="24" y1="66" x2="50" y2="97"/></g></svg>';
-    const sg=n=>(n<0?'−':'+')+Math.abs(n);
-    el.innerHTML=`<div class="event-roll"><header>판정 · d20</header><div class="event-roll-choice">${esc(result.choice||'')}</div>
-      <div class="d20-stage" aria-hidden="true"><div class="d20-shadow"></div><div class="event-die rolling">${D20SVG}<span class="d20-num">20</span></div></div>
-      <div class="d20-calc" aria-hidden="true"><span class="d20-term"><i>${esc(j.attr)}</i><b>${j.value}</b></span><span class="d20-op">+</span><span class="d20-term d20-term-die"><i>d20</i><b class="d20-calc-die">?</b></span>${j.mods?`<span class="d20-op">${j.mods>0?'+':'−'}</span><span class="d20-term"><i>보정</i><b>${Math.abs(j.mods)}</b></span>`:''}<span class="d20-op">=</span><span class="d20-term d20-term-total"><i>합계</i><b class="d20-calc-total">?</b></span></div>
-      <div class="d20-meter" aria-hidden="true"><div class="d20-fill"></div><div class="d20-dc"><span>난이도 ${j.dc}</span></div></div>
-      <div class="event-roll-result" role="status" aria-live="polite">주사위를 굴리는 중…</div><div class="event-roll-text"></div><div class="event-roll-actions"><button class="btn" data-life-roll-skip>애니메이션 스킵</button><button class="btn pri" data-life-roll-continue disabled>계속</button></div>${choiceSettingsHTML()}</div>`;
-    if(!el.open)el.showModal();el.querySelector('.event-roll-result').setAttribute('aria-busy','true');
-    const scaleMax=Math.max(j.dc,j.total,1)*1.18,pct=v=>Math.max(0,Math.min(100,v/scaleMax*100));
-    el.querySelector('.d20-dc').style.left=pct(j.dc)+'%';
-    // 장식 숫자는 정해진 순서(난수 없음)로, 간격을 점점 늘려 '굴러가다 멈추는' 느낌을 낸다.
-    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,TICKS=reduce?0:16;let k=0;
-    const tick=()=>{const num=el.querySelector('.d20-num');if(!num||!diceReveal)return;k++;num.textContent=String((k*7+j.value)%20+1);if(k>=TICKS){diceReveal?.();return;}diceTimer=setTimeout(tick,38+k*k*2.2);};
-    diceReveal=()=>{
-      if(!diceReveal)return;diceReveal=null;
-      clearTimeout(diceTimer);clearTimeout(diceFinish);diceTimer=diceFinish=null;
-      if(popupGame!==G||!el.isConnected){resetPopup();return;}
-      const die=el.querySelector('.event-die');die.classList.remove('rolling');die.querySelector('.d20-num').textContent=j.dice;
-      die.classList.add('landed',j.ok?'success':'failure');if(j.dice===20)die.classList.add('nat20');if(j.dice===1)die.classList.add('nat1');
-      el.querySelector('.d20-shadow')?.classList.add('landed');
-      el.querySelector('.d20-calc-die').textContent=j.dice;el.querySelector('.d20-calc-total').textContent=j.total;el.querySelector('.d20-calc').classList.add('shown',j.ok?'ok':'ng');
-      const fill=el.querySelector('.d20-fill');fill.classList.add(j.ok?'ok':'ng');requestAnimationFrame(()=>{fill.style.width=pct(j.total)+'%';});
-      const line=el.querySelector('.event-roll-result');line.removeAttribute('aria-busy');line.innerHTML=`<b class="d20-verdict ${j.ok?'good':'bad'}">${j.ok?'성공':'실패'}</b><div>${esc(j.attr)} ${j.value} + d20 ${j.dice}${j.mods?' '+(j.mods>0?'+':'−')+' '+Math.abs(j.mods)+' 보정':''} = ${j.total} / 난이도 ${j.dc}${j.dice===20?' · 최고 눈':j.dice===1?' · 최저 눈':''}</div>`;
-      el.querySelector('.event-roll-text').textContent=STORY.josa(result.text||'');
-      const button=el.querySelector('[data-life-roll-continue]');button.disabled=false;button.focus();
-      el.querySelector('[data-life-roll-skip]').hidden=true;
-    };
-    if(choicePrefs().skipDice||reduce)diceReveal();else diceTimer=setTimeout(tick,60);
+    el.innerHTML=`<div class="advice-res ${out.followed||out.agree?'follow':out.reaction&&out.result?'refuse':''}"><header>${out.agree?'같은 생각':out.followed?'성좌의 말대로':out.reaction?'헌터의 선택':''}</header>
+      <p class="advice-react">${esc(out.reaction||'')}</p>${text?`<p class="advice-text">${esc(text)}</p>`:''}
+      <div class="event-roll-actions"><button class="btn pri" data-life-roll-continue>계속</button></div></div>`;
+    if(!el.open)el.showModal();el.querySelector('[data-life-roll-continue]').focus();
   }
+
   function barHTML() {
     return `<button class="btn" data-kset="판단 · 방침">방침 바꾸기</button><button class="btn" data-home-tab="trade|shop">성좌 상점</button>`;
   }
@@ -214,7 +192,7 @@ const LIFEUI = (() => {
   function categoryTabsHTML(group) { const cfg = HOME_TABS[group], current = selectedTab(group); return `<div class="home-category-tabs" role="tablist" aria-label="${cfg.label}">${cfg.tabs.map(([id,label])=>`<button type="button" id="home-tab-${group}-${id}" role="tab" data-home-tab="${group}|${id}" aria-selected="${id===current}" aria-controls="home-panel-${group}" tabindex="${id===current?0:-1}">${label}</button>`).join('')}</div>`; }
   function panelOpen(group) { return `<div id="home-panel-${group}" class="home-category-panel" role="tabpanel" aria-labelledby="home-tab-${group}-${selectedTab(group)}">`; }
   function emptyCategory(group) { return categoryTabsHTML(group) + panelOpen(group) + '</div>'; }
-  V.homeHunter = () => categoryTabsHTML('hunter') + panelOpen('hunter') + (selectedTab('hunter') === 'status' ? HUNTER_STATUS.html() : '') + '</div>';
+  V.homeHunter = () => categoryTabsHTML('hunter') + panelOpen('hunter') + (selectedTab('hunter') === 'status' ? HUNTER_STATUS.html() : selectedTab('hunter') === 'relations' && typeof HUNTER_REL !== 'undefined' ? HUNTER_REL.html() : '') + '</div>';
   V.homeDb = () => emptyCategory('db');
   V.homeTrade = () => categoryTabsHTML('trade') + panelOpen('trade') + (typeof STAR_UI !== 'undefined' ? STAR_UI.html(selectedTab('trade')) : '') + '</div>';
   /* ---------- 인생 화면 ---------- */
@@ -290,7 +268,7 @@ const LIFEUI = (() => {
       <div class="field"><label>멈출 종류</label><div class="chips">${vals('stopKinds').map(k => `<label class="chk"><input type="checkbox" data-kkind="${k.id}" ${(P.kinds?.[k.id] ?? k.dflt) ? 'checked' : ''}> ${k.name}${k.big ? ' <span class="dim">(큰 갈림길)</span>' : ''}</label>`).join('')}</div></div>
       <div class="field"><label>자동 결정</label>${sel('play.autoDecide', P.autoDecide !== false, [['true', '켬 — 멈추지 않는 사건은 캐릭터가 고른다'], ['false', '끔 — 모든 선택지에서 멈춘다']])}</div>
       <div class="field"><label>배속 기본값</label>${sel('play.speed', P.speed || 1, DB.balance.BAL_PLAY.speeds.map(x => [x, '×' + x]))}</div>
-      <div class="field"><label>선택 · 주사위 설정 · ${esc(MIND.callName())}</label>${choiceSettingsHTML()}</div><p class="muted">×1 = 하루 ${DB.balance.BAL_PLAY.secPerDay}초. 게임을 끈 동안에는 시간이 흐르지 않습니다.</p></div>`;
+      <p class="muted">×1 = 하루 ${DB.balance.BAL_PLAY.secPerDay}초. 게임을 끈 동안에는 시간이 흐르지 않습니다.</p></div>`;
     else if (tab === '판단 · 방침') body = `<div class="pb grid" style="gap:12px">
       <div class="field"><label>예측 가능성</label>${sel('play.predict', P.predict, [['steady', '거의 성격대로'], ['some', '가끔 의외'], ['often', '자주 의외']])}</div>
       <div class="field"><label>방침 대 성격 <span class="dim">${Math.round((P.policyVsChar ?? 0.4) * 100)}% 방침</span></label><input type="range" min="0" max="1" step="0.1" value="${P.policyVsChar ?? 0.4}" data-kpref="play.policyVsChar" aria-label="방침 대 성격"><div class="dim" style="font-size:11px">0 = 캐릭터 성격대로 · 1 = 정해 둔 방침대로</div></div>
@@ -336,9 +314,8 @@ const LIFEUI = (() => {
 
   /* ---------- 클릭 · 변경 ---------- */
   async function onClick(e) {
-    if(e.target.closest('[data-life-roll-skip]')){diceReveal?.();return;}
     if(e.target.closest('[data-life-roll-continue]')) {if(e.target.closest('button').disabled)return;resetPopup();syncPopup();return;}
-    const offer=e.target.closest('[data-life-offer]');if(offer){const [i,k]=offer.dataset.lifeOffer.split('|');performChoice(()=>replyGuildOffer(+i,k));return;}
+    const offer=e.target.closest('[data-life-offer]');if(offer){const o=(G.offers||[]).filter(x=>x.exp>nowAbs())[0];if(!o)return;const v=offer.dataset.lifeOffer,opts=offerOpts(o);performChoice(()=>STARADV.advise(opts,v==='auto'?null:+v,{kind:'event'},(i,how,r)=>offerRun(o,i,r)));return;}
     const addPerson=e.target.closest('[data-life-person-add]'), removePerson=e.target.closest('[data-life-person-remove]');
     if(addPerson||removePerson) {
       const ids=favoriteIds();
@@ -352,7 +329,8 @@ const LIFEUI = (() => {
     if (edit) { UI.lifeWidgetEdit = !UI.lifeWidgetEdit; const editor = document.getElementById('lifeWidgetEditor'); if (editor) editor.hidden = !UI.lifeWidgetEdit; edit.setAttribute('aria-expanded', !!UI.lifeWidgetEdit); return; }
     if (move && !move.disabled) { const [id,delta] = move.dataset.lifeWidgetMove.split('|'), ids = widgetIds(), i = ids.indexOf(id), j = i + +delta; if (i >= 0 && j >= 0 && j < ids.length) { [ids[i],ids[j]] = [ids[j],ids[i]]; PP().homeWidgets = ids; document.getElementById('lifeWidgets').innerHTML = widgetsHTML(); alignPanels(); } return; }
     const cr = e.target.closest('[data-kcrisis],[data-kcrisisauto]');
-    if (cr && !cr.disabled) { performChoice(()=>PLAY.chooseCrisis(cr.dataset.kcrisisauto ? null : +cr.dataset.kcrisis)); return; }
+    if (cr && !cr.disabled) { const R=UI.raid,C=R?.crisis&&DB.crises[R.crisis.id];if(!C)return;const opts=C.choices.map(ch=>(!ch.req||ch.req.every(q=>checkReq(q)))&&!(ch.needParty&&R.party.filter(p=>p.hp>0).length<2)?ch:Object.assign({},ch,{_off:true}));
+      performChoice(()=>STARADV.advise(opts,cr.dataset.kcrisisauto?null:+cr.dataset.kcrisis,{kind:'crisis',own:AUTORAID.choose(R,C)},(i,how,r)=>PLAY.chooseCrisis(i,r))); return; }
     const t = e.target.closest('[data-kplay],[data-kspeed],[data-kdetail],[data-kpick],[data-kauto],[data-kretro],[data-kset],[data-kgo],[data-kgo2],[data-kfare],[data-kcont],[data-karbio],[data-karexp],[data-kardel],[data-karnow],[data-karadd],[data-karrm],[data-ktitle],[data-kswitch]');
     if (!t || t.disabled) return; const d = t.dataset;
     if (d.kplay) { if (d.kplay === 'toggle') toggle(); else if (d.kplay === 'next') PLAY.start('next'); else if (d.kplay === 'resume') { ROUTINE.state().mode = 'auto'; ROUTINE.state().planned = -1; PLAY.st().decided = -1; if (UI.screen !== 'life') { UI.screen = 'life'; render(); } PLAY.start('run'); } return; }
@@ -360,7 +338,8 @@ const LIFEUI = (() => {
     if (d.kdetail) { PP().detail = d.kdetail; render(); return; }
     if (d.kpick != null || d.kauto) {
       const x = EVT.pending().find(y=>EVT.stopWanted(y.ev)); if (!x) return;
-      performChoice(()=>{const result=d.kauto?EVT.auto(x):EVT.resolve(x,+d.kpick,'me');G.pendingPick=EVT.pending().some(y=>EVT.stopWanted(y.ev));PLAY.S.stop=null;return result;});return;
+      const opts=x.ev.choices.map(c=>EVT.okChoice(c,x.tgt)?c:Object.assign({},c,{_off:true}));
+      performChoice(()=>{const out=STARADV.advise(opts,d.kauto?null:+d.kpick,{tgt:x.tgt,kind:'event'},(i,how,r)=>EVT.resolve(x,i,how,r));G.pendingPick=EVT.pending().some(y=>EVT.stopWanted(y.ev));PLAY.S.stop=null;return out;});return;
     }
     if (d.kretro) { LIFE.note(G.retroOpen?.i, ''); render(); return; }
     if (d.kset) { UI.settingsTab = d.kset; UI.screen = 'settings'; render(); return; }
@@ -383,7 +362,6 @@ const LIFEUI = (() => {
   }
   function onChange(e) {
     const t = e.target; if (!t || !t.dataset) return;
-    if(t.dataset.choiceSetting&&['skipDice','delegate'].includes(t.dataset.choiceSetting)){choicePrefs()[t.dataset.choiceSetting]=t.checked;autoSave();if(t.dataset.choiceSetting==='skipDice'&&t.checked)diceReveal?.();if(!popupBusy)syncPopup();return;}
     if (t.dataset.lifeWidgetToggle) { const id = t.dataset.lifeWidgetToggle; if (!HOME_WIDGETS.includes(id)) return; const ids = widgetIds(); PP().homeWidgets = t.checked ? [...new Set([...ids,id])] : ids.filter(x => x !== id); document.getElementById('lifeWidgets').innerHTML = widgetsHTML(); alignPanels(); return; }
     if (t.dataset.karimp) { const f = t.files && t.files[0]; if (!f) return; f.text().then(txt => { const r = LEGACY.importJSON(txt); toast(r.error ? r.error : `${esc(r.entry.name)}을(를) 기록관에 넣었습니다.`); render(); }); return; }
     if (t.dataset.kkind) { const P = PP(); P.kinds = P.kinds || {}; P.kinds[t.dataset.kkind] = t.checked; return; }

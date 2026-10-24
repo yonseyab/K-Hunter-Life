@@ -83,5 +83,26 @@ def('achievements', []);
    slots: 성좌 칸 수 · peekCost: 잠재력 엿보기 코인 [대략, 전부] (화면은 성좌 탭 만들 때)
    startCoin: 새 성좌 코인(늘 0) · revealPerDay: 헌터가 성좌의 존재를 알아챌 하루 확률 (처음엔 모름 — 일상 중 무작위 메시지로) */
 def('balance', [
-  {id:'BAL_STAR', proto:true, npcRate:0.03, uniqueRate:0.95, giftsKeep:200, anonSeller:0.3, slots:3, peekCost:[300,1500], startCoin:0, revealPerDay:0.012},
+  {id:'BAL_STAR', proto:true, npcRate:0.03, uniqueRate:0.95, giftsKeep:200, anonSeller:0.3, slots:3, peekCost:[300,1500], startCoin:0, revealPerDay:0.012,
+    /* 성좌의 조언 (engine/star_advice.js). 따를 확률 = base + 신뢰 · 호감 · 성격 · 상태 − 성향 차이 · 위험 */
+    advice:{base:0.45, trust:0.35, favor:0.15, depend:0.12, self:0.06, stress:0.08, gap:0.25, risk:{'주의':0.05,'위험':0.15,'치명적':0.3}, min:0.05, max:0.95,
+      followOk:4, followNg:-5, refuseOk:-1, refuseNg:1, agreeOk:1, giftFavor:3, favorDecay:0.2}},
+]);
+
+/* 성좌의 조언 (2026-10-24, engine/star_advice.js) — 헌터가 성좌를 알게 된 뒤, 고민되는 순간 성좌에게 묻는다. 따를지는 헌터가 정한다.
+   starTrustStages: {id, min(신뢰 −100~100, 이 값 이상), text(성좌 '내 정보'에 보일 문장), story(단계가 바뀔 때 이야기 창 한 줄, {name})}  — 숫자는 화면에 안 보인다
+   starAdviceLines: {id, on:'ask'|'follow'|'refuse'|'agree'|'silent', text} — {name} 헌터 이름 · {star} 성좌 이름 · {pick} 성좌가 고른 것 · {own} 헌터가 고른 것. 외주로 늘린다 */
+def('starTrustStages', [
+  {id:'TS_DOUBT', min:-100, text:'그 목소리를 믿지 않는다.', story:'{name}은(는) 이제 그 목소리를 믿지 않는다.'},
+  {id:'TS_WARY',  min:-30,  text:'그 목소리가 조금 미덥지 않다.', story:'{name}은(는) 그 목소리가 조금 미덥지 않다.'},
+  {id:'TS_NEW',   min:-10,  text:'아직 그 목소리를 잘 모른다.', story:'{name}은(는) 그 목소리를 다시 가늠해 본다.'},
+  {id:'TS_LEAN',  min:15,   text:'요즘은 그 목소리를 꽤 믿는다.', story:'요즘 {name}은(는) 그 목소리를 꽤 믿는다.'},
+  {id:'TS_TRUST', min:45,   text:'고비마다 그 목소리를 먼저 찾는다.', story:'{name}은(는) 고비마다 그 목소리를 먼저 찾게 되었다.'},
+]);
+def('starAdviceLines', [
+  {id:'SAL_0001', on:'ask',    text:'{name}은(는) 잠시 하늘을 올려다본다. 성좌라면 어떻게 할까.'},
+  {id:'SAL_0002', on:'follow', text:'{name}은(는) 성좌의 말대로 하기로 한다.'},
+  {id:'SAL_0003', on:'refuse', text:'{name}은(는) 성좌의 말을 듣고도 고개를 젓는다. 자기 방식대로 한다.'},
+  {id:'SAL_0004', on:'agree',  text:'성좌의 말이 {name}의 생각과 같다. 망설임 없이 그렇게 한다.'},
+  {id:'SAL_0005', on:'silent', text:'성좌는 아무 말도 하지 않는다. {name}은(는) 스스로 정한다.'},
 ]);
