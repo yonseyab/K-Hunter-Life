@@ -46,11 +46,11 @@ const GEAR = (() => {
     return out;
   }
   /* 공략 전력에 더하는 몫 (무기 + 보조 절반) */
-  const power = () => { const E = DB.balance.BAL_EFFECT, w = at('SLOT_WEAPON'), s = at('SLOT_SUB'); return (bonus(w) + (s && s !== w ? bonus(s) * 0.5 : 0)) * E.weaponPow; };
+  const power = () => { const E = DB.balance.BAL_EFFECT, w = at('SLOT_WEAPON'), s = at('SLOT_SUB'); return (bonus(w) + (s && (!w || s.r !== w.r) ? bonus(s) * 0.5 : 0)) * E.weaponPow;  /* 같은 인벤토리 줄(양손)은 한 번만 */ };
   /* 받는 피해 배율: 한 벌이면 그 등급 그대로, 상의 · 하의 따로면 각각 armorPieceMul 배 */
   function armorMul() {
     const E = DB.balance.BAL_EFFECT, k = DB.balance.BAL_GEAR.armorPieceMul, t = at('SLOT_TOP'), b = at('SLOT_BOTTOM');
-    if (t && t === b) return 1 - bonus(t) * E.armorDef;
+    if (t && b && t.r === b.r) return 1 - bonus(t) * E.armorDef;  /* 한 벌 = 같은 인벤토리 줄 */
     return [t, b].reduce((m, x) => x ? m * (1 - bonus(x) * E.armorDef * k) : m, 1);
   }
   /* 물건 상세의 성능 줄 */
@@ -83,7 +83,7 @@ const GEAR = (() => {
     invOf().map(r => ({ r, it: DB.items[r.item] })).filter(x => x.r.loc === 'LOC_BAG' && x.it && slotOf(x.it) && !broken(x.r) && (slotOf(x.it) !== 'SLOT_SPECIAL' || x.it.special))
       .sort((a, b) => score(b.it, b.r) - score(a.it, a.r)).forEach(x => {
         if (x.r.loc !== 'LOC_BAG') return;
-        const cur = [...new Set(occupies(x.it).map(at).filter(Boolean))], now = cur.reduce((a, c) => a + score(c.it, c.r), 0);
+        const cur = [...new Map(occupies(x.it).map(at).filter(Boolean).map(c => [c.r, c])).values()], now = cur.reduce((a, c) => a + score(c.it, c.r), 0);
         if (score(x.it, x.r) > now && equip(invOf().indexOf(x.r), true)) out.push(x.it.name);
       });
     if (out.length && typeof STORY !== 'undefined') { const last = out[out.length - 1]; STORY.add('act', `${why ? why + ' ' : ''}${out.join(' · ')}${josa(last, '을', '를')} 몸에 걸쳐 본다.`, 1); }

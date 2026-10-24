@@ -45,6 +45,7 @@ const STAR = (() => {
     if (c.unique && G.uniqueHeld[cls] && G.uniqueHeld[cls] !== h.id) return false;
     const old = h.cls; if (old && isUnique(old) && G.uniqueHeld[old] === h.id) delete G.uniqueHeld[old];
     h.cls = cls; if (c.unique) G.uniqueHeld[cls] = h.id;
+    if (typeof classSkillSync === 'function') classSkillSync(h, old);
     if (h.id === G.player.id) { STORY.add('up', `클래스가 「${c.name}」${josa(c.name, '으로', '로')} 바뀌었다.`, 3); say('classGrant', { cls: c.name }); }
     return true;
   }

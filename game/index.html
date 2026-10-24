@@ -715,6 +715,10 @@ function def(table, rows){
 <script src="data/base/b_hunters.js"></script><!-- Claude 최소 재료 (배치 B) -->
 <script src="data/base/b_content.js"></script>
 <script src="data/base/b_story.js"></script>
+<script src="data/content/k_combat.js"></script><!-- 원소 · 상태 이상 -->
+<script src="data/content/k_classes.js"></script><!-- 클래스 60 (tools/content/build.py) -->
+<script src="data/content/k_skills.js"></script><!-- 클래스 스킬 600 -->
+<script src="data/content/k_common.js"></script><!-- 공용 스킬 120 -->
 <script src="data/ext/_list.js"></script><!-- 외주 · 추가 데이터 -->
 <script src="data/packs/_manifest.js"></script><!-- 대량 콘텐츠 팩 목록 (뒤에서 불러옴, packsLoad) -->
 
@@ -1196,6 +1200,11 @@ function healTick(hours,sleeping,a){const B=DB.balance.BAL_GATE,c=G.cond,now=now
 /* 성장의 벽: 벽 레벨에서 경험치가 가득 찬 상태 → 훈련 · 실전 · 위기 극복 중 낮은 확률로 돌파 */
 const atWall=h=>h.level%DB.balance.BAL_GROWTH.wallEvery===0&&!(h.walls||[]).includes(h.level)&&(h.exp||0)>=expNeed(h.level);
 function tryWall(p){const h=G.player;if(!atWall(h)||Math.random()>=p)return [];h.walls=h.walls||[];h.walls.push(h.level);pushHistory(`성장의 벽 돌파 (Lv.${h.level})`,'');return [`성장의 벽 돌파! (Lv.${h.level})`,...addExp(0)]}
+/* 클래스 기본 패시브(passive)는 늘 가지고, 레벨 습득(learn)은 그 레벨이 되면 배운다. 클래스가 바뀌면 옛 클래스의 기본 패시브는 빠진다 (배운 스킬은 남음) */
+function classSkillSync(h,oldCls){if(!h||!h.skills)return [];const c=DB.classes[h.cls],got=[];
+  if(oldCls&&oldCls!==h.cls){const keep=new Set(c?.passive||[]);(DB.classes[oldCls]?.passive||[]).forEach(id=>{if(!keep.has(id))h.skills=h.skills.filter(x=>x[0]!==id)})}
+  const have=new Set(h.skills.map(x=>x[0])),add=id=>{if(!have.has(id)&&DB.skills[id]){h.skills.push([id,1]);have.add(id);got.push(id)}};
+  (c?.passive||[]).forEach(add);(c?.learn||[]).forEach(L=>{if((h.level||1)>=L.lv)add(L.skill)});return got}
 function addExp(n){const h=G.player,B=DB.balance.BAL_GROWTH,out=[];h.exp=(h.exp||0)+n;
   while(h.level<B.levelMax){const need=expNeed(h.level);if(h.exp<need)break;
     if(h.level%B.wallEvery===0&&!(h.walls||[]).includes(h.level)){h.exp=need;out.push(`성장의 벽 (Lv.${h.level}) — 경험치가 더 오르지 않습니다`);break}
@@ -1203,6 +1212,7 @@ function addExp(n){const h=G.player,B=DB.balance.BAL_GROWTH,out=[];h.exp=(h.exp|
     h.exp-=need;h.level++;h.statPts=(h.statPts||0)+B.statPerLevel;
     pushHistory(`레벨 ${h.level} 달성`,'');out.push(`레벨 업! Lv.${h.level} · 스탯 포인트 +${B.statPerLevel}`)}
   autoStatAlloc();
+  classSkillSync(h).forEach(id=>{out.push(`새 스킬 — ${DB.skills[id].name}`);if(typeof STORY!=='undefined')STORY.add('up',`${DB.skills[id].name} — 새 스킬을 익혔다.`,2)});
   if(out.some(x=>x.startsWith('레벨 업')))out.push(...rankCheck());
   return out}
 /* 스탯 포인트는 헌터가 성향대로 알아서 나눈다 (2026-10-24 사용자: 선택지 · 이벤트가 생길 때까지 임시).
@@ -1429,7 +1439,7 @@ function buildHunter(cc){
   return {id:'HN_G0001', name, sex:cc.sex, birth:cc.age?`${2026-cc.age}-${cc.bday||'??-??'}`:'—', age:cc.age?+cc.age:null, height:cc.look.LK_HEIGHT??null, weight:cc.look.LK_WEIGHT??null,
     region:cc.bgv.BI_RESIDENCE, nation:cc.nation, birthplace:cc.bplace, langs:[cc.langMain,...cc.langs.filter(l=>l!==cc.langMain)].filter(Boolean), voice:cc.voice, speech:cc.speech, rank:rule.rank, level:rule.level, exp:0, awake:true, roleMain:main, roleSub:sub, guild:rule.guild, cls:cc.cls,
     awakened:'2026-03', awakenedDate:'2026-03-14', affinity:'미확인', traits:cc.traits.slice(),
-    skills:[...cc.clsSkills,...cc.comSkills].map(id=>[id,1]),
+    skills:[...new Set([...cc.clsSkills,...(DB.classes[cc.cls]?.passive||[]).filter(id=>DB.skills[id]),...cc.comSkills])].map(id=>[id,1]),
     contract:{share:0, until:'—', bonus:'—'},
     style:(cls?cls.name:'—')+' 신입', personality:persText(cc.pers), media:'미숙함', status:'정상', morale:'좋음', fit:92,
     prefs:(DB.roles[main].prefs||[]).slice(0,3), form:[], career:[], byRank:{}, portrait:'POR_HN_G0001', look:cc.sex?Object.fromEntries(lookSet(cc.sex).items.map(id=>[id,cc.look[id]])):{},
