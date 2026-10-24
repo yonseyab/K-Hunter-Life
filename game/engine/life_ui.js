@@ -201,12 +201,12 @@ const LIFEUI = (() => {
     if(choicePrefs().skipDice||reduce)diceReveal();else diceTimer=setTimeout(tick,60);
   }
   function barHTML() {
-    return `<button class="btn" data-go="goals">방향 · 목표</button><button class="btn" data-kset="판단 · 방침">방침 바꾸기</button><button class="btn" data-go="shop">아이템 구매</button><button class="btn" data-go="inventory">소지품 · 장비</button>`;
+    return `<button class="btn" data-kset="판단 · 방침">방침 바꾸기</button><button class="btn" data-home-tab="trade|shop">성좌 상점</button>`;
   }
   /* 이야기 · 내 헌터 · 거래는 좌측 하위 메뉴도 표시한다. 인생 외 새 탭 내용은 비워 둔다. */
   const HOME_TABS = {
-    story: {label:'이야기', tabs:[['life','인생'],['goals','목표 설정'],['bio','일대기']]},
-    hunter: {label:'내 헌터', tabs:[['profile','정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]},
+    story: {label:'이야기', tabs:[['life','인생'],['bio','일대기']]},
+    hunter: {label:'내 헌터', tabs:[['profile','정보'],['status','상태창'],['relations','관계']]},
     db: {label:'DB', tabs:[['people','인물'],['gates','게이트'],['monsters','몬스터'],['equipment','장비'],['places','장소'],['other','기타'],['classes','클래스'],['skills','스킬']]},
     trade: {label:'성좌', tabs:[['starinfo','내 정보'],['shop','상점'],['auction','성좌 경매장'],['achieve','업적']]}
   };
@@ -216,7 +216,7 @@ const LIFEUI = (() => {
   function emptyCategory(group) { return categoryTabsHTML(group) + panelOpen(group) + '</div>'; }
   V.homeHunter = () => categoryTabsHTML('hunter') + panelOpen('hunter') + (selectedTab('hunter') === 'status' ? HUNTER_STATUS.html() : '') + '</div>';
   V.homeDb = () => emptyCategory('db');
-  V.homeTrade = () => emptyCategory('trade');
+  V.homeTrade = () => categoryTabsHTML('trade') + panelOpen('trade') + (typeof STAR_UI !== 'undefined' ? STAR_UI.html(selectedTab('trade')) : '') + '</div>';
   /* ---------- 인생 화면 ---------- */
   V.life = () => {
     if(selectedTab('story')==='bio')return categoryTabsHTML('story')+panelOpen('story')+HISTORY_UI.homeHTML()+'</div>';

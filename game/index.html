@@ -89,23 +89,16 @@ tr.sel td{background:#20304a}
 .gml{position:absolute;transform:translate(-50%,-50%);font-size:11px;white-space:nowrap;pointer-events:none;text-shadow:0 0 3px #000,0 0 6px #000;letter-spacing:-.02em}
 .gml.on{color:#e6f2fb;font-weight:600}.gml.off{color:#6d7d90;font-size:10px}.gml.sel{color:#fff;font-size:12px}.gml i{font-style:normal;display:inline-block;margin-left:3px;background:#c84848;color:#fff;border-radius:8px;padding:0 5px;font-size:10px;font-weight:700}
 .intro{position:fixed;inset:0;background:#000;display:grid;place-items:center;cursor:pointer;z-index:5;overflow:hidden}
-.in-stage{position:relative;width:min(100vw,calc(100vh * 16 / 9));aspect-ratio:16/9;background:#05080c;animation:inFade var(--fd,.9s) ease both}
-.in-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;user-select:none}
-.in-stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(transparent,#000c 55%,#000e);pointer-events:none}
-.in-cap{position:absolute;left:7%;right:7%;bottom:6%;z-index:1;display:grid;gap:10px;animation:inUp calc(var(--fd,.9s) + .3s) ease both}
+.in-stage{position:relative;width:100vw;height:100vh;display:grid;align-content:center;background:radial-gradient(ellipse at 50% 60%,#0a1018,#000 70%);animation:inFade var(--fd,.9s) ease both}
+.in-cap{position:relative;width:min(900px,calc(100% - 64px));justify-self:center;display:grid;gap:14px;animation:inUp calc(var(--fd,.9s) + .3s) ease both}
 .in-head{font-family:var(--f-display);font-size:clamp(26px,3.6vw,52px);line-height:1.1;color:#f3f6fa;text-shadow:0 2px 18px #000}
 .in-text{margin:0;font-size:clamp(14px,1.35vw,20px);line-height:1.7;color:#d6dde6;max-width:60em;word-break:keep-all;text-shadow:0 1px 8px #000}
 .in-hint{font-size:12px;color:#8a98aa}
-.in-sw .psw{border:1px solid rgba(79,168,224,.6);background:rgba(10,24,40,.82);box-shadow:0 0 0 1px rgba(79,168,224,.12),0 0 46px rgba(79,168,224,.25);padding:16px 20px;color:#e6f2fb;cursor:default}
-.in-sw .hd{font-family:var(--f-num);font-size:12px;letter-spacing:.3em;color:#9fd2f5;margin-bottom:12px;border-bottom:1px solid rgba(79,168,224,.3);padding-bottom:8px}
-.in-sw .pkv{display:grid;grid-template-columns:auto 1fr;gap:8px 22px;margin:0;font-size:15px}.in-sw .pkv dt{color:#7fb4d9}.in-sw .pkv dd{margin:0;font-weight:600}
-@keyframes swIn{0%{opacity:0;filter:blur(6px);transform:scale(.97)}60%{opacity:.9;filter:blur(0)}100%{opacity:1;transform:none}}
-.in-sw{position:absolute;left:28%;width:44%;top:12%;height:40%;display:grid;place-items:center;z-index:1}.in-sw .psw{width:min(100%,420px);animation:swIn 1.4s .3s ease both}
 .in-bar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:12px 18px;z-index:2;background:linear-gradient(#000a,transparent)}
 .in-dots{display:flex;gap:6px}.in-dots i{width:22px;height:2px;background:#ffffff33;display:block}.in-dots i.on{background:var(--accent)}
 .in-end{display:grid;gap:22px;justify-items:center;animation:inFade 1s ease both}.in-endt{font-family:var(--f-display);font-size:clamp(22px,2.6vw,38px);color:#e6f2fb;text-align:center;padding:0 20px}
 @keyframes inFade{from{opacity:0}to{opacity:1}}@keyframes inUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.in-stage,.in-cap,.in-end,.in-sw .psw{animation:none}}
+@media (prefers-reduced-motion:reduce){.in-stage,.in-cap,.in-end{animation:none}}
 .gmtip{position:absolute;pointer-events:none;background:#0d1520ee;border:1px solid var(--line2);padding:3px 8px;font-size:12px;white-space:nowrap;z-index:2}
 .mplace{all:unset;cursor:pointer;display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;padding:7px 9px;border:1px solid var(--line);background:var(--panel2)}
 .mplace small{display:block;color:var(--muted);font-size:11px}.mplace .ic{text-align:center;color:var(--muted)}.mplace.on{border-color:var(--accent);background:#16263a}.mplace:focus-visible{outline:2px solid var(--accent)}
@@ -1792,14 +1785,12 @@ function startBg(){
 /* ---------- 오프닝 인트로 (data/intro.js): 새 게임 → 인트로 → 캐릭터 생성. 클릭 · Space · Enter 진행, Esc · 건너뛰기 ---------- */
 const introTxt=id=>DB.introText?.[id]?.text||'';
 const introList=()=>vals('introScenes').sort((a,b)=>a.ord-b.ord);
-function introPreload(){if(introPreload.done)return;introPreload.done=true;introList().forEach(s=>{const im=new Image();im.src=`assets/intro/${s.img}.webp`})}
-function startIntro(){const L=introList();if(!L.length||SETTINGS.intro===false){introDone();return}introPreload();UI.intro={i:0,end:false,t:Date.now()};UI.mode='intro';$('#root').innerHTML='';render()}
+function startIntro(){const L=introList();if(!L.length||SETTINGS.intro===false){introDone();return}UI.intro={i:0,end:false,t:Date.now()};UI.mode='intro';$('#root').innerHTML='';render()}
 function introDone(){UI.intro=null;UI.cc=newCC();autoStep(UI.cc,5);autoStep(UI.cc,6);UI.mode='create';$('#root').innerHTML='';render()}  /* 클래스 · 능력치(잠재력 포함)는 각성 결과로 무작위 (2026-10-24) */
 function introNext(){const I=UI.intro;if(!I)return;if(Date.now()-I.t<250)return;I.t=Date.now();const L=introList();if(I.end){introDone();return}if(I.i<L.length-1)I.i++;else I.end=true;render()}
 function introHTML(){const I=UI.intro,L=introList(),s=L[I.i],sp={calm:'.9s',warm:'.9s',tense:'.6s',ominous:'1.4s'}[s?.mood]||'.9s';
   if(I.end)return `<div class="intro" data-intro="next"><div class="in-end"><div class="in-endt">${esc(introTxt('IT_END'))}</div><button class="btn pri" data-intro="next" style="padding:10px 26px">헌터 만들기</button></div></div>`;
-  return `<div class="intro" data-intro="next" style="--fd:${sp}"><div class="in-stage"><img class="in-img" src="assets/intro/${s.img}.webp" alt="" draggable="false" onerror="this.style.visibility='hidden'">
-    ${s.status?`<div class="in-sw"><div class="psw"><div class="hd">STATUS</div><dl class="pkv"><dt>이름</dt><dd>—</dd><dt>레벨</dt><dd class="num">1</dd><dt>등급</dt><dd>20급</dd><dt>클래스</dt><dd>—</dd></dl></div></div>`:''}
+  return `<div class="intro" data-intro="next" style="--fd:${sp}"><div class="in-stage">
     <div class="in-cap"><div class="in-head">${esc(s.head)}</div><p class="in-text">${esc(s.text)}</p><div class="in-hint">${esc(introTxt('IT_NEXT'))}</div></div></div>
     <div class="in-bar"><div class="in-dots">${L.map((x,k)=>`<i class="${k<=I.i?'on':''}"></i>`).join('')}</div><button class="btn sm" data-intro="skip">${esc(introTxt('IT_SKIP')||'건너뛰기')}</button></div></div>`}
 function titleHTML(){
@@ -1853,7 +1844,7 @@ function statStripHTML(h,{edit=false,known=true,cond=null}={}){
 /* 커마 능력치 단계 */
 function abTotHTML(cc){
   const h={abl:cc.ab.abl,awake:true}, a=ablSum(h,'ABS_A'), b=ablSum(h,'ABS_B'), t=a+b, cap=cc.ab.pot.cap, over=t>cap;
-  return `<span>A 합계 <b>${a}</b> / ${ablMaxOf(['ABS_A'])}</span><span>B 합계 <b>${b}</b> / ${ablMaxOf(['ABS_B'])}</span><span>세부 능력 합계 <b class="${over?'bad':''}">${t}</b> / 상한 ${cap}</span>${over?'<span class="bad">합계가 잠재 상한을 넘었습니다. 능력을 낮추거나 상한을 올리세요.</span>':''}`;
+  return `<span>각성자 전문 합계 <b>${a}</b> / ${ablMaxOf(['ABS_A'])}</span><span>공통 합계 <b>${b}</b> / ${ablMaxOf(['ABS_B'])}</span><span>세부 능력 합계 <b class="${over?'bad':''}">${t}</b> / 상한 ${cap}</span>${over?'<span class="bad">합계가 잠재 상한을 넘었습니다. 능력을 낮추거나 상한을 올리세요.</span>':''}`;
 }
 const abOver=cc=>!!cc.ab&&ablSum({abl:cc.ab.abl,awake:true})>cc.ab.pot.cap;
 /* 클래스는 각성 결과 (무작위). 업적 'pickClass' 해금이 있으면 직접 고르기 (2026-10-24) */
@@ -1868,7 +1859,7 @@ function abilityRollHTML(){const cc=UI.cc;if(!cc.ab)cc.ab=genStart('real',Math.r
   return `<h2>능력치</h2><p class="lead">각성 결과야. 마음에 들 때까지 다시 굴릴 수 있어. 잠재력도 같이 정해지지만 보이지 않아 — 이야기 속에서 짐작하거나, 성좌의 힘으로 엿볼 수 있어.</p>
   <div class="row" style="margin-bottom:12px"><button class="btn pri" data-abgen="real">다시 굴리기</button></div>
   <div class="panel pb">${statStripHTML(h,{edit:false})}<div class="abtot" id="abtot" style="margin-top:10px">${abTotHTML(cc)}</div></div>
-  ${ablSetsOf(h).map(st=>`<div class="panel absec"><div class="ph">${DB.ablSets[st].name} ${DB.ablSets[st].short}</div><div class="pb">${ablColsHTML(h,st)}</div></div>`).join('')}`}
+  ${ablSetsOf(h).map(st=>`<div class="panel absec"><div class="ph">${DB.ablSets[st].name}</div><div class="pb">${ablColsHTML(h,st)}</div></div>`).join('')}`}
 function abilityStepHTML(){
   if(typeof STARACC!=='undefined'&&!STARACC.unlocked('pickStats'))return abilityRollHTML();
   const cc=UI.cc, ab=cc.ab, ed=cc.abEdit&&ab, B=DB.balance.BAL_GROWTH;
@@ -1883,7 +1874,7 @@ function abilityStepHTML(){
       <div><span class="k">레벨 한계 (최대 ${B.levelMax})</span>${ed?`<input class="abin" type="number" min="1" max="${B.levelMax}" value="${ab.pot.level}" data-abp="level" aria-label="레벨 한계">`:`<span class="v">Lv.${ab.pot.level}</span>`}</div>
       <div><span class="k">세부 능력 합계 상한 (최대 ${ablMaxOf(['ABS_A','ABS_B'])})</span>${ed?`<input class="abin" type="number" min="70" max="${ablMaxOf(['ABS_A','ABS_B'])}" value="${ab.pot.cap}" data-abp="cap" aria-label="세부 능력 합계 상한">`:`<span class="v">${ab.pot.cap}</span>`}</div></div></div>`}
     <div class="panel absec"><div class="ph"><span>외모 평가 (1~20)</span><span class="dim" style="font-weight:400">세계 안의 절대 평가. 보는 사람마다 취향은 다르다</span></div><div class="pb abstrip">${(ab.looks=ab.looks||(()=>{const o={};vals('lookScores').forEach(k=>o[k.id]=10);return o})(),vals('lookScores')).map(k=>`<div><span class="k">${k.name}${k.adult?' (성인)':''}</span>${ed?`<input class="abin" type="number" min="1" max="20" value="${ab.looks[k.id]}" data-abk="${k.id}" aria-label="${k.name}">`:`<span class="v">${ab.looks[k.id]}</span>`}</div>`).join('')}</div></div>
-    ${vals('ablSets').filter(st=>st.who!=='mundane').map(st=>`<div class="panel absec"><div class="ph"><span>${st.name} ${st.short} · ${ablIn(st.id).length}개</span><span class="dim" style="font-weight:400">${ed?'숫자를 직접 입력':''}</span></div><div class="pb">${ablColsHTML(h,st.id,null,ed)}</div></div>`).join('')}`;
+    ${vals('ablSets').filter(st=>st.who!=='mundane').map(st=>`<div class="panel absec"><div class="ph"><span>${st.name} · ${ablIn(st.id).length}개</span><span class="dim" style="font-weight:400">${ed?'숫자를 직접 입력':''}</span></div><div class="pb">${ablColsHTML(h,st.id,null,ed)}</div></div>`).join('')}`;
 }
 
 /* ---------- 특성 고르기: 수백~수천 개를 전제로 한 검색 · 필터 · 가상 스크롤 목록 ---------- */
@@ -2190,7 +2181,7 @@ function ccHTML(){
     <div class="grid g4" style="margin-bottom:12px">${[['이름',esc(h.name)],['등급',rkBadge(h.rank)+' 각성 직후 · Lv.'+h.level],['클래스',cls?esc(cls.name):'<span class="bad">미선택</span>'],['소속','무소속']].map(([k,v])=>`<div class="panel pb"><div class="sub">${k}</div><div style="font-weight:600;margin-top:2px">${v}</div></div>`).join('')}</div>
     <div class="panel pb" style="margin-bottom:12px"><div class="sub" style="margin-bottom:6px">시작 스킬</div><div class="chips">${h.skills.map(([id])=>`<span class="chip ${DB.skills[id].scope==='class'?'a':''}">${esc(DB.skills[id].name)} · ${DB.skills[id].kind}</span>`).join('')||'<span class="dim">없음</span>'}</div></div>
     <div class="panel pb">${statStripHTML(h)}<div class="abtot" style="margin-top:10px"><span>세부 능력 합계 <b>${ablSum(h)}</b> / ${ablMaxOf(ablSetsOf(h))}</span></div></div>
-    ${ablSetsOf(h).map(st=>`<div class="panel absec"><div class="ph">${DB.ablSets[st].name} ${DB.ablSets[st].short}</div><div class="pb">${ablColsHTML(h,st)}</div></div>`).join('')}
+    ${ablSetsOf(h).map(st=>`<div class="panel absec"><div class="ph">${DB.ablSets[st].name}</div><div class="pb">${ablColsHTML(h,st)}</div></div>`).join('')}
     <div class="panel pb px-sum" style="margin-top:12px;position:static">${persSummaryHTML(cc.pers)}</div>
     <div class="row" style="margin-top:12px"><button class="btn" data-ccreroll="1">시드 다시 굴리기</button><span class="muted">현재 시드 <span class="num">${esc(cc.seed)}</span></span></div>
     ${(()=>{const L=[0,1,2,3,6].map(i=>[CC_STEPS[i],ccMissing(cc,i)]).filter(x=>x[1]);return L.length?`<div class="trig">아직 정하지 않은 항목: ${L.map(([n,m])=>`${n} ${m}개`).join(' · ')}. 정하지 않은 항목은 미정으로 시작합니다.</div>`:''})()}
@@ -2285,7 +2276,7 @@ function qsGo(go){qsClose();const [k,id]=[go.slice(0,go.indexOf(':')),go.slice(g
   $('#main').scrollTop=0;render()}
 function renderNav(){
   const group=['homeHunter','homeDb','homeTrade'].includes(UI.screen)?UI.screen:'life';
-  const sections=[['life','이야기','▶','story',[['life','인생'],['goals','목표 설정'],['bio','일대기']]],['homeHunter','내 헌터','▣','hunter',[['profile','정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]],['homeTrade','성좌','✦','trade',[['starinfo','내 정보'],['shop','상점'],['auction','성좌 경매장'],['achieve','업적']]],['homeDb','DB','⌕',null,[]]];
+  const sections=[['life','이야기','▶','story',[['life','인생'],['bio','일대기']]],['homeHunter','내 헌터','▣','hunter',[['profile','정보'],['status','상태창'],['relations','관계']]],['homeTrade','성좌','✦','trade',[['starinfo','내 정보'],['shop','상점'],['auction','성좌 경매장'],['achieve','업적']]],['homeDb','DB','⌕',null,[]]];
   $('#nav').innerHTML=sections.map(([screen,label,icon,key,items])=>{
     const selected=UI.homeTabs?.[key]||items[0]?.[0];
     return `<div class="nav-section"><button class="nav-parent ${group===screen?'is-active':''}" data-go="${screen}" ${!key&&group===screen?'aria-current="page"':''}><span class="ic">${icon}</span>${label}</button>${items.length?`<div class="nav-subtabs" aria-label="${label} 하위 메뉴">${items.map(([id,name])=>`<button id="nav-${key}-${id}" data-home-tab="${key}|${id}" ${group===screen&&selected===id?'aria-current="page"':''}>${name}</button>`).join('')}</div>`:''}</div>`;
@@ -2643,7 +2634,7 @@ V.profile=()=>{
       <div class="hf-chips"><span class="chip ${stTxt==='정상'?'g':'b'}">${esc(stTxt)}</span>${known?`<span class="chip">Lv.${h.level}</span>`:'<span class="chip">Lv.?</span>'}<span class="chip">${esc(h.style||'—')}</span>${!me&&rel?`<span class="chip a">${DB.relTypes[rel.rel].name}</span>`:''}</div></div>
     <div class="hf-grid">${[['등록 번호',`<span class="num">${regNo}</span>`],['각성',esc(h.awakened||'—')],['활동 지역',regionName(h.region)],['나이 · 성별',`${h.age?h.age+'세':'—'} · ${h.sex||'—'}`],['신장 · 체중',`${h.height?h.height+'cm':'—'} · ${h.weight?h.weight+'kg':'—'}`],['명성',stars(fame)]].map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join('')}</div></section>`;
   const lifeCols=`<div class="acols"><div class="acol"><h5>특성</h5>${h.traits.map(t=>`<div class="ar"><span class="chip ${tTone(t)}">${DB.traits[t].name}</span><span class="dim num" style="font-size:10px">${t}</span></div>`).join('')||'<div class="dim">없음</div>'}</div><div class="acol"><h5>스킬</h5>${h.skills.map(([s,lv])=>`<div class="ar"><span>${DB.skills[s].name}</span><span class="dim">${DB.skills[s].kind} · 숙련 ${lv}</span></div>`).join('')||'<div class="dim">없음</div>'}</div></div>`;
-  const abil=`<div class="pbox hbox"><div class="hd"><span>전투 능력 평가 <span class="dim" style="font-weight:400">1~20 · <span class="v1">1~5</span> <span class="v2">6~10</span> <span class="v3">11~15</span> <span class="v4">16~20</span> · 강조 = ${rm.name} 핵심</span></span><div class="seg">${[...aSets.map(st=>[st,DB.ablSets[st].name+' '+DB.ablSets[st].short]),['ETC','특성 · 스킬']].map(([v,n])=>`<button aria-pressed="${aView===v}" data-attrview="${v}">${n}</button>`).join('')}</div></div>
+  const abil=`<div class="pbox hbox"><div class="hd"><span>전투 능력 평가 <span class="dim" style="font-weight:400">1~20 · <span class="v1">1~5</span> <span class="v2">6~10</span> <span class="v3">11~15</span> <span class="v4">16~20</span> · 강조 = ${rm.name} 핵심</span></span><div class="seg">${[...aSets.map(st=>[st,DB.ablSets[st].name]),['ETC','특성 · 스킬']].map(([v,n])=>`<button aria-pressed="${aView===v}" data-attrview="${v}">${n}</button>`).join('')}</div></div>
       <div class="bd" style="padding-bottom:0">${statStripHTML(h,{known,cond})}</div>
       <div class="bd">${aView==='ETC'?lifeCols:known?ablColsHTML(h,aView,keys):`<div class="muted" style="padding:8px">협회 스카우트 보고서가 있어야 세부 능력을 볼 수 있습니다.</div>`}</div></div>`;
   const record=`<div class="pbox hbox"><div class="hd"><span>게이트 공략 기록</span><span class="dim" style="font-weight:400">이번 시즌 · 통산 ${tot.raids}회 · MVP ${tot.mvp}</span></div><div class="tw"><table><thead><tr><th>게이트 등급</th><th class="r">공략</th><th class="r">처치</th><th class="r">받은 피해</th><th class="r">MVP</th><th class="r">평점</th></tr></thead><tbody>
@@ -2657,7 +2648,7 @@ V.profile=()=>{
   const assess=`<div class="pbox hbox"><div class="hd">협회 평가서 <span class="dim" style="font-weight:400">${me?'자기 평가':known?KNOW.src(rep)||'보고서':'미조사'}</span></div><div class="bd" style="font-size:12px;display:grid;gap:6px">${known?`<div><b>${rm.name}</b> 적성이 뚜렷하다. ${strengths[0]}과(와) ${strengths[1]}이(가) 돋보이며, ${weak[0]}은(는) 보완이 필요하다.</div><div class="row" style="gap:4px;flex-wrap:wrap">${strengths.map(x=>`<span class="chip g">${esc(x)}</span>`).join('')}${weak.map(x=>`<span class="chip b">${esc(x)}</span>`).join('')}</div>`:`<span class="muted">이 헌터에 대한 보고서가 없습니다.</span><div><button class="btn" data-actdo="ACT_SCOUT" data-acttgt="${h.id}">스카우트 보고서 요청</button></div>`}</div></div>`;
   const pot=`<div class="pbox hbox"><div class="hd">잠재력 추정 <span class="dim" style="font-weight:400">${me?'본인도 모름':known?'스카우트 추정':'미조사'}</span></div><div class="bd" style="display:grid;gap:10px">
       <div class="trio"><div>레벨<b>${known?'Lv.'+h.level:'?'}</b></div><div>다음 벽<b>${known?'Lv.'+wallOf(h.level):'?'}</b></div><div>레벨 한계<b>${pv.lv}</b></div></div>
-      <div class="trio"><div>${aSets.map(st=>DB.ablSets[st].short).join('+')} 합계<b>${known?ablSum(h):'?'}</b></div><div>최대<b>${ablMaxOf(aSets)}</b></div><div>합계 상한<b>${pv.cap}</b></div></div></div></div>`;
+      <div class="trio"><div>세부 능력 합계<b>${known?ablSum(h):'?'}</b></div><div>최대<b>${ablMaxOf(aSets)}</b></div><div>합계 상한<b>${pv.cap}</b></div></div></div></div>`;
   const tie=`<div class="pbox hbox"><div class="hd">소속 · 관계</div><dl class="bd kv" style="font-size:12px"><dt>소속</dt><dd>${guildName(h.guild)}</dd><dt>계약</dt><dd>${h.contract?.share??0}% · ${esc(h.contract?.until||'—')}</dd><dt>사기</dt><dd>${esc(me?G.cond.mood:h.morale||'—')}</dd><dt>나와의 관계</dt><dd>${me?'본인':rel?`${DB.relTypes[rel.rel].name} · 친밀 ${rel.close} · 신뢰 ${rel.trust}`:'모르는 사이'}</dd></dl>
       ${(()=>{const L=(G.rumors||[]).filter(x=>x.about.includes(h.id)).slice(0,2);return L.length?`<div class="bd" style="padding-top:0">${L.map(x=>`<div class="warn" style="font-size:11px">소문: ${esc(x.text)}${SETTINGS.dev?` <b>[${x.truth?'사실':'거짓'}]</b>`:''}</div>`).join('')}</div>`:''})()}</div>`;
   const pubBox=me?`<div class="pbox hbox"><div class="hd">상태창</div><div class="bd">${statusWindowHTML(h)}</div></div>`:`<div class="pbox hbox"><div class="hd">공개 상태창</div><div class="bd">${pubStatusHTML(h)}</div></div>`;
@@ -3327,3 +3318,4 @@ applySettings(); render(); packsLoad();  /* 대량 콘텐츠 팩을 뒤에서 �
 <script src="engine/hunter_status.js"></script>
 <script src="engine/history_ui.js"></script>
 <script src="engine/life_ui.js"></script>
+<script src="engine/star_ui.js"></script>

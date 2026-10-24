@@ -103,11 +103,11 @@ const STARACC = (() => {
   function randomAll() { const d = rnd(vals('starDomains')); return { name: genName(), trait: rnd(vals('starTraits')).id, domain: d.id, color: rnd(vals('starColors')).hex, sigil: d.sigil || rnd(vals('starSigils')).mark, speech: rnd(vals('ccSpeech')).id }; }
   const go = mode => { UI.mode = mode; UI.smConfirm = false; const r = document.getElementById('root'); if (r) r.innerHTML = ''; render(); };
   const sceneList = () => vals('starIntroScenes').sort((a, b) => a.ord - b.ord);
-  function begin(slot) { UI.starSlot = slot; if (SETTINGS.intro !== false && sceneList().length) { sceneList().forEach(x => { const im = new Image(); im.src = `assets/star_intro/${x.img}.webp`; }); UI.sintro = { i: 0, t: Date.now() }; go('starintro'); } else go('starpick'); }
+  function begin(slot) { UI.starSlot = slot; if (SETTINGS.intro !== false && sceneList().length) { UI.sintro = { i: 0, t: Date.now() }; go('starintro'); } else go('starpick'); }
 
   function introHTML() {
     const L = sceneList(), I = UI.sintro, s = L[I.i], sp = { calm: '.9s', warm: '.9s', tense: '.6s', ominous: '1.4s' }[s?.mood] || '.9s';
-    return `<div class="intro" data-sintro="next" style="--fd:${sp}"><div class="in-stage"><img class="in-img" src="assets/star_intro/${s.img}.webp" alt="" draggable="false" onerror="this.style.visibility='hidden'">
+    return `<div class="intro" data-sintro="next" style="--fd:${sp}"><div class="in-stage">
       <div class="in-cap"><div class="in-head">${esc(s.head)}</div><p class="in-text">${esc(s.text)}</p><div class="in-hint">${esc(introTxt('IT_NEXT'))}</div></div></div>
       <div class="in-bar"><div class="in-dots">${L.map((x, k) => `<i class="${k <= I.i ? 'on' : ''}"></i>`).join('')}</div><button class="btn sm" data-sintro="skip">${esc(introTxt('IT_SKIP') || '건너뛰기')}</button></div></div>`;
   }

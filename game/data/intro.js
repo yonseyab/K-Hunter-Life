@@ -1,15 +1,14 @@
 /* =========================================================
-   intro.js — 오프닝 인트로 (새 게임 → 인트로 → 캐릭터 생성). Gemini 문구 · ChatGPT 그림 (원본: art_src/intro)
-   introScenes : ord 순서. img = assets/intro/<img>.webp (1920×1080, 하단 1/3은 자막 자리). 2026-10-24 전면 교체 — 그림 HINTRO_01~05 는 GPT 외주 (없으면 글자만) · head 큰 문구 · text 자막 · mood calm/tense/warm/ominous(전환 속도)
-                 status:true 면 그 장면에 상태창을 게임 UI로 띄운다 (화면 너비 28~72% · 높이 12~52%)
+   intro.js — 오프닝 인트로 (새 게임 → 인트로 → 캐릭터 생성). 글자만 (그림 없음 — 2026-10-24 사용자 결정)
+   introScenes : ord 순서 · head 큰 문구 · text 자막 · mood calm/tense/warm/ominous(전환 속도)
    introText   : IT_SKIP 건너뛰기 · IT_NEXT 진행 안내 · IT_END 마지막 안내(→ 캐릭터 생성) · IT_TITLE 타이틀 소개 문구
    ========================================================= */
 def('introScenes', [
-  {id:'IN_01', ord:1, img:'HINTRO_01', head:'게이트가 일상이 된 도시', text:'1999년 첫 게이트가 열린 지 27년. 문은 이제 출근길 풍경의 일부다. 헌터는 위험하고 피곤한 직업이 되었다.', mood:'calm'},
-  {id:'IN_02', ord:2, img:'HINTRO_02', head:'아직은 평범한 사람', text:'당신이 지켜볼 사람은 아직 아무것도 모른다. 오늘도 평범하게 일하고, 먹고, 잠드는 수많은 사람 중 하나다.', mood:'warm'},
-  {id:'IN_03', ord:3, img:'HINTRO_03', head:'별이 고른 사람', text:'하늘의 실 하나가 그 사람에게 닿는다. 본인은 눈치채지 못한다. 별만이 그 인생이 곧 달라진다는 걸 안다.', mood:'ominous'},
-  {id:'IN_04', ord:4, img:'HINTRO_04', head:'각성의 날', text:'각성은 예고 없이 찾아온다. 그날 이후 그 사람의 하루는 게이트와 등급, 그리고 목숨을 건 선택으로 채워진다.', mood:'tense'},
-  {id:'IN_05', ord:5, img:'HINTRO_05', head:'이제, 그 사람을 빚을 시간', text:'이름과 얼굴, 자라온 곳과 성격. 당신이 지켜볼 한 사람의 인생을 지금 정한다.', mood:'calm'},
+  {id:'IN_01', ord:1, head:'게이트가 일상이 된 도시', text:'1999년 첫 게이트가 열린 지 27년. 문은 이제 출근길 풍경의 일부다. 헌터는 위험하고 피곤한 직업이 되었다.', mood:'calm'},
+  {id:'IN_02', ord:2, head:'아직은 평범한 사람', text:'당신이 지켜볼 사람은 아직 아무것도 모른다. 오늘도 평범하게 일하고, 먹고, 잠드는 수많은 사람 중 하나다.', mood:'warm'},
+  {id:'IN_03', ord:3, head:'별이 고른 사람', text:'하늘의 실 하나가 그 사람에게 닿는다. 본인은 눈치채지 못한다. 별만이 그 인생이 곧 달라진다는 걸 안다.', mood:'ominous'},
+  {id:'IN_04', ord:4, head:'각성의 날', text:'각성은 예고 없이 찾아온다. 그날 이후 그 사람의 하루는 게이트와 등급, 그리고 목숨을 건 선택으로 채워진다.', mood:'tense'},
+  {id:'IN_05', ord:5, head:'이제, 그 사람을 빚을 시간', text:'이름과 얼굴, 자라온 곳과 성격. 당신이 지켜볼 한 사람의 인생을 지금 정한다.', mood:'calm'},
 ]);
 def('introText', [
   {id:'IT_SKIP',  text:'건너뛰기'},

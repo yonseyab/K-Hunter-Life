@@ -9,10 +9,10 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
     await p.evaluate(async()=>{await packsLoad();gameFromScenario('SC_BDEMO');enterGame();await poolPrefetch()});
     assert.deepEqual(await p.locator('#nav [data-go]').evaluateAll(L=>L.map(x=>x.dataset.go)),['life','homeHunter','homeTrade','homeDb']);
     await p.evaluate(()=>{SETTINGS.dev=true;render()});
-    assert.equal(await p.locator('#nav button').count(),15);
-    assert.deepEqual(await p.locator('#nav .nav-subtabs').nth(0).locator('button').allTextContents(),['인생','목표 설정','일대기']);
-    assert.deepEqual(await p.locator('#nav .nav-subtabs').nth(1).locator('button').allTextContents(),['정보','상태창','관계','소지품']);
-    for(const [group,screen,items] of [['story','life',[['life','인생'],['goals','목표 설정'],['bio','일대기']]],['hunter','homeHunter',[['profile','정보'],['status','상태창'],['relations','관계'],['inventory','소지품']]],['trade','homeTrade',[['starinfo','내 정보'],['shop','상점'],['auction','성좌 경매장'],['achieve','업적']]]]) {
+    assert.equal(await p.locator('#nav button').count(),13);
+    assert.deepEqual(await p.locator('#nav .nav-subtabs').nth(0).locator('button').allTextContents(),['인생','일대기']);
+    assert.deepEqual(await p.locator('#nav .nav-subtabs').nth(1).locator('button').allTextContents(),['정보','상태창','관계']);
+    for(const [group,screen,items] of [['story','life',[['life','인생'],['bio','일대기']]],['hunter','homeHunter',[['profile','정보'],['status','상태창'],['relations','관계']]],['trade','homeTrade',[['starinfo','내 정보'],['shop','상점'],['auction','성좌 경매장'],['achieve','업적']]]]) {
       for(const [id,label] of items) {
         await p.evaluate(()=>{UI.screen='homeDb';render()});
         await p.click(`#nav [data-home-tab="${group}|${id}"]`);
@@ -21,20 +21,20 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
         assert.equal(await p.locator(`#nav [data-home-tab="${group}|${id}"]`).getAttribute('aria-current'),'page');
       }
     }
-    const groups=[['life','이야기',['인생','목표 설정','일대기']],['homeHunter','내 헌터',['정보','상태창','관계','소지품']],['homeDb','DB',['인물','게이트','몬스터','장비','장소','기타','클래스','스킬']],['homeTrade','성좌',['내 정보','상점','성좌 경매장','업적']]];
+    const groups=[['life','이야기',['인생','일대기']],['homeHunter','내 헌터',['정보','상태창','관계']],['homeDb','DB',['인물','게이트','몬스터','장비','장소','기타','클래스','스킬']],['homeTrade','성좌',['내 정보','상점','성좌 경매장','업적']]];
     for(const [screen,label,names] of groups) {
       await p.click(`#nav [data-go="${screen}"]`);
       assert.deepEqual(await p.locator(`[role="tablist"][aria-label="${label}"] [role="tab"]`).allTextContents(),names);
       for(const name of names) {
         await p.getByRole('tab',{name,exact:true}).click();
         assert.equal(await p.getByRole('tab',{name,exact:true}).getAttribute('aria-selected'),'true');
-        assert.equal(await p.locator('#nav button').count(),15);
-        if(name!=='인생'&&name!=='일대기'&&!(screen==='homeHunter'&&name==='상태창'))assert.equal(await p.getByRole('tabpanel').innerHTML(),'','unimplemented tabs have no content UI');
+        assert.equal(await p.locator('#nav button').count(),13);
+        if(name!=='인생'&&name!=='일대기'&&!(screen==='homeHunter'&&name==='상태창')&&screen!=='homeTrade')assert.equal(await p.getByRole('tabpanel').innerHTML(),'','unimplemented tabs have no content UI');
       }
     }
     await p.click('#nav [data-go="life"]');await p.getByRole('tab',{name:'인생',exact:true}).click();
     await p.getByRole('tab',{name:'인생',exact:true}).focus();await p.keyboard.press('ArrowRight');
-    assert.equal(await p.getByRole('tab',{name:'목표 설정',exact:true}).getAttribute('aria-selected'),'true');
+    assert.equal(await p.getByRole('tab',{name:'일대기',exact:true}).getAttribute('aria-selected'),'true');
     await p.getByRole('tab',{name:'인생',exact:true}).click();
     assert(await p.evaluate(()=>['status','bio','relations','inventory','goals','guild','db','auction','archive','settings'].every(s=>typeof V[s]==='function')));
     const status=await p.locator('#lifeSide').boundingBox(),story=await p.locator('#story').boundingBox(),widget=await p.locator('.life-widget').first().boundingBox();
@@ -63,8 +63,7 @@ const {chromium}=require('playwright'),path=require('path'),assert=require('asse
     await p.click('[data-life-widget-move="WG_COND|-1"]');
     const saved=await p.evaluate(()=>{saveGame('slot1');const s=store.get(SAVE_KEY,[]).find(x=>x.slot==='slot1'),ids=prefs().play.homeWidgets.slice();G=JSON.parse(JSON.stringify(s.data));enterGame();return ids});
     assert.deepEqual(await p.locator('[data-life-widget]').evaluateAll(L=>L.map(x=>x.dataset.lifeWidget)),saved);
-    await p.click('#lifeBar [data-go="shop"]');assert.equal(await p.evaluate(()=>UI.screen),'shop');
-    await p.click('#nav [data-go="life"]');await p.click('#lifeBar [data-go="inventory"]');assert.equal(await p.evaluate(()=>UI.screen),'inventory');
+    await p.click('#lifeBar [data-home-tab="trade|shop"]');assert.equal(await p.evaluate(()=>UI.screen+'|'+UI.homeTabs.trade),'homeTrade|shop');
     await p.click('#nav [data-go="life"]');
     assert.match(await p.locator('#lifeSide [data-status-skills]').innerText(),/조준/);
     assert.equal(await p.locator('#lifeSide [data-sttab="스킬"],#lifeSide [data-hstatus-scroll="skills"]').count(),0);

@@ -48,7 +48,6 @@ def('storyLines', [
 
   /* --- 하루의 시작 · 끝 · 계획 --- */
   {id:'SL_B0040', on:'day:start', lv:2, text:'{date}. {p}의 하루가 시작된다.'},
-  {id:'SL_B0041', on:'day:plan',  lv:3, text:'오늘 할 일을 정한다 — {plan}.'},
   {id:'SL_B0042', on:'day:end',   lv:1, text:'{date} 끝. {summary}'},
   {id:'SL_B0043', on:'decide:raid', lv:2, text:'{why} {p}은(는) 오늘 게이트에 가기로 한다.'},
   {id:'SL_B0044', on:'decide:rest', lv:3, text:'{why} {p}은(는) 오늘 게이트를 쉬기로 한다.'},

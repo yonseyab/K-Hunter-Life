@@ -80,8 +80,7 @@ const PLAY = (() => {
   /* 오늘 일정: 수동 모드가 아니면 목표 · 성격에 맞춰 다시 짠다 (ROUTINE.plan = NPC 와 같은 효용 엔진) */
   function planDay() {
     try { ROUTINE.plan(); } catch (e) { }
-    const L = (G.schedule[wd(G.day)] || []).filter(b => DB.actions[b.act] && !['ACT_MEAL', 'ACT_SLEEP'].includes(b.act)).map(b => `${hhmm(b.at)} ${DB.actions[b.act].name}`);
-    const l = STORY.pickLine('day:plan'); if (L.length) STORY.add('day', STORY.fill(l ? l.text : '오늘 할 일 — {plan}.', { plan: L.slice(0, 5).join(', ') }), l?.lv ?? 3);
+    /* '오늘 할 일을 정한다' 줄은 2026-10-24 삭제 (옛 일정 화면용 — 매일 같은 줄만 나와서) */
   }
   /* ---------- 공략 (판단 엔진이 가고 말지 · 어디로 · 위기 선택을 정한다) ---------- */
   function maybeRaid() {
